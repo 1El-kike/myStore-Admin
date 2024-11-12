@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../components/home";
 import { Dashboard } from "../components/dashboard";
 import { Layout } from "../layout/layout";
-import { Products } from "../components/products";
+import { Products } from "../components/products/main-products";
 
 export const Routers = () => {
   return (

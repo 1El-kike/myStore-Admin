@@ -1,0 +1,1 @@
+export const textProdct:string = 'Add new products and everything related to your supplier and your saleAdd new products and everything related '

@@ -18,8 +18,7 @@ export const Layout = ({ children }: any) => {
           }}
         ></div>
       </div>
-        <Menu />
-        
+        <Menu />  
         {children}
       </div>
     </>

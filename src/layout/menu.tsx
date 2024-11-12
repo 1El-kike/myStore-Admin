@@ -9,10 +9,12 @@ export const Menu = () => {
   };
 
   return (
-    <div className="relative h-screen  flex-no-wrap">
+    <div className="relative md:w-72 h-screen z-20 flex-no-wrap">
+      <div className="h-full fixed">
+
       <div
         style={{ minHeight: " 716px" }}
-        className="w-full rounded-e-3xl  shadow-red-500 h-screen bg-gradient-to-tr from-orange-600  via-fuchsia-700 to-fuchsia-800 absolute sm:relative  shadow md:h-full flex-col justify-between hidden sm:flex"
+        className="w-full rounded-e-3xl  shadow-red-500 h-screen  bg-gradient-to-tr from-orange-600  via-fuchsia-700 to-fuchsia-800 absolute sm:relative  shadow md:h-full flex-col justify-between hidden sm:flex"
       >
         <div className="px-8 ">
           <div className="h-16  w-full flex items-center">
@@ -216,7 +218,7 @@ export const Menu = () => {
               </Link>
             </li>
           </ul>
-          <div className="flex justify-center mt-48 mb-4 w-full">
+          <div className="flex justify-center mt-40 mb-4 w-full">
             <div className="relative">
               <div className="text-gray-300 absolute ml-4 inset-0 m-auto w-4 h-4">
                 <svg
@@ -244,7 +246,7 @@ export const Menu = () => {
             </div>
           </div>
         </div>
-        <div className="px-8 border-t pt-3 border-gray-100">
+        <div className="px-8 -mt-10 border-t pt-3 border-gray-100">
           <ul className="w-full flex items-center  justify-between ">
             <li className="cursor-pointer text-white ">
               <button
@@ -736,5 +738,7 @@ export const Menu = () => {
         src="/products.png"
       ></img>
     </div>
+    </div>
+
   );
 };
