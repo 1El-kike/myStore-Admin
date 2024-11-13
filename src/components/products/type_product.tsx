@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaAngleRight } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 interface TypeP{
     image:string
     title:string
@@ -12,7 +13,8 @@ interface TypeP{
 
 export const Type_product = ({image,title,text,textsecondary,scale,button, fondo = 'bg-rose-200'}:TypeP) => {
   return (
-    <div className='w-full mb-10'>
+    <Link to={'/products/add'}>
+    <div className='w-full transition-all hover:scale-105 ease-in-out duration-700 cursor-pointer mb-10'>
         <div
             className= {`card w-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex  justify-between p-5 rounded-3xl ${fondo}`}
         >
@@ -28,5 +30,7 @@ export const Type_product = ({image,title,text,textsecondary,scale,button, fondo
         </div>
         
     </div>
+    </Link>
+
   )
 }
