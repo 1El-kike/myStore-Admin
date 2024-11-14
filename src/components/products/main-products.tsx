@@ -10,7 +10,7 @@ const text:string = textProdct
 
 
   return (
-    <div className='w-full justify-between flex'>
+    <div className='w-full  justify-between flex'>
       <div className='m-4 relative md:w-[60%] px-10 w-full h-screen scroll-bar-none'>
         <div className='w-full mb-10'>
           <h2 className='text-3xl text-violet-700 font-bold' >Products</h2>
