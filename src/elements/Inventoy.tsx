@@ -3,7 +3,7 @@ import React from 'react'
 export const Inventoy = () => {
   return (
     <>
-    <h1 className="text-2xl mt-5 font-bold">Inventoy</h1>
+    <h1 className="text-2xl mt-5 font-bold">Inventory</h1>
       <form className="border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
       <div className="flex flex-col">
         <label

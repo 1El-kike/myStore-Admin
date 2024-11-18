@@ -6,7 +6,7 @@ export const Images = () => {
       <h1 className="text-2xl mt-5 font-bold flex items-center gap-2">
         Product Images <HiArrowUpCircle />
       </h1>
-      <form className="border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
+      <form className="border my-5 px-3 py-7 md:flex gap-4  border-gray-300 rounded-2xl">
         <div className="grow basis-44">
           <label
             htmlFor="dropzone-file"
@@ -36,7 +36,7 @@ export const Images = () => {
             <input id="dropzone-file" type="file" className="hidden" />
           </label>
         </div>
-        <div className="grow flex justify-center items-center w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">
+        <div className="grow flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">
           <div className="absolute z-20 w-full bg-black h-full rounded-2xl bg-opacity-30  flex flex-col justify-center items-center gap-2">
             <button
               type="button"
@@ -54,10 +54,10 @@ export const Images = () => {
           <img className="scale-150 " src="/description/image(2).png"></img>
         </div>
         <div className="grow">
-          <div className="w-36 overflow-clip h-28 justify-center items-center flex rounded-2xl mb-2 bg-yellow-700">
+          <div className="md:w-36 overflow-clip h-28 justify-center items-center flex rounded-2xl mb-2 bg-yellow-700">
           <img className=" scale-150 bg-slate-100  bg-opacity-50 " src="/description/image.png"></img>
           </div>
-          <div className="w-36 bg-lime-200 overflow-clip  justify-center items-center flex rounded-2xl h-28">
+          <div className="md:w-36 bg-lime-200 overflow-clip  justify-center items-center flex rounded-2xl h-28">
           <img className="  scale-150 bg-slate-800  bg-opacity-50" src="/description/IMAGE.jpg"></img>
           </div>
         </div>

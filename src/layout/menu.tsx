@@ -9,7 +9,7 @@ export const Menu = () => {
   };
 
   return (
-    <div className="relative md:w-72 h-screen z-20 flex-no-wrap">
+    <div className="relative md:w-96 h-screen z-20 flex-no-wrap">
       <div className="h-full fixed">
 
       <div

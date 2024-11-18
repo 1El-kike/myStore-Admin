@@ -14,7 +14,7 @@ export const AddProducts = () => {
     <>
       <div className="z-30 overflow-clip w-full">
         <Toolbar />
-        <div className=" md:flex md:mx-20 justify-center items-center ">
+        <div className=" md:flex  md:mx-2 justify-center items-center ">
           <div className="grow basis-72 px-5 ">
             <Description />
             <Category option_category={["Food","Test"]} option_tipo={["Food","Test"]}/>
