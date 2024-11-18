@@ -1,34 +1,46 @@
-
-import { useState } from 'react';
+import { useState } from "react";
+import { FormData } from "../interface/FormData";
 
 // Definimos la interfaz para los datos del formulario
-interface FormData {
-    name?: string;
-    description?: string;
-}
+
 
 // Definimos la interfaz para el hook
-const useForm = (initialValues: FormData, onFormDataChange: (data: FormData) => void) => {
-    const [formData, setFormData] = useState<FormData>(initialValues);
+const useForm = (
+  initialValues: FormData,
+  onFormDataChange: (data: FormData) => void
+) => {
+  const [formData, setFormData] = useState<FormData>(initialValues);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        const updatedFormData = { ...formData, [name]: value };
-        setFormData(updatedFormData);
-        onFormDataChange(updatedFormData); // Enviar datos al padre
-    };
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement 
+    >
+  ) => {
+    const { name, value } = e.target;
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log('Formulario enviado:', formData);
-        // Aquí puedes agregar lógica adicional si es necesario
-    };
+ // Verificar si el valor es numérico
+ let updatedValue: any = value; // Inicializar con el valor original
 
-    return {
-        formData,
-        handleChange,
-        handleSubmit,
-    };
+ // Intentar convertir a número si es un campo numérico
+ if (name === 'quantity' || name === 'price' || name === 'items_weight') { // Cambia 'quantity' y 'sku' por los nombres reales de tus campos numéricos
+     updatedValue = value ? parseFloat(value) : 0; // Usa parseInt si solo necesitas enteros
+ }
+
+    const updatedFormData = { ...formData, [name]: updatedValue  };
+    setFormData(updatedFormData);
+    onFormDataChange(updatedFormData); // Enviar datos al padre
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Aquí puedes agregar lógica adicional si es necesario
+  };
+
+  return {
+    formData,
+    handleChange,
+    handleSubmit,
+  };
 };
 
 export default useForm;

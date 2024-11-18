@@ -18,13 +18,13 @@ const text:string = textProdct
         <TollButtom/>
           </div>
         </div>
-        <div className='scale-90'>
+        <div className=''>
       <Type_product scale='125' button="bg-gradient-to-tr to-violet-700 from-indigo-500" fondo='bg-gradient-to-tr to-blue-100 from-violet-100' image='/store-logo/logoCompra.jpg' title='Operating System' textsecondary='chnge i do not ' text={text}/>
         </div>
-        <div className='scale-90'>
+        <div className=''>
       <Type_product scale='150' button="bg-gradient-to-tr to-fuchsia-500 from-fuchsia-900" fondo='bg-gradient-to-tr to-rose-100 from-purple-100' image='/store-logo/almacen.jpg' title='Operating System' textsecondary='chnge i do not ' text={text}/>
       </div>
-      <div className='scale-90'>
+      <div className=''>
       <Type_product scale='100' button="bg-gradient-to-tr to-orange-500 from-orange-900" fondo='bg-gradient-to-tr to-orange-100 from-amber-100' image='/store-logo/OIP.jpg' title='Operating System' textsecondary='chnge i do not ' text={text}/>
       </div>
       </div>

@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import useForm from "../hooks/useForm";
+import { FormComponentPropsDescription } from "../interface/formComponentProp";
 
-interface FormComponentProps {
-  onFormDataChange: (data: { name: string; description: string }) => void;
-}
-
-export const Description: React.FC<FormComponentProps> = ({onFormDataChange}) => {
-
+export const Description: React.FC<FormComponentPropsDescription> = ({onFormDataChange}) => {
 
  // Usamos el hook con valores iniciales y la función de cambio de datos
  const { formData, handleChange, handleSubmit } = useForm(

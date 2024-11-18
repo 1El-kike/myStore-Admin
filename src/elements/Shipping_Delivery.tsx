@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { FormComponentPropsShipping_Delivery } from "../interface/formComponentProp";
+import useForm from "../hooks/useForm";
 
-export const Shipping_Delivery = () => {
+
+export const Shipping_Delivery: React.FC<FormComponentPropsShipping_Delivery> = ({onFormDataChange}) => {
+
   const [open, setopen] = useState(false);
   const [value, setvalue] = useState('kg');
 
@@ -14,6 +18,20 @@ export const Shipping_Delivery = () => {
 
 const array = ["kg","mg","g","tg"]
 
+ // Usamos el hook con valores iniciales y la función de cambio de datos
+ const { formData, handleChange, handleSubmit } = useForm(
+  { items_weight:'' },
+  onFormDataChange
+);
+
+ // Formatear el valor al perder el foco
+ const handleBlur = () => {
+  if (formData.items_weight) {
+      // Convertir a número y formatear con dos decimales
+      const formattedValue = parseFloat(formData.items_weight).toFixed(2);
+  }
+};
+
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold">Shipping and Delivery </h1>
@@ -26,6 +44,10 @@ const array = ["kg","mg","g","tg"]
             <input
               type="number"
               id="search-dropdown"
+              value={formData.items_weight}
+              name="items_weight"
+              onChange={handleChange}
+               onBlur={handleBlur} // Formatear al perder el foco
               className="block p-2.5 w-full z-20 border-e-0 text-base font-extrabold text-gray-900 bg-gray-50 rounded-s-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
               placeholder="0.00"
               required
