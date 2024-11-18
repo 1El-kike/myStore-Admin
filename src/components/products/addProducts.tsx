@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Toolbar } from "../../elements/Toolbar";
 import { Description } from "../../elements/description";
 import { Category } from "../../elements/category";
@@ -9,14 +9,31 @@ import { Shipping_Delivery } from "../../elements/Shipping_Delivery";
 import { Pricing } from "../../elements/Pricing";
 import { Submit } from "../../elements/Submit";
 
-export const AddProducts = () => {
+// Definimos la interfaz para los datos del formulario
+interface FormData {
+  name?: string;
+  description?: string;
+
+}
+
+
+export const AddProducts: React.FC = () => {
+
+  const [formData, setFormData] = useState<FormData>({ name: '', description: '' });
+
+    // Función para recibir datos del hijo
+    const handleFormDataChange = (data: FormData) => {
+      setFormData(data);
+      console.log('Datos recibidos del hijo:', data);
+  };
+
   return (
     <>
       <div className="z-30 overflow-clip w-full">
         <Toolbar />
         <div className=" md:flex  md:mx-2 justify-center items-center ">
           <div className="grow basis-72 px-5 ">
-            <Description />
+            <Description  onFormDataChange={handleFormDataChange}/>
             <Category option_category={["Food","Test"]} option_tipo={["Food","Test"]}/>
             <Inventoy/>
             <Selling_Type/>

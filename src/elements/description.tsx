@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import useForm from "../hooks/useForm";
 
-export const Description = () => {
+interface FormComponentProps {
+  onFormDataChange: (data: { name: string; description: string }) => void;
+}
+
+export const Description: React.FC<FormComponentProps> = ({onFormDataChange}) => {
+
+
+ // Usamos el hook con valores iniciales y la función de cambio de datos
+ const { formData, handleChange, handleSubmit } = useForm(
+  { name: '', description: '' },
+  onFormDataChange
+);
+
   return (
     <>
     <h1 className="text-2xl mt-5 font-bold">Description</h1>
     <form className="border my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
       <div className="flex flex-col">
         <label
-          htmlFor="helper-text"
+          htmlFor="name"
           className="block mb-2 text-base font-medium text-gray-900"
         >
           Product Name
         </label>
         <input
           type="text"
-          id="helper-text"
+          value={formData.name}
+          onChange={handleChange}
+          id="name"
+          name="name"
           aria-describedby="helper-text-explanation"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Product"
@@ -102,11 +118,14 @@ export const Description = () => {
               </div>
             </div>
             <div className="px-4 py-2 bg-white rounded-b-lg ">
-              <label htmlFor="editor" className="sr-only">
+              <label htmlFor="description" className="sr-only">
                 Publish post
               </label>
               <textarea
-                id="editor"
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
                 className="block px-1 w-full text-sm text-gray-800 bg-white border-0 focus:ring-0 "
                 placeholder="Write an article..."
                 required
