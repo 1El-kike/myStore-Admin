@@ -58,7 +58,7 @@ export const AddProducts: React.FC = () => {
             <Shipping_Delivery  onFormDataChange={handleFormDataChange} />
             <Pricing  onFormDataChange={handleFormDataChange} />
             <div>
-              <Submit />
+              <Submit onFormDataChange={formData} />
             </div>
           </div>
         </div>

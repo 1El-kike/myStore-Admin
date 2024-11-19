@@ -13,7 +13,7 @@ export const Description: React.FC<FormComponentPropsDescription> = ({onFormData
   return (
     <>
     <h1 className="text-2xl mt-5 font-bold">Description</h1>
-    <form className="border my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
+    <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
       <div className="flex flex-col">
         <label
           htmlFor="name"

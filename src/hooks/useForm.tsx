@@ -31,7 +31,7 @@ const useForm = (
     onFormDataChange(updatedFormData); // Enviar datos al padre
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // Aquí puedes agregar lógica adicional si es necesario
   };

@@ -14,7 +14,7 @@ export const Inventoy: React.FC<FormComponentPropsInventoy> = ({onFormDataChange
   return (
     <>
     <h1 className="text-2xl mt-5 font-bold">Inventory</h1>
-      <form className="border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
+      <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
       <div className="flex flex-col">
         <label
           htmlFor="Quantity"

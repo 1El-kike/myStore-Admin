@@ -34,7 +34,7 @@ const handle = (event:any) => {
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold">Category</h1>
-      <form className="border my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
+      <form className="border shadow-xl shadow-slate-200 my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
         <label
           htmlFor="countries"
           className="block mt-5 mb-2 text-sm font-medium text-gray-900 "

@@ -8,14 +8,14 @@ export const Pricing: React.FC<FormComponentPropsPricing> = ({onFormDataChange})
 
  // Usamos el hook con valores iniciales y la función de cambio de datos
  const { formData, handleChange, handleSubmit } = useForm(
-  { price: 0, },
+  { price: undefined, },
   onFormDataChange
 );
   
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold">Pricing </h1>
-      <form className="border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
+      <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
         <div className="flex mt-4 mb-2 flex-grow flex-col">
         <label
           htmlFor="website-admin"

@@ -15,7 +15,7 @@ export const Selling_Type : React.FC<FormComponentPropsSelling_Type> = ({onFormD
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold">Selling Type</h1>
-      <form className="border pt-5 pl-11 my-5 px-3 py-2 flex flex-col gap-4  border-gray-300 rounded-2xl">
+      <form className="shadow-xl shadow-slate-200 border pt-5 pl-11 my-5 px-3 py-2 flex flex-col gap-4  border-gray-300 rounded-2xl">
         {isoption.map((data,index)=>{
         return   <div key={index} className="flex items-center mb-4">
           <input

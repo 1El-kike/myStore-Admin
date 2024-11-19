@@ -21,3 +21,7 @@ export interface FormComponentPropsShipping_Delivery {
   export interface FormComponentPropsPricing {
     onFormDataChange: (data: { items_weight?: string; }) => void;
   }
+
+  export interface FormComponentPropsSubmit {
+    onFormDataChange: any ;
+  }
