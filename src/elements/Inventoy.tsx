@@ -6,7 +6,7 @@ import { FormComponentPropsInventoy } from '../interface/formComponentProp';
 
 export const Inventoy: React.FC<FormComponentPropsInventoy> = ({onFormDataChange}) => {
 
-  const { formData, handleChange, handleSubmit } = useForm(
+  const { formData, handleChange } = useForm(
     { quantity:  0, sku: '' },
     onFormDataChange
   );

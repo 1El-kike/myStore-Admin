@@ -5,7 +5,7 @@ import { FormComponentPropsDescription } from "../interface/formComponentProp";
 export const Description: React.FC<FormComponentPropsDescription> = ({onFormDataChange}) => {
 
  // Usamos el hook con valores iniciales y la función de cambio de datos
- const { formData, handleChange, handleSubmit } = useForm(
+ const { formData, handleChange } = useForm(
   { name: '', description: '' },
   onFormDataChange
 );

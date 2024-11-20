@@ -14,6 +14,7 @@ import { FormData } from "../../interface/FormData";
 
 
 export const AddProducts: React.FC = () => {
+ 
   const [formData, setFormData] = useState<FormData>({
     name: "",
     description: "",
@@ -26,7 +27,9 @@ export const AddProducts: React.FC = () => {
     inventoryStatus: "",
     cantidad: 1,
     selling_type:undefined,
-    items_weight:""
+    items_weight:"",
+    campo:false,
+    error:""
   });
 
   // Función para recibir datos del hijo
@@ -39,7 +42,6 @@ export const AddProducts: React.FC = () => {
 
   // useEffect para observar cambios en formData
   useEffect(() => {
-    console.log("Datos recibidos del hijo:", formData);
   }, [formData]); // Solo se ejecuta cuando formData cambia
 
   return (
@@ -58,7 +60,7 @@ export const AddProducts: React.FC = () => {
             <Shipping_Delivery  onFormDataChange={handleFormDataChange} />
             <Pricing  onFormDataChange={handleFormDataChange} />
             <div>
-              <Submit onFormDataChange={formData} />
+              <Submit  onFormDataChange={formData} />
             </div>
           </div>
         </div>

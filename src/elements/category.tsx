@@ -18,7 +18,7 @@ export const Category: React.FC<FormComponentPropsCategory> = ({onFormDataChange
 };
 
 // Usamos el hook con valores iniciales y la función de cambio de datos
-const { formData, handleChange, handleSubmit } = useForm(
+const { formData, handleChange } = useForm(
   { category: '', tipo: '' },
   onFormDataChange
 );

@@ -5,7 +5,7 @@ import { Loading } from "./Loading";
 
 export const Submit: React.FC<FormComponentPropsSubmit> = ({onFormDataChange})=> {
 
-const { formData, handleSubmit, isLoading, error } = useBack<FormData>({
+const { formData, handleSubmit, isLoading, error, success } = useBack<FormData>({
   url: 'allproducts/create',
   data: onFormDataChange,
 });
@@ -34,7 +34,7 @@ const { formData, handleSubmit, isLoading, error } = useBack<FormData>({
         >
           Add Product
         </button>
-        <Loading  isLoading = {isLoading} error={error}/>
+        <Loading  isLoading = {isLoading} success={success} error={error}/>
       </div>
     </div>
   );

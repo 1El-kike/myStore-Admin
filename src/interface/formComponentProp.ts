@@ -1,5 +1,6 @@
 export interface FormComponentPropsDescription {
     onFormDataChange: (data: { name?: string; description?: string }) => void;
+
   }
 export interface FormComponentPropsCategory {
     onFormDataChange: (data: { category?: string; tipo?: string }) => void;
