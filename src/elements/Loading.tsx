@@ -45,7 +45,7 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
       )}
       {success && (
         <>
-          {/* <Button onClick={() => setOpenModal(true)}>Toggle modal</Button> */}
+         
           <Modal
             show={openModal as boolean}
             size="md"

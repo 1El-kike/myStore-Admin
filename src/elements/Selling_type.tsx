@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { FormComponentPropsSelling_Type } from "../interface/formComponentProp";
 
 
-export const Selling_Type : React.FC<FormComponentPropsSelling_Type> = ({onFormDataChange}) => {
+export const Selling_Type : React.FC = () => {
 
   const isoption = ["In-store selling only","Online selling only","Avaliable both in-store and online"];
   const [selectedSellingType, setSelectedSellingType] = useState<number | null>(null);
 
   const handleCheckboxChange = (index: number) => {
     setSelectedSellingType(index); // Actualiza el índice del checkbox seleccionado
-    onFormDataChange({ selling_type: index }); // Llama a onFormDataChange con el índice
   };
 
   return (

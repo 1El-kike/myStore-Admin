@@ -9,12 +9,12 @@ export const Menu = () => {
   };
 
   return (
-    <div className="relative md:w-96 h-screen z-20 flex-no-wrap">
+    <div className="relative lg:w-96 h-screen z-20 flex-no-wrap">
       <div className="h-full fixed">
 
       <div
         style={{ minHeight: " 716px" }}
-        className="w-full rounded-e-3xl  shadow-red-500 h-screen  bg-gradient-to-tr from-orange-600  via-fuchsia-700 to-fuchsia-800 absolute sm:relative  shadow md:h-full flex-col justify-between hidden sm:flex"
+        className="w-full rounded-e-3xl  shadow-red-500 h-screen  bg-gradient-to-tr from-orange-600  via-fuchsia-700 to-fuchsia-800 absolute sm:relative  shadow md:h-full flex-col justify-between hidden lg:flex"
       >
         <div className="px-8 ">
           <div className="h-16  w-full flex items-center">
@@ -346,7 +346,7 @@ export const Menu = () => {
       </div>
 
       <div
-        className={`w-64 z-40  fixed shadow-red-500 h-screen bg-gradient-to-tr from-orange-600  via-fuchsia-700 to-fuchsia-800  shadow md:h-screen flex-col justify-between sm:hidden transition duration-150 ease-in-out ${
+        className={`w-64 z-40  fixed shadow-red-500 h-screen bg-gradient-to-tr from-orange-600  via-fuchsia-700 to-fuchsia-800  shadow md:h-screen flex-col justify-between lg:hidden transition duration-150 ease-in-out ${
           isOpen ? "translate-x-0 animate-opacityonly" : "-translate-x-64"
         }`}
         id="mobile-nav"

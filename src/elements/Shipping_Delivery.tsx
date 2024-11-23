@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { FormComponentPropsShipping_Delivery } from "../interface/formComponentProp";
-import useForm from "../hooks/useForm";
+import { useFormContext } from "react-hook-form";
 
-export const Shipping_Delivery: React.FC<
-  FormComponentPropsShipping_Delivery
-> = ({ onFormDataChange }) => {
+
+export const Shipping_Delivery: React.FC = () => {
+
   const [open, setopen] = useState(false);
   const [value, setvalue] = useState("kg");
+
+  const { register, formState: { errors } } = useFormContext();
+
 
   const opens = () => {
     setopen(!open);
@@ -18,19 +20,6 @@ export const Shipping_Delivery: React.FC<
 
   const array = ["kg", "mg", "g", "tg"];
 
-  // Usamos el hook con valores iniciales y la función de cambio de datos
-  const { formData, handleChange } = useForm(
-    { items_weight: "" },
-    onFormDataChange
-  );
-
-  // Formatear el valor al perder el foco
-  const handleBlur = () => {
-    if (formData.items_weight) {
-      // Convertir a número y formatear con dos decimales
-      const formattedValue = parseFloat(formData.items_weight).toFixed(2);
-    }
-  };
 
   return (
     <>
@@ -41,25 +30,23 @@ export const Shipping_Delivery: React.FC<
             Items Weight
           </label>
         </div>
-        <div className="flex relative w-full">
-          <div className=" w-full">
+        <div className="flex mb-8 relative w-full">
+          <div className="  w-full">
             <input
               type="number"
               id="search-dropdown"
-              value={formData.items_weight}
-              name="items_weight"
-              onChange={handleChange}
-              onBlur={handleBlur} // Formatear al perder el foco
-              className="block p-2.5 w-full z-20 border-e-0 text-base font-extrabold text-gray-900 bg-gray-50 rounded-s-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+              {...register("items_weight", { required: "This field is required", min: 0 })}
+              className={` ${errors.items_weight && "bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 " }lock p-2.5 w-full z-20 border-e-0 text-base font-extrabold text-gray-900 bg-gray-50 rounded-s-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 `}
               placeholder="0.00"
               required
             />
+              {errors.items_weight && <span className="text-red-500 absolute -bottom-7">{ errors.items_weight.message }</span>} 
           </div>
           <button
             onClick={opens}
             id="dropdown-button"
             data-dropdown-toggle="dropdown"
-            className="flex-shrink-0  z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-s-0 border-gray-300  rounded-e-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 "
+            className={`${errors?.items_weight && "bg-red-300 border-red-500"} flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-s-0 border-gray-300  rounded-e-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 `}
             type="button"
           >
             {value}
@@ -111,21 +98,24 @@ export const Shipping_Delivery: React.FC<
         <h1 className="font-bold text-base my-4">
           Package Size(The package you to ship your product)
         </h1>
-        <div className="flex gap-2">
+        <div className="flex mb-8 gap-2">
           <div className="flex-grow relative flex flex-col justify-start items-start">
             <label className="mb-2" htmlFor="Length">
               Length
             </label>
-            <span className="absolute right-3 text-gray-600 bottom-2.5 font-bold z-20">
+            <span className="absolute right-3 text-gray-600 bottom-2.5 font-bold">
               In
             </span>
             <input
               type="number"
               id="Length"
+              {...register("length", { required: "This field is required", min: 0 })}
               aria-describedby="helper-text-explanation"
-              className="bg-gray-50 pr-8 font-extrabold border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              className={`${errors?.length && "bg-red-50 text-red-500 font-extrabold"} bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"
             />
+             {errors.length && <span className="text-red-500 absolute -bottom-7">{ errors.length.message }</span>} 
+            
           </div>
           <div className="flex-grow relative flex flex-col justify-start items-start">
             <label className="mb-2" htmlFor="Breadth">
@@ -137,25 +127,29 @@ export const Shipping_Delivery: React.FC<
             <input
               type="number"
               id="Breadth"
+              {...register("breadth", { required: "This field is required", min: 0 })}
               aria-describedby="helper-text-explanation"
-              className="bg-gray-50 pr-8 font-extrabold border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              className={`${errors?.breadth && "bg-red-50 text-red-500 font-extrabold"} bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"
             />
+             {errors.breadth && <span className="text-red-500 absolute -bottom-7">{ errors.breadth.message }</span>} 
           </div>
           <div className="flex-grow relative flex flex-col justify-start items-start">
             <label className="mb-2" htmlFor="Width">
               Width
             </label>
-            <span className="absolute right-3 text-gray-600 bottom-2.5 font-bold z-20">
+            <span className={"absolute right-3 text-gray-600 bottom-2.5 font-bold z-20 "}>
               In
             </span>
             <input
               type="number"
               id="Width"
+              {...register("width", { required: "This field is required", min: 0 })}
               aria-describedby="helper-text-explanation"
-              className="bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              className={`${errors?.width && "bg-red-50 text-red-500 font-extrabold"} bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"
             />
+            {errors?.width && <span className="text-red-500 absolute -bottom-7">{ errors?.width.message }</span>} 
           </div>
         </div>
       </form>

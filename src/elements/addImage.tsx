@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiArrowUpCircle } from "react-icons/hi2";
+import { useFormContext, Controller } from "react-hook-form";
+
 export const Images = () => {
+
+  const [imagePreview, setImagePreview] = useState<any>(null);
+  const { control } = useFormContext();
+
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold flex items-center gap-2">
@@ -33,7 +39,32 @@ export const Images = () => {
                 and drop
               </p>
             </div>
-            <input id="dropzone-file" type="file" className="hidden" />
+            <Controller
+              name="image" // Nombre del campo en el formulario
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  accept="image/*" // Aceptar solo imágenes
+                  className="hidden"
+                  onChange={(e) => {
+                    const files = e.target.files; // Obtener los archivos
+
+                    if (files && files.length > 0) {
+                      field.onChange(files[0]); // Actualizar el campo con el primer archivo seleccionado
+
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setImagePreview(reader.result); // Establecer vista previa de la imagen
+                      };
+                      reader.readAsDataURL(files[0]); // Leer el archivo como URL de datos
+                    }
+                  }}
+                />
+              )}
+            />
+            {/* <input id="dropzone-file" type="file" className="hidden" /> */}
           </label>
         </div>
         <div className="grow flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">

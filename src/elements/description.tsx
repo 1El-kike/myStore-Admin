@@ -1,20 +1,15 @@
-import React from "react";
-import useForm from "../hooks/useForm";
-import { FormComponentPropsDescription } from "../interface/formComponentProp";
+import React, { useEffect } from "react";
+import { useFormContext } from 'react-hook-form';
 
-export const Description: React.FC<FormComponentPropsDescription> = ({onFormDataChange}) => {
+export const Description: React.FC = () => {
 
- // Usamos el hook con valores iniciales y la función de cambio de datos
- const { formData, handleChange } = useForm(
-  { name: '', description: '' },
-  onFormDataChange
-);
+  const { register, formState: { errors } } = useFormContext();
 
   return (
     <>
     <h1 className="text-2xl mt-5 font-bold">Description</h1>
     <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
-      <div className="flex flex-col">
+      <div className="flex relative flex-col">
         <label
           htmlFor="name"
           className="block mb-2 text-base font-medium text-gray-900"
@@ -23,14 +18,13 @@ export const Description: React.FC<FormComponentPropsDescription> = ({onFormData
         </label>
         <input
           type="text"
-          value={formData.name}
-          onChange={handleChange}
+          {...register("name", { required: "This field is required" })}
           id="name"
-          name="name"
           aria-describedby="helper-text-explanation"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          className={ `bg-gray-50 mb-2 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors?.name ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
           placeholder="Product"
         />
+      {errors.name && <span className="text-red-500 absolute -bottom-5">{ errors.name.message }</span>} 
       </div>
       <div>
         <div className="my-5">
@@ -40,7 +34,7 @@ export const Description: React.FC<FormComponentPropsDescription> = ({onFormData
           >
             Business Description
           </label>
-          <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 ">
+          <div className={`w-full mb-7 border  ${errors?.description ? "border-red-500 rounded-lg bg-red-50":"border-gray-200 rounded-lg bg-gray-50"}`}>
             <div className="flex items-center justify-between px-3 py-2 border-b ">
               <div className="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse ">
                 <div className="flex items-center space-x-1 rtl:space-x-reverse sm:pe-4">
@@ -113,19 +107,18 @@ export const Description: React.FC<FormComponentPropsDescription> = ({onFormData
                 <div className="tooltip-arrow" data-popper-arrow></div>
               </div>
             </div>
-            <div className="px-4 py-2 bg-white rounded-b-lg ">
+            <div className="px-4 relative py-2 bg-white rounded-b-lg ">
               <label htmlFor="description" className="sr-only">
                 Publish post
               </label>
               <textarea
                 id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="block px-1 w-full text-sm text-gray-800 bg-white border-0 focus:ring-0 "
+                {...register("description", { required: "This field is required" })}
+                className={`block px-1 w-full text-sm text-gray-900 border-0 focus:ring-0 `}
                 placeholder="Write an article..."
                 required
               ></textarea>
+               { errors?.description  &&  <p className="text-red-500 absolute left-0 -bottom-7">This field is required</p>}
             </div>
           </div>
         </div>
