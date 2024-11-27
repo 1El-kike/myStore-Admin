@@ -5,7 +5,7 @@ export interface FormData {
     tipo?: string;
     quantity?: number;
     sku?:string,
-    image?: string;
+    image?: File;
     price?: number;
     inventoryStatus?: string;
     cantidad?: number;
@@ -16,4 +16,9 @@ export interface FormData {
     items_weight?:string;
     campo?:boolean;
     error?:string;
+    length:number;
+    breadth:number;
+    website_admin:number;
+    width:number;
+
   }

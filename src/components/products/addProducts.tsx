@@ -19,7 +19,7 @@ export const AddProducts: React.FC = () => {
 
   const methods = useForm();
   const { onSubmit, error,success,isLoading } = useBack<FormData>({
-    url: "allproducts/create"
+    url: "allProducts/create"
     
   });
 

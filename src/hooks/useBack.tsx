@@ -12,14 +12,26 @@ const useBack = <T,>({ url }: UseBackProps<T>) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const base = "http://localhost:3221/";
+  const base = "http://localhost:3450/";
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
 
-console.log(data)
+    
+    const transfData = {
+      ...data,
+      cantidad:1,
+      price:Number(data.price),
+      quantity:Number(data.quantity),
+      length:Number(data.length),
+      items_weight:Number(data.items_weight),
+      breadth:Number(data.breadth),
+      website_admin:Number(data.website_admin),
+      width:Number(data.width)
+    }
+    console.log(transfData);
 
     try {
       const response = await fetch(base + url, {
@@ -27,7 +39,7 @@ console.log(data)
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(transfData),
       });
 
       if (!response.ok) {

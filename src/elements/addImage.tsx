@@ -4,8 +4,26 @@ import { useFormContext, Controller } from "react-hook-form";
 
 export const Images = () => {
 
-  const [imagePreview, setImagePreview] = useState<any>(null);
-  const { control } = useFormContext();
+  const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const { control,formState: { errors } } = useFormContext();
+
+
+  const handleImage =(files:FileList | null )=>{
+    if (files) {
+      const newimage = Array.from(files).map(file =>{
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        return new Promise<string>((res)=>{
+          reader.onloadend = () => res(reader.result as string)
+        });
+      });
+
+      Promise.all(newimage).then((urls)=>{
+        setImagePreview((prev:any) =>[...prev.slice(-2),...urls])
+      })
+    }
+  }
+
 
   return (
     <>
@@ -16,7 +34,7 @@ export const Images = () => {
         <div className="grow basis-44">
           <label
             htmlFor="dropzone-file"
-            className="flex h-full flex-col items-center justify-center w-full h-34 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 "
+            className={`${errors.image ? "border-red-500 bg-red-50" : "bg-gray-50 border-gray-300"} flex h-full flex-col items-center justify-center w-full h-34 border-2  border-dashed rounded-lg cursor-pointer   hover:bg-gray-100 `}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
@@ -35,36 +53,38 @@ export const Images = () => {
                 />
               </svg>
               <p className="mb-2 text-center text-sm text-gray-500 ">
-                <span className="font-semibold">Click to upload</span> or drag
+                <span className={ ` ${errors.image && "text-red-500"} font-semibold`}>Click to upload</span> or drag
                 and drop
               </p>
             </div>
             <Controller
               name="image" // Nombre del campo en el formulario
               control={control}
+              rules={{
+                required:"This field is required",
+                validate:{
+                  fileType:(value)=>{
+                    const validtype = ['image/jpeg','image/png','image/gif'];
+                    return value && validtype.includes(value.type) ||" Type file don\'t validate "
+                  }
+                }
+              }}
               render={({ field }) => (
                 <input
                   id="dropzone-file"
                   type="file"
+                  multiple={true}
                   accept="image/*" // Aceptar solo imágenes
                   className="hidden"
-                  onChange={(e) => {
-                    const files = e.target.files; // Obtener los archivos
-
-                    if (files && files.length > 0) {
-                      field.onChange(files[0]); // Actualizar el campo con el primer archivo seleccionado
-
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setImagePreview(reader.result); // Establecer vista previa de la imagen
-                      };
-                      reader.readAsDataURL(files[0]); // Leer el archivo como URL de datos
-                    }
+                  onChange={(e) => { 
+                    handleImage(e.target.files);
+                    field.onChange(e.target.files)
                   }}
                 />
               )}
             />
             {/* <input id="dropzone-file" type="file" className="hidden" /> */}
+            {errors.image && <span className="text-red-500 absolute -bottom-5">{ errors.image.message }</span>} 
           </label>
         </div>
         <div className="grow flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">
@@ -78,18 +98,19 @@ export const Images = () => {
             <button
               type="button"
               className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-32"
+            onClick={()=> setImagePreview([])}
             >
               Remove
             </button>
           </div>
-          <img className="scale-150 " src="/description/image(2).png"></img>
+          <img className="scale-150 " src={imagePreview.length > 0 ?  imagePreview[0]  : "/description/image(2).png" }></img>
         </div>
         <div className="grow">
           <div className="md:w-36 overflow-clip h-28 justify-center items-center flex rounded-2xl mb-2 bg-yellow-700">
-          <img className=" scale-150 bg-slate-100  bg-opacity-50 " src="/description/image.png"></img>
+          <img className=" scale-150 bg-slate-100  bg-opacity-50 " src={imagePreview.length > 1 ? imagePreview[1] : "/description/image.png"}></img>
           </div>
           <div className="md:w-36 bg-lime-200 overflow-clip  justify-center items-center flex rounded-2xl h-28">
-          <img className="  scale-150 bg-slate-800  bg-opacity-50" src="/description/IMAGE.jpg"></img>
+          <img className="scale-150 bg-slate-800  bg-opacity-50" src={imagePreview.length > 2 ? imagePreview[2] : "/description/IMAGE.jpg"}></img>
           </div>
         </div>
       </form>
