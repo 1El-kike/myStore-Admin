@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormData } from "../interface/FormData";
-import {  SubmitHandler } from "react-hook-form";
+import {  FieldValues, SubmitHandler } from "react-hook-form";
 
 interface UseBackProps<T> {
   url?: string;
@@ -14,7 +14,7 @@ const useBack = <T,>({ url }: UseBackProps<T>) => {
 
   const base = "http://localhost:3450/";
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit:  SubmitHandler<FieldValues>= async (data) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
@@ -31,7 +31,7 @@ const useBack = <T,>({ url }: UseBackProps<T>) => {
       website_admin:Number(data.website_admin),
       width:Number(data.width)
     }
-    console.log(transfData);
+    
 
     try {
       const response = await fetch(base + url, {

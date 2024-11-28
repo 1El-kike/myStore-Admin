@@ -5,6 +5,7 @@ import { Dashboard } from "../components/dashboard";
 import { Layout } from "../layout/layout";
 import { Products } from "../components/products/main-products";
 import { AddProducts } from "../components/products/addProducts";
+import { Auth } from "../components/auth/auth";
 
 export const Routers = () => {
   return (
@@ -22,6 +23,10 @@ export const Routers = () => {
            <Route
           path="/products/add"
           element={<Layout children={<AddProducts />} />}
+        ></Route>
+         <Route
+          path="/auth/register"
+          element={<Layout children={<Auth />} />}
         ></Route>
       </Routes>
     </BrowserRouter>

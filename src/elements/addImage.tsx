@@ -21,7 +21,7 @@ export const Images = () => {
       Promise.all(newimage).then((urls)=>{
         if(!errors.image){
           setImagePreview((prev:any) =>[...prev.slice(-2),...urls]);
-          setValue("images", files);
+          setValue("image", files);
         }
       })
     }
