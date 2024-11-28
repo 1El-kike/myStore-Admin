@@ -5,7 +5,7 @@ import { useFormContext, Controller } from "react-hook-form";
 export const Images = () => {
 
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const { control,formState: { errors } } = useFormContext();
+  const { control,formState: { errors } ,setValue} = useFormContext();
 
 
   const handleImage =(files:FileList | null )=>{
@@ -19,7 +19,10 @@ export const Images = () => {
       });
 
       Promise.all(newimage).then((urls)=>{
-        setImagePreview((prev:any) =>[...prev.slice(-2),...urls])
+        if(!errors.image){
+          setImagePreview((prev:any) =>[...prev.slice(-2),...urls]);
+          setValue("images", files);
+        }
       })
     }
   }
@@ -30,11 +33,11 @@ export const Images = () => {
       <h1 className="text-2xl mt-5 font-bold flex items-center gap-2">
         Product Images <HiArrowUpCircle />
       </h1>
-      <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-7 md:flex gap-4  border-gray-300 rounded-2xl">
-        <div className="grow basis-44">
+      <form className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-7 md:flex gap-4  border-gray-300 rounded-2xl">
+        <div className="grow  basis-44">
           <label
             htmlFor="dropzone-file"
-            className={`${errors.image ? "border-red-500 bg-red-50" : "bg-gray-50 border-gray-300"} flex h-full flex-col items-center justify-center w-full h-34 border-2  border-dashed rounded-lg cursor-pointer   hover:bg-gray-100 `}
+            className={`${errors.image ? "border-red-500 bg-red-50" : "bg-gray-50 border-gray-300"} flex relative h-full flex-col items-center justify-center w-full h-34 border-2  border-dashed rounded-lg cursor-pointer   hover:bg-gray-100 `}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
@@ -62,10 +65,15 @@ export const Images = () => {
               control={control}
               rules={{
                 required:"This field is required",
-                validate:{
-                  fileType:(value)=>{
-                    const validtype = ['image/jpeg','image/png','image/gif'];
-                    return value && validtype.includes(value.type) ||" Type file don\'t validate "
+                validate: {
+                  fileType: (value) => {
+                    if (!value || value.length === 0) return "La imagen es requerida";
+                    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                    return Array.from(value).every((file:any ) => validTypes.includes(file.type)) || "Tipo de archivo no válido";
+                  },
+                  fileSize: (value) => {
+                    if (!value || value.length === 0) return "La imagen es requerida";
+                    return Array.from(value).every((file:any) => file.size <= 2000000) || "File size must be less than 2MB"; // Limitar a 2MB
                   }
                 }
               }}
@@ -84,7 +92,7 @@ export const Images = () => {
               )}
             />
             {/* <input id="dropzone-file" type="file" className="hidden" /> */}
-            {errors.image && <span className="text-red-500 absolute -bottom-5">{ errors.image.message }</span>} 
+            {errors.image && <span className="text-red-500 absolute -bottom-9 l-0">{ errors.image.message }</span>} 
           </label>
         </div>
         <div className="grow flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">
