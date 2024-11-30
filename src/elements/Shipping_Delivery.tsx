@@ -24,7 +24,7 @@ export const Shipping_Delivery: React.FC = () => {
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold">Shipping and Delivery </h1>
-      <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex-col gap-4  border-gray-300 rounded-2xl">
+      <div className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex-col gap-4  border-gray-300 rounded-2xl">
         <div className="mt-5 mb-2 text-sm font-medium text-gray-900">
           <label htmlFor="search-dropdown" className="">
             Items Weight
@@ -59,9 +59,9 @@ export const Shipping_Delivery: React.FC = () => {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="m1 1 4 4 4-4"
               />
             </svg>
@@ -152,7 +152,7 @@ export const Shipping_Delivery: React.FC = () => {
             {errors?.width && <span className="text-red-500 absolute -bottom-7">{ errors?.width.message }</span>} 
           </div>
         </div>
-      </form>
+      </div>
     </>
   );
 };

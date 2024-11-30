@@ -8,6 +8,9 @@ export interface FormComponentPropsCategory {
     isLoading:boolean;
     error:string | null;
     success:boolean;
+    reset:any;
+    bottom1:string;
+    bottom2:string;
   }
   
 

@@ -26,7 +26,7 @@ export const Routers = () => {
         ></Route>
          <Route
           path="/auth/register"
-          element={<Layout children={<Auth />} />}
+          element={<Auth />}
         ></Route>
       </Routes>
     </BrowserRouter>

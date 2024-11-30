@@ -11,7 +11,7 @@ export const Pricing: React.FC = () => {
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold">Pricing </h1>
-      <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
+      <div className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
         <div className="flex mt-4 mb-2 flex-grow flex-col">
         <label
           htmlFor="website-admin"
@@ -55,7 +55,7 @@ export const Pricing: React.FC = () => {
           {errors.website_admin && <span className="text-red-500 absolute -bottom-7">{ errors.website_admin.message }</span>} 
         </div>
         </div>
-      </form>
+      </div>
     </>
   );
 };

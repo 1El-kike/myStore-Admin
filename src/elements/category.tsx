@@ -23,7 +23,7 @@ export const Category: React.FC = () => {
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold">Category</h1>
-      <form className="border shadow-xl shadow-slate-200 my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
+      <div className="border shadow-xl shadow-slate-200 my-5 px-3 py-2 flex flex-col border-gray-300 rounded-2xl">
         <label
           htmlFor="category"
           className="block mt-5 mb-2 text-sm font-medium text-gray-900 "
@@ -34,7 +34,7 @@ export const Category: React.FC = () => {
           id="category"
          {...register("category", { required: "This field is required" })}
          onChange={(event)=> manejarCambio(event) } 
-          className="bg-gray-50 relative mb-4  border pl-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          className="block appearance-none w-full  border bg-gray-50 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white relative  focus:ring-blue-500 focus:border-blue-500 "
         >
           {errors.category && <span className="text-red-500 absolute -bottom-5">{ errors.category.message }</span>} 
          <option value="" disabled>Seleccione una opción</option>
@@ -55,7 +55,7 @@ export const Category: React.FC = () => {
         <select
           id="tipo"
           {...register("tipo", { required: "This field is required"})}
-          className={`${errors?.tipo && "bg-red-50 text-red-500 border-red-500"} bg-gray-50 mb-7 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
+          className={`${errors?.tipo && "block appearance-none bg-red-50 text-red-500 border-red-500"} text-gray-700 py-3 px-4 pr-8 leading-tight bg-gray-50 mb-7 border border-gray-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
        
        >
           {indiceSeleccionado >= 0 ?  option.option[indiceSeleccionado].tipos.map((value, index) => {
@@ -73,7 +73,7 @@ export const Category: React.FC = () => {
         </select>
         {errors.tipo  && <span className="text-red-500 absolute bottom-0">{ errors.tipo.message }</span>} 
         </div>
-      </form>
+      </div>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FormData } from "../interface/FormData";
 import {  FieldValues, SubmitHandler } from "react-hook-form";
+import { useAuth } from "../utils/AuthContext";
 
 interface UseBackProps<T> {
   url?: string;
@@ -8,18 +9,26 @@ interface UseBackProps<T> {
 
 const useBack = <T,>({ url }: UseBackProps<T>) => {
 
+  const { user } = useAuth(); 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const base = "http://localhost:3450/";
 
+  //Aser una funcion para hacer mejor la transformacion de datos numericos
+  const transfoDatos = (value:any)=>{
+      
+  }
+
   const onSubmit:  SubmitHandler<FieldValues>= async (data) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
 
-    
+    transfoDatos(data)
+
+
     const transfData = {
       ...data,
       cantidad:1,
@@ -38,15 +47,19 @@ const useBack = <T,>({ url }: UseBackProps<T>) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "authorization": `Bearer ${user?.token}`,
         },
         body: JSON.stringify(transfData),
       });
 
+      const result = await response.text();
+      
+      console.log("Respuesta del servidor:", result);
+
       if (!response.ok) {
-        throw new Error("Error en la solicitud");
+        throw new Error(result);
       }
 
-      const result = await response.json();
       console.log("Datos enviados exitosamente:", result);
       setSuccess(true);
     } catch (error) {

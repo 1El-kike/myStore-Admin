@@ -11,7 +11,7 @@ export const Inventoy: React.FC = () => {
   return (
     <>
     <h1 className="text-2xl mt-5 font-bold">Inventory</h1>
-      <form className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
+      <div className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
       <div className="flex relative mb-6 mt-3 flex-col">
         <label
           htmlFor="Quantity"
@@ -46,7 +46,7 @@ export const Inventoy: React.FC = () => {
         />
          {errors.sku && <span className="text-red-500 absolute -bottom-7">{ errors.sku.message }</span>} 
       </div>
-      </form>
+      </div>
     </>
   )
 }

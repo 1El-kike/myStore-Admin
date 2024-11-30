@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Toolbar } from "../../elements/Toolbar";
 import { Description } from "../../elements/description";
 import { Category } from "../../elements/category";
@@ -65,7 +65,7 @@ export const AddProducts: React.FC = () => {
               <Shipping_Delivery />
               <Pricing />
               <div>
-                <Submit error={error} isLoading={isLoading} success={success} />
+                <Submit error={error} isLoading={isLoading} reset={methods.reset} bottom1="Schedule" bottom2="Add Product" success={success} />
               </div>
             </div>
           </form>

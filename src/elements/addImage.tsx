@@ -33,7 +33,7 @@ export const Images = () => {
       <h1 className="text-2xl mt-5 font-bold flex items-center gap-2">
         Product Images <HiArrowUpCircle />
       </h1>
-      <form className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-7 md:flex gap-4  border-gray-300 rounded-2xl">
+      <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-7 md:flex gap-4  border-gray-300 rounded-2xl">
         <div className="grow  basis-44">
           <label
             htmlFor="dropzone-file"
@@ -49,9 +49,9 @@ export const Images = () => {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                 />
               </svg>
@@ -121,7 +121,7 @@ export const Images = () => {
           <img className="scale-150 bg-slate-800  bg-opacity-50" src={imagePreview.length > 2 ? imagePreview[2] : "/description/IMAGE.jpg"}></img>
           </div>
         </div>
-      </form>
+      </div>
     </>
   );
 };
