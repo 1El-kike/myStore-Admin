@@ -24,12 +24,12 @@ export const Description: React.FC = () => {
           className={ `bg-gray-50 mb-2 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors?.name ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
           placeholder="Product"
         />
-      {errors.name && <span className="text-red-500 absolute -bottom-5">{ errors.name.message }</span>} 
+      {errors.name && <span className="text-red-500 absolute italic -bottom-5">{ errors.name.message }</span>} 
       </div>
       <div>
         <div className="my-5">
           <label
-            htmlFor="helper-text"
+            htmlFor="description"
             className="block mb-2 text-base font-medium text-gray-900"
           >
             Business Description
@@ -116,9 +116,9 @@ export const Description: React.FC = () => {
                 {...register("description", { required: "This field is required" })}
                 className={`block px-1 w-full text-sm text-gray-900 border-0 focus:ring-0 `}
                 placeholder="Write an article..."
-                required
+                
               ></textarea>
-               { errors?.description  &&  <p className="text-red-500 absolute left-0 -bottom-7">This field is required</p>}
+               { errors?.description  &&  <p className="text-red-500 italic absolute left-0 -bottom-7">This field is required</p>}
             </div>
           </div>
         </div>

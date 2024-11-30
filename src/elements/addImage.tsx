@@ -56,7 +56,7 @@ export const Images = () => {
                 />
               </svg>
               <p className="mb-2 text-center text-sm text-gray-500 ">
-                <span className={ ` ${errors.image && "text-red-500"} font-semibold`}>Click to upload</span> or drag
+                <span className={ ` ${errors.image && "text-red-500"} italic font-semibold`}>Click to upload</span> or drag
                 and drop
               </p>
             </div>
@@ -92,7 +92,7 @@ export const Images = () => {
               )}
             />
             {/* <input id="dropzone-file" type="file" className="hidden" /> */}
-            {errors.image && <span className="text-red-500 absolute -bottom-9 l-0">{ errors.image.message }</span>} 
+            {errors.image && <span className="text-red-500 absolute italic -bottom-9 l-0">{ errors.image.message }</span>} 
           </label>
         </div>
         <div className="grow flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">

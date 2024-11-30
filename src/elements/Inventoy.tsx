@@ -27,7 +27,7 @@ export const Inventoy: React.FC = () => {
           className={`bg-gray-50 border ${errors?.quantity && "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "} border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
           placeholder="Product"
         />
-          {errors?.quantity && <span className="text-red-500 absolute -bottom-5">{ errors?.quantity.message }</span>} 
+          {errors?.quantity && <span className="text-red-500 absolute italic -bottom-5">{ errors?.quantity.message }</span>} 
       </div>
       <div className="flex relative mb-8 mt-3 grow flex-col">    
         <label
@@ -44,7 +44,7 @@ export const Inventoy: React.FC = () => {
           className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors?.sku && "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "}} `}
           placeholder="01L-CFR-09S"
         />
-         {errors.sku && <span className="text-red-500 absolute -bottom-7">{ errors.sku.message }</span>} 
+         {errors.sku && <span className="text-red-500 absolute italic -bottom-7">{ errors.sku.message }</span>} 
       </div>
       </div>
     </>

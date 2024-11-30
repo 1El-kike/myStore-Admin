@@ -11,34 +11,14 @@ import { Submit } from "../../elements/Submit";
 import { FormData } from "../../interface/FormData";
 import { FormProvider, useForm } from "react-hook-form";
 import useBack from "../../hooks/useBack";
+import { Form_product } from "../../model/type_product";
 
 // Definimos la interfaz para los datos del formulario
 
 export const AddProducts: React.FC = () => {
   
 
-  const methods = useForm({
-    defaultValues: {
-      name:'',
-    description: "",
-    category: "",
-    tipo: "",
-    quantity: 0,
-    sku:"",
-    image: [],
-    price: 0,
-    inventoryStatus: "",
-    cantidad: 0,        
-    selling_type: 0,
-    items_weight:0,
-    campo:0,
-    error:"",
-    length:0,
-    breadth:0,
-    website_admin:0,
-    width:0
-    }
-  });
+  const methods = useForm(Form_product);
   const { onSubmit, error,success,isLoading } = useBack<FormData>({
     url: "allProducts/create"
     

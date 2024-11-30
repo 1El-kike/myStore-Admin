@@ -36,7 +36,7 @@ export const Category: React.FC = () => {
          onChange={(event)=> manejarCambio(event) } 
           className="block appearance-none w-full  border bg-gray-50 border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white relative  focus:ring-blue-500 focus:border-blue-500 "
         >
-          {errors.category && <span className="text-red-500 absolute -bottom-5">{ errors.category.message }</span>} 
+          {errors.category && <span className="text-red-500 absolute italic -bottom-5">{ errors.category.message }</span>} 
          <option value="" disabled>Seleccione una opción</option>
          {option.option.map((value, index) => (
             <option key={index} value={value.category}>
@@ -71,7 +71,7 @@ export const Category: React.FC = () => {
           <option value="" disabled>Select one Product Category </option>
         }
         </select>
-        {errors.tipo  && <span className="text-red-500 absolute bottom-0">{ errors.tipo.message }</span>} 
+        {errors.tipo  && <span className="text-red-500 absolute italic bottom-0">{ errors.tipo.message }</span>} 
         </div>
       </div>
     </>

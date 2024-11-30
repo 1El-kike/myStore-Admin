@@ -35,18 +35,17 @@ export const Shipping_Delivery: React.FC = () => {
             <input
               type="number"
               id="search-dropdown"
-              {...register("items_weight", { required: "This field is required", min: 0 })}
-              className={` ${errors.items_weight && "bg-red-50 border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 " }lock p-2.5 w-full z-20 border-e-0 text-base font-extrabold text-gray-900 bg-gray-50 rounded-s-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 `}
+              {...register("items_weight")}
+              className={`lock p-2.5 w-full z-20 border-e-0 text-base font-extrabold text-gray-900 bg-gray-50 rounded-s-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 `}
               placeholder="0.00"
-              required
             />
-              {errors.items_weight && <span className="text-red-500 absolute -bottom-7">{ errors.items_weight.message }</span>} 
+             
           </div>
           <button
             onClick={opens}
             id="dropdown-button"
             data-dropdown-toggle="dropdown"
-            className={`${errors?.items_weight && "bg-red-300 border-red-500"} flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-s-0 border-gray-300  rounded-e-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 `}
+            className={`   flex-shrink-0  inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-s-0 border-gray-300  rounded-e-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 `}
             type="button"
           >
             {value}
@@ -81,7 +80,7 @@ export const Shipping_Delivery: React.FC = () => {
             >
               {array.map((data, index) => {
                 return (
-                  <li key={index}>
+                  <li className="" key={index}>
                     <a
                       href="#"
                       onClick={() => select(data)}
@@ -109,25 +108,25 @@ export const Shipping_Delivery: React.FC = () => {
             <input
               type="number"
               id="Length"
-              {...register("length", { required: "This field is required", min: 0 })}
+              {...register("length")}
               aria-describedby="helper-text-explanation"
-              className={`${errors?.length && "bg-red-50 text-red-500 font-extrabold"} bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
+              className={`bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"
             />
-             {errors.length && <span className="text-red-500 absolute -bottom-7">{ errors.length.message }</span>} 
+            
             
           </div>
           <div className="flex-grow relative flex flex-col justify-start items-start">
             <label className="mb-2" htmlFor="Breadth">
               Breadth
             </label>
-            <span className="absolute right-3 text-gray-600 bottom-2.5 font-bold z-20">
+            <span className="absolute right-3 text-gray-600 bottom-2.5 font-bold">
               In
             </span>
             <input
               type="number"
               id="Breadth"
-              {...register("breadth", { required: "This field is required", min: 0 })}
+              {...register("breadth")}
               aria-describedby="helper-text-explanation"
               className={`${errors?.breadth && "bg-red-50 text-red-500 font-extrabold"} bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"
@@ -138,13 +137,13 @@ export const Shipping_Delivery: React.FC = () => {
             <label className="mb-2" htmlFor="Width">
               Width
             </label>
-            <span className={"absolute right-3 text-gray-600 bottom-2.5 font-bold z-20 "}>
+            <span className={"absolute right-3 text-gray-600 bottom-2.5 font-bold "}>
               In
             </span>
             <input
               type="number"
               id="Width"
-              {...register("width", { required: "This field is required", min: 0 })}
+              {...register("width")}
               aria-describedby="helper-text-explanation"
               className={`${errors?.width && "bg-red-50 text-red-500 font-extrabold"} bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"

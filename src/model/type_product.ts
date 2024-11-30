@@ -65,3 +65,26 @@ export const categoryProduct:TypeCategory = {
       },
     ],
   }
+
+export const Form_product:any = {
+    defaultValues: {
+      name:null,
+    description: null,
+    category: null,
+    tipo: null,
+    quantity: null,
+    sku:null,
+    image: null,
+    price: null,
+    inventoryStatus: null,
+    cantidad: null,        
+    selling_type: null,
+    items_weight:null,
+    campo:null,
+    error:null,
+    length:null,
+    breadth:null,
+    website_admin:null,
+    width:null
+    }
+  } 
