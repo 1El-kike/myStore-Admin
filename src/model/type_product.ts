@@ -36,12 +36,12 @@ export const categoryProduct:TypeCategory = {
           {tipo:"calzones"},
           {tipo:"Prendas"},
           {tipo:"Cintos"},
-          {tipo:"Enguatadas"}
+          {tipo:""}
      ]
       },
-      {category:"Artesanales",
+      {category:"Para Hogar",
         tipos:[
-          {tipo:"Artesania"},
+          {tipo:"Aseo y Limpieza"},
           {tipo:"barro"},
           {tipo:"Pants"},
           {tipo:"hat"},
