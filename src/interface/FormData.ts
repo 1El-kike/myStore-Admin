@@ -8,7 +8,7 @@ export interface FormData {
     image?: File;
     price?: number;
     inventoryStatus?: string;
-    cantidad?: number;
+    quantity_user?: number;
     // tipo de venta 0 => solo en linea Solo venta en tienda
     //               1 => Solo venta en línea
     //               2 => Disponible tanto en la tienda como en línea

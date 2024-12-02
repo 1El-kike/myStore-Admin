@@ -39,7 +39,7 @@ export const Category: React.FC = () => {
           {errors.category && <span className="text-red-500 absolute italic -bottom-5">{ errors.category.message }</span>} 
          <option value="" disabled>Seleccione una opción</option>
          {option.option.map((value, index) => (
-            <option key={index} value={value.category}>
+            <option key={index + "option"} value={value.category}>
               {value.category}
             </option>
           ))}
@@ -62,7 +62,7 @@ export const Category: React.FC = () => {
             
             return (
               <>
-                <option  key={index + 1} value={value.tipo}>
+                <option  key={index + "tipos"} value={value.tipo}>
                   {value.tipo}
                 </option>
               </>

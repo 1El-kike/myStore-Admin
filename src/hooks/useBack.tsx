@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
+import {  FieldValues, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../utils/AuthContext";
 
 interface UseBackProps<T> {
@@ -45,7 +45,7 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
 
       const result = await response.json();
 
-      console.log(formData);
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(result.message);
