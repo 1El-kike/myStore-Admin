@@ -77,7 +77,7 @@ export const Form_product:any = {
     image: null,
     price: null,
     inventoryStatus: null,
-    cantidad: null,        
+    cantidad: 1,        
     selling_type: null,
     items_weight:null,
     campo:null,

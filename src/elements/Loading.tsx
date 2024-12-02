@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FcOk } from "react-icons/fc";
 import { Button, Modal, Spinner, Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
@@ -11,7 +11,7 @@ interface Type {
 }
 
 export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
-  const [openModal, setOpenModal] = useState<null | boolean>(isLoading);
+  const [openModal, setOpenModal] = useState<null | boolean>(true);
 
   const navigate = useNavigate();
 
@@ -19,6 +19,10 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
     navigate("/"); // Redirige a la página principal
   };
 
+  useEffect(() => {
+  setOpenModal(success)
+  }, [success])
+  
  
 
   return (

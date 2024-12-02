@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { FormData } from "../interface/FormData";
-import {  FieldValues, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import {  FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 import { useAuth } from "../utils/AuthContext";
 
 interface UseBackProps<T> {
   url?: string;
+  reset:()=> void;
 }
 
-const useBack = <T,>({ url }: UseBackProps<T>) => {
+const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
 
   const { user } = useAuth(); 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,52 +16,44 @@ const useBack = <T,>({ url }: UseBackProps<T>) => {
 
   const base = "http://localhost:3450/";
 
-  //Aser una funcion para hacer mejor la transformacion de datos numericos
-  const transfoDatos = (value:any)=>{
-      
-  }
-
   const onSubmit:  SubmitHandler<FieldValues>= async (data) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
 
-    transfoDatos(data)
+  
+   const formData = new FormData();
+  
+  // Agregar todos los campos al FormData
+  Object.keys(data).forEach(key => {
+    formData.append(key, data[key]);
+  });
 
-
-    const transfData = {
-      ...data,
-      cantidad:1,
-      price:Number(data.price),
-      quantity:Number(data.quantity),
-      length:Number(data.length),
-      items_weight:Number(data.items_weight),
-      breadth:Number(data.breadth),
-      website_admin:Number(data.website_admin),
-      width:Number(data.width)
-    }
-    
+  // Asegúrate de agregar cada archivo al FormData
+  for (let i = 0; i < data.image.length; i++) {
+    formData.append('image', data.image[i]);
+}
 
     try {
       const response = await fetch(base + url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "authorization": `Bearer ${user?.token}`,
+         "Authorization": `Bearer ${user?.token}`,
         },
-        body: JSON.stringify(transfData),
+        body: formData,
       });
 
-      const result = await response.text();
-      
-      console.log("Respuesta del servidor:", result);
+      const result = await response.json();
+
+      console.log(formData);
 
       if (!response.ok) {
-        throw new Error(result);
+        throw new Error(result.message);
       }
 
       console.log("Datos enviados exitosamente:", result);
       setSuccess(true);
+      reset();
     } catch (error) {
       setError(error instanceof Error ? error.message : "Error desconocido");
     } finally {

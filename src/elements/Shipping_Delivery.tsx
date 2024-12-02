@@ -35,7 +35,7 @@ export const Shipping_Delivery: React.FC = () => {
             <input
               type="number"
               id="search-dropdown"
-              {...register("items_weight")}
+              {...register("items_weight",{min:0})}
               className={`lock p-2.5 w-full z-20 border-e-0 text-base font-extrabold text-gray-900 bg-gray-50 rounded-s-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 `}
               placeholder="0.00"
             />
@@ -108,7 +108,7 @@ export const Shipping_Delivery: React.FC = () => {
             <input
               type="number"
               id="Length"
-              {...register("length")}
+              {...register("length",{min:0})}
               aria-describedby="helper-text-explanation"
               className={`bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"
@@ -143,7 +143,7 @@ export const Shipping_Delivery: React.FC = () => {
             <input
               type="number"
               id="Width"
-              {...register("width")}
+              {...register("width",{min:0})}
               aria-describedby="helper-text-explanation"
               className={`${errors?.width && "bg-red-50 text-red-500 font-extrabold"} bg-gray-50 pr-8 font-extrabold  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
               placeholder="00.00"

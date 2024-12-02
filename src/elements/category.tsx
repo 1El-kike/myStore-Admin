@@ -62,7 +62,7 @@ export const Category: React.FC = () => {
             
             return (
               <>
-                <option  key={index} value={value.tipo}>
+                <option  key={index + 1} value={value.tipo}>
                   {value.tipo}
                 </option>
               </>

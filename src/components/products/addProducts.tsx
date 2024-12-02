@@ -20,8 +20,8 @@ export const AddProducts: React.FC = () => {
 
   const methods = useForm(Form_product);
   const { onSubmit, error,success,isLoading } = useBack<FormData>({
-    url: "allProducts/create"
-    
+    url: "allProducts/create",
+    reset: methods.reset
   });
 
 
@@ -32,6 +32,7 @@ export const AddProducts: React.FC = () => {
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
+            encType="multipart/form-data"
             className=" lg:flex  md:mx-2 justify-center items-center "
           >
             <div className="grow basis-72 px-5 ">

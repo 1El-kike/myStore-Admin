@@ -21,7 +21,7 @@ export const Images = () => {
       Promise.all(newimage).then((urls)=>{
         if(!errors.image){
           setImagePreview((prev:any) =>[...prev.slice(-2),...urls]);
-          setValue("image", files);
+          setValue("image", Array.from(files));
         }
       })
     }
@@ -82,7 +82,7 @@ export const Images = () => {
                   id="dropzone-file"
                   type="file"
                   multiple={true}
-                  accept="image/*" // Aceptar solo imágenes
+                  //accept="image/*" // Aceptar solo imágenes
                   className="hidden"
                   onChange={(e) => { 
                     handleImage(e.target.files);
@@ -91,7 +91,7 @@ export const Images = () => {
                 />
               )}
             />
-            {/* <input id="dropzone-file" type="file" className="hidden" /> */}
+           
             {errors.image && <span className="text-red-500 absolute italic -bottom-9 l-0">{ errors.image.message }</span>} 
           </label>
         </div>
