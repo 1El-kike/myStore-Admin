@@ -86,7 +86,7 @@ export const Menu = () => {
               </div>
             </li>
             <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-              <Link to={"/products"} className="flex items-center ">
+              <Link to={"/stores"} className="flex items-center ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="icon icon-tabler icon-tabler-puzzle"
@@ -102,14 +102,14 @@ export const Menu = () => {
                   <path stroke="none" d="M0 0h24v24H0z"></path>
                   <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
                 </svg>
-                <span className="text-sm ml-2">Products</span>
+                <span className="text-sm ml-2">Add Stores</span>
               </Link>
               <div className="py-1 px-3 bg-gray-600 rounded text-gray-300 flex items-center justify-center text-xs">
                 8
               </div>
             </li>
             <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-              <Link to={""} className="flex items-center ">
+              <Link to={"/products"} className="flex items-center ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="icon icon-tabler icon-tabler-compass"
@@ -126,7 +126,7 @@ export const Menu = () => {
                   <polyline points="8 16 10 10 16 8 14 14 8 16"></polyline>
                   <circle cx="12" cy="12" r="9"></circle>
                 </svg>
-                <span className="text-sm ml-2">Performance</span>
+                <span className="text-sm ml-2">Add Products</span>
               </Link>
             </li>
             <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">

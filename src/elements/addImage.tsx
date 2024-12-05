@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiArrowUpCircle } from "react-icons/hi2";
 import { useFormContext, Controller } from "react-hook-form";
 
 export const Images = () => {
 
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const { control,formState: { errors } ,setValue} = useFormContext();
+  const { control,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
 
+
+  useEffect(() => {
+   if (isSubmitSuccessful) {
+    setImagePreview([])
+   }
+
+  }, [isSubmitSuccessful]) 
+  
 
   const handleImage =(files:FileList | null )=>{
     if (files) {

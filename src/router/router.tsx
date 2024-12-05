@@ -6,6 +6,7 @@ import { Layout } from "../layout/layout";
 import { Products } from "../components/products/main-products";
 import { AddProducts } from "../components/products/addProducts";
 import { Auth } from "../components/auth/auth";
+import { Stores } from "../components/stores/main-stores";
 
 export const Routers = () => {
   return (
@@ -15,6 +16,10 @@ export const Routers = () => {
         <Route
           path="/dashboard"
           element={<Layout children={<Dashboard />} />}
+        ></Route>
+        <Route
+          path="/stores"
+          element={<Layout children={<Stores />} />}
         ></Route>
         <Route
           path="/products"
