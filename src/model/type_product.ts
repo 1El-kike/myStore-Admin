@@ -1,15 +1,5 @@
-interface tipo{
-  tipo:string
-}
+import { TypeCategory } from "../interface/TypeCategory"
 
-interface Option {
-    category: string;
-    tipos: tipo[];
-}
-
-export interface TypeCategory {
-    option: Option[];
-}
 export const textProdct:string = 'Add new products and everything related to your supplier and your saleAdd new products and everything related '
 
 export const categoryProduct:TypeCategory = {

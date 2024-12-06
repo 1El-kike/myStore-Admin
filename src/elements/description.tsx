@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useFormContext } from 'react-hook-form';
 
-export const Description: React.FC = () => {
+interface Description {
+  name:string
+}
+
+export const Description: React.FC<Description> = ({name}) => {
 
   const { register, formState: { errors } } = useFormContext();
 
@@ -12,9 +16,9 @@ export const Description: React.FC = () => {
       <div className="flex relative flex-col">
         <label
           htmlFor="name"
-          className="block mb-2 text-base font-medium text-gray-900"
+          className="block mb-2 capitalize text-base font-medium text-gray-900"
         >
-          Product Name
+          {name} Name
         </label>
         <input
           type="text"

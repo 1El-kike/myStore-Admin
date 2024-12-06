@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { HiArrowUpCircle } from "react-icons/hi2";
 import { useFormContext, Controller } from "react-hook-form";
 
-export const Images = () => {
+interface Typeimage {
+  data:string;
+  label:string
+}
+
+export const Images:React.FC<Typeimage> = ({data,label}) => {
 
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const { control,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
@@ -27,9 +32,9 @@ export const Images = () => {
       });
 
       Promise.all(newimage).then((urls)=>{
-        if(!errors.image){
+        if(!errors[data]){
           setImagePreview((prev:any) =>[...prev.slice(-2),...urls]);
-          setValue("image", Array.from(files));
+          setValue(data, Array.from(files));
         }
       })
     }
@@ -39,13 +44,13 @@ export const Images = () => {
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold flex items-center gap-2">
-        Product Images <HiArrowUpCircle />
+       {label} <HiArrowUpCircle />
       </h1>
       <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-7 md:flex gap-4  border-gray-300 rounded-2xl">
         <div className="grow  basis-44">
           <label
             htmlFor="dropzone-file"
-            className={`${errors.image ? "border-red-500 bg-red-50" : "bg-gray-50 border-gray-300"} flex relative h-full flex-col items-center justify-center w-full h-34 border-2  border-dashed rounded-lg cursor-pointer   hover:bg-gray-100 `}
+            className={`${errors[data] ? "border-red-500 bg-red-50" : "bg-gray-50 border-gray-300"} flex relative h-full flex-col items-center justify-center w-full h-34 border-2  border-dashed rounded-lg cursor-pointer   hover:bg-gray-100 `}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
@@ -64,12 +69,12 @@ export const Images = () => {
                 />
               </svg>
               <p className="mb-2 text-center text-sm text-gray-500 ">
-                <span className={ ` ${errors.image && "text-red-500"} italic font-semibold`}>Click to upload</span> or drag
+                <span className={ ` ${errors[data] && "text-red-500"} italic font-semibold`}>Click to upload</span> or drag
                 and drop
               </p>
             </div>
             <Controller
-              name="image" // Nombre del campo en el formulario
+              name={data} // Nombre del campo en el formulario
               control={control}
               rules={{
                 required:"This field is required",
@@ -100,7 +105,7 @@ export const Images = () => {
               )}
             />
            
-            {errors.image && <span className="text-red-500 absolute italic -bottom-9 l-0">{ errors.image.message }</span>} 
+            {errors[data] && <span className="text-red-500 absolute italic -bottom-9 l-0">{ errors[data].message }</span>} 
           </label>
         </div>
         <div className="grow flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">

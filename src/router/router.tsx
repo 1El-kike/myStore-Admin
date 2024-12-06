@@ -7,6 +7,7 @@ import { Products } from "../components/products/main-products";
 import { AddProducts } from "../components/products/addProducts";
 import { Auth } from "../components/auth/auth";
 import { Stores } from "../components/stores/main-stores";
+import { AddStores_template } from "../components/stores/addStores_template";
 
 export const Routers = () => {
   return (
@@ -20,6 +21,10 @@ export const Routers = () => {
         <Route
           path="/stores"
           element={<Layout children={<Stores />} />}
+        ></Route>
+          <Route
+          path="/stores/add"
+          element={<Layout children={<AddStores_template />} />}
         ></Route>
         <Route
           path="/products"

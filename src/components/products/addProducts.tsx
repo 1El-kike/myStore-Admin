@@ -8,16 +8,15 @@ import { Images } from "../../elements/addImage";
 import { Shipping_Delivery } from "../../elements/Shipping_Delivery";
 import { Pricing } from "../../elements/Pricing";
 import { Submit } from "../../elements/Submit";
-import { FormData } from "../../interface/FormData";
 import { FormProvider, useForm } from "react-hook-form";
 import useBack from "../../hooks/useBack";
-import { Form_product } from "../../model/type_product";
+import { categoryProduct, Form_product } from "../../model/type_product";
 
 // Definimos la interfaz para los datos del formulario
 
 export const AddProducts: React.FC = () => {
   
-
+         
   const methods = useForm(Form_product);
   const { onSubmit, error,success,isLoading } = useBack<FormData>({
     url: "allProducts/create",
@@ -28,7 +27,7 @@ export const AddProducts: React.FC = () => {
   return (
     <>
       <div className="z-30 overflow-clip w-full">
-        <Toolbar />
+        <Toolbar element={"products"} action={"Add New Product"}/>
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
@@ -36,13 +35,13 @@ export const AddProducts: React.FC = () => {
             className=" lg:flex  md:mx-2 justify-center items-center "
           >
             <div className="grow basis-72 px-5 ">
-              <Description />
-              <Category />
+              <Description  name="product"/>
+              <Category select={categoryProduct} label1="Product Category" label2=" Product Type" data1="category" data2="tipo" />
               <Inventoy />
               <Selling_Type  />
             </div>
             <div className="grow mb-auto basis-72 px-5">
-              <Images />
+              <Images data="image" label="Product Images"/>
               <Shipping_Delivery />
               <Pricing />
               <div>

@@ -6,7 +6,7 @@ export const  Button = () => {
   const navigate = useNavigate()
 
   const handleclick = ()=>{
-    navigate('/'); // Redirige a la página principal
+    navigate(-1); // Redirige a la página principal
   }
 
   return (
