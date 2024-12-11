@@ -18,8 +18,10 @@ export const Type_product = ({image,title,text,textsecondary,scale,button, fondo
         <div
             className= {`card w-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex  justify-between p-5 rounded-3xl ${fondo}`}
         >
-            <div className='w-56 rounded-2xl mr-5 overflow-clip h-56'>
-            <img className={`w-56 scale-${scale}  h-56 m-auto rounded-2xl`} src={image} alt="Title" />
+            <div className='w-56 rounded-2xl mr-5  aspect-square'>
+             <div className='overflow-clip rounded-2xl'>
+            <img className={`w-56 scale-${scale} aspect-square m-auto rounded-2xl `} src={image} alt="Title" />
+                </div>   
             </div>
             <div className="card-body text-justify text-slate-500">
                 <h4 className="card-title text-slate-950 font-bold text-2xl mb-4">{title}</h4>

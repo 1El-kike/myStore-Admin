@@ -21,18 +21,31 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
     setError(null);
     setSuccess(false);
 
-  
+    console.log(data);
+
    const formData = new FormData();
   
-  // Agregar todos los campos al FormData
-  Object.keys(data).forEach(key => {
+  /* // Agregar todos los campos al FormData
+  Object.keys(data).forEach((key) => {
+    if (key == 'image' || key.includes("img")) {
+      formData.append(key,data[key][0])
+    }
     formData.append(key, data[key]);
-  });
+  }); */
 
-  // Asegúrate de agregar cada archivo al FormData
-  for (let i = 0; i < data.image.length; i++) {
-    formData.append('image', data.image[i]);
-}
+   // Agregar todos los campos al FormData
+   Object.keys(data).forEach((key) => {
+    if (key === 'image' || key.includes("img")) {
+        // Asegúrate de que data[key] sea un array y tenga al menos un archivo
+        if (Array.isArray(data[key]) && data[key].length > 0) {
+          console.log( "is Array",key , data[key][0])
+            formData.append(key, data[key][0]); // Solo agrega el primer archivo
+        }
+    } else {
+      console.log( "is element normal",key , data[key])
+        formData.append(key, data[key]); // Agrega otros campos normalmente
+    }
+});
 
     try {
       const response = await fetch(base + url, {
@@ -44,8 +57,6 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
       });
 
       const result = await response.json();
-
-      console.log(data);
 
       if (!response.ok) {
         throw new Error(result.message);

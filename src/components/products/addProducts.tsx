@@ -37,7 +37,7 @@ export const AddProducts: React.FC = () => {
             <div className="grow basis-72 px-5 ">
               <Description  name="product"/>
               <Category select={categoryProduct} label1="Product Category" label2=" Product Type" data1="category" data2="tipo" />
-              <Inventoy />
+              <Inventoy label1="Quantity" label2="SKU(Option)" data1="quantity_total" data2="sku"/>
               <Selling_Type  />
             </div>
             <div className="grow mb-auto basis-72 px-5">

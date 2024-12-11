@@ -5,8 +5,8 @@ export const Form_stores:any = {
     address: null,
     phone: null,
     phone2: null,
+    tipo:null,
     email:null,
-    timeclient:null,
     isOpen: null,
     code:null,
     imgfondo: null,
@@ -14,10 +14,10 @@ export const Form_stores:any = {
     imgPortada: null,       
     timeInitial: null,
     timeEnd:null,
-    length:null,
-    breadth:null,
+    selling_type:null,
+    promedioDescuento:null,
+    promedioProduct:null,
     website_admin:null,
-    width:null
     }
   }
   

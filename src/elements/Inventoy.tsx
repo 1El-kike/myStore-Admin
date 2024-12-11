@@ -1,52 +1,118 @@
-import React from 'react'
-import { useFormContext } from 'react-hook-form';
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
+interface InventType {
+  data1: string;
+  data2: string;
+  label1: string;
+  label2: string;
+}
 
-
-export const Inventoy: React.FC = () => {
-
-  const { register, formState: { errors } } = useFormContext();
-  
+export const Inventoy: React.FC<InventType> = ({
+  data1,
+  data2,
+  label1,
+  label2,
+}) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <>
-    <h1 className="text-2xl mt-5 font-bold">Inventory</h1>
+      <h1 className="text-2xl mt-5 font-bold">Inventory</h1>
       <div className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
-      <div className="flex relative mb-6 mt-3 flex-col">
-        <label
-          htmlFor="Quantity"
-          className="block mb-2 text-base font-medium text-gray-900"
-        >
-         Quantity
-        </label>
-        <input
-          type="number"
-          id="Quantity"
-          {...register("quantity_total", { required: "This field is required",min: 0 })}
-          aria-describedby="helper-text-explanation"
-          className={`bg-gray-50 border ${errors?.quantity_total && "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "} border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
-          placeholder="Product"
-        />
-          {errors?.quantity_total && <span className="text-red-500 absolute italic -bottom-5">{ errors?.quantity_total.message }</span>} 
-      </div>
-      <div className="flex relative mb-8 mt-3 grow flex-col">    
-        <label
-          htmlFor="helper-text"
-          className="block mb-2 text-base font-medium text-gray-900"
-        >
-         SKU(Option)
-        </label>
-        <input
-          type="text"
-          id="helper-text"
-          {...register("sku", { required: "This field is required" })}
-          aria-describedby="helper-text-explanation"
-          className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors?.sku && "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "}} `}
-          placeholder="01L-CFR-09S"
-        />
-         {errors.sku && <span className="text-red-500 absolute italic -bottom-7">{ errors.sku.message }</span>} 
-      </div>
+        <div className="flex relative mt-3 flex-col">
+          {label1 == "Tipo de Inventario" ? (
+            <>
+              <label
+                htmlFor={label1}
+                className="block mb-2 text-base font-medium text-gray-900"
+              >
+                {label1}
+              </label>
+              <select
+                id={label1}
+                {...register(data1, { required: "This field is required" })}
+                className={`${
+                  errors[data1] &&
+                  "block appearance-none bg-red-50 text-red-500 border-red-500"
+                } text-gray-700 py-3 px-4 pr-8 leading-tight bg-gray-50 border border-gray-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
+              >
+                {errors[data1] && (
+                  <span className="text-red-500 absolute italic -bottom-0">
+                    {errors[data1].message}
+                  </span>
+                )}
+                <option value="" disabled>
+                  Seleccione una opción
+                </option>
+                <option>In-stores</option>
+                <option>Online</option>
+                <option>Mixto</option>
+              </select>
+              {errors[data1] && (
+                <span className="text-red-500 absolute italic -bottom-0">
+                  {errors[data1].message}
+                </span>
+              )}
+            </>
+          ) : (
+            <>
+              <label
+                htmlFor={label1}
+                className="block mb-2 text-base font-medium text-gray-900"
+              >
+                {label1}
+              </label>
+              <input
+                type="text"
+                id={label1}
+                {...register(data1, {
+                  required: "This field is required",
+                  min: 0,
+                })}
+                aria-describedby="helper-text-explanation"
+                className={`${
+                  errors[data1] &&
+                  "block appearance-none bg-red-50 text-red-500 border-red-500"
+                } text-gray-700 py-3 px-4 pr-8 leading-tight bg-gray-50 mb-7 border border-gray-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
+                placeholder="Product"
+              />
+              {errors[data1] && (
+                <span className="text-red-500 absolute italic -bottom-0">
+                  {errors[data1].message}
+                </span>
+              )}
+            </>
+          )}
+        </div>
+        <div className="flex relative mt-3 grow flex-col">
+          <label
+            htmlFor={label2}
+            className="block mb-2 text-base font-medium text-gray-900"
+          >
+            {label2}
+          </label>
+          <input
+            type="text"
+            id={label2}
+            {...register(data2, { required: "This field is required" })}
+            aria-describedby="helper-text-explanation"
+            className={`${
+              errors[data2] &&
+              "block appearance-none bg-red-50 text-red-500 border-red-500"
+            } text-gray-700 py-3 px-4 pr-8 leading-tight bg-gray-50 mb-7 border border-gray-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 `}
+            placeholder="01L-CFR-09S"
+          />
+          {errors[data2] && (
+            <span className="text-red-500 absolute italic -bottom-0">
+              {errors[data2].message}
+            </span>
+          )}
+        </div>
       </div>
     </>
-  )
-}
+  );
+};
