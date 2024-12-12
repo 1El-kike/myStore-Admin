@@ -58,6 +58,7 @@ export const categoryProduct:TypeCategory = {
 
 export const Form_product:any = {
     defaultValues: {
+      id:null,
       name:null,
     description: null,
     category: null,
@@ -70,7 +71,8 @@ export const Form_product:any = {
     items_weight:null,
     length:null,
     breadth:null,
-    website_admin:null,
+    status:Boolean,
+    comparePrice:null,
     width:null
     }
   } 

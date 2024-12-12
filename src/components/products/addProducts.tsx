@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Toolbar } from "../../elements/Toolbar";
 import { Description } from "../../elements/description";
 import { Category } from "../../elements/category";
@@ -11,17 +11,57 @@ import { Submit } from "../../elements/Submit";
 import { FormProvider, useForm } from "react-hook-form";
 import useBack from "../../hooks/useBack";
 import { categoryProduct, Form_product } from "../../model/type_product";
+import { useParams } from "react-router-dom";
+import { port } from "../../config/env";
+import { useAuth } from "../../utils/AuthContext";
 
 // Definimos la interfaz para los datos del formulario
 
 export const AddProducts: React.FC = () => {
   
-         
+  const { user } = useAuth();       
   const methods = useForm(Form_product);
-  const { onSubmit, error,success,isLoading } = useBack<FormData>({
+  const { idStore } = useParams();
+  const { onSubmit, error,success,isLoading,result } = useBack<FormData>({
     url: "allProducts/create",
     reset: methods.reset
   });
+
+ const addProductStore = async(idStore:number,idProducto:number)=>{
+    const data = {
+      "StoreId":idStore,
+      "productoId":idProducto
+    }
+
+      try {
+        const response = await fetch(`${port}productStore/create`, {
+          method: "POST",
+          headers: {
+           "Authorization": `Bearer ${user?.token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data),
+        });
+  
+        const result = await response.json();
+  
+        if (!response.ok) {
+          throw new Error(result.message);
+        }
+        console.log("se agregaron los productos a la tienda correctamente")
+      } catch (error) {
+        console.log(error)
+      }
+
+ }
+
+  useEffect(() => {
+   if (result) {
+     console.log(Number(idStore),result?.id);
+      addProductStore(Number(idStore),result?.id)
+   }
+  }, [result])
+  
 
 
   return (

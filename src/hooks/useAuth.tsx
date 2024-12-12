@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FormData } from "../interface/FormDataProduct";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../utils/AuthContext";
 import { useBack } from "../interface/UserType";

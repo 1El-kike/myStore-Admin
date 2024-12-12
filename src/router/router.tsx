@@ -31,7 +31,7 @@ export const Routers = () => {
           element={<Layout children={<Products />} />}
         ></Route>
            <Route
-          path="/products/add"
+          path="/products/add/:idStore"
           element={<Layout children={<AddProducts />} />}
         ></Route>
          <Route

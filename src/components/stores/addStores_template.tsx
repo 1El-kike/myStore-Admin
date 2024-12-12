@@ -35,14 +35,13 @@ export const AddStores_template = () => {
             <Description name="stores" />
             <Detalles />
             <Category  select={categoryStore} label1="Store promedio price product" label2="Porsentaje de descuento promedio" data1="promedioProduct" data2="promedioDescuento"/>
-            <Inventoy label1="Tipo de Inventario" label2="Codigo de barras" data1="tipo" data2="code" />
-            <Selling_Type />
           </div>
           <div className="grow mb-auto basis-72 px-5">
             <Images data="imgStore" label="Imagen de Tienda" />
             <LogoAndApariencia />
-            {/*  <Shipping_Delivery /> */}
-            <Pricing />
+            <Inventoy label1="Tipo de Inventario" label2="Codigo de barras" data1="tipo" data2="code" />
+            <Selling_Type />
+           
             <div>
               <Submit
                 error={error}

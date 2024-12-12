@@ -1,11 +1,15 @@
 import { useState } from "react";
 import {  FieldValues, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../utils/AuthContext";
+import { port } from "../config/env";
+import { typeProduct } from "../interface/typeProducts";
 
 interface UseBackProps<T> {
   url?: string;
   reset:()=> void;
 }
+
+
 
 const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
 
@@ -13,8 +17,9 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [result, setresult] = useState<typeProduct | null>(null);
 
-  const base = "http://localhost:3450/";
+  const base = port;
 
   const onSubmit:  SubmitHandler<FieldValues>= async (data) => {
     setIsLoading(true);
@@ -25,20 +30,11 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
 
    const formData = new FormData();
   
-  /* // Agregar todos los campos al FormData
-  Object.keys(data).forEach((key) => {
-    if (key == 'image' || key.includes("img")) {
-      formData.append(key,data[key][0])
-    }
-    formData.append(key, data[key]);
-  }); */
-
    // Agregar todos los campos al FormData
    Object.keys(data).forEach((key) => {
     if (key === 'image' || key.includes("img")) {
         // Asegúrate de que data[key] sea un array y tenga al menos un archivo
         if (Array.isArray(data[key]) && data[key].length > 0) {
-          console.log( "is Array",key , data[key][0])
             formData.append(key, data[key][0]); // Solo agrega el primer archivo
         }
     } else {
@@ -62,6 +58,7 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
         throw new Error(result.message);
       }
 
+      setresult(result);
       console.log("Datos enviados exitosamente:", result);
       setSuccess(true);
       reset();
@@ -77,6 +74,7 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
     isLoading,
     error,
     success,
+    result,
   };
 };
 

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { port } from "../config/env";
 
 interface Data {
     data: null | any,
@@ -21,7 +22,7 @@ export const useEjecut = ({ url } :UseEjecutProps ) => {
 
   const getFetch = async () => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(port + url);
       const data = await response.json();
       setState({
         data,
