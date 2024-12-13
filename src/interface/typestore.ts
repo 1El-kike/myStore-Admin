@@ -1,0 +1,20 @@
+export interface TypeStore {
+    id: number,
+  name: string,
+  code: string,
+  description: string ,
+  address: string,
+  phone: string,
+  tipo: string,
+  email: string,
+  isOpen: true,
+  imgfondo: string,
+  imgStore: string,
+  imgPortada:string,
+  timeInitial: string,
+  timeEnd: string,
+  selling_type: string,
+  promedioDescuento: string,
+  promedioProduct: string,
+  rating: number
+}

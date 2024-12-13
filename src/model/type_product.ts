@@ -68,11 +68,11 @@ export const Form_product:any = {
     image: null,
     price: null,       
     selling_type: null,
-    items_weight:null,
-    length:null,
-    breadth:null,
+    items_weight:'',
+    length:'',
+    breadth:'',
     status:Boolean,
     comparePrice:null,
-    width:null
+    width:''
     }
   } 

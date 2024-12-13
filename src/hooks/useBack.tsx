@@ -37,9 +37,15 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
         if (Array.isArray(data[key]) && data[key].length > 0) {
             formData.append(key, data[key][0]); // Solo agrega el primer archivo
         }
+        
     } else {
-      console.log( "is element normal",key , data[key])
-        formData.append(key, data[key]); // Agrega otros campos normalmente
+      const valueToAppend = data[key] ;
+      if(!valueToAppend){
+        formData.append(key, ''); // Agrega otros campos normalmente
+      }
+      else{
+        formData.append(key,valueToAppend)
+      }
     }
 });
 
@@ -59,7 +65,6 @@ const useBack = <T,>({ url, reset }: UseBackProps<T>) => {
       }
 
       setresult(result);
-      console.log("Datos enviados exitosamente:", result);
       setSuccess(true);
       reset();
     } catch (error) {

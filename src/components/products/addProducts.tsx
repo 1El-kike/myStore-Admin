@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Toolbar } from "../../elements/Toolbar";
 import { Description } from "../../elements/description";
 import { Category } from "../../elements/category";
@@ -14,6 +14,7 @@ import { categoryProduct, Form_product } from "../../model/type_product";
 import { useParams } from "react-router-dom";
 import { port } from "../../config/env";
 import { useAuth } from "../../utils/AuthContext";
+import { useEjecut } from "../../hooks/useEjecut";
 
 // Definimos la interfaz para los datos del formulario
 
@@ -55,19 +56,23 @@ export const AddProducts: React.FC = () => {
 
  }
 
+ const {data} = useEjecut({url:`stores/${idStore}`})
+
   useEffect(() => {
    if (result) {
      console.log(Number(idStore),result?.id);
       addProductStore(Number(idStore),result?.id)
    }
+   
   }, [result])
   
+
 
 
   return (
     <>
       <div className="z-30 overflow-clip w-full">
-        <Toolbar element={"products"} action={"Add New Product"}/>
+        <Toolbar element={"products"} action={`Add New Product`} info={data}/>
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
