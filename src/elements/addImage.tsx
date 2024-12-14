@@ -10,16 +10,27 @@ interface Typeimage {
 export const Images:React.FC<Typeimage> = ({data,label}) => {
 
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const { control,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
+  const { control,watch,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
 
 
   useEffect(() => {
    if (isSubmitSuccessful) {
     setImagePreview([])
+    //setValue(data, [])
    }
 
   }, [isSubmitSuccessful]) 
+
+   useEffect(() => {
+      const subscription = watch((value) => {
+        if (!value[data]) {
+          console.log("test")
+          setImagePreview([]); // Restablece a null si no hay tipo de venta seleccionado
+        }
+      });
   
+      return () => subscription.unsubscribe();
+    }, [watch]);
 
   const handleImage =(files:FileList | null )=>{
     if (files) {
@@ -119,7 +130,10 @@ export const Images:React.FC<Typeimage> = ({data,label}) => {
             <button
               type="button"
               className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-32"
-            onClick={()=> setImagePreview([])}
+              onClick={() => {
+                setImagePreview([]);
+                setValue(data, []); // También limpia el valor del campo en el formulario
+              }}
             >
               Remove
             </button>

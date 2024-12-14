@@ -17,8 +17,10 @@ interface Type {
 export const Pricing: React.FC = () => {
   const {
     register,
-    reset,
+    watch,
     formState: { errors },
+    setValue,
+    clearErrors
   } = useFormContext();
 
   const [isMony, setisMony] = useState(false);
@@ -46,6 +48,8 @@ export const Pricing: React.FC = () => {
     } else {
       setResult(""); // Limpia el resultado si no es un número válido
     }
+
+    clearErrors("price")
   };
 
   //funcion de select el tipo de moneda
@@ -55,7 +59,7 @@ export const Pricing: React.FC = () => {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   }> = React.memo(({ set, indexPosition, setIsOpen }) => {
     const totalItems = typemony.length;
-    console.log("this is test")
+    console.log("this is test");
     const rotatetop = () => {
       set((prevIndex) => (prevIndex - 1 + totalItems) % totalItems);
     };
@@ -115,8 +119,16 @@ export const Pricing: React.FC = () => {
   });
 
 useEffect(() => {
- setResult('')
-}, [reset])
+  const subcription = watch((value)=>{
+    if (!value.price) {
+      setPrice(''); 
+    }
+    if (!value.comparePrice) {
+      setResult('')
+    }
+  })
+  return () =>   subcription.unsubscribe()
+}, [watch])
 
 
   return (
@@ -189,23 +201,18 @@ useEffect(() => {
             <span
               onClick={() => setisCompareMony(!isCompareMony)}
               className={`${
-                errors?.compare &&
-                "bg-red-300 border-red-500 text-red-900"
+                errors?.comparePrice && "bg-red-300 border-red-500 text-red-900"
               } inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600`}
             >
               {typemony[selectedIndexCompare].elemen}
             </span>
             <input
               type="number"
+              disabled
               value={result}
-              {...register("comparePrice", {
-                min: 0,
-              })}
+              onChange={() => setValue("comparePrice", result)}
               id="website-admin"
-              className={`${
-                errors?.comparePrice &&
-                "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "
-              } rounded-none font-extrabold rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+              className={`rounded-none font-extrabold rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
               placeholder="00.00"
             />
             {errors.comparePrice && (
