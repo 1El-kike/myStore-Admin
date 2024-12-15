@@ -16,7 +16,7 @@ export const Category: React.FC<Category> = ({label1,label2,data1,data2,select})
   
   const [option, setoption] = useState(select);
 
-  const { register, formState: { errors } } = useFormContext();
+  const { register, formState: { errors } ,setValue,clearErrors} = useFormContext();
 
   const [indiceSeleccionado, setIndiceSeleccionado] = useState<number>(-1);
 
@@ -25,6 +25,8 @@ export const Category: React.FC<Category> = ({label1,label2,data1,data2,select})
     // Obtener el índice de la opción seleccionada
     const nuevoIndice = event.target.selectedIndex - 1;
     setIndiceSeleccionado(nuevoIndice);
+    setValue(data1,event.target.value);
+    clearErrors(data1)
 };
 
   return (

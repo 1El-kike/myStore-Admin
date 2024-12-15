@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../components/home";
-import { Dashboard } from "../components/dashboard";
+import { Dashboard } from "../components/dashboard/dashboard";
 import { Layout } from "../layout/layout";
 import { Products } from "../components/products/main-products";
 import { AddProducts } from "../components/products/addProducts";

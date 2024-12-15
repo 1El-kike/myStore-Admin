@@ -24,7 +24,6 @@ export const Images:React.FC<Typeimage> = ({data,label}) => {
    useEffect(() => {
       const subscription = watch((value) => {
         if (!value[data]) {
-          console.log("test")
           setImagePreview([]); // Restablece a null si no hay tipo de venta seleccionado
         }
       });
