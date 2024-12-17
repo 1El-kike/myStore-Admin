@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useAuth } from "../utils/AuthContext";
 import { useBack } from "../interface/UserType";
+import { port } from "../config/env";
 
 interface useAuthProps<T> {
   url?: string;
@@ -19,7 +20,7 @@ const useAuths = <T,>({ url }: useAuthProps<T>) => {
     token: "",
   });
 
-  const base = "http://localhost:3450/";
+  const base = port;
 
   //Aser una funcion para hacer mejor la transformacion de datos numericos
   const transfoDatos = (value: any) => {};

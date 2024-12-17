@@ -1,39 +1,82 @@
-import React from 'react'
-
-
+import React from "react";
+import { useAuth } from "../../utils/AuthContext";
+import { FaArrowDown, FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
+import { Dropdown } from "flowbite-react";
 
 export const User = () => {
+  const { user } = useAuth();
+
   return (
-    <aside className='flex h-1/2 gap-5 flex-col flex-grow justify-center items-center'>
-        <div className='flex flex-col justify-center items-center flex-grow'>
-                <img src="" className='aspect-auto h-20 w-20 rounded-full bg-slate-300' alt="" />
-                <p>Welcome back</p>
-                <h1 className='font-bold text-3xl'>Jerome Bell</h1>
-        </div>
-        <div className='w-full'>
-            <div className="flex px-4 gap-3 flex-col w-full">
-                <div className="border flex justify-around items-center h-20 border-gray-300 w-full"> 
-                    <img src="" className='bg-green-300 rounded-full w-14 h-14' alt="" />
-                    <span >
-                        <p>Incorme</p>
-                        <p className='text-2xl'><b>$62,569</b></p>
-                    </span>
-                    <div className='h-full flex justify-end w-1/3'>
-                    <button className='flex'>...</button>
-                    </div>
-                </div>
-                <div className="border flex justify-around items-center h-20 border-gray-300 w-full"> 
-                <img src="" className='bg-red-300 rounded-full w-14 h-14' alt="" />
-                    <span >
-                        <p>Expense</p>
-                        <p className='text-2xl'><b>$62,569</b></p>
-                    </span>
-                    <div className='h-full flex justify-end w-1/3'>
-                    <button className='flex'>...</button>
-                    </div>
-                </div>
+    <aside className="flex h-1/2 gap-5 flex-col flex-grow justify-center items-center">
+      <div className="flex flex-col justify-center items-center flex-grow">
+        <img
+          src="/avatar/perfil.png"
+          className="aspect-auto h-20 w-20 rounded-full bg-slate-300"
+          alt=""
+        />
+        <p>Welcome back</p>
+        <h1 className="font-bold text-3xl">{user?.user.name}</h1>
+      </div>
+      <div className="w-full">
+        <div className="flex px-4 gap-3 items-center flex-col">
+          <div className="border flex justify-around items-center h-20 border-gray-300 w-3/4">
+            <div className="bg-green-200 flex justify-center items-center rounded-full w-12 h-12">
+              <FaArrowTrendUp />
             </div>
+            <span>
+              <p>Incorme</p>
+              <p className="text-2xl">
+                <b>$62,569</b>
+              </p>
+            </span>
+            <div className="h-full flex justify-end w-1/3">
+              <Dropdown
+                placement="left-start"
+                size="sm"
+                label=""
+                dismissOnClick={false}
+                renderTrigger={() => (
+                  <span className="flex cursor-pointer text-2xl font-extrabold">
+                    ...
+                  </span>
+                )}
+              >
+                <Dropdown.Item>View details</Dropdown.Item>
+                <Dropdown.Item>Share</Dropdown.Item>
+                <Dropdown.Item>Download</Dropdown.Item>
+              </Dropdown>
+            </div>
+          </div>
+          <div className="border flex justify-around items-center h-20 border-gray-300 w-3/4">
+            <div className="bg-red-200 flex justify-center items-center rounded-full w-12 h-12">
+              <FaArrowTrendDown />
+            </div>
+            <span>
+              <p>Expense</p>
+              <p className="text-2xl">
+                <b>$62,569</b>
+              </p>
+            </span>
+            <div className="h-full items-start flex justify-end w-1/3">
+            <Dropdown
+                placement="left-start"
+                size="sm"
+                label=""
+                dismissOnClick={false}
+                renderTrigger={() => (
+                  <span className="flex cursor-pointer text-2xl font-extrabold">
+                    ...
+                  </span>
+                )}
+              >
+                <Dropdown.Item>View details</Dropdown.Item>
+                <Dropdown.Item>Share</Dropdown.Item>
+                <Dropdown.Item>Download</Dropdown.Item>
+              </Dropdown>
+            </div>
+          </div>
         </div>
+      </div>
     </aside>
-  )
-}
+  );
+};
