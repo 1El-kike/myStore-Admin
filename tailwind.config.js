@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import flowbite from "flowbite-react/tailwind" ;
+import { nextui } from "@nextui-org/react";
+
 
 
 export default {
@@ -7,6 +9,7 @@ export default {
     "./index.html",
      "./src/**/*.{js,ts,jsx,tsx}",
      flowbite.content(),
+     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
   theme: {
     extend: {
@@ -54,5 +57,6 @@ export default {
   },
   plugins: [
     flowbite.plugin(),
+    nextui()
   ],
 };
