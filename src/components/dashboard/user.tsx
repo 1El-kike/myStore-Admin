@@ -2,24 +2,24 @@ import React from "react";
 import { useAuth } from "../../utils/AuthContext";
 import { FaArrowDown, FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { Dropdown } from "flowbite-react";
-
+import {Avatar} from "@nextui-org/react";
 export const User = () => {
   const { user } = useAuth();
 
   return (
     <aside className="flex animate-opacity h-1/2 gap-5 flex-col flex-grow justify-center items-center">
       <div className="flex leading-none flex-col justify-center items-center flex-grow">
-        <img
-          src="/avatar/perfil.png"
-          className="aspect-auto h-20 shadow-xl shadow-gray-400 w-20 rounded-full bg-slate-300"
-          alt=""
-        />
+      <Avatar
+      isBordered
+        className="w-20 h-20 text-large"
+        src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+      />
         <p className="mt-2">Welcome back</p>
         <h1 className="font-bold text-3xl">{user?.user.name}</h1>
       </div>
       <div className="w-full">
         <div className="flex px-4 gap-3  items-center flex-col">
-          <div className="border flex justify-around items-center shadow-xl shadow-gray-400 rounded-lg h-20 border-gray-300 w-3/4">
+          <div className="border hover:scale-105 transition-all duration-300 flex justify-around items-center shadow-xl shadow-gray-400 rounded-lg h-20  bg-gradient-to-br from-slate-50 via-slate-100 to-sky-200 border-gray-300 w-3/4">
             <div className="bg-green-200 flex justify-center items-center rounded-full w-12 h-12">
               <FaArrowTrendUp />
             </div>
@@ -47,7 +47,7 @@ export const User = () => {
               </Dropdown>
             </div>
           </div>
-          <div className="border flex justify-around items-center h-20 shadow-xl rounded-lg shadow-gray-400 border-gray-300 w-3/4">
+          <div className="border hover:scale-105 transition-all duration-300 flex justify-around items-center h-20 shadow-xl rounded-lg shadow-gray-400 bg-gradient-to-br from-slate-50 via-slate-100 to-purple-200 border-gray-300 w-3/4">
             <div className="bg-red-200 flex justify-center items-center rounded-full w-12 h-12">
               <FaArrowTrendDown />
             </div>

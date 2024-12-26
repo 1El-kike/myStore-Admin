@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { TypeCategory } from "../interface/TypeCategory";
 
@@ -8,11 +8,11 @@ interface Category {
   data1:string;
   data2:string;
   select:TypeCategory;
- 
+ index?:any
 }
 
 
-export const Category: React.FC<Category> = ({label1,label2,data1,data2,select}) => {
+export const Category: React.FC<Category> = ({label1,label2,index,data1,data2,select}) => {
   
   const [option, setoption] = useState(select);
 
@@ -28,6 +28,18 @@ export const Category: React.FC<Category> = ({label1,label2,data1,data2,select})
     setValue(data1,event.target.value);
     clearErrors(data1)
 };
+
+useEffect(() => {
+   if (index) {
+    option.option.map( (element,num) => {
+      element.category == index &&
+      setIndiceSeleccionado(num)
+    })
+  } 
+
+  console.log(index)
+}, [index])
+
 
   return (
     <>

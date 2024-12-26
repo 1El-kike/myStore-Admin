@@ -58,7 +58,7 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
                   </Link>
                 </button>
               </div>
-              <div className="absolute bg-gradient-to-br from-transparent via-transparent to-purple-950 rounded-s-3xl w-lvw h-20 right-0 bottom-0"></div>
+              <div className="absolute bg-gradient-to-br blur from-transparent via-transparent to-purple-950 rounded-s-3xl w-lvw h-20 right-0 bottom-0"></div>
               <div className="absolute top-4 right-3 w-full h-4/5 rounded-lg overflow-hidden">
                 <div className="w-full absolute h-full  bg-gradient-to-t via-white from-white to-transparent z-10"></div>
                 <img
@@ -104,7 +104,7 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
                   </div>
                   <div>
                     <div className="z-30 text-sm font-bold flex justify-center items-center text-slate-950 mt-auto">
-                      <StarRating rating={info.rating} />
+                      <StarRating rating={info.rating as number} />
                     </div>
                   </div>
                 </div>

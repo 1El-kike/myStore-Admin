@@ -8,6 +8,8 @@ import { AddProducts } from "../components/products/addProducts";
 import { Auth } from "../components/auth/auth";
 import { Stores } from "../components/stores/main-stores";
 import { AddStores_template } from "../components/stores/addStores_template";
+import { SelectStoreforEdit } from "../components/stores/selectStoreforEdit";
+import { EditStore_template } from "../components/stores/editStore_template";
 
 export const Routers = () => {
   return (
@@ -25,6 +27,14 @@ export const Routers = () => {
           <Route
           path="/stores/add"
           element={<Layout children={<AddStores_template />} />}
+        ></Route>
+        <Route
+          path="/stores/edit"
+          element={<Layout children={<SelectStoreforEdit />} />}
+        ></Route>
+         <Route
+          path="/stores/edit/:id"
+          element={<Layout children={<EditStore_template />} />}
         ></Route>
         <Route
           path="/products"

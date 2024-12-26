@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-export const Selling_Type: React.FC = () => {
+interface TypeSelling {
+  indexdefault?:string | null ;
+}
+
+export const Selling_Type: React.FC<TypeSelling>= ({indexdefault}) => {
   const isoption = [
     { label: "In-store selling only", value: "In-store" },
     { label: "Online selling only", value: "Online" },
@@ -13,6 +17,16 @@ export const Selling_Type: React.FC = () => {
 
   const {watch,clearErrors } = useFormContext()
 
+  const update =()=>{
+    isoption.map((opt,index) => opt.value == indexdefault && setSelectedSellingType(index))
+  }
+  useEffect(() => {
+    if (indexdefault) {
+      update()
+    }
+    console.log(indexdefault)
+  }, [indexdefault])
+  
 
   // Efecto para manejar el reset del formulario
   useEffect(() => {

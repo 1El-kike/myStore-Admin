@@ -1,6 +1,8 @@
-export const Form_stores:any = {
+
+
+export const Form_stores:TypeDefaultStore = {
     defaultValues: {
-      name:null,
+      name: null,
     description: null,
     address: null,
     phone: null,
@@ -22,6 +24,7 @@ export const Form_stores:any = {
   }
   
   import { TypeCategory } from "../interface/TypeCategory";
+import { TypeDefaultStore, TypeStore } from "../interface/typestore";
 
 export const categoryStore:TypeCategory =  {
     option: [

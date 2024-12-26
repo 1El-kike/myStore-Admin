@@ -6,7 +6,10 @@ import { DeliteStores } from './deliteStore'
 export const SettingStores = () => {
   return (
     <>
-    <div className='mt-10 w-full flex flex-wrap h-screen flex-1'>
+    <div className='mt-10 w-full relative flex flex-wrap h-screen flex-1'>
+      <div className='absolute blur-sm w-screen  -top-16 -z-20 -left-32 aspect-auto'>
+        <img src="/home/home.jpg" className='clip-store' alt="" />
+         </div>
     <div className='md:w-[60%] w-full flex gap-2 flex-col mx-4 h-[79.2%]'>
     <div className='w-full bg-gradient-to-l from-violet-950 via-blue-800 to-blue-950  rounded-lg h-[30%] md:h-[64.9%] overflow-hidden'>
       <AddStores/>

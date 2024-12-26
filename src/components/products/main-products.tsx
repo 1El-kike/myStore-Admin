@@ -37,6 +37,7 @@ export const Products = () => {
             return (
               <>
                 <Type_product
+                link="/products/add/"
                   key={data.id}
                   idStore={data.id}
                   scale="125"

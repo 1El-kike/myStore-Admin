@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { HiArrowUpCircle } from "react-icons/hi2";
 import { useFormContext, Controller } from "react-hook-form";
+import { port } from "../config/env";
 
 interface Typeimage {
   data:string;
   label:string
+  imagenDefault?: string | null
 }
 
-export const Images:React.FC<Typeimage> = ({data,label}) => {
+export const Images:React.FC<Typeimage> = ({data,label,imagenDefault}) => {
 
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const { control,watch,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
+
+useEffect(() => {
+  
+  if (imagenDefault) {
+    setImagePreview([port + imagenDefault])
+    console.log(imagenDefault)
+  }
+
+}, [imagenDefault])
 
 
   useEffect(() => {

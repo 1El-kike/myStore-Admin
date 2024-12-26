@@ -13,7 +13,8 @@ export const Card = () => {
     <span className='border-b-1 border-red-400'  />
     <div className='pt-4 flex-col gap-10 md:gap-0 flex md:flex-row items-center mb-2 justify-around'>
     {/* Tarjeta de credit */}
-    <div className='bg-gradient-to-tr from-slate-900 via-rose-950 rounded-2xl shadow-xl shadow-slate-300 to-red-800 w-80 h-44'>
+    <div className=' w-80 '>
+      <img src="/tarjeta-credito.png" className='drop-shadow-2xl ' alt="" />
     </div>
       <div>
         <Table className=''>

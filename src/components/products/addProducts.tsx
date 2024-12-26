@@ -56,11 +56,11 @@ export const AddProducts: React.FC = () => {
     }
   };
 
-  const { data } = useEjecut({ url: `stores/${idStore}` });
+  const { data } = useEjecut({ url: `stores/${idStore}`});
 
   useEffect(() => {
     if (result) {
-      console.log(Number(idStore), result?.id);
+     
       addProductStore(Number(idStore), result?.id);
     }
   }, [result]);
