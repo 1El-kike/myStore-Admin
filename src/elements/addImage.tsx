@@ -18,11 +18,10 @@ useEffect(() => {
   
   if (imagenDefault) {
     setImagePreview([port + imagenDefault])
-    console.log(imagenDefault)
+  setValue(data,imagenDefault) 
   }
 
 }, [imagenDefault])
-
 
   useEffect(() => {
    if (isSubmitSuccessful) {
@@ -43,22 +42,24 @@ useEffect(() => {
     }, [watch]);
 
   const handleImage =(files:FileList | null )=>{
-    if (files) {
-      const newimage = Array.from(files).map(file =>{
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        return new Promise<string>((res)=>{
-          reader.onloadend = () => res(reader.result as string)
-        });
-      });
-
-      Promise.all(newimage).then((urls)=>{
-        if(!errors[data]){
-          setImagePreview((prev:any) =>[...prev.slice(-2),...urls]);
-          setValue(data, Array.from(files));
-        }
-      })
-    }
+     if (files) {
+       const newimage = Array.from(files).map(file =>{
+         const reader = new FileReader();
+         reader.readAsDataURL(file);
+         return new Promise<string>((res)=>{
+           reader.onloadend = () => res(reader.result as string)
+         });
+       });
+ 
+       Promise.all(newimage).then((urls)=>{
+         if(!errors[data]){
+           setImagePreview((prev:any) =>[...prev.slice(-2),...urls]);
+           setValue(data, Array.from(files));
+    
+         }
+       })
+     }
+  
   }
 
 
@@ -103,11 +104,15 @@ useEffect(() => {
                   fileType: (value) => {
                     if (!value || value.length === 0) return "La imagen es requerida";
                     const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-                    return Array.from(value).every((file:any ) => validTypes.includes(file.type)) || "Tipo de archivo no válido";
+                    if (!imagenDefault) {
+                      return Array.from(value).every((file:any ) => validTypes.includes(file.type))  || "Type of file is not validate";
+                    }
                   },
                   fileSize: (value) => {
                     if (!value || value.length === 0) return "La imagen es requerida";
-                    return Array.from(value).every((file:any) => file.size <= 2000000) || "File size must be less than 2MB"; // Limitar a 2MB
+                    if (!imagenDefault) {
+                      return Array.from(value).every((file:any) => file.size <= 2000000) || "File size must be less than 2MB"; // Limitar a 2MB
+                      }
                   }
                 }
               }}

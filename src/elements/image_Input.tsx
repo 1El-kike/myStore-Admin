@@ -12,7 +12,7 @@ interface TypeImage {
 export const Image_Input: React.FC<TypeImage> = ({ label, data,setimagenew }) => {
 
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const { control,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
+  const { control,watch,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
 
   
   useEffect(() => {
@@ -85,11 +85,15 @@ export const Image_Input: React.FC<TypeImage> = ({ label, data,setimagenew }) =>
                             fileType: (value) => {
                               if (!value || value.length === 0) return "La imagen es requerida";
                               const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-                              return Array.from(value).every((file:any ) => validTypes.includes(file.type)) || "Tipo de archivo no válido";
+                              if (!watch(data)) {
+                                return Array.from(value).every((file:any ) => validTypes.includes(file.type)) || "Type de file is not validate";
+                              }
                             },
                             fileSize: (value) => {
                               if (!value || value.length === 0) return "La imagen es requerida";
-                              return Array.from(value).every((file:any) => file.size <= 2000000) || "File size must be less than 2MB"; // Limitar a 2MB
+                              if (!watch(data)) {
+                                return Array.from(value).every((file:any) => file.size <= 2000000) || "File size must be less than 2MB"; // Limitar a 2MB
+                              }
                             }
                           }
                         }}

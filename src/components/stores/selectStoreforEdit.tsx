@@ -20,7 +20,7 @@ export const SelectStoreforEdit = () => {
         "bg-gradient-to-tr to-orange-100 from-amber-100",
       ];
     
-      const { data, isLoading, errors } = useEjecut({ url: "stores" });
+      const { data, isLoadingData, errors } = useEjecut({ url: "stores" });
 
   return (
     <>
@@ -35,7 +35,7 @@ export const SelectStoreforEdit = () => {
           {data?.map((data: any, index: number) => {
             return (
               <>
-              <div className='w-[30%]  h-60 '>
+              <div className='w-[30%] animate-appearance-in duration-1000 h-60 '>
 
                 <Type_product
                 link='/stores/edit/'

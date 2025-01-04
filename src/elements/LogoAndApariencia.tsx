@@ -26,10 +26,6 @@ export const LogoAndApariencia:React.FC<TypeImage> = ({imagenDefaultfondo,imagen
   
   }, [imagenDefaultfondo,imagenDefaultportada])
 
-  const handleImage = (img:string)=>{
-    
-  }
-  
 useEffect(() => {
       const subscription = watch((value) => {
         if (!value.imgfondo) {

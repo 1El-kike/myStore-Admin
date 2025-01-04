@@ -26,7 +26,7 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
  
 
   return (
-    <div className=" ">
+    <div className="z-50 ">
       {isLoading && (
         <div className="fixed bottom-10 right-5">
           <Spinner

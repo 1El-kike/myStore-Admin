@@ -16,7 +16,7 @@ interface Type {
 export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
   return (
     <>
-      <div className="md:flex relative justify-between">
+      <div className="md:flex animate-appearance-in relative justify-between">
         {info && (
           <>
             <div className="absolute w-full overflow-hidden opacity-10 h-full">

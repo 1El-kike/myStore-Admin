@@ -13,7 +13,7 @@ export const TollButtom = () => {
 
   return (
     <>
-        <div className="flex flex-wrap  my-4 w-full gap-5 items-center justify-between">
+        <div className="flex flex-wrap animate-appearance-in  my-4 w-full gap-5 items-center justify-between">
             <label className="w-24 pl-3 font-bold">Group by</label>
           {butto?.map((data) => {
             return (

@@ -6,8 +6,6 @@ import { Description } from "../../elements/description";
 import { Category } from "../../elements/category";
 import { Selling_Type } from "../../elements/Selling_type";
 import { Images } from "../../elements/addImage";
-import { Shipping_Delivery } from "../../elements/Shipping_Delivery";
-import { Pricing } from "../../elements/Pricing";
 import { Submit } from "../../elements/Submit";
 import { Inventoy } from "../../elements/Inventoy";
 import { Form_stores } from "../../model/type_store";
@@ -15,18 +13,13 @@ import { Detalles } from "../../elements/detalles";
 import { LogoAndApariencia } from "../../elements/LogoAndApariencia";
 import { categoryStore } from "../../model/type_store";
 import {  useParams } from "react-router-dom";
-import { useEjecut } from "../../hooks/useEjecut";
-import { TypeDefaultStore, TypeStore } from "../../interface/typestore";
+import { DataUseEjecut, useEjecut } from "../../hooks/useEjecut";
 
 export const EditStore_template = () => {
   const id = useParams()
-  const { data }:{data:TypeStore} = useEjecut({ url: `stores/${id.id}` });
   const methods = useForm(Form_stores);
-  const { onSubmit, error, success, isLoading } = useBack<FormData>({
-    url: "stores/update",
-    reset: methods.reset,
-  });
- 
+  const { data }:DataUseEjecut = useEjecut({ url: `stores/${id.id}`,submit:methods.formState.isSubmitting });
+  
   useEffect(() => {
     if (data) {
       methods.reset({
@@ -51,9 +44,19 @@ export const EditStore_template = () => {
         website_admin: data.website_admin,
       });
     }
-    console.log(data)
+    setInitialData(data)
+  
   }, [data,methods])
   
+  const [initialData, setInitialData] = useState<any | null>(data);
+
+  const { onSubmit, error, success, isLoading } = useBack<FormData>({
+    url: "stores/update",
+    method:"PUT",
+    reset: methods.reset,
+    initialData
+  });
+
 
 
   return (

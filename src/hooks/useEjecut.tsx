@@ -2,23 +2,24 @@
 import { useEffect, useState } from "react";
 import { port } from "../config/env";
 
-interface Data {
+export interface DataUseEjecut {
     data: null | any,
-    isLoading: boolean,
-    errors: null | any ,
+    isLoadingData?: boolean,
+    errors?: null | any ,
 }
 interface UseEjecutProps {
     url: string;
+    submit?:boolean
   }
 
-export const useEjecut = ({ url } :UseEjecutProps ) => {
-  const [state, setState] = useState<Data>({
+export const useEjecut = ({ url,submit } :UseEjecutProps ) => {
+  const [state, setState] = useState<DataUseEjecut>({
     data: null,
-    isLoading: true,
+    isLoadingData: true,
     errors: null ,
   });
 
-  const { data, isLoading, errors } = state;
+  const { data, isLoadingData, errors } = state;
 
   const getFetch = async () => {
     try {
@@ -26,13 +27,13 @@ export const useEjecut = ({ url } :UseEjecutProps ) => {
       const data = await response.json();
       setState({
         data,
-        isLoading: false,
+        isLoadingData: false,
         errors: null,
       });
     } catch (error) {
       setState({
         data: null,
-        isLoading: false,
+        isLoadingData: false,
         errors: error,
       });
     }
@@ -41,11 +42,14 @@ export const useEjecut = ({ url } :UseEjecutProps ) => {
   useEffect(() => {
     if (!url) return;
     getFetch();
-  }, [url]);
+    if (submit) {
+      getFetch()
+    }
+  }, [url,submit ]);
 
   return {
     data,
-    isLoading,
+    isLoadingData,
     errors,
   };
 };
