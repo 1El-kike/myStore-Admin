@@ -104,7 +104,7 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
                   </div>
                   <div>
                     <div className="z-30 text-sm font-bold flex justify-center items-center text-slate-950 mt-auto">
-                      <StarRating rating={info.rating as number} />
+                      <StarRating size={18} rating={info.rating as number} />
                     </div>
                   </div>
                 </div>

@@ -35,7 +35,7 @@ export const SelectStoreforEdit = () => {
           {data?.map((data: any, index: number) => {
             return (
               <>
-              <div className='w-[30%] animate-appearance-in duration-1000 h-60 '>
+              <div className='w-[30%] mt-12 animate-appearance-in duration-1000 h-60 '>
 
                 <Type_product
                 link='/stores/edit/'

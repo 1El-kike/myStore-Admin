@@ -1,5 +1,5 @@
-import React from "react";
-import { FaAngleRight } from "react-icons/fa6";
+import React, { useEffect } from "react";
+import { FaAngleRight, FaAppStore, FaStore } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 interface TypeP {
   image: string;
@@ -11,7 +11,7 @@ interface TypeP {
   button: string | undefined;
   idStore: number;
   position?: "horisontal"| "vertical";
-  link:string;
+  link?:string;
 }
 
 export const Type_product = ({
@@ -26,11 +26,15 @@ export const Type_product = ({
   position = "horisontal",
   link,
 }: TypeP) => {
+
+
+ const linDirect = link ? `${link}${idStore}` : ''
+
   return (
-    <Link to={`${link + idStore}`}>
-      <div className="w-full  h-full transition-all hover:scale-105 ease-in-out duration-700 cursor-pointer mb-10">
+    <Link  to={ linDirect}>
+      <div className="w-full h-full transition-all hover:scale-105 ease-in-out duration-700 cursor-pointer mb-10">
         <div
-          className={` w-full relative overflow-hidden  h-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex  justify-between p-5 rounded-3xl ${fondo}`}
+          className={` w-full relative overflow-hidden  h-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex p-5 rounded-3xl ${fondo}`}
         >
           
             <div className={`rounded-2xl overflow-hidden flex h-full ${position == "vertical" ? "" : "w-[30%] "}`}>
@@ -54,7 +58,8 @@ export const Type_product = ({
             }
           
           </div>
-          <div className={`ext-center z-20 ${position == "horisontal" ? "text-slate-600" : "text-slate-800"} `}>
+          <div className={`text-center m-auto justify-center  z-20 ${position == "horisontal" ? "text-slate-600" : "text-slate-800"} `}>
+          
             <h4 className="line-clamp-1 text-center  text-slate-950 font-bold text-2xl mb-4">
               {title}
             </h4>
@@ -66,11 +71,15 @@ export const Type_product = ({
             </p>
           </div>
           <button
-            className={`${button} z-20 p-3 flex justify-center items-center rounded-full mt-auto `}
+            className={`${button} z-20 absolute bottom-2 right-2 p-3 flex justify-center items-center rounded-full mt-auto `}
           >
             <FaAngleRight />
           </button>
         </div>
+        <div className={"absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-10 "}>
+        <div className={" p-4 text-white rounded-2xl " + button }>
+            <FaStore size={28}/>
+  </div></div>
       </div>
     </Link>
   );

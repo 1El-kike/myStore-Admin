@@ -23,7 +23,7 @@ export const SettingStores = () => {
     <div className='w-full h-[25%] bg-gradient-to-l from-teal-300 overflow-clip via-teal-500 to-teal-700  rounded-lg'>
       <EditStores/>
     </div>
-    <div className='w-full h-[25%] bg-gradient-to-l from-rose-800 overflow-clip via-orange-500 to-orange-700'>
+    <div className='w-full h-[25%] bg-gradient-to-l rounded-lg from-rose-800 overflow-clip via-orange-500 to-orange-700'>
       <DeliteStores/>
     </div>
     <div className='w-full h-[25%] bg-orange-500'>""</div>

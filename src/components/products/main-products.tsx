@@ -21,7 +21,7 @@ export const Products = () => {
     "bg-gradient-to-tr to-orange-100 from-amber-100",
   ];
 
-  const { data, isLoading, errors } = useEjecut({ url: "stores" });
+  const { data, isLoadingData, errors } = useEjecut({ url: "stores" });
 
   return (
     <div className="w-full z-20 justify-between flex">
@@ -32,22 +32,25 @@ export const Products = () => {
             <TollButtom />
           </div>
         </div>
-        <div className="">
+        <div className="mt-10">
           {data?.map((data: any, index: number) => {
             return (
               <>
+              <div className="mt-16 relative">
+
                 <Type_product
                 link="/products/add/"
-                  key={data.id}
-                  idStore={data.id}
-                  scale="125"
-                  button={buttonClasses[index % buttonClasses.length]}
-                  fondo={fondoClasses[index % fondoClasses.length]}
-                  image={`${port + data.imgPortada}`}
-                  title={`Operating in Store ${data.name}`}
-                  textsecondary="For more info look out page soport"
-                  text={data.description}
+                key={data.id}
+                idStore={data.id}
+                scale="125"
+                button={buttonClasses[index % buttonClasses.length]}
+                fondo={fondoClasses[index % fondoClasses.length]}
+                image={`${port + data.imgPortada}`}
+                title={`Operating in Store ${data.name}`}
+                textsecondary="For more info look out page soport"
+                text={data.description}
                 />
+                </div>
               </>
             );
           })}

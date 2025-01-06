@@ -10,6 +10,8 @@ import { Stores } from "../components/stores/main-stores";
 import { AddStores_template } from "../components/stores/addStores_template";
 import { SelectStoreforEdit } from "../components/stores/selectStoreforEdit";
 import { EditStore_template } from "../components/stores/editStore_template";
+import { SelectStoreforDelite } from "../components/stores/selectStoreforDelite";
+import { Deletesuccess } from "../elements/deletesuccess";
 
 export const Routers = () => {
   return (
@@ -31,6 +33,14 @@ export const Routers = () => {
         <Route
           path="/stores/edit"
           element={<Layout children={<SelectStoreforEdit />} />}
+        ></Route>
+           <Route
+          path="/stores/delite"
+          element={<Layout children={<SelectStoreforDelite />} />}
+        ></Route>
+         <Route
+          path="/stores/delete/:id"
+          element={<Deletesuccess />}
         ></Route>
          <Route
           path="/stores/edit/:id"
