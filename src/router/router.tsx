@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "../components/home";
 import { Dashboard } from "../components/dashboard/dashboard";
 import { Layout } from "../layout/layout";
 import { Products } from "../components/products/main-products";
@@ -12,14 +11,14 @@ import { SelectStoreforEdit } from "../components/stores/selectStoreforEdit";
 import { EditStore_template } from "../components/stores/editStore_template";
 import { SelectStoreforDelite } from "../components/stores/selectStoreforDelite";
 import { Deletesuccess } from "../elements/deletesuccess";
+import { WatchtoreforEdit } from "../components/stores/watchtoreforEdit";
 
 export const Routers = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout children={<Home />} />}></Route>
         <Route
-          path="/dashboard"
+          path="/"
           element={<Layout children={<Dashboard />} />}
         ></Route>
         <Route
@@ -33,6 +32,10 @@ export const Routers = () => {
         <Route
           path="/stores/edit"
           element={<Layout children={<SelectStoreforEdit />} />}
+        ></Route>
+         <Route
+          path="/stores/watch"
+          element={<Layout children={<WatchtoreforEdit />} />}
         ></Route>
            <Route
           path="/stores/delite"

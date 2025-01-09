@@ -14,7 +14,7 @@ export const DeliteStores = () => {
         <div className='z-20 text-white  w-full pl-5 h-full justify-center items-start flex flex-col '>
             <h1 className='uppercase text-3xl font-extrabold'>Delite Stores</h1>
             <p className='capitalize text-white text-xs md:text-sm text-wrap md:w-[50%]'>This is camp for edit are Stores</p>
-            <button onClick={()=> redirect('/stores/delite')} className={`${isEnter && "animate-pulse "} z-10 mt-4 hover:scale-95 text-white bg-gradient-to-br from-orange-400 to-rose-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2`}>
+            <button onClick={()=> redirect('/stores/delite')} className={`${isEnter && "animate-pulse"} z-10 mt-4 hover:scale-95 text-white bg-gradient-to-br from-orange-400 to-rose-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2`}>
             Delite +Stores
           </button>
         </div>

@@ -7,7 +7,6 @@ import { port } from "../../config/env";
 import { useDelite } from "../../hooks/useDelite";
 import { Modal_Component } from "../../elements/modal";
 import { Avatar } from "@nextui-org/react";
-import { FaStar, FaStarHalfStroke } from "react-icons/fa6";
 import { StarRating } from "../../elements/startRating";
 
 export const SelectStoreforDelite = () => {
@@ -56,6 +55,7 @@ export const SelectStoreforDelite = () => {
       </>
     )
   }
+  
 
   return (
     <div className="w-full">
@@ -63,16 +63,13 @@ export const SelectStoreforDelite = () => {
       <h2 className="text-3xl w-full  text-violet-700 font-bold ml-4">
         Select category
       </h2>
-      <div className="w-full flex items-center justify-center  scale-90">
-        <TollButtom />
-      </div>
-
-      <div className=" flex ml-10 mt-5 gap-4 flex-auto flex-wrap">
+      <div className="flex ml-10 mt-5 gap-4 flex-auto flex-wrap">
         {data?.map((data: any, index: number) => {
          
           return (
             <>
               <Modal_Component
+              key={data.id}
               text={"Are you sure you want to delete this Store " +  data.name}
               component={<StoreInfo name={data.name} rating={data.rating} img={data.imgStore}/>}
               title={"Warning"}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -10,11 +10,14 @@ import {
   Chip,
   Tooltip,
 } from "@nextui-org/react";
+import { TypeStore } from "../interface/typestore";
+import { port } from "../config/env";
+import { Link } from "react-router-dom";
 
 export const columns = [
-  {name: "NAME", uid: "name"},
+  {name: "STORES", uid: "name"},
   {name: "ROLE", uid: "role"},
-  {name: "STATUS", uid: "status"},
+  {name: "SELLING TYPE", uid: "status"},
   {name: "ACTIONS", uid: "actions"},
 ];
 
@@ -193,37 +196,41 @@ export const EditIcon = (props:any) => {
 };
 
 const statusColorMap:any  = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  Online: "success",
+  InStore: "danger",
+  Mixto: "warning",
 };
 
-export const  Tables = () => {
-  const renderCell = React.useCallback((user:any, columnKey:any) => {
-    const cellValue = user[columnKey];
+export const  TablesLastTrans = ({datos}:{datos:any}) => {
+
+  const renderCell = React.useCallback((datos:any, columnKey:any) => {
+    
+    const cellValue =  datos[columnKey] ;
+   //const cellValue = "name"
+   console.log(datos);
 
     switch (columnKey) {
       case "name":
         return (
           <User
-            avatarProps={{radius: "lg", src: user.avatar}}
-            description={user.email}
+            avatarProps={{radius: "lg", src: port + datos.imgStore}}
+            description={datos.email}
             name={cellValue}
           >
-            {user.email}
+            {datos.email}
           </User>
         );
       case "role":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.team}</p>
+            <p className="text-bold text-sm capitalize text-teal-400">+1 {datos.phone}</p>
+            <p className="text-bold text-sm capitalize text-default-400">{datos.address}</p>
           </div>
         );
       case "status":
         return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
-            {cellValue}
+          <Chip className="capitalize" color={statusColorMap[datos.selling_type]} size="sm" variant="flat">
+            {datos.selling_type }
           </Chip>
         );
       case "actions":
@@ -231,17 +238,19 @@ export const  Tables = () => {
           <div className="relative flex items-center gap-2">
             <Tooltip content="Details">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <TablesData />
+                {/* <TablesData /> */}
               </span>
             </Tooltip>
             <Tooltip content="Edit user">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                <Link to={`/stores/edit/${datos.id}`}>
                 <EditIcon />
+                </Link>
               </span>
             </Tooltip>
             <Tooltip color="danger" content="Delete user">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <DeleteIcon />
+              {/*   <DeleteIcon /> */}
               </span>
             </Tooltip>
           </div>
@@ -253,16 +262,16 @@ export const  Tables = () => {
 
   return (
     <Table 
-     aria-label="Example table with custom cells">
-      <TableHeader columns={columns}>
+     aria-label="Example table with custom cells" >
+      <TableHeader   columns={columns}>
         {(column) => (
-          <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
+          <TableColumn  key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
             {column.name}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={users}>
-        {(item) => (
+      <TableBody className="bg-gradient-to-br from-rose-400 to-purple-400" items={users}>
+        {(item:any) => (
           <TableRow key={item.id}>
             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
           </TableRow>

@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { FaAnglesDown } from "react-icons/fa6";
-export const TollButtom = () => {
-  const time = () => {
-    return "";
-  };
-  const [butto, setbutto] = useState([
-    { name: "Time", function: time() },
-    { name: "Level", function: time() },
-    { name: "Lenguaje", function: time() },
-    { name: "Type", function: time() },
-  ]);
+import { TabsNext } from "../../elements/tabs";
+import { Option } from "../../interface/TypeTabs";
+import { FaBoxes, FaClipboardList } from "react-icons/fa";
+
+export const TollButtom = ({children}:any) => {
+  
+  
+  console.log(children)
+
+  const DataTabs:Option[] = [
+    { option:"Tabla",component:children[0], icon:<FaClipboardList/>},
+    { option:"List Frontal",component:children[1],icon:<FaClipboardList/>},
+    { option:"List Horizontal ",component:children[2], icon:<FaBoxes/>},
+   { option:"Credit",component:"", icon:<FaClipboardList/>},
+ //   { option:"Credit",component:"", icon:<FaClipboardList/>},
+   // { option:"Credit",component:"", icon:<FaClipboardList/>},
+    ]
 
   return (
     <>
-        <div className="flex flex-wrap animate-appearance-in  my-4 w-full gap-5 items-center justify-between">
-            <label className="w-24 pl-3 font-bold">Group by</label>
-          {butto?.map((data) => {
-            return (
-              <>
-                <button className="shadow-xl flex-grow shadow-slate-300 text-gray-700 text-md rounded-xl  bg-gray-100 py-2 px-4 flex justify-center items-center gap-2">
-                  {data.name} <FaAnglesDown />{" "}
-                </button>
-              </>
-            );
-          })}
+    <div className="pl-10 pt-6">
+
+            <label className="w-24  font-bold">Group by</label>
+        <div className="flex animate-appearance-in  w-full gap items-start justify-between">
+            <TabsNext children={DataTabs}/>
         </div>
+    </div>
     </>
   );
 };

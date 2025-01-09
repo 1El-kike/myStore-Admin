@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import { Image } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
 import { FaAngleRight, FaAppStore, FaStore } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 interface TypeP {
@@ -27,8 +28,16 @@ export const Type_product = ({
   link,
 }: TypeP) => {
 
+  const [links, setlinks] = useState(link)
 
- const linDirect = link ? `${link}${idStore}` : ''
+  useEffect(() => {
+    console.log(link)
+    setlinks(link)
+  }, [link])
+  
+
+
+ const linDirect = links ? `${links}${idStore}` : ''
 
   return (
     <Link  to={ linDirect}>
@@ -39,11 +48,19 @@ export const Type_product = ({
           
             <div className={`rounded-2xl overflow-hidden flex h-full ${position == "vertical" ? "" : "w-[30%] "}`}>
               { position == "horisontal" ?
-              <img
+               <Image
+               isBlurred
+               alt="Album Cover"
+               className="scale-105 justify-center aspect-square m-auto rounded-2xl"
+               src={image}
+               width={240}
+               />
+             
+             /*  <img
                 className={` scale-${scale} justify-center aspect-square m-auto rounded-2xl `}
                 src={image}
                 alt="Title"
-              />
+              /> */
               :
               <div className="absolute w-full h-full blur-sm">
               <img

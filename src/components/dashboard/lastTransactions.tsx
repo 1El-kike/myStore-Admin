@@ -2,7 +2,7 @@ import { Table } from "flowbite-react";
 import React from "react";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { Tables } from "../../elements/table";
+import { TablesLastTrans } from "../../elements/tablelastTransation";
 
 export const LastTransactions = () => {
   return (
@@ -16,7 +16,7 @@ export const LastTransactions = () => {
         </div>
       </div>
       <div className="mt-3">
-       <Tables/>
+       <TablesLastTrans datos={''}/>
       </div>
     </div>
   );

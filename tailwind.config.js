@@ -21,6 +21,7 @@ export default {
             transform: 'scale(1.2)'
         }
         },
+     
         opacity: {
           "0%": { transform: "scale(1) translateY(0)", opacity: 1 },
           "50%": { transform: "scale(1.2) translateY(-10px)", opacity: 0.5 },
@@ -46,6 +47,7 @@ export default {
         },
       },
       animation: {
+       
         pulsesecondy:"pulsesecondy 1s infinite ease-in-out",
         opacity: "opacity 1s ease ",
         opacityonly: "opacityonly 200ms ease-out ",
@@ -57,6 +59,6 @@ export default {
   },
   plugins: [
     flowbite.plugin(),
-    nextui()
+    nextui(),
   ],
 };

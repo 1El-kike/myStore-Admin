@@ -37,32 +37,6 @@ export const Menu = () => {
               <Link to={"/"} className="flex items-center ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-home"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z"></path>
-                  <rect x="4" y="4" width="6" height="6" rx="1"></rect>
-                  <rect x="14" y="4" width="6" height="6" rx="1"></rect>
-                  <rect x="4" y="14" width="6" height="6" rx="1"></rect>
-                  <rect x="14" y="14" width="6" height="6" rx="1"></rect>
-                </svg>
-                <span className="text-sm ml-2">Home</span>
-              </Link>
-              <div className="py-1 px-3 bg-gray-600 rounded text-gray-300 flex items-center justify-center text-xs">
-                5
-              </div>
-            </li>
-            <li className="flex w-full justify-between text-gray-300 cursor-pointer items-center mb-6">
-              <Link to={"/dashboard"} className="flex items-center ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
                   className="icon icon-tabler icon-tabler-grid"
                   width="18"
                   height="18"
@@ -102,7 +76,7 @@ export const Menu = () => {
                   <path stroke="none" d="M0 0h24v24H0z"></path>
                   <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
                 </svg>
-                <span className="text-sm ml-2">Add Stores</span>
+                <span className="text-sm ml-2">Store Management</span>
               </Link>
               <div className="py-1 px-3 bg-gray-600 rounded text-gray-300 flex items-center justify-center text-xs">
                 8
@@ -126,7 +100,7 @@ export const Menu = () => {
                   <polyline points="8 16 10 10 16 8 14 14 8 16"></polyline>
                   <circle cx="12" cy="12" r="9"></circle>
                 </svg>
-                <span className="text-sm ml-2">Add Products</span>
+                <span className="text-sm ml-2">Product Management</span>
               </Link>
             </li>
             <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
@@ -148,7 +122,7 @@ export const Menu = () => {
                   <polyline points="17 8 21 12 17 16"></polyline>
                   <line x1="14" y1="4" x2="10" y2="20"></line>
                 </svg>
-                <span className="text-sm ml-2">Deliverables</span>
+                <span className="text-sm ml-2">Order Management</span>
               </Link>
             </li>
             <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
@@ -168,7 +142,7 @@ export const Menu = () => {
                   <path stroke="none" d="M0 0h24v24H0z"></path>
                   <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
                 </svg>
-                <span className="text-sm ml-2">Invoices</span>
+                <span className="text-sm ml-2">Customer Management</span>
               </Link>
               <div className="py-1 px-3 bg-gray-600 rounded text-gray-300 flex items-center justify-center text-xs">
                 25
@@ -193,7 +167,7 @@ export const Menu = () => {
                   <polyline points="4 12 12 16 20 12" />
                   <polyline points="4 16 12 20 20 16" />
                 </svg>
-                <span className="text-sm ml-2">Inventory</span>
+                <span className="text-sm ml-2">Reporting & Analytics</span>
               </Link>
             </li>
             <li className="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center">
@@ -421,32 +395,6 @@ export const Menu = () => {
             </svg>
           </div>
           <ul className="mt-12">
-            <li className="flex w-full justify-between text-gray-300 hover:text-gray-500 cursor-pointer items-center mb-6">
-              <Link to={""} className="flex items-center ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-grid"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z"></path>
-                  <rect x="4" y="4" width="6" height="6" rx="1"></rect>
-                  <rect x="14" y="4" width="6" height="6" rx="1"></rect>
-                  <rect x="4" y="14" width="6" height="6" rx="1"></rect>
-                  <rect x="14" y="14" width="6" height="6" rx="1"></rect>
-                </svg>
-                <span className="text-sm ml-2">Home</span>
-              </Link>
-              <div className="py-1 px-3 bg-gray-600 rounded text-gray-300 flex items-center justify-center text-xs">
-                5
-              </div>
-            </li>
             <li className="flex w-full justify-between text-gray-300 hover:text-gray-500 cursor-pointer items-center mb-6">
               <Link to={""} className="flex items-center ">
                 <svg
