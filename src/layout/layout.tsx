@@ -1,7 +1,6 @@
 import React from "react";
 import { Menu } from "./menu";
 import { Outlet } from "react-router-dom";
-import { ToolbarWrapper } from "./components/toolbar";
 
 export const Layout = () => {
   return (
@@ -14,8 +13,7 @@ export const Layout = () => {
         >
           <div className="relative clip-fondo left-1/2 -z-10 aspect-[1155/778]  w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ee48dd] to-[#e7087b] opacity-10 sm:left-[calc(90%-40rem)] sm:w-[102.1875rem]"></div>
         </div> 
-       {/*  <Menu /> */}
-        <ToolbarWrapper />
+        <Menu /> 
         <Outlet/>
       </div>
     </>

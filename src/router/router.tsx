@@ -1,66 +1,34 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard } from "../components/dashboard/dashboard";
-import { Layout } from "../layout/layout";
-import { Products } from "../components/products/main-products";
-import { AddProducts } from "../components/products/addProducts";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { PUBLIC_URL } from "../config/env";
+import { App } from "../App";
+import { useAuth } from "../utils/AuthContext";
 import { Auth } from "../components/auth/auth";
-import { Stores } from "../components/stores/main-stores";
-import { AddStores_template } from "../components/stores/addStores_template";
-import { SelectStoreforEdit } from "../components/stores/selectStoreforEdit";
-import { EditStore_template } from "../components/stores/editStore_template";
-import { SelectStoreforDelite } from "../components/stores/selectStoreforDelite";
-import { Deletesuccess } from "../elements/deletesuccess";
-import { WatchtoreforEdit } from "../components/stores/watchtoreforEdit";
+import { PrivateRoutes } from "./privateRoutes";
+import { ErrorsPage } from "../app/module/errors/errorsPage";
+import { Logout } from "../components/auth/logout";
 
 export const Routers = () => {
+  const { user} = useAuth();
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={PUBLIC_URL}>
       <Routes>
-        <Route
-          path="/"
-          element={<Layout children={<Dashboard />} />}
-        ></Route>
-        <Route
-          path="/stores"
-          element={<Layout children={<Stores />} />}
-        ></Route>
-          <Route
-          path="/stores/add"
-          element={<Layout children={<AddStores_template />} />}
-        ></Route>
-        <Route
-          path="/stores/edit"
-          element={<Layout children={<SelectStoreforEdit />} />}
-        ></Route>
-         <Route
-          path="/stores/watch"
-          element={<Layout children={<WatchtoreforEdit />} />}
-        ></Route>
-           <Route
-          path="/stores/delite"
-          element={<Layout children={<SelectStoreforDelite />} />}
-        ></Route>
-         <Route
-          path="/stores/delete/:id"
-          element={<Deletesuccess />}
-        ></Route>
-         <Route
-          path="/stores/edit/:id"
-          element={<Layout children={<EditStore_template />} />}
-        ></Route>
-        <Route
-          path="/products"
-          element={<Layout children={<Products />} />}
-        ></Route>
-           <Route
-          path="/products/add/:idStore"
-          element={<Layout children={<AddProducts />} />}
-        ></Route>
-         <Route
-          path="/auth/register"
-          element={<Auth />}
-        ></Route>
+        <Route element={<App />}>
+          <Route path="error/*" element={<ErrorsPage />} />
+          <Route path="auth/logout" element={<Logout />} />
+          {user ? (
+            <>
+              <Route path="/*" element={<PrivateRoutes />} />
+              <Route index element={<Navigate to="dashboard" />} />
+            </>
+          ) : (
+            <>
+              <Route path="auth/*" element={<Auth />} />
+              <Route path="*" element={<Navigate to="auth/register" />} />
+            </>
+          )}
+        </Route>
       </Routes>
     </BrowserRouter>
   );

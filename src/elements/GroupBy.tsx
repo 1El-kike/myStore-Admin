@@ -1,4 +1,4 @@
-import { Type_product } from "../app/components/products/type_product";
+import { Type_product } from "../components/products/type_product";
 import { port } from "../config/env";
 import { TypeStore } from "../interface/typestore";
 import { Tables } from "./tableStore";
