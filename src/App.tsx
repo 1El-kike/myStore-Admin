@@ -1,6 +1,4 @@
 import React, { Suspense } from "react";
-import { Routers } from "./router/router";
-import { AuthProvider } from "./utils/AuthContext";
 import {NextUIProvider} from "@nextui-org/react";
 import { Outlet } from "react-router-dom";
 
@@ -12,10 +10,10 @@ export const App: React.FC = () => {
   return (
    /*  <Suspense fallback={<LayoutSplashScreen />}> */
        <NextUIProvider>
-      {/*  <AuthInit> */}
+         {/*  <AuthInit> */}
               <Outlet />
-            {/*   <MasterInit /> */}
-           {/*  </AuthInit> */}
+          {/* <MasterInit /> */}
+         {/*  </AuthInit> */}
        </NextUIProvider>
     /* </Suspense> */
   );

@@ -1,11 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { App } from "./App";
 import "./index.css";
-import { AuthProvider } from "./utils/AuthContext";
-import { Routers } from "./router/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Routers } from "./app/router/router";
+import { AuthProvider } from "./app/utils/AuthContext";
 
 //setupAxios(axios)
 //Chart.register(...registerables)
@@ -16,6 +15,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <Routers />
     </AuthProvider>
-   {/*  <ReactQueryDevtools initialIsOpen={true} /> */}
+    <ReactQueryDevtools initialIsOpen={true} />
   </QueryClientProvider>
 );
