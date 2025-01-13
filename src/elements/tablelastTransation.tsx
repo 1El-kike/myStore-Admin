@@ -10,15 +10,14 @@ import {
   Chip,
   Tooltip,
 } from "@nextui-org/react";
-import { TypeStore } from "../interface/typestore";
 import { port } from "../config/env";
 import { Link } from "react-router-dom";
 
 export const columns = [
-  {name: "STORES", uid: "name"},
-  {name: "ROLE", uid: "role"},
-  {name: "SELLING TYPE", uid: "status"},
-  {name: "ACTIONS", uid: "actions"},
+  {name: "NAME OF TRANSACTIONS", uid: "name"},
+  {name: "DATE", uid: "role"},
+  {name: "AMOUNT TYPE", uid: "status"},
+  {name: "STATUS", uid: "actions"},
 ];
 
 export const users = [

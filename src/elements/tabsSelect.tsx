@@ -1,7 +1,7 @@
 import React from "react";
 import { useEjecut } from "../hooks/useEjecut";
 import { Group, List, Table } from "./GroupBy";
-import { TollButtom } from "../components/products/tollBar";
+import { TollButtom } from "../app/components/products/tollBar";
 
 export const TabSelect = ({ link }: {link: string}) => {
   const buttonClasses = [
