@@ -53,9 +53,3 @@ clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50
 .clip-chat {
    clip-path: polygon(70% 43%, 83% 49%, 100% 28%, 100% 100%, 0 100%, 0 85%, 29% 58%, 43% 69%);
 }
-
-.img {
-   filter: drop-shadow(2px 2px 20px cyan);
-}
-
-

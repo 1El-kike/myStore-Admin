@@ -6,6 +6,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Routers } from "./app/router/router";
 import { AuthProvider } from "./app/utils/AuthContext";
 
+
+
 //setupAxios(axios)
 //Chart.register(...registerables)
 const queryClient = new QueryClient();

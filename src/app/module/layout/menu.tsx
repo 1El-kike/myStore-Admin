@@ -680,11 +680,7 @@ export const Menu = () => {
           </ul>
         </div>
       </div>
-      <img
-        alt="not found"
-        className="top-[calc(100vh-280px)] z-20 aspect-auto h-40 -right-10 absolute animate-transition"
-        src="/products.png"
-      ></img>
+      
     </div>
     </div>
 

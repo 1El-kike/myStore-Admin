@@ -17,7 +17,7 @@ export const Routers = () => {
         <Route element={<App />}>
           <Route path="error/*" element={<ErrorsPage />} />
           <Route path="auth/logout" element={<Logout />} />
-          {user ? (
+          {true ? (
             <>
               <Route path="/*" element={<PrivateRoutes />} />
               <Route index element={<Navigate to="dashboard" />} />
@@ -25,7 +25,7 @@ export const Routers = () => {
           ) : (
             <>
               <Route path="auth/*" element={<Auth />} />
-              <Route path="*" element={<Navigate to="auth/register" />} />
+             {/*  <Route path="*" element={<Navigate to="auth/register" />} /> */}
             </>
           )}
         </Route>
