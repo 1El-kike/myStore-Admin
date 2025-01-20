@@ -204,15 +204,14 @@ export const  TablesLastTrans = ({datos}:{datos:any}) => {
 
   const renderCell = React.useCallback((datos:any, columnKey:any) => {
     
+    
     const cellValue =  datos[columnKey] ;
-   //const cellValue = "name"
-   console.log(datos);
 
     switch (columnKey) {
       case "name":
         return (
           <User
-            avatarProps={{radius: "lg", src: port + datos.imgStore}}
+           // avatarProps={{radius: "lg", src: port + datos.imgStore}}
             description={datos.email}
             name={cellValue}
           >

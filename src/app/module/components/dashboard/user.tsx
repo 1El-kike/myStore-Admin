@@ -2,7 +2,7 @@ import React from "react";
 import { FaArrowDown, FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { Dropdown } from "flowbite-react";
 import {Avatar} from "@nextui-org/react";
-import { useAuth } from "../../../utils/AuthContext";
+import { useAuth } from "../../core/AuthContext";
 export const User = () => {
   const { user } = useAuth();
 

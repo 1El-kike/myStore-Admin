@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../../../utils/AuthContext";
+import { useAuth } from "../../core/AuthContext";
 import { categoryProduct, Form_product } from "../../../../model/type_product";
 import useBack from "../../../hooks/useBack";
 import { port } from "../../../../config/env";
@@ -16,13 +16,14 @@ import { Shipping_Delivery } from "../../widgets/Shipping_Delivery";
 import { Size } from "../../widgets/size";
 import { Pricing } from "../../widgets/Pricing";
 import { Submit } from "../../widgets/Submit";
+import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
 
 // Definimos la interfaz para los datos del formulario
 
 export const AddProducts: React.FC = () => {
   const { user } = useAuth();
   const methods = useForm(Form_product);
-  const [category, setcategory] = useState(null)
+  const [category, setcategory] = useState(null);
   const { idStore } = useParams();
   const { onSubmit, error, success, isLoading, result } = useBack<FormData>({
     url: "allProducts/create",
@@ -56,25 +57,23 @@ export const AddProducts: React.FC = () => {
     }
   };
 
-  const { data } = useEjecut({ url: `stores/${idStore}`});
+  const { data } = useEjecut({ url: `stores/${idStore}` });
 
   useEffect(() => {
     if (result) {
-     
       addProductStore(Number(idStore), result?.id);
     }
   }, [result]);
 
   useEffect(() => {
-    setcategory(methods.watch('category'))
-    console.log(category);
-  }, [methods.watch()])
-  
+    setcategory(methods.watch("category"));
+  }, [methods.watch()]);
 
   return (
     <>
       <div className="z-30 overflow-clip w-full">
         <Toolbar element={"products"} action={`Add New Product`} info={data} />
+        <PageTitleInit />
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
@@ -100,13 +99,16 @@ export const AddProducts: React.FC = () => {
             </div>
             <div className="grow mb-auto basis-72 px-5">
               <Images data="image" label="Product Images" />
-              {category === "Food" && <div className="animate-opacity">
-                <Shipping_Delivery />
-              </div>
-               }
-               {category === "Clothes" && <div className="animate-opacity">
-                <Size/>
-                </div>}
+              {category === "Food" && (
+                <div className="animate-opacity">
+                  <Shipping_Delivery />
+                </div>
+              )}
+              {category === "Clothes" && (
+                <div className="animate-opacity">
+                  <Size />
+                </div>
+              )}
               <Pricing />
               <div>
                 <Submit

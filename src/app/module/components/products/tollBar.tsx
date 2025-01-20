@@ -5,8 +5,6 @@ import { TabsNext } from "../../widgets/tabs";
 
 export const TollButtom = ({children}:any) => {
   
-  
-  console.log(children)
 
   const DataTabs:Option[] = [
     { option:"Tabla",component:children[0], icon:<FaClipboardList/>},

@@ -7,6 +7,7 @@ import { port } from "../../../../config/env";
 import { StarRating } from "../../widgets/startRating";
 import { Toolbar } from "../../widgets/Toolbar";
 import { Modal_Component } from "../../widgets/modal";
+import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
 
 export const SelectStoreforDelite = () => {
   const { DeliteFetch } = useDelite();
@@ -37,62 +38,71 @@ export const SelectStoreforDelite = () => {
     if (actionState) {
       DeliteFetch({ url: "stores/delete/", id: idStore });
     }
-   
   }, [actionState]);
 
-  const StoreInfo =({img,name,rating}:any)=>{
-
+  const StoreInfo = ({ img, name, rating }: any) => {
     return (
       <>
         <div className="flex inset-0 justify-center ">
-          <Avatar src={port + img}  className="w-20 shadow-lg shadow-violet-800 border aspect-auto h-20 text-large"/>
-         <div className="ml-4 justify-center flex flex-col">
-          <span className="text-xl font-extrabold text-slate-600 ">{name}</span>
-         <StarRating rating={rating} size={21}/> 
-         </div>
+          <Avatar
+            src={port + img}
+            className="w-20 shadow-lg shadow-violet-800 border aspect-auto h-20 text-large"
+          />
+          <div className="ml-4 justify-center flex flex-col">
+            <span className="text-xl font-extrabold text-slate-600 ">
+              {name}
+            </span>
+            <StarRating rating={rating} size={21} />
+          </div>
         </div>
       </>
-    )
-  }
-  
+    );
+  };
 
   return (
-    <div className="w-full">
-      <Toolbar action="Delite Stores" element="Admin of Store" />
-      <h2 className="text-3xl w-full  text-violet-700 font-bold ml-4">
-        Select category
-      </h2>
-      <div className="flex ml-10 mt-5 gap-4 flex-auto flex-wrap">
-        {data?.map((data: any, index: number) => {
-         
-          return (
-            <>
-              <Modal_Component
-              key={data.id}
-              text={"Are you sure you want to delete this Store " +  data.name}
-              component={<StoreInfo name={data.name} rating={data.rating} img={data.imgStore}/>}
-              title={"Warning"}
-                onClick={() => setidStore(data.id)}
-                className="w-[30%] mt-10 animate-appearance-in duration-1000 h-60"
-                onActionChange={handleActionChange}
-              >
-                <Type_product
-                  position="vertical"
+    <>
+      <PageTitleInit />
+      <div className="w-full">
+        <div className="flex ml-10 mt-5 gap-4 flex-auto flex-wrap">
+          {data?.map((data: any, index: number) => {
+            return (
+              <>
+                <Modal_Component
                   key={data.id}
-                  idStore={data.id}
-                  scale="125"
-                  button={buttonClasses[index % buttonClasses.length]}
-                  fondo={fondoClasses[index % fondoClasses.length]}
-                  image={`${port + data.imgPortada}`}
-                  title={`${data.name}`}
-                  textsecondary="For more info look out page soport"
-                  text={data.description}
-                />
-              </Modal_Component>
-            </>
-          );
-        })}
+                  text={
+                    "Are you sure you want to delete this Store " + data.name
+                  }
+                  component={
+                    <StoreInfo
+                    name={data.name}
+                    rating={data.rating}
+                    img={data.imgStore}
+                    />
+                  }
+                  title={"Warning"}
+                  onClick={() => setidStore(data.id)}
+                  className="w-[30%] mt-10 animate-appearance-in duration-1000 h-60"
+                  onActionChange={handleActionChange}
+                >
+                  <Type_product
+                    position="vertical"
+                    key={data.id}
+                    idStore={data.id}
+                    scale="125"
+                    button={buttonClasses[index % buttonClasses.length]}
+                    fondo={fondoClasses[index % fondoClasses.length]}
+                    image={`${port + data.imgPortada}`}
+                    title={`${data.name}`}
+                    textsecondary="For more info look out page soport"
+                    text={data.description}
+                  />
+                </Modal_Component>
+              </>
+            );
+          })}
+        </div>
       </div>
-    </div>
+          <Toolbar action="Delite Stores" element="Admin of Store" />
+    </>
   );
 };

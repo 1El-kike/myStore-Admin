@@ -42,7 +42,7 @@ export const TabSelect = ({ link }: {link: string}) => {
   return (
     <>
       <div className="w-full z-20 flex">
-        <div className="my-4 relative md:w-[90%] px-2 w-full h-screen scroll-bar-none">
+        <div className="my-4 relative md:w-[90%] px-2 w-full scroll-bar-none">
           <div className="w-full mb-10">
             <div className="bg--700">
               <TollButtom children={option} />

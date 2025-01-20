@@ -1,18 +1,43 @@
-import { lazy, FC, Suspense } from "react";
+import { lazy, FC, Suspense, PropsWithChildren } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Layout } from "../module/layout/layout";
 import { Dashboard } from "../pages/dashboard/dashboard";
-import { Stores } from "../pages/mannagerStores/main-stores";
-import { AddStores_template } from "../module/components/stores/addStores_template";
-import { SelectStoreforEdit } from "../module/components/stores/selectStoreforEdit";
-import { WatchtoreforEdit } from "../module/components/stores/watchtoreforEdit";
-import { SelectStoreforDelite } from "../module/components/stores/selectStoreforDelite";
-import { Deletesuccess } from "../module/widgets/deletesuccess";
-import { EditStore_template } from "../module/components/stores/editStore_template";
-import { Products } from "../pages/mananagerProduct/productMannager";
+import { Products } from "../module/components/products/productMannager";
 import { AddProducts } from "../module/components/products/addProducts";
+import { Progress } from '@nextui-org/react';
+import { ProductsPage } from "../pages/mananagerProduct/productsPage";
+  interface WithChildren {
+    children: React.ReactNode;
+  }
 
 export const PrivateRoutes = () => {
+
+  
+
+  const StoresPage = lazy(()=> 
+    import('../pages/mannagerStores/storesRouter').then((module) => ({
+      default: module.StoresRouter, // Asegúrate de que component sea la exportación nombrada
+    }))
+  )
+  
+  const SuspensedView: FC<WithChildren> = ({ children }) => {
+    return (
+      <Suspense
+        fallback={
+          <div style={{ width: '100%', padding: '20px' }}>
+            <Progress
+              isIndeterminate // Propiedad para mostrar una barra de progreso indefinida
+              color="primary" // Define el color de la barra (usa colores predefinidos de NextUI)
+              size="lg" // Tamaño de la barra (pequeño, mediano o grande)
+            />
+          </div>
+        }
+      >
+        {children}
+      </Suspense>
+    );
+  };
+
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -20,17 +45,21 @@ export const PrivateRoutes = () => {
         <Route path="auth/*" element={<Navigate to="/dashboard" />} />
         {/* Pages */}
         <Route path="dashboard" element={<Dashboard />}></Route>
-        <Route path="stores" element={<Stores />}></Route>
-        <Route path="stores/add" element={<AddStores_template />}></Route>
-        <Route path="stores/edit" element={<SelectStoreforEdit />}></Route>
-        <Route path="stores/watch" element={<WatchtoreforEdit />}></Route>
-        <Route path="stores/delite" element={<SelectStoreforDelite />}></Route>
-        <Route path="stores/delete/:id" element={<Deletesuccess />}></Route>
-        <Route path="stores/edit/:id" element={<EditStore_template />}></Route>
-        <Route path="products" element={<Products />}></Route>
-        <Route path="products/add/:idStore" element={<AddProducts />}></Route>
+
+        <Route path="stores/*" element={
+          <SuspensedView>
+            <StoresPage />
+          </SuspensedView>
+          }></Route>
+           <Route path="products/*" element={
+          <SuspensedView>
+            <ProductsPage />
+          </SuspensedView>
+          }></Route>
         <Route path="*" element={<Navigate to="/error/404" />} />
       </Route>
     </Routes>
   );
 };
+
+

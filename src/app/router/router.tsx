@@ -4,7 +4,7 @@ import { PUBLIC_URL } from "../../config/env";
 import { ErrorsPage } from "../module/errors/errorsPage";
 import { PrivateRoutes } from "./privateRoutes";
 import { App } from "../../App";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../module/core/AuthContext";
 import { Logout } from "../module/auth/logout";
 import { Auth } from "../module/auth/auth";
 
@@ -25,7 +25,7 @@ export const Routers = () => {
           ) : (
             <>
               <Route path="auth/*" element={<Auth />} />
-             {/*  <Route path="*" element={<Navigate to="auth/register" />} /> */}
+              <Route path="*" element={<Navigate to="/auth" />} /> 
             </>
           )}
         </Route>

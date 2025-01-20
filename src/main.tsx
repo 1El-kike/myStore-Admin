@@ -4,7 +4,7 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Routers } from "./app/router/router";
-import { AuthProvider } from "./app/utils/AuthContext";
+import { AuthProvider } from "./app/module/core/AuthContext";
 
 
 

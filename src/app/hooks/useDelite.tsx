@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../module/core/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { port } from "../../config/env";
 

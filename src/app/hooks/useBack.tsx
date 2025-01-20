@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {  FieldValues, SubmitHandler } from "react-hook-form";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../module/core/AuthContext";
 import { typeProduct } from "../../interface/typeProducts";
 import { port } from "../../config/env";
 

@@ -1,11 +1,13 @@
 import { Image, Tab, Tabs } from '@nextui-org/react';
 import React from 'react';
+import { PageTitleInit } from '../../layout/tollbar/tiltleInit';
 
 export const WatchtoreforEdit = () => {
 
   
   return (
    <>
+   <PageTitleInit/>
    <div className=''> 
 
    <Image
