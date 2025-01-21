@@ -1,6 +1,7 @@
 import React from "react";
 import { Breadcrumb } from "../../module/widgets/breadcrumbs";
 import { PageTitleInit } from "../../module/layout/tollbar/tiltleInit";
+import { CardAddProducts } from "../../module/components/products/addproducts/cardAddProducts";
 
 export const ProductMain = () => {
   const AddProducts = () => {
@@ -20,8 +21,8 @@ export const ProductMain = () => {
     <>
     <PageTitleInit/>
       <div className="flex md:flex-col lg:flex-row flex-wrap w-full justify-center items-center">
-        <div className="grow h-[570px] w-full lg:w-[50%] gap-5 p-10 flex flex-wrap">
-          <AddProducts />
+        <div className="grow h-[570px] w-full lg:w-[50%] gap-5 p-10 flex flex-col md:flex-row flex-wrap">
+          <CardAddProducts />
           <AddProducts />
           <AddProducts />
           <AddProducts />
