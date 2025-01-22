@@ -1,14 +1,17 @@
 import { port } from "../../../config/env";
 import { TypeStore } from "../../../interface/typestore";
 import { Type_product } from "../components/products/type_product";
-import { Tables } from "./tableStore";
+import { Tables, TypeColumns } from "./tableStore";
 
 interface TypeGroup {
     data:any;
     link?:string;
-    buttonClasses:(string | undefined)[];
-    fondoClasses:string[];
+    buttonClasses?:(string | undefined)[];
+    fondoClasses?:string[];
+    columns?:TypeColumns[]
 }
+
+
 
 export const Group:React.FC<TypeGroup> = ({data,buttonClasses,fondoClasses})=>{
     return (
@@ -24,8 +27,8 @@ export const Group:React.FC<TypeGroup> = ({data,buttonClasses,fondoClasses})=>{
               key={data.id}
               idStore={data.id}
               scale="125"
-              button={buttonClasses[index % buttonClasses.length]}
-              fondo={fondoClasses[index % fondoClasses.length]}
+              button={buttonClasses && buttonClasses[index % buttonClasses.length]}
+              fondo={fondoClasses && fondoClasses[index % fondoClasses.length] || 'bg-white'}
               image={`${port + data.imgPortada}`}
               title={`${data.name}`}
               textsecondary="For more info look out page soport"
@@ -54,8 +57,8 @@ export  const List:React.FC<TypeGroup> =({data,buttonClasses,link, fondoClasses}
                 key={data.id}
                 idStore={data.id}
                 scale="125"
-                button={buttonClasses[index % buttonClasses.length]}
-                fondo={fondoClasses[index % fondoClasses.length]}
+                button={buttonClasses && buttonClasses[index % buttonClasses.length]}
+                fondo={fondoClasses && fondoClasses[index % fondoClasses.length] || 'bg-white'}
                 image={`${port + data.imgPortada}`}
                 title={`Operating in Store ${data.name}`}
                 textsecondary="For more info look out page soport"
@@ -70,11 +73,19 @@ export  const List:React.FC<TypeGroup> =({data,buttonClasses,link, fondoClasses}
     )
   }
 
-export const Table:React.FC<TypeGroup> = ({data}:{data:TypeStore})=> {
+
+export const Table:React.FC<TypeGroup> = ({data,columns})=> {
+
+  const defaultcolumn = [
+    {name: "STORES", uid: "name"},
+    {name: "ROLE", uid: "role"},
+    {name: "SELLING TYPE", uid: "status"},
+    {name: "ACTIONS", uid: "actions"},
+  ];
 
     return (
         <>
-        <Tables datos={data}/>
+        <Tables columns={columns && columns || defaultcolumn} datos={data}/>
         </>
     )
  } 

@@ -1,26 +1,40 @@
-import { Tabs, Tab } from "@nextui-org/react";
+import { Tabs, Tab, Badge } from "@nextui-org/react";
 import React from "react";
 import { Option, TypeTabs } from "../../../interface/TypeTabs";
 
-export const TabsNext: React.FC<TypeTabs> = ({ children }) => {
+export const TabsNext: React.FC<TypeTabs> = ({ children, variant }) => {
   return (
     <div className="flex w-full flex-col">
       <Tabs
         aria-label="Options"
         className="w-full"
         color="primary"
-        variant="underlined"
+        variant={variant ? variant : "underlined"}
       >
         {children.map((item: Option, index: number) => {
           return (
             <>
               <Tab
-                key={item.option[index]}
+                key={item.option[index] + index}
                 title={
-                  <div className="flex items-center relative space-x-2">
-                    {item.icon}
-                    <span>{item.option}</span>
-                  </div>
+                  <>
+                    <div className="flex items-center relative space-x-2">
+                      {/* {item.icon} */}
+                      <span className="mr-2">{item.option}</span>
+                      {item.badge ? (
+                        <Badge
+                        className=""
+                          color={item.badge?.color}
+                          content={item.badge?.contex}
+                          variant="shadow"
+                        >
+                          <span className="mb-4"></span>
+                        </Badge>
+                      ) : (
+                        item.icon
+                      )}
+                    </div>
+                  </>
                 }
               >
                 {item.component}

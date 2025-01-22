@@ -6,6 +6,7 @@ import { Products } from "../module/components/products/productMannager";
 import { AddProducts } from "../module/components/products/addProducts";
 import { Progress } from '@nextui-org/react';
 import { ProductsPage } from "../pages/mananagerProduct/productsPage";
+import { OrderPage } from "../pages/orders/orderPage";
   interface WithChildren {
     children: React.ReactNode;
   }
@@ -56,6 +57,11 @@ export const PrivateRoutes = () => {
             <ProductsPage />
           </SuspensedView>
           }></Route>
+          <Route path="orders/*" element={
+            <SuspensedView>
+              <OrderPage />
+            </SuspensedView>
+            }></Route>
         <Route path="*" element={<Navigate to="/error/404" />} />
       </Route>
     </Routes>

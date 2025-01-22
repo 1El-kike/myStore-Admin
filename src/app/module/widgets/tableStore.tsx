@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -13,12 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import { port } from "../../../config/env";
 
-export const columns = [
-  {name: "STORES", uid: "name"},
-  {name: "ROLE", uid: "role"},
-  {name: "SELLING TYPE", uid: "status"},
-  {name: "ACTIONS", uid: "actions"},
-];
+ 
 
 export const TablesData = (props :any) => {
   return (
@@ -147,13 +142,22 @@ const statusColorMap:any  = {
   Mixto: "warning",
 };
 
-export const  Tables = ({datos}:{datos:any}) => {
+export interface TypeColumns {
+  name:string;
+  uid:string;
+}
+interface TableData {
+  datos:any;
+  columns:TypeColumns[]
+}
+
+export const  Tables:FC<TableData> = ({datos,columns}) => {
 
   const renderCell = React.useCallback((datos:any, columnKey:any) => {
     
     const cellValue =  datos[columnKey] ;
    //const cellValue = "name"
-   console.log(datos);
+   
 
     switch (columnKey) {
       case "name":
