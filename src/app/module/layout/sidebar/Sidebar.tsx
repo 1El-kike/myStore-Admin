@@ -14,7 +14,6 @@ import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { CollapseSidebar } from "./collapseSidebar";
 import { FaJediOrder } from "react-icons/fa6";
-import { GoListOrdered } from "react-icons/go";
 
 const custom = {
   root: {
@@ -130,7 +129,7 @@ export const LayatSidebar = ({ setancho }: any) => {
                 ]}
             />
              <CollapseSidebar
-            icon={GoListOrdered}
+            icon={FaJediOrder}
               collapsed={collapsed}
               hovered={hovered}
               title="Orders"

@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { FaCheckCircle } from 'react-icons/fa'
 import { FaClipboardList, FaShopify } from 'react-icons/fa6'
+import { useEjecut } from '../../../hooks/useEjecut'
 
-export 
-const TotalList =()=> {
+interface TypeList{
+  active:number;
+  complet:number;
+  total:number
+}
+
+export const TotalList:FC<TypeList> =({active,complet,total})=> {
     return (
         <>
         <div className='border flex justify-between items-center w-full rounded-xl shadow-lg shadow-gray-300 py-4 px-2 border-gray-300 '>
@@ -13,7 +19,7 @@ const TotalList =()=> {
               </div>
                 <div className=''>
                   <p className='text-xs line-clamp-1  md:text-base'>Total Orders</p>
-                  <div className='font-extrabold text-xl relative text-rose-950 md:text-3xl'>871
+                  <div className='font-extrabold text-xl relative text-rose-950 md:text-3xl'>{total | 0}
                     <div className='blur-xl w-full h-full absolute top-1 -z-10'>
                     <div className='absolute w-[200px] h-full bg-violet-500  clip-fondo '></div>
                     </div>
@@ -30,7 +36,7 @@ const TotalList =()=> {
               </div>
                 <div className=''>
                   <p className='text-xs line-clamp-1 md:text-base'>Active Orders</p>
-                  <div className='font-extrabold text-xl relative text-rose-950 md:text-3xl'>871
+                  <div className='font-extrabold text-xl relative text-rose-950 md:text-3xl'>{active | 0}
                     <div className='blur-xl w-full h-full absolute top-0 -z-10'>
                     <div className='absolute w-[200px] h-full bg-violet-500  clip-fondo '></div>
                     </div>
@@ -47,7 +53,7 @@ const TotalList =()=> {
                 </div>
                 <div className=''>
                   <p className='text-xs line-clamp-1  md:text-base'>Completed Orders</p>
-                  <div className='font-extrabold text-xl relative text-rose-950 md:text-3xl'>871
+                  <div className='font-extrabold text-xl relative text-rose-950 md:text-3xl'>{complet | 0}
                     <div className='blur-xl w-full h-full absolute top-0 -z-10'>
                     <div className='absolute w-[200px] h-full bg-violet-500  clip-fondo '></div>
                     </div>
