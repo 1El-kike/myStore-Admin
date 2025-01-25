@@ -19,6 +19,18 @@ export const TabSelect = ({ link }: {link: string}) => {
 
   const { data, isLoadingData, errors } = useEjecut({ url: "stores" });
 
+
+  const transformData = (data: any[]) => {
+    return data?.map(item => ({
+      ...item,
+      actions: {
+        urledit: link,
+      }
+    }));
+  };
+
+  const transformedData = transformData(data);
+
   const option: React.JSX.Element[] = [
     <List
     link={link}
@@ -29,14 +41,14 @@ export const TabSelect = ({ link }: {link: string}) => {
     <Table
       buttonClasses={buttonClasses}
       fondoClasses={fondoClasses}
-      data={data}
+      data={transformedData}
     />,
     <Group
       buttonClasses={buttonClasses}
       fondoClasses={fondoClasses}
       data={data}
     />,
-  /*   <Table data buttonClasses={buttonClasses} fondoClasses={fondoClasses} />, */
+  
   ];
 
   return (

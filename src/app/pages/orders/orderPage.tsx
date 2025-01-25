@@ -24,7 +24,7 @@ const listOrder = [
   return (
     <Routes>
         <Route
-        path='list'
+        path='list/*'
         element={
             <>
            <PageTitle breadcrumbs={listOrder}>Orders</PageTitle>

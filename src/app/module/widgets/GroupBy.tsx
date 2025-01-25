@@ -1,7 +1,7 @@
 import { port } from "../../../config/env";
 import { TypeStore } from "../../../interface/typestore";
 import { Type_product } from "../components/products/type_product";
-import { Tables, TypeColumns } from "./tableStore";
+import { Tables, TypeColumns } from "./table/tableStore";
 
 interface TypeGroup {
     data:any;

@@ -1,24 +1,34 @@
 import { Tabs, Tab, Badge } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Option, TypeTabs } from "../../../interface/TypeTabs";
 
-export const TabsNext: React.FC<TypeTabs> = ({ children, variant }) => {
+export const TabsNext: React.FC<TypeTabs> = ({ children, variant, onLinkChange }) => {  
+
+  
+const cambiarLink = (index:any)=> {
+  const selectedLink = children[index].link;
+  onLinkChange(selectedLink)
+}
+
   return (
     <div className="flex w-full flex-col">
-      <Tabs
+      <Tabs 
         aria-label="Options"
         className="w-full"
         color="primary"
+        onSelectionChange={cambiarLink}
         variant={variant ? variant : "underlined"}
-      >
+        >
         {children.map((item: Option, index: number) => {
+        
           return (
             <>
               <Tab
-                key={item.option[index] + index}
+                key={index}
                 title={
                   <>
-                    <div className="flex items-center relative space-x-2">
+                    <div className="flex items-center relative space-x-2"
+                    >
                       {/* {item.icon} */}
                       <span className="mr-2">{item.option}</span>
                       {item.badge ? (
