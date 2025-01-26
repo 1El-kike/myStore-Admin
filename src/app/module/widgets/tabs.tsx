@@ -1,13 +1,15 @@
 import { Tabs, Tab, Badge } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Option, TypeTabs } from "../../../interface/TypeTabs";
 
-export const TabsNext: React.FC<TypeTabs> = ({ children, variant, onLinkChange }) => {  
+export const TabsNext: React.FC<TypeTabs> = ({ children, variant, onLinkChange = undefined }) => {  
 
   
 const cambiarLink = (index:any)=> {
-  const selectedLink = children[index].link;
-  onLinkChange(selectedLink)
+  const selectedLink = children[index]?.link || "";
+  if (onLinkChange) {
+    onLinkChange(selectedLink)
+  }
 }
 
   return (

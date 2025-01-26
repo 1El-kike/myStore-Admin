@@ -1,7 +1,6 @@
 import { Table } from "flowbite-react";
 import React from "react";
-import { FaArrowDown, FaArrowRight } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa6";
 import { TablesLastTrans } from "../../widgets/tablelastTransation";
 
 export const LastTransactions = () => {
@@ -16,7 +15,7 @@ export const LastTransactions = () => {
         </div>
       </div>
       <div className="mt-3">
-       <TablesLastTrans datos={''}/>
+        <TablesLastTrans datos={""} />
       </div>
     </div>
   );

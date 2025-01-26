@@ -11,7 +11,6 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-import { port } from "../../../config/env";
 import { EditIcon } from "../../utils/icons";
 
 export const columns = [
