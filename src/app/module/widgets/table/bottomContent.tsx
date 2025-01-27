@@ -27,7 +27,7 @@ const BottomContent:React.FC<BottomContentProps> = ({ selectedKeys, filteredItem
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="danger"
           page={page}
           total={pages}
           onChange={setPage}

@@ -6,6 +6,7 @@ import { Tables, TypeColumns } from "./table/tableStore";
 interface TypeGroup {
     data:any;
     link?:string;
+    isDetails?:boolean
     buttonClasses?:(string | undefined)[];
     fondoClasses?:string[];
     columns?:TypeColumns[]
@@ -74,7 +75,7 @@ export  const List:React.FC<TypeGroup> =({data,buttonClasses,link, fondoClasses}
   }
 
 
-export const Table:React.FC<TypeGroup> = ({data,columns})=> {
+export const Table:React.FC<TypeGroup> = ({data,columns,isDetails})=> {
 
   const defaultcolumn = [
     {name: "STORES", uid: "name"},
@@ -85,7 +86,7 @@ export const Table:React.FC<TypeGroup> = ({data,columns})=> {
 
     return (
         <>
-        <Tables columns={columns && columns || defaultcolumn} datos={data}/>
+        <Tables isDetails={isDetails} columns={columns && columns || defaultcolumn} datos={data}/>
         </>
     )
  } 

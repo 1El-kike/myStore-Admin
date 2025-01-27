@@ -13,6 +13,9 @@ export default {
     ],
   theme: {
     extend: {
+      /* colors: {
+        'default-100': 'transparent', // Sobrescribe el color predefinido
+      }, */
       keyframes: {
         pulsesecondy:{
           "0%":{scale:1},

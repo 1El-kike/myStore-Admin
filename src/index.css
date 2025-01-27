@@ -53,3 +53,17 @@ clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50
 .clip-chat {
    clip-path: polygon(70% 43%, 83% 49%, 100% 28%, 100% 100%, 0 100%, 0 85%, 29% 58%, 43% 69%);
 }
+
+.input-search-cancel-button-none {
+   border: none;
+   
+   &:focus{
+      border:none !important;
+      border-radius: 23px;
+   }
+}
+
+/* 
+table thead tr:first-child th:first-child {
+   background: linear-gradient(to top, #7f1d1d, #c81d25);
+ }  */

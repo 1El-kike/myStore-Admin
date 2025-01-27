@@ -28,9 +28,10 @@ export interface TypeColumns {
 interface TableData {
   datos: any;
   columns: TypeColumns[];
+  isDetails?:boolean
 }
 
-export const Tables: FC<TableData> = ({ datos, columns }) => {
+export const Tables: FC<TableData> = ({ datos, columns,isDetails }) => {
 
   const {
     onClear,
@@ -46,6 +47,7 @@ export const Tables: FC<TableData> = ({ datos, columns }) => {
     hasSearchFilter,
     filteredItems,
     page,
+    pages,
     sortDescriptor,
     setPage
   } = filtertableandSearch({datos:datos});
@@ -67,7 +69,7 @@ export const Tables: FC<TableData> = ({ datos, columns }) => {
       onNextPage={onNextPage}
       onPreviousPage={onPreviousPage}
       page={page}
-      pages={page}
+      pages={pages}
       selectedKeys={selectedKeys}
       setPage={setPage}
     />
@@ -84,15 +86,15 @@ export const Tables: FC<TableData> = ({ datos, columns }) => {
       sortDescriptor={sortDescriptor}
       bottomContentPlacement="outside"
       topContentPlacement="inside"
-      topContent={true && topContent}
-      selectedKeys={true ? selectedKeys : undefined}
-      onSelectionChange={true ? setSelectedKeys : undefined}
-      bottomContent={true ? bottomContent : null}
+      topContent={isDetails && topContent}
+      selectedKeys={isDetails ? selectedKeys : undefined}
+      onSelectionChange={isDetails ? setSelectedKeys : undefined}
+      bottomContent={isDetails ? bottomContent : null}
       className=""
-      selectionMode={true ? "multiple" : "none"}
+      selectionMode={isDetails ? "multiple" : "none"}
       aria-label="Example table with custom cells"
     >
-      <TableHeader columns={columns}>
+      <TableHeader className="" columns={columns}>
         {(column) => (
           <TableColumn
             className="bg-gradient-to-t  from-rose-950 to-rose-900 text-white"
@@ -105,7 +107,7 @@ export const Tables: FC<TableData> = ({ datos, columns }) => {
       </TableHeader>
       <TableBody
         emptyContent={"No rows to display."}
-        className="bg-gradient-to-br from-rose-400 to-purple-400"
+        className=""
         items={sortedItems}
       >
         {(item: any) => (

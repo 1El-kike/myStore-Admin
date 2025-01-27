@@ -15,11 +15,11 @@ export const filtertableandSearch = ({datos}:TypeFilter) => {
       column: "age",
       direction: "ascending",
     });
-    const cantlength  = datos?.lenght || 5
+    const cantlength  =  datos?.length || 5;
     const pages = Math.ceil(cantlength / rowsPerPage) ;
     const hasSearchFilter = Boolean(filterValue);
     type Datos = (typeof datos)[0];
-  
+    
     const filteredItems = useMemo(() => {
       let filteredUsers = [...datos] ;
   
@@ -102,6 +102,7 @@ export const filtertableandSearch = ({datos}:TypeFilter) => {
         hasSearchFilter,
         filteredItems,
         page,
+        pages,
         setPage,
         sortDescriptor,
         setSortDescriptor,

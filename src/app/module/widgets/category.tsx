@@ -37,7 +37,6 @@ useEffect(() => {
     })
   } 
 
-  console.log(index)
 }, [index])
 
 
