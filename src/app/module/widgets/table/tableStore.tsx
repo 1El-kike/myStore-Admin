@@ -49,12 +49,20 @@ export const Tables: FC<TableData> = ({ datos, columns,isDetails }) => {
     page,
     pages,
     sortDescriptor,
+    filterTimeEnd,
+    filterTimeStart,
+    handleDatechange,
+    handleDatechangeEnd,
     setPage
   } = filtertableandSearch({datos:datos});
 
   const topContent = (
     <TopContent
+    filterTimeStart={filterTimeStart}
+    filterTimeEnd={filterTimeEnd}
       datos={datos}
+      handleDatechangeEnd={handleDatechangeEnd}
+      handleDatechange={handleDatechange}
       filterValue={filterValue}
       hasSearchFilter={hasSearchFilter}
       onClear={onClear}

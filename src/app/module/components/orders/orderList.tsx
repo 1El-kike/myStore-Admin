@@ -18,7 +18,7 @@ interface TypeOrder {
   totalOrdersDay: number;
   totalOrders: number;
   totalAmountDay: number;
-  totalOrdersData: any[];
+  totalOrderData:any[];
   totalOrderDataDay: any[];
   totalOrderCanceledDay: any[];
   totalOrderCompleteDay: any[];
@@ -55,7 +55,7 @@ export const OrderList = () => {
 
   const onLinkChange = (link: string) => {
     setlink(link);
-    console.log(link);
+    
   };
 
   useEffect(() => {
@@ -77,13 +77,13 @@ export const OrderList = () => {
       component: (
         <Table
           columns={columns}
-          data={datos.totalOrderDataDay ? datos.totalOrderDataDay : []}
+          data={datos.totalOrderData ? datos.totalOrderData : []}
           isDetails={true}
         />
       ),
       icon: <FaReplyAll size={22} />,
       badge: { color: "primary", contex: datos?.totalOrdersDay | 0 },
-      link: "allday",
+      link: "all",
     },
     {
       option: "Completed",
