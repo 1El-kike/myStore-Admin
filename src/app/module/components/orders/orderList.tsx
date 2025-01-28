@@ -91,6 +91,7 @@ export const OrderList = () => {
         <Table
           columns={columns}
           data={datos.totalOrderCompleteDay ? datos.totalOrderCompleteDay : []}
+          isDetails={true}
 
         />
       ),
@@ -107,6 +108,7 @@ export const OrderList = () => {
         <Table
           columns={columns}
           data={datos.totalOrderPendingDay ? datos.totalOrderPendingDay : []}
+          isDetails={true}
         />
       ),
       icon: <MdOutlinePendingActions size={22} />,
@@ -122,7 +124,9 @@ export const OrderList = () => {
         <Table
           columns={columns}
           data={datos.totalOrderCanceledDay ? datos.totalOrderCanceledDay : []}
+          isDetails={true}
         />
+        
       ),
       icon: <ImCancelCircle size={22} />,
       badge: {
@@ -137,6 +141,7 @@ export const OrderList = () => {
         <Table
           columns={columns}
           data={datos.totalOrderRejectedDay ? datos.totalOrderRejectedDay : []}
+          isDetails={true}
         />
       ),
       icon: <MdNoiseAware size={22} />,

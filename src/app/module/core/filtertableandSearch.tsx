@@ -8,8 +8,8 @@ interface TypeFilter {
 
 export const filtertableandSearch = ({ datos }: TypeFilter) => {
   const [filterValue, setFilterValue] = useState("");
-  const [filterTimeStart, setfilterTimeStart] = useState(dayjs());
-  const [filterTimeEnd, setfilterTimeEnd] = useState(dayjs());
+  const [filterTimeStart, setfilterTimeStart] = useState<dayjs.Dayjs | null>(dayjs());
+  const [filterTimeEnd, setfilterTimeEnd] = useState<dayjs.Dayjs | null>(dayjs());
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
@@ -30,10 +30,18 @@ export const filtertableandSearch = ({ datos }: TypeFilter) => {
 
   const handleDatechange = (newValue: dayjs.Dayjs) => {
     setfilterTimeStart(newValue.startOf('day'));
+    setPage(1)
   };
   const handleDatechangeEnd = (newValue: dayjs.Dayjs) => {
     setfilterTimeEnd(newValue.endOf('day'));
+    setPage(1)
+
   };
+
+  const clearDate = ()=> {
+    setfilterTimeEnd(null)
+    setfilterTimeStart(null)
+  }
 
   
   const hasSearchFilter = Boolean(filterValue);
@@ -52,10 +60,15 @@ export const filtertableandSearch = ({ datos }: TypeFilter) => {
         // Convierte la fecha del pedido a un objeto Date
         const productTime = new Date(data.order.fechaOrder);     
         // Si se proporcionan fechas de inicio y fin, usa esas fechas
-        const searchDateStart = filterTimeStart.toDate(); // Convierte a Date
-        const searchDateEnd =  filterTimeEnd.toDate() ; // Convierte a Date        
-        matchesDateFilter =
-        productTime >= searchDateStart && productTime <= searchDateEnd;  
+        const searchDateStart = filterTimeStart?.toDate(); // Convierte a Date
+        const searchDateEnd =  filterTimeEnd?.toDate() ; // Convierte a Date 
+        if (searchDateStart && searchDateEnd) { 
+          matchesDateFilter = 
+          productTime >= searchDateStart && productTime <= searchDateEnd;  
+        }  else{
+          
+          console.log("entro")
+        }
        
       // Retorna verdadero si coincide con el filtro de nombre/orden y el filtro de fecha (si aplica)
       return (
@@ -145,5 +158,6 @@ export const filtertableandSearch = ({ datos }: TypeFilter) => {
     handleDatechange,
     sortDescriptor,
     setSortDescriptor,
+    clearDate,
   };
 };
