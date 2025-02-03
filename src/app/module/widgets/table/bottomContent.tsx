@@ -1,8 +1,9 @@
 // BottomContent.js
 import { Button, Pagination } from '@nextui-org/react';
 import React, { useMemo } from 'react';
+import { updateTable } from '../../core/filtertableandSearch';
 
-interface BottomContentProps {
+/* interface BottomContentProps {
     selectedKeys: "all" | Set<any>; // Puede ser "all" o un conjunto de claves seleccionadas
     filteredItems: any[]; // Lista de elementos filtrados
     page: number; // Página actual
@@ -10,10 +11,22 @@ interface BottomContentProps {
     setPage: (page: number) => void; // Función para cambiar la página
     onPreviousPage: () => void; // Función para ir a la página anterior
     onNextPage: () => void; // Función para ir a la página siguiente
-  }
+  } */
 
-const BottomContent:React.FC<BottomContentProps> = ({ selectedKeys, filteredItems, page, pages, setPage, onPreviousPage, onNextPage }) => {
+const BottomContent:React.FC = () => {
  
+
+  const {
+    onNextPage,
+    onPreviousPage,
+    page,
+    limit,
+    selectedKeys,
+    setPage,
+    datosTable
+  } =updateTable()
+
+
     const content = useMemo(() => { 
         
     return (
@@ -21,7 +34,7 @@ const BottomContent:React.FC<BottomContentProps> = ({ selectedKeys, filteredItem
         <span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
+            : `${selectedKeys.size} of ${datosTable.length} selected`}
         </span>
         <Pagination
           isCompact
@@ -29,20 +42,20 @@ const BottomContent:React.FC<BottomContentProps> = ({ selectedKeys, filteredItem
           showShadow
           color="danger"
           page={page}
-          total={pages}
+          total={limit}
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+          <Button isDisabled={limit === 1} size="sm" variant="flat" onPress={onPreviousPage}>
             Previous
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button isDisabled={limit === 1} size="sm" variant="flat" onPress={onNextPage}>
             Next
           </Button>
         </div>
       </div>
     );
-  }, [selectedKeys, filteredItems.length, page, pages]);
+  }, [selectedKeys, datosTable.length, page, limit]);
 
   return content;
 };

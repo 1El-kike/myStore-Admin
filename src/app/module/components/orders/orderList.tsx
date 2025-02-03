@@ -13,27 +13,41 @@ import {
 } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 import { useEjecut } from "../../../hooks/useEjecut";
+import { updateTable } from "../../core/filtertableandSearch";
+import { Loading } from "../../widgets/Loading";
 
+interface TypeData {
+  orders:any[];
+    totalCount:number;
+    totalPages:number ;
+    currentPage: number;
+}
 interface TypeOrder {
-  totalOrdersDay: number;
-  totalOrders: number;
-  totalAmountDay: number;
-  totalOrderData:any[];
-  totalOrderDataDay: any[];
-  totalOrderCanceledDay: any[];
-  totalOrderCompleteDay: any[];
-  totalOrderPendingDay: any[];
-  totalOrderRejectedDay: any[];
+  sumary: {
+    all: number;
+    amount: number | string;
+    accepted: number,
+    cancelled: number,
+    pending: number,
+    delivered: number,
+    delivering: number
+  },   
   countsByStatus: {
+    AllCount:number;
     pendingCount: number;
-    pendingCountday: number;
     acceptedCount: number;
-    acceptedCountday: number;
-    deliveredCountday: number;
+    deliveringCount:number;
     deliveredCount: number;
     cancelledCount: number;
-    cancelledCountday: number;
   };
+  data:{
+    all:TypeData;
+    delivered:TypeData;
+    delivering:TypeData;
+    accepted:TypeData;
+    pending:TypeData;
+    cancelled:TypeData;
+  }
 }
 
 export const OrderList = () => {
@@ -47,22 +61,36 @@ export const OrderList = () => {
 
   const [link, setlink] = useState("allday");
 
+  const  {page,filterTimeStart,filterTimeEnd,rowsPerPage,setlimit,filterValue} = updateTable()
+  
   const { data, isLoadingData, errors } = useEjecut({
-    url: `orders/sumary?include=${link}`,
+    url: `orders/sumary?include=${link}&page=${page}&pageSize=${rowsPerPage}&filtertimeStart=${filterTimeStart}&filtertimeEnd=${filterTimeEnd}&filtervalue=${filterValue}`,
   });
 
+  
+  
   const [datos, setDatos] = useState<TypeOrder | null>(null);
-
+  
   const onLinkChange = (link: string) => {
     setlink(link);
-    
   };
-
+  
   useEffect(() => {
+    if (data) {
     setDatos(data);
-  }, [data]);
-
-  if (!datos) {
+    if (data.data[link].totalPages) {    
+      setlimit(data.data[link].totalPages)
+    }   
+  }
+  }, [data,filterValue]);
+  
+  if (errors) {
+    return <div className="w-full h-screen flex justify-center items-center">
+      error...
+    </div>
+  }
+ 
+  if (isLoadingData || !datos) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         Loading...
@@ -77,53 +105,87 @@ export const OrderList = () => {
       component: (
         <Table
           columns={columns}
-          data={datos.totalOrderData ? datos.totalOrderData : []}
+          data={datos?.data?.all?.orders ? datos?.data?.all.orders : []}
           isDetails={true}
         />
       ),
       icon: <FaReplyAll size={22} />,
-      badge: { color: "primary", contex: datos?.totalOrdersDay | 0 },
+      badge: { color: "primary", contex: datos?.countsByStatus.AllCount | 0 },
       link: "all",
     },
-    {
-      option: "Completed",
-      component: (
-        <Table
-          columns={columns}
-          data={datos.totalOrderCompleteDay ? datos.totalOrderCompleteDay : []}
-          isDetails={true}
-
-        />
-      ),
-      icon: <MdOutlineIncompleteCircle size={22} />,
-      badge: {
-        color: "secondary",
-        contex: datos?.countsByStatus?.acceptedCountday | 0,
-      },
-      link: "complete",
-    },
+    
     {
       option: "Pending",
       component: (
         <Table
           columns={columns}
-          data={datos.totalOrderPendingDay ? datos.totalOrderPendingDay : []}
+          data={datos?.data?.pending?.orders ? datos?.data?.pending?.orders : []}
           isDetails={true}
         />
       ),
       icon: <MdOutlinePendingActions size={22} />,
       badge: {
         color: "warning",
-        contex: datos?.countsByStatus?.pendingCountday | 0,
+        contex: datos?.countsByStatus?.pendingCount | 0,
       },
       link: "pending",
     },
     {
-      option: "Canceled",
+      option: "Accepted",
       component: (
         <Table
           columns={columns}
-          data={datos.totalOrderCanceledDay ? datos.totalOrderCanceledDay : []}
+          data={datos?.data?.accepted?.orders ? datos?.data.accepted?.orders : []}
+          isDetails={true}
+
+        />
+      ),
+      icon: <MdOutlineIncompleteCircle size={22} />,
+      badge: {
+        color: "success",
+        contex: datos?.countsByStatus?.acceptedCount | 0,
+      },
+      link: "accepted",
+    },
+    
+    {
+      option: "Delivering",
+      component: (
+        <Table
+          columns={columns}
+          data={datos?.data?.delivering?.orders ? datos.data?.delivering?.orders : []}
+          isDetails={true}
+        />
+      ),
+      icon: <MdNoiseAware size={22} />,
+      badge: {
+        color: "default",
+        contex: datos?.countsByStatus?.deliveringCount | 0,
+      },
+      link: "delivering",
+    },
+    {
+      option: "Delivered",
+      component: (
+        <Table
+          columns={columns}
+          data={datos?.data?.delivered?.orders ? datos.data?.delivered?.orders : []}
+          isDetails={true}
+        />
+      ),
+      icon: <MdNoiseAware size={22} />,
+      badge: {
+        color: "secondary",
+        contex: datos?.countsByStatus?.deliveredCount | 0,
+      },
+      link: "delivered",
+    },
+    {
+      option: "Cancelled",
+      component: (
+        <Table
+          columns={columns}
+          data={datos?.data?.cancelled?.orders ? datos?.data?.cancelled?.orders : []}
           isDetails={true}
         />
         
@@ -131,37 +193,22 @@ export const OrderList = () => {
       icon: <ImCancelCircle size={22} />,
       badge: {
         color: "danger",
-        contex: datos?.countsByStatus?.cancelledCountday | 0,
+        contex: datos?.countsByStatus?.cancelledCount | 0,
       },
-      link: "canceled",
+      link: "cancelled",
     },
-    {
-      option: "Rejected",
-      component: (
-        <Table
-          columns={columns}
-          data={datos.totalOrderRejectedDay ? datos.totalOrderRejectedDay : []}
-          isDetails={true}
-        />
-      ),
-      icon: <MdNoiseAware size={22} />,
-      badge: {
-        color: "default",
-        contex: datos?.countsByStatus?.deliveredCountday | 0,
-      },
-      link: "rejected",
-    },
+   
   ];
 
   return (
     <>
       <PageTitleInit />
-      <div className=" w-[98%] md:w-[95%] m-1 md:m-5">
+      <div className=" w-[98%] md:w-[95%] filter contrast-150 m-1 md:m-5">
         <TotalList
-          active={datos?.countsByStatus?.pendingCount}
-          complet={datos?.countsByStatus.acceptedCount}
-          total={datos?.totalOrders}
-          canceled={datos?.countsByStatus?.cancelledCount}
+          active={datos?.sumary.pending + datos?.sumary?.accepted + datos.sumary.delivering}
+          complet={datos?.sumary.delivered}
+          total={datos?.sumary.all}
+          canceled={datos?.sumary.cancelled}
         />
       </div>
       <div className="m-1 md:m-5 bg-gradient-to-tr from-violet-200 to-rose-100 rounded-3xl ">

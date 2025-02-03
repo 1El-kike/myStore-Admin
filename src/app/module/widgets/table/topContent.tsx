@@ -7,33 +7,14 @@ import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { FaCircleXmark } from "react-icons/fa6";
+import { updateTable } from "../../core/filtertableandSearch";
 
 interface topContent {
-  filterValue: any;
-  onSearchChange: any;
-  onRowsPerPageChange: any;
   datos: any;
-  hasSearchFilter: any;
-  onClear: any;
-  filterTimeStart: any;
-  filterTimeEnd: any;
-  handleDatechange: any;
-  handleDatechangeEnd: any;
-  clearDate:()=> void;
 }
 
 const TopContent: React.FC<topContent> = ({
-  filterTimeEnd,
-  filterTimeStart,
-  filterValue,
-  handleDatechangeEnd,
-  onSearchChange,
-  handleDatechange,
-  onRowsPerPageChange,
-  hasSearchFilter,
-  onClear,
-  datos,
-  clearDate,
+  datos
 }) => {
   const css = {
     textField: {
@@ -60,6 +41,19 @@ const TopContent: React.FC<topContent> = ({
       },
     },
   };
+
+  const {
+    onClear,
+    onRowsPerPageChange,
+    onSearchChange,
+    filterValue,
+    hasSearchFilter,
+    filterTimeEnd,
+    filterTimeStart,
+    handleDatechange,
+    handleDatechangeEnd,
+    clearDate
+  } = updateTable();
 
   const Content = useMemo(() => {
     const start: dayjs.Dayjs = filterTimeStart?.toDate()?.getDate();
@@ -134,8 +128,9 @@ const TopContent: React.FC<topContent> = ({
             </LocalizationProvider>
           </div>
         </div>
-        <div className="flex w-full justify-between gap-3">
-         { filterTimeStart && filterTimeEnd ? <div className="flex justify-center items-center">
+        <div className="flex w-full justify-start gap-3">
+         { filterTimeStart && filterTimeEnd ? <div className="flex border animate-appearance-in px-3 rounded-2xl justify-center items-center">
+
             <p className="font-bold">Date: </p>
             <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2">
               { start == end
@@ -157,13 +152,25 @@ const TopContent: React.FC<topContent> = ({
                 <FaCircleXmark />
               </span>
             </p>{" "}
-            <div  className="text-2xl cursor-pointer p-2 hover:scale-110  ml-3 text-red-500">
-              <DeleteIcon />
-            </div>
           </div> : <span></span> }
-          <Button className="right-0" color="danger" endContent={<FaPlus />}>
-            Import
-          </Button>
+           { filterValue && <div className="flex justify-center animate-appearance-in border px-3 rounded-2xl  items-center">
+            <p className="font-bold">Keyword:</p>
+            <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2" > {filterValue}
+            <span onClick={onClear} className="cursor-pointer transition-all duration-300 hover:bg-rose-300 rounded-full p-1">
+                <FaCircleXmark />
+              </span>
+            </p>
+           </div>
+           }
+           {(filterTimeStart && filterTimeEnd || filterValue )  ?        
+           <div onClick={()=>{
+            onClear();
+            clearDate();
+           }} className="text-2xl animate-appearance-in flex justify-center items-center cursor-pointer p-2 hover:scale-110  ml-3 text-red-500">
+           <DeleteIcon /> <span className="text-base font-bold ml-2">Clear</span>
+         </div>
+         : ''
+           }
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">

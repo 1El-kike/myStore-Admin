@@ -35,10 +35,11 @@ const cambiarLink = (index:any)=> {
                       <span className="mr-2">{item.option}</span>
                       {item.badge ? (
                         <Badge
-                        className=""
+                        className="flex m-auto"
                           color={item.badge?.color}
                           content={item.badge?.contex}
                           variant="shadow"
+                          showOutline={false}
                         >
                           <span className="mb-4"></span>
                         </Badge>

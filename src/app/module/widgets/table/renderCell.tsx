@@ -136,14 +136,15 @@ export const renderCell = (datos: any, columnKey: any) => {
           </Chip>
         );
       case "actions":
+        const handleView:()=>void = datos.actions.urlview
         return (
           <div className="relative flex items-center gap-2">
-            {datos?.actions?.urlview && (
-              <Tooltip content="Details">
+            {handleView && (
+              <Tooltip onClick={handleView} content="Details">
                 <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                  <Link to={`${datos?.actions?.urlview}${datos.id}`}>
+                 
                     <TablesData />
-                  </Link>
+                 
                 </span>
               </Tooltip>
             )}

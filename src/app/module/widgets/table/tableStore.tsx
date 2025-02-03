@@ -19,7 +19,7 @@ import {
 import BottomContent from "./bottomContent";
 import TopContent from "./topContent";
 import { renderCell } from "./renderCell";
-import { filtertableandSearch } from "../../core/filtertableandSearch";
+import { updateTable } from "../../core/filtertableandSearch";
 
 export interface TypeColumns {
   name: string;
@@ -28,62 +28,27 @@ export interface TypeColumns {
 interface TableData {
   datos: any;
   columns: TypeColumns[];
-  isDetails?:boolean
+  isDetails?: boolean;
 }
 
-export const Tables: FC<TableData> = ({ datos, columns,isDetails }) => {
-
+export const Tables: FC<TableData> = ({ datos, columns, isDetails }) => {
   const {
-    onClear,
-    onNextPage,
-    onPreviousPage,
-    onRowsPerPageChange,
-    onSearchChange,
+    setdatosTable,
+    setSortDescriptor,
+    sortDescriptor,
     selectedKeys,
     setSelectedKeys,
-    setSortDescriptor,
     sortedItems,
-    filterValue,
-    hasSearchFilter,
-    filteredItems,
-    page,
-    pages,
-    sortDescriptor,
-    filterTimeEnd,
-    filterTimeStart,
-    handleDatechange,
-    handleDatechangeEnd,
-    setPage,
-    clearDate
-  } = filtertableandSearch({datos:datos});
+    datosTable,
+  } = updateTable();
 
-  const topContent = (
-    <TopContent
-    filterTimeStart={filterTimeStart}
-    filterTimeEnd={filterTimeEnd}
-      datos={datos}
-      clearDate={clearDate}
-      handleDatechangeEnd={handleDatechangeEnd}
-      handleDatechange={handleDatechange}
-      filterValue={filterValue}
-      hasSearchFilter={hasSearchFilter}
-      onClear={onClear}
-      onRowsPerPageChange={onRowsPerPageChange}
-      onSearchChange={onSearchChange}
-    />
-  );
+  useEffect(() => {
+    isDetails && datos.length > 0 && setdatosTable(datos);
+  }, [datos]);
 
-  const bottomContent = (
-    <BottomContent
-      filteredItems={filteredItems}
-      onNextPage={onNextPage}
-      onPreviousPage={onPreviousPage}
-      page={page}
-      pages={pages}
-      selectedKeys={selectedKeys}
-      setPage={setPage}
-    />
-  );
+  const topContent = <TopContent datos={datosTable} />;
+
+  const bottomContent = <BottomContent />;
 
   const render = useCallback((dato: any, columnKey: any) => {
     return renderCell(dato, columnKey);
@@ -100,7 +65,6 @@ export const Tables: FC<TableData> = ({ datos, columns,isDetails }) => {
       selectedKeys={isDetails ? selectedKeys : undefined}
       onSelectionChange={isDetails ? setSelectedKeys : undefined}
       bottomContent={isDetails ? bottomContent : null}
-      className=""
       selectionMode={isDetails ? "multiple" : "none"}
       aria-label="Example table with custom cells"
     >
