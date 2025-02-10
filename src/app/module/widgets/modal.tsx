@@ -12,24 +12,27 @@ import {
 
 interface TypeModal {
   title: string;
-  text: string;
-  children: any;
-  onActionChange: ()=> void;
+  children: React.ReactNode;
+  onActionChange?: (is:boolean) => boolean;
   className: string;
-  onClick:()=> void;
-  component?:any;
+  onClick: () => void;
+  component?: any;
+  footer?:React.ReactNode
+  size? : 'xs'| 'sm'| 'md'|'lg'| "xl"| "2xl"| "3xl" | "4xl" | "5xl" | "full"
+  scroll?:  undefined | "normal" | "inside" | "outside"
 }
 
 export const Modal_Component = ({
   title,
-  text,
   children,
   onActionChange,
   className,
   onClick,
-  component
-}: any) => {
-  const [isaction, setisaction] = useState(false);
+  footer,
+  scroll = undefined,
+  component,
+  size = 'md'
+}: TypeModal) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const targetRef = React.useRef(null);
@@ -38,7 +41,7 @@ export const Modal_Component = ({
   return (
     <>
       <div
-        className={className}
+      className={className}
         onClick={() => {
           onOpen();
           onClick();
@@ -46,8 +49,11 @@ export const Modal_Component = ({
       >
         <Modal
           ref={targetRef}
-          className="h-80 relative overflow-hidden flex justify-center"
+          backdrop="blur"
+          size={size}
+          className=""
           isOpen={isOpen}
+          scrollBehavior={scroll}
           onOpenChange={onOpenChange}
         >
           <ModalContent>
@@ -56,37 +62,34 @@ export const Modal_Component = ({
                 <ModalHeader {...moveProps} className="flex flex-col gap-1">
                   {title}
                 </ModalHeader>
-                <ModalBody className="m-auto  flex justify-center">
-                  <div className="absolute blur-3xl aspect-[700/500]  -z-40 inset-0">
-                    <div className="w-full h-full bg-gradient-to-tl from-violet-500 to-teal-500 clip-modal  "></div>
-                  </div>
-                  <img
-                    src="/store-logo/logoShop.jpg"
-                    className="w-full opacity-10 absolute inset-0 blur-sm  -z-30 aspect-auto"
-                    alt=""
-                  />
-                  <p className="text-center">{text}</p>
+                <ModalBody className="m-auto w-full flex justify-center">
                   {component}
                 </ModalBody>
                 <ModalFooter>
-                  <Button
-                    color="danger"
-                    className=" relative inline-flex items-center justify-center px-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200 "
-                    onPress={onClose}
-                  >
-                    <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
-                      Discard
-                    </span>
-                  </Button>
-                  <Button
-                    color="primary"
-                    onPress={() => {
-                      onClose();
-                      onActionChange(true);
-                    }}
-                  >
-                    Action
-                  </Button>
+                  {!footer ? (
+                    <>
+                      <Button
+                        color="danger"
+                        className=" relative inline-flex items-center justify-center px-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200 "
+                        onPress={onClose}
+                      >
+                        <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                          Discard
+                        </span>
+                      </Button>
+                      <Button
+                        color="primary"
+                        onPress={() => {
+                          onClose();
+                         onActionChange && onActionChange(true) ;
+                        }}
+                      >
+                        Action
+                      </Button>
+                    </>
+                  ) : (
+                    footer
+                  )}
                 </ModalFooter>
               </>
             )}

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -6,15 +6,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  User,
-  Chip,
-  Tooltip,
-  Pagination,
-  ChipProps,
-  Selection,
-  SortDescriptor,
-  Button,
-  Input,
 } from "@nextui-org/react";
 import BottomContent from "./bottomContent";
 import TopContent from "./topContent";
@@ -26,25 +17,18 @@ export interface TypeColumns {
   uid: string;
 }
 interface TableData {
-  datos: any;
   columns: TypeColumns[];
   isDetails?: boolean;
 }
 
-export const Tables: FC<TableData> = ({ datos, columns, isDetails }) => {
+export const Tables: FC<TableData> = ({ columns, isDetails }) => {
   const {
-    setdatosTable,
     setSortDescriptor,
     sortDescriptor,
     selectedKeys,
     setSelectedKeys,
-    sortedItems,
     datosTable,
   } = updateTable();
-
-  useEffect(() => {
-    isDetails && datos.length > 0 && setdatosTable(datos);
-  }, [datos]);
 
   const topContent = <TopContent datos={datosTable} />;
 
@@ -82,7 +66,7 @@ export const Tables: FC<TableData> = ({ datos, columns, isDetails }) => {
       <TableBody
         emptyContent={"No rows to display."}
         className=""
-        items={sortedItems}
+        items={datosTable}
       >
         {(item: any) => (
           <TableRow key={item.id}>

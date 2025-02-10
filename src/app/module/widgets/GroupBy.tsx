@@ -4,7 +4,7 @@ import { Type_product } from "../components/products/type_product";
 import { Tables, TypeColumns } from "./table/tableStore";
 
 interface TypeGroup {
-    data:any;
+    data?:any;
     link?:string;
     isDetails?:boolean
     buttonClasses?:(string | undefined)[];
@@ -86,7 +86,7 @@ export const Table:React.FC<TypeGroup> = ({data,columns,isDetails})=> {
 
     return (
         <>
-        <Tables isDetails={isDetails} columns={columns && columns || defaultcolumn} datos={data}/>
+        <Tables isDetails={isDetails} columns={columns && columns || defaultcolumn}/>
         </>
     )
  } 

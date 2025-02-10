@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Group, List, Table } from "./GroupBy";
 import { TollButtom } from "../components/products/tollBar";
 import { useEjecut } from "../../hooks/useEjecut";
+import { updateTable } from "../core/filtertableandSearch";
 
 export const TabSelect = ({ link }: {link: string}) => {
   const buttonClasses = [
@@ -31,6 +32,12 @@ export const TabSelect = ({ link }: {link: string}) => {
 
   const transformedData = transformData(data);
 
+  const {setdatosTable} = updateTable()
+
+  useEffect(() => {
+    setdatosTable(transformedData)
+  }, [data])
+  
   const option: React.JSX.Element[] = [
     <List
     link={link}
@@ -41,7 +48,6 @@ export const TabSelect = ({ link }: {link: string}) => {
     <Table
       buttonClasses={buttonClasses}
       fondoClasses={fondoClasses}
-      data={transformedData}
     />,
     <Group
       buttonClasses={buttonClasses}

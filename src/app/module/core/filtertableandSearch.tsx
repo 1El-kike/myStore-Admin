@@ -25,7 +25,6 @@ const UpdateTable = createContext<any>({
   onRowsPerPageChange: () => {},
   onPreviousPage: () => {},
   onNextPage: () => {},
-  sortedItems: [],
   selectedKeys: new Set([]),
   setSelectedKeys: () => {},
   filterValue: "",
@@ -87,20 +86,6 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
   };
 
   const hasSearchFilter = Boolean(filterValue);
-  type DatosTable = (typeof datosTable)[0];
-
-  //  const cantlength = filteredItems?.length || 5;
-  //const pages = Math.ceil(cantlength / rowsPerPage);
-  
-  const sortedItems = useMemo(() => {
-    return [...datosTable].sort((a: DatosTable, b: DatosTable) => {
-      const first = a[sortDescriptor.column as keyof DatosTable] as number;
-      const second = b[sortDescriptor.column as keyof DatosTable] as number;
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
-    });
-  }, [sortDescriptor, datosTable]);
 
   const onNextPage = useCallback(() => {
     if (page < limit) {
@@ -145,7 +130,6 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
         onRowsPerPageChange,
         onPreviousPage,
         onNextPage,
-        sortedItems,
         selectedKeys,
         setSelectedKeys,
         filterValue,

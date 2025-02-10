@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Type_product } from "../products/type_product";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, Button } from "@nextui-org/react";
 import { useDelite } from "../../../hooks/useDelite";
 import { useEjecut } from "../../../hooks/useEjecut";
 import { port } from "../../../../config/env";
@@ -40,9 +40,18 @@ export const SelectStoreforDelite = () => {
     }
   }, [actionState]);
 
-  const StoreInfo = ({ img, name, rating }: any) => {
+  const StoreInfo = ({ img, name, rating,text }: any) => {
     return (
       <>
+        <div className="absolute blur-3xl aspect-[700/500]  -z-40 inset-0">
+                    <div className="w-full h-full bg-gradient-to-tl from-violet-500 to-teal-500 clip-modal  "></div>
+                  </div>
+                  <img
+                    src="/store-logo/logoShop.jpg"
+                    className="w-full opacity-10 absolute inset-0 blur-sm  -z-30 aspect-auto"
+                    alt=""
+                  />
+                  <p className="text-center">{text}</p>
         <div className="flex inset-0 justify-center ">
           <Avatar
             src={port + img}
@@ -69,20 +78,20 @@ export const SelectStoreforDelite = () => {
               <>
                 <Modal_Component
                   key={data.id}
-                  text={
-                    "Are you sure you want to delete this Store " + data.name
-                  }
                   component={
                     <StoreInfo
                     name={data.name}
                     rating={data.rating}
                     img={data.imgStore}
+                    text={
+                      "Are you sure you want to delete this Store " + data.name
+                    }
                     />
                   }
                   title={"Warning"}
                   onClick={() => setidStore(data.id)}
                   className="w-[30%] mt-10 animate-appearance-in duration-1000 h-60"
-                  onActionChange={handleActionChange}
+                 
                 >
                   <Type_product
                     position="vertical"
