@@ -95,7 +95,7 @@ export const LayatSidebar = ({ setancho }: any) => {
             onClick={toggleSidebar}
             className="absolute py-1 z-50 px-2 bg-slate-200 -right-7 top-0 rounded-md cursor-pointer"
           >
-            <ArrowLeftIcon className={`${collapsed ? "rotate-180" : ""}`} />
+           {""} <ArrowLeftIcon className={`${collapsed ? "rotate-180" : ""}`} />
           </button>
         </div>
         <Sidebar.Items>
