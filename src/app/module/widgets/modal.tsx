@@ -15,7 +15,7 @@ interface TypeModal {
   children: React.ReactNode;
   onActionChange?: (is:boolean) => boolean;
   className: string;
-  onClick: () => void;
+  onClick?: () => void;
   component?: any;
   footer?:React.ReactNode
   size? : 'xs'| 'sm'| 'md'|'lg'| "xl"| "2xl"| "3xl" | "4xl" | "5xl" | "full"
@@ -44,7 +44,7 @@ export const Modal_Component = ({
       className={className}
         onClick={() => {
           onOpen();
-          onClick();
+         onClick && onClick();
         }}
       >
         <Modal
@@ -62,7 +62,7 @@ export const Modal_Component = ({
                 <ModalHeader {...moveProps} className="flex flex-col gap-1">
                   {title}
                 </ModalHeader>
-                <ModalBody className="m-auto w-full flex justify-center">
+                <ModalBody className="m-auto w-full flex justify-start">
                   {component}
                 </ModalBody>
                 <ModalFooter>

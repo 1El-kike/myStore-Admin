@@ -22,33 +22,47 @@ export const renderCell = (
 ) => {
   const cellValue = datos[columnKey];
 
+  
+
+
   const JsxContent: any = () => {
    // e.stopPropagation();
-    const view: (id: number) => React.ReactNode = datos?.actions?.urlview;
-    const content:any = view(datos.id);
-    if (!content) {
-      return
+   const [modal, setmodal] = useState({
+    title:'',
+    component: <div></div>
+   })
+   const handleView = () => {
+    try {
+        const view = datos?.actions?.urlview(datos);
+        const datosModal = view && view(datos);
+        setmodal(datosModal);
+    } catch (error) {
+         console.error("Error al manejar la vista:", error);
     }
+  };
+
+   const handleClick = () => {
+      handleView(); // Llama a handleView solo cuando se hace clic aquí
+    };
     return (
       <>
-        {datos?.actions?.urlview && (
           <Modal_Component
-            component={content.component}
-            title={content.title}
+            component={modal.component || <div></div>}
+            title={modal.title || "" }
             onClick={() => {}}
             size="xl"
             className=""
             scroll={"inside"}
           >
             <Tooltip content="Details">
-              <span
+              <span onClick={handleClick}
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
               >
                 <TablesData />
               </span>
             </Tooltip>
           </Modal_Component>
-        )}
+       
       </>
     );
   };
@@ -174,7 +188,11 @@ export const renderCell = (
     case "actions":
       return (
         <div className="relative flex items-center gap-2">
-           <JsxContent/> 
+             {datos?.actions?.urlview && (
+              <div >
+                <JsxContent /> 
+              </div>
+        )}
           {datos?.actions?.urledit && (
             <Tooltip content="Edit">
               <span

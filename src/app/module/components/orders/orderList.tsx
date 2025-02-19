@@ -75,6 +75,7 @@ export const OrderList = () => {
     setlimit,
     filterValue,
     setdatosTable,
+    datosTable
   } = updateTable();
 
   const { data, isLoadingData, errors } = useEjecut({
@@ -92,6 +93,7 @@ export const OrderList = () => {
         setlimit(data.data[link].totalPages);
       }
     }
+    //return datosTable.unSudcribe()
   }, [data, filterValue]);
 
   if (errors) {
@@ -110,17 +112,17 @@ export const OrderList = () => {
     ); // Mostrar un mensaje de carga mientras no haya data
   }
 
-  const actions = (data: any) => {
+  const actions = (id: any) => {
 
 
      const editOrder = () => {
-      navigate(`/orders/edit/${data.id}`);
+      navigate(`edit/${id}`);
     };
 
     return {
       urledit: editOrder,
       urldelite: "delite/",
-      urlview: () => ViewDetailOrder(data),
+      urlview: () => ViewDetailOrder,
     };
   };
   
@@ -129,7 +131,7 @@ export const OrderList = () => {
   const functionactions = (data: any[]) => {
     const newData = data.map((prev: any) => ({
       ...prev,
-      actions: actions(prev),
+      actions: actions(prev.id),
     }));
     return newData;
   };

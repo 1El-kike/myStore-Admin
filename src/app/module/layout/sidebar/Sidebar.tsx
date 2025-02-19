@@ -135,7 +135,7 @@ export const LayatSidebar = ({ setancho }: any) => {
               title="Orders"
               collapseddata={[
                 {link:"orders/list",name:"List Order"},
-                {link:"orders",name:"Create Order"},
+                {link:"orders/create",name:"Create Order"},
                 {link:"orders",name:"Order Details"},
                 ]}
             />

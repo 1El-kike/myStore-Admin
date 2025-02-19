@@ -5,9 +5,10 @@ interface Input_Text {
     label:string;
     placeholder:string;
     data:string;
+    disable?:true;
 }
 
-export const Input_text:React.FC<Input_Text> = ({label,placeholder,data}) => {
+export const Input_text:React.FC<Input_Text> = ({label,placeholder,data,disable}) => {
 
   const { register, formState: { errors } } = useFormContext();
 
@@ -16,11 +17,21 @@ export const Input_text:React.FC<Input_Text> = ({label,placeholder,data}) => {
     <div className="flex relative flex-col">
     <label
       htmlFor={label}
-      className="block mb-2 capitalize text-base font-medium text-gray-900"
+      className={`block mb-2 capitalize  text-base font-medium ${disable ? " text-gray-500" : "text-gray-900 "} `}
     >
       {label} 
     </label>
+    {disable ? 
     <input
+    type="text"
+    disabled
+    id={label}
+    aria-describedby="helper-text-explanation"
+    className={ `bg-gray-50 mb-2 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors[data] ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
+    placeholder={placeholder}
+  />
+  :
+  <input
       type="text"
       {...register(data, { required: "This field is required" })}
       id={label}
@@ -28,6 +39,8 @@ export const Input_text:React.FC<Input_Text> = ({label,placeholder,data}) => {
       className={ `bg-gray-50 mb-2 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors[data] ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
       placeholder={placeholder}
     />
+  }
+    
   {errors[data] && <span className="text-red-500 absolute italic -bottom-5">{ errors[data].message }</span>} 
   </div>
   )
