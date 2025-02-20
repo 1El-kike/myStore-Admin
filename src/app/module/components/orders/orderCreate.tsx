@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
-import { FormProvider, useFieldArray, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm, useFormContext, useWatch } from "react-hook-form";
 import useBack from "../../../hooks/useBack";
 import { Submit } from "../../widgets/Submit";
 import { Input_text } from "../../widgets/Input_text";
 import { Calendary_Input } from "../../widgets/calendary_Input";
 import { TextareaComponent } from "../../widgets/textarea";
 import { Table } from "../../widgets/GroupBy";
-import { FaPencilAlt, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { Form_orders } from "../../../../model/type_orders";
 import { updateTable } from "../../core/filtertableandSearch";
 import { Modal_Component } from "../../widgets/modal";
@@ -15,7 +15,6 @@ import { InputAutocomplet } from "../../widgets/InputAutocomplet";
 import { useEjecut } from "../../../hooks/useEjecut";
 import { MdRemove } from "react-icons/md";
 import { Button } from "@nextui-org/react";
-import { UserIcon } from "../../widgets/iconSVG";
 
 interface AutocompleteItem {
   key: string | null;
@@ -35,9 +34,6 @@ export const OrderCreate = () => {
     url: "orders/create",
     reset: methods.reset,
   });
-  const { control, setValue, getValues } = useFormContext();
-
-  
 
   const columns = [
     { name: "PRODUCT", uid: "order" },
@@ -46,103 +42,110 @@ export const OrderCreate = () => {
     { name: "", uid: "actions" },
   ];
 
-  const addProduct = () => {
-    setdatosTable();
-  };
-
   const BodyModal = () => {
-    const [count, setcount] = useState(1)
-    const [autocomplet, setautocomplet] = useState<Array<AutocompleteItem>>([
-      {
-        key: null,
-        label: null,
-      },
-    ]);
-    const { data, isLoadingData, errors } = useEjecut({
-      url: `allProducts`,
-    });
+    const { control } = useFormContext();
+    const { data } = useEjecut({ url: `allProducts` });
+    const { fields, append } = useFieldArray({ control, name: "items" });
+    
+    // Observar items eficientemente
+    const items = useWatch({ control, name: "items" });
+    const lastItem = useMemo(() => items?.[items.length - 1], [items]);
 
-    const { fields, append, remove } = useFieldArray({
-      control,
-      name: "items"
-    });
+    // Memoizar datos de autocompletado
+    const autocomplet = useMemo(
+      () => 
+        data?.map((item: DataItem) => ({
+          key: item.id,
+          label: item.name                        
+        })) || [],
+      [data]
+    );
 
-     // Función para agregar nuevo producto
-  const handleAddProduct = () => {
-    append({
-      productId: null,
-      quantity: 1,
-      price: null
-    });
-  };
-
+    // Efecto para actualizar precios
     useEffect(() => {
-      if (data) {
-        const formattedData: Array<AutocompleteItem> = data.map(
-          (item: DataItem) => ({
-            key: item.id,
-            label: item.name,
-          })
-        );
-        setautocomplet(formattedData);
-      }
-    }, [data]);
+      const subscription = methods.watch((value, { name }) => {
+        if (name?.startsWith('items.') && name?.endsWith('.productId')) {
+          const index = Number(name.split('.')[1]);
+          const selectedProduct = data?.find(
+            (item: DataItem) => item.id === value.items?.[index]?.productId
+          );
+          
+          if (selectedProduct?.price) {
+            methods.setValue(`items.${index}.price`, selectedProduct.price, {
+              shouldDirty: false
+            });
+          }
+        }
+      });
 
-    const moreQuantity = () => {
-      // Obtener el valor actual
-      const currentQuantity = methods.getValues("items.0.quantity") || 1; // Si es null, usa 0
-      // Incrementar en 1 y actualizar el valor
-      methods.setValue("items.0.quantity", Number(currentQuantity) + 1);
+      return () => subscription.unsubscribe();
+    }, [methods, data]);
+
+    // Control de cantidad
+    const moreQuantity = (index: number) => {
+      const currentQuantity = methods.getValues(`items.${index}.quantity`) || 1;
+      methods.setValue(`items.${index}.quantity`, Number(currentQuantity) + 1);
     };
-    const lessQuantity = () => {
-      // Obtener el valor actual
-      const currentQuantity = methods.getValues("items.0.quantity") || 1; // Si es null, usa 0
-      // Incrementar en 1 y actualizar el valor
-      methods.setValue("items.0.quantity", Number(currentQuantity) - 1);
+
+    const lessQuantity = (index: number) => {
+      const currentQuantity = methods.getValues(`items.${index}.quantity`) || 1;
+      if (currentQuantity > 1) {
+        methods.setValue(`items.${index}.quantity`, Number(currentQuantity) - 1);
+      }
     };
-    const  OtherProduct = ()=> {
-      setcount(count + 1)
-    }
- 
+
+    // Función para agregar productos con validación
+    const addProduct = () => {
+      if (!lastItem?.productId) return;
+      append({ productId: null, quantity: 1, price: null });
+    };
+
     return (
       <>
-      {
-        Array.from({ length: count }).map((_, index) => (
-          // Contenido a repetir. "index" será 0, 1, 2, 3, 4 (5 iteraciones)
-          <div key={index} className=" flex justify-between items-center">
-          <InputAutocomplet
-            label="Select products"
-            data="items[0].productId"
-            dataAutocomplet={autocomplet}
-          />
-          {methods.watch("items.0.productId") && (
-            <div className="flex justify-center items-center gap-1 animate-appearance-in">
-              <div 
-              onClick={lessQuantity}
-              className="bg-gradient-to-br hover:scale-110 duration-250  active:scale-95 focus:ring-2 cursor-pointer  from-slate-50 to-slate-200 rounded-lg p-1">
-                <MdRemove size={24} />
-              </div>
-              <div className="mx-2 text-md">
-                {methods.watch("items.0.quantity")}
-              </div>
-              <div
-                onClick={moreQuantity}
-                className="bg-gradient-to-br hover:scale-110 active:scale-95 cursor-pointer duration-250  from-sky-500 to-lime-500 rounded-lg p-2"
-              >
-                <FaPlus />
-              </div>
-            </div>
-          )}
-        </div>
-        ))
-       
-      }
+        {fields.map((field, index) => (
+          <div key={field.id} className="flex justify-between items-center mb-4">
+            <InputAutocomplet
+              label="Select products"
+              data={`items.${index}.productId`}
+              dataAutocomplet={autocomplet}
+              placeholder="Search product..."
+            />
 
-        {methods.watch("items.0.productId") && <div className="mb-5 mt-1">
-        <Button onPress={OtherProduct} className="animate-appearance-in" color="success" startContent={<FaPencilAlt />} variant="shadow">
-       <FaPlus/>
-      </Button>
-        </div>}
+            {methods.watch(`items.${index}.productId`) && (
+              <div className="flex justify-center items-center gap-1 animate-appearance-in">
+                <div 
+                  onClick={() => lessQuantity(index)}
+                  className="bg-gradient-to-br hover:scale-110 duration-250 active:scale-95 focus:ring-2 cursor-pointer from-slate-50 to-slate-200 rounded-lg p-1"
+                >
+                  <MdRemove size={24} />
+                </div>
+                <div className="mx-2 text-md">
+                  {methods.watch(`items.${index}.quantity`)}
+                </div>
+                <div
+                  onClick={() => moreQuantity(index)}
+                  className="bg-gradient-to-br hover:scale-110 active:scale-95 cursor-pointer duration-250 from-sky-500 to-lime-500 rounded-lg p-2"
+                >
+                  <FaPlus />
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+
+        {lastItem?.productId && (
+          <div className="mb-5 mt-1">
+            <Button 
+              onPress={addProduct}
+              className="animate-appearance-in" 
+              color="success" 
+              startContent={<FaPlus />} 
+              variant="shadow"
+            >
+              Add Product
+            </Button>
+          </div>
+        )}
       </>
     );
   };
