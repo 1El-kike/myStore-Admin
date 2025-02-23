@@ -71,6 +71,11 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
     setfilterTimeEnd(endOfDay);
   }, []);
 
+  // Memoiza la función para evitar recrearla
+  const stableSetdatosTable = useCallback((data:any) => {
+    setdatosTable(data);
+  }, []);
+
   const handleDatechange = (newValue: dayjs.Dayjs) => {
     setfilterTimeStart(newValue.startOf("day"));
     setPage(1);
@@ -138,7 +143,7 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
         filterTimeEnd,
         page,
         datosTable,
-        setdatosTable,
+        setdatosTable: stableSetdatosTable,
         handleDatechangeEnd,
         limit,
         setlimit,

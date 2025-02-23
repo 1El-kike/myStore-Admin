@@ -1,12 +1,20 @@
-import React from 'react'
-import { Navigate, Route, Router, Routes } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Navigate, Route, Router, Routes, useLocation } from 'react-router-dom'
 import { PageTitleInit } from '../../module/layout/tollbar/tiltleInit'
 import { PageTitle } from '../../module/core/pageTitle'
 import { OrderList } from '../../module/components/orders/orderList'
 import { OrderListEdit } from '../../module/components/orders/orderListEdit'
 import { OrderCreate } from '../../module/components/orders/orderCreate'
+import { updateTable } from '../../module/core/filtertableandSearch'
 
 export const OrderPage = () => {
+  const location = useLocation();
+  const { setdatosTable } = updateTable();
+  
+  useEffect(() => {
+    // Resetear al cambiar de ruta
+    setdatosTable([]);
+  }, [location.pathname]);
 
 const listOrder = [
     {

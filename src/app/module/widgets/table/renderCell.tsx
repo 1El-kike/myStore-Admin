@@ -154,8 +154,8 @@ export const renderCell = (
     case "name":
       return (
         <User
-          avatarProps={{ radius: "lg", src: port + datos.imgStore }}
-          description={datos.email}
+          avatarProps={!datos.image ? { radius: "lg", src: port + datos.imgStore } : {radius:"lg", src:port + datos.image }}
+          description={datos.email || datos.tipo}
           name={cellValue}
         >
           {datos.email}

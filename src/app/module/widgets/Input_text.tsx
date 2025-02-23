@@ -17,6 +17,7 @@ export const Input_text:React.FC<Input_Text> = ({label,placeholder,data,disable}
     <div className="flex relative flex-col">
     <label
       htmlFor={label}
+      aria-label="Seleccionar input"
       className={`block mb-2 capitalize  text-base font-medium ${disable ? " text-gray-500" : "text-gray-900 "} `}
     >
       {label} 
@@ -26,6 +27,7 @@ export const Input_text:React.FC<Input_Text> = ({label,placeholder,data,disable}
     type="text"
     disabled
     id={label}
+    aria-label="Seleccionar input"
     aria-describedby="helper-text-explanation"
     className={ `bg-gray-50 mb-2 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors[data] ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
     placeholder={placeholder}
@@ -36,6 +38,7 @@ export const Input_text:React.FC<Input_Text> = ({label,placeholder,data,disable}
       {...register(data, { required: "This field is required" })}
       id={label}
       aria-describedby="helper-text-explanation"
+      aria-label="Seleccionar input"
       className={ `bg-gray-50 mb-2 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors[data] ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
       placeholder={placeholder}
     />

@@ -3,7 +3,6 @@ import { TypeDefaultcreateOrder } from "../interface/typeOrders";
 
 export const Form_orders:TypeDefaultcreateOrder = {
     defaultValues: {
-        customer: null,
         timeOrder: null,
       //  numberOrder: null,
       city: null,

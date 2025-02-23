@@ -43,15 +43,7 @@ export const SelectStoreforDelite = () => {
   const StoreInfo = ({ img, name, rating,text }: any) => {
     return (
       <>
-        <div className="absolute blur-3xl aspect-[700/500]  -z-40 inset-0">
-                    <div className="w-full h-full bg-gradient-to-tl from-violet-500 to-teal-500 clip-modal  "></div>
-                  </div>
-                  <img
-                    src="/store-logo/logoShop.jpg"
-                    className="w-full opacity-10 absolute inset-0 blur-sm  -z-30 aspect-auto"
-                    alt=""
-                  />
-                  <p className="text-center">{text}</p>
+       <p className="text-center">{text}</p>
         <div className="flex inset-0 justify-center ">
           <Avatar
             src={port + img}

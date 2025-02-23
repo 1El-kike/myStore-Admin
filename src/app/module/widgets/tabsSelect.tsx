@@ -37,6 +37,12 @@ export const TabSelect = ({ link }: {link: string}) => {
   useEffect(() => {
     setdatosTable(transformedData)
   }, [data])
+  // Resetear el contexto al salir de la página
+  useEffect(() => {
+    return () => {
+      setdatosTable([]); // <-- Limpia los datos al desmontar
+    };
+  }, []);
   
   const option: React.JSX.Element[] = [
     <List

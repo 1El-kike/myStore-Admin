@@ -4,7 +4,6 @@ export interface TypeDefaultcreateOrder {
 
 export interface TypeOrders {
   id?: number;
-  customer: string | null;
   timeOrder: string | null;
   // numberOrder: string  | null,
   city: string | null;

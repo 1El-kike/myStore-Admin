@@ -133,10 +133,10 @@ export const OrderList = () => {
       ...prev,
       actions: actions(prev.id),
     }));
+    console.log(newData);
     return newData;
   };
 
-  //console.log(data.totalOrderDataDay);
   const Datacomponent: Option[] = [
     {
       option: "All",
