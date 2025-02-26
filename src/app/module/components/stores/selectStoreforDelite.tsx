@@ -60,6 +60,11 @@ export const SelectStoreforDelite = () => {
     );
   };
 
+  const onActionChange = (closeModal: () => void) => {
+    handleActionChange(true)
+    closeModal();
+  }
+
   return (
     <>
       <PageTitleInit />
@@ -83,7 +88,7 @@ export const SelectStoreforDelite = () => {
                   title={"Warning"}
                   onClick={() => setidStore(data.id)}
                   className="w-[30%] mt-10 animate-appearance-in duration-1000 h-60"
-                 
+                onActionChange={(closeModal) => onActionChange(closeModal)}
                 >
                   <Type_product
                     position="vertical"

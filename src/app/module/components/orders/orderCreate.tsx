@@ -19,14 +19,11 @@ import { updateTable } from "../../core/filtertableandSearch";
 import { Modal_Component } from "../../widgets/modal";
 import { InputAutocomplet } from "../../widgets/InputAutocomplet";
 import { useEjecut } from "../../../hooks/useEjecut";
-import { MdRemove } from "react-icons/md";
-import { Button } from "@nextui-org/react";
+import { Alert } from "@nextui-org/react";
+import { BodyModal, DataItem } from "./bodyModal";
 
 // Define el tipo para los datos entrantes
-type DataItem = {
-  id: string | null;
-  name: string | null;
-};
+
 
 export const OrderCreate = () => {
   const methods = useForm(Form_orders);
@@ -36,190 +33,72 @@ export const OrderCreate = () => {
     url: "orders/create",
     reset: methods.reset,
   });
-
   const columns = [
     { name: "PRODUCT", uid: "name" },
     { name: "QUANTITY", uid: "quantity" },
     { name: "UNIT PRICE", uid: "price" },
   ];
 
-  const BodyModal = () => {
-    const { control } = useFormContext();
-    const { data } = useEjecut({ url: `allProducts` });
-    const { fields, append, remove } = useFieldArray({
-      control,
-      name: "items",
-    });
 
-    // Observar items eficientemente
-    const items = useWatch({ control, name: "items" });
-    const lastItem = useMemo(() => items?.[items.length - 1], [items]);
-
-    // Memoizar datos de autocompletado
-    const autocomplet = useMemo(
-      () =>
-        data?.map((item: DataItem) => ({
-          key: item.id,
-          label: item.name,
-        })) || [],
-      [data]
-    );
-
-    const addData = (newData: any, index: number) => {
-      const formatData = {
-        id: newData?.id,
-        name: newData?.name,
-        image: newData?.image,
-        tipo: newData?.tipo,
-        status: newData?.inventoryStatus,
-        price: newData?.price,
-        quantity: methods.getValues(`items.${index}.quantity`),
-      };
-      setdatosModal((prev: any) => {
-        const newModalData = [...prev];
-        newModalData[index] = formatData; // Actualizar posición del índice
-        return newModalData;
-      });
-    };
-
-    // Efecto para actualizar precios
-    useEffect(() => {
-      const subscription = methods.watch((value, { name }) => {
-        if (name?.startsWith("items.") && name?.endsWith(".productId")) {
-          const index = Number(name.split(".")[1]);
-          const selectedProduct = data?.find(
-            (item: DataItem) => item.id == value.items?.[index]?.productId
-          );
-          if (selectedProduct?.price) {
-            methods.setValue(`items.${index}.price`, selectedProduct.price, {
-              shouldDirty: false,
-            });
-          }
-          addData(selectedProduct, index);
-        }
-      });
-
-      return () => subscription.unsubscribe();
-    }, [methods, data]);
-    // Control de cantidad
-    const moreQuantity = (index: number) => {
-      const currentQuantity = methods.getValues(`items.${index}.quantity`) || 1;
-      methods.setValue(`items.${index}.quantity`, Number(currentQuantity) + 1);
-      // Actualizar datosModal usando el índice directo
-      setdatosModal((prev: any) =>
-        prev.map((item: any, i: number) =>
-          i === index
-            ? { ...item, quantity: Number(currentQuantity) + 1 }
-            : item
-        )
-      );
-    };
-
-    const lessQuantity = (index: number) => {
-      const currentQuantity = methods.getValues(`items.${index}.quantity`) || 1;
-      if (currentQuantity > 1) {
-        methods.setValue(
-          `items.${index}.quantity`,
-          Number(currentQuantity) - 1
-        );
-      }
-      // Actualizar datosModal usando el índice directo
-      setdatosModal((prev: any) =>
-        prev.map((item: any, i: number) =>
-          i === index
-            ? { ...item, quantity: Number(currentQuantity) - 1 }
-            : item
-        )
-      );
-    };
-
-    // Función para agregar productos con validación
-    const addProduct = () => {
-      if (!lastItem?.productId) return;
-      append({ productId: null, quantity: 1, price: null });
-    };
-
-    // Función para eliminar o vaciar producto
-    const handleRemove = (index: number) => {
-      if (fields.length > 1) {
-        remove(index);
-        setdatosModal((prev: any) =>
-          prev.filter((_: any, i: number) => i !== index)
-        ); // Eliminar del mismo índice
-      } else {
-        // Si solo queda un elemento, vaciamos sus campos
-        methods.setValue(`items.0.productId`, null);
-        methods.setValue(`items.0.quantity`, 1);
-        methods.setValue(`items.0.price`, null);
-        setdatosModal([]);
-      }
-    };
-
-    return (
+  const FooterModal = ()=>{
+    return(
       <>
-        {fields.map((field, index) => (
-          <div
-            key={field.id}
-            className="flex justify-between items-center mb-4"
-          >
-            <InputAutocomplet
-              label="Select products"
-              data={`items.${index}.productId`}
-              dataAutocomplet={autocomplet}
-             // onClear={handleRemove}
-              placeholder="Search product..."
-            />
-
-            {methods.watch(`items.${index}.productId`) && (
-              <div className="flex justify-center items-center gap-1 animate-appearance-in">
-                <div
-                  onClick={() => handleRemove(index)}
-                  aria-label="Eliminar producto"
-                  className="bg-gradient-to-br mr-1 hover:scale-110 duration-250 active:scale-95 focus:ring-2 cursor-pointer from-slate-500 to-slate-600 rounded-lg p-2"
-                >
-                  <FaTrashAlt color="white" />
+        {showAlert && (
+            <div className="flex animate-opacityonly flex-col gap-4 w-full">
+              <Alert
+                key={"error confirm"}
+                color="danger"
+                variant="flat"
+                className="mb-4"
+                onClose={() => setShowAlert(false)}
+                title={`This is a variant alert`}
+              >
+                <div className="flex flex-col">
+                  <p className="font-bold">Error de validación</p>
+                  <ul className="list-disc pl-4">
+                    {alertMessage.map((msg, i) => (
+                      <li key={i}>{msg}</li>
+                    ))}
+                  </ul>
                 </div>
-                <div
-                  onClick={() => lessQuantity(index)}
-                  aria-label="Reducir cantidad"
-                  className="bg-gradient-to-br hover:scale-110 duration-250 active:scale-95 focus:ring-2 cursor-pointer from-slate-50 to-slate-200 rounded-lg p-1"
-                >
-                  <MdRemove size={24} />
-                </div>
-                <div className="mx-2 text-md">
-                  {methods.watch(`items.${index}.quantity`)}
-                </div>
-                <div
-                  onClick={() => moreQuantity(index)}
-                  aria-label="Aumentar cantidad"
-                  className="bg-gradient-to-br hover:scale-110 active:scale-95 cursor-pointer duration-250 from-sky-500 to-lime-500 rounded-lg p-2"
-                >
-                  <FaPlus />
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-
-        {lastItem?.productId && (
-          <div className="mb-5 mt-1">
-            <Button
-              onPress={addProduct}
-              className="animate-appearance-in"
-              color="success"
-              startContent={<FaPlus />}
-              variant="shadow"
-            >
-              Add Product
-            </Button>
-          </div>
-        )}
+              </Alert>
+            </div>
+          )}
       </>
-    );
-  };
+    )
+  }
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string[]>([]);
 
-  const onActionChange = () => {
+  const onActionChange = (closeModal: () => void) => {
+    // Validar campos requeridos
+    const errores = datosModal
+      .map((item: any, index: number) => ({
+        row: index + 1,
+        missing: [
+          ...(!item?.id ? ["Producto"] : []),
+          ...(!item?.quantity ? ["Cantidad"] : []),
+          ...(!item?.price ? ["Precio"] : []),
+        ],
+      }))
+      .filter((e: any) => e.missing.length > 0);
+
+    if (errores.length > 0) {
+      const messages = errores.map(
+        (e: any) => `Fila ${e.row}: ${e.missing.join(", ")}`
+      );
+      setAlertMessage(messages);
+      setShowAlert(true);
+      /* setTimeout(()=>{
+        setShowAlert(false)
+      },3000) */
+      return false;
+    }
+    
     setdatosTable(datosModal);
+    setShowAlert(false);
+    closeModal();
+    return true;
   };
 
   const onDiscardChange = () => {
@@ -232,6 +111,16 @@ export const OrderCreate = () => {
         },
       ]);
       setdatosModal([]);
+    } else {
+      // console.log(datosTable,datosModal)
+      const itemsArray = datosTable.map((item: any) => ({
+        productId: item.id,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+      // Establecer el nuevo array en "items"
+      methods.setValue("items", itemsArray);
+       setdatosModal(datosTable);
     }
   };
 
@@ -246,26 +135,29 @@ export const OrderCreate = () => {
         })) || [],
       [data]
     );
-    console.log(JSON.stringify(methods.getValues(),null,2))
+    //console.log(JSON.stringify(methods.getValues(), null, 2),data);
     return (
       <>
-      <div>
-       <label
-      htmlFor='userId'
-      aria-label="Seleccionar input"
-      className={`block mb-2 capitalize  text-base font-medium text-gray-900 `}
-      >
-      Customer 
-    </label>
-        <InputAutocomplet
-          label=""
-          data={`userId`}
-          variant="faded"
-          className="w-full h-[41.6px]"
-          dataAutocomplet={autocomplet}
-          placeholder="search customer..."
+        <div>
+          <label
+            htmlFor="userId"
+            aria-label="Seleccionar input"
+            className={`block mb-2 capitalize  text-base font-medium text-gray-900 `}
+          >
+            Customer
+          </label>
+          <InputAutocomplet
+            label=""
+            data={`userId`}
+            variant="faded"
+            /*  startContent={
+              <Avatar alt="customer" className="w-6 h-6" src={port } />
+            } */
+            className="w-full h-[41.6px]"
+            dataAutocomplet={autocomplet}
+            placeholder="search customer..."
           />
-          </div>
+        </div>
       </>
     );
   };
@@ -319,18 +211,20 @@ export const OrderCreate = () => {
                 <h1 className="text-2xl mt-5 font-bold">Line items</h1>
                 <Table columns={columns} />
                 <Modal_Component
-                  component={<BodyModal />}
+                  component={<BodyModal setdatosModal={setdatosModal} datosModal={datosModal} />}
+                  footer={<FooterModal/>}
+                  isAlert="yes"
                   title={"Add product to order"}
                   size="2xl"
                   onClick={() => {}}
-                  onActionChange={onActionChange}
+                  onActionChange={(closeModal) => onActionChange(closeModal)}
                   className=""
-                  
                   onDiscardChange={onDiscardChange}
-                  scroll={"inside"}
+                  scroll={"normal"}
                 >
                   <button
                     aria-label="Agregar producto al pedido"
+                    type="button"
                     className="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-4 min-w-20 h-10 text-small gap-2 rounded-medium [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-danger/40 bg-danger text-danger-foreground data-[hover=true]:opacity-hover w-1/4"
                   >
                     <span className="p-1 rounded-full border border-white">
@@ -346,7 +240,7 @@ export const OrderCreate = () => {
                   isLoading={isLoading}
                   reset={methods.reset}
                   bottom1="Schedule"
-                  bottom2="Add Product"
+                  bottom2="Add Orders"
                   success={success}
                 />
               </div>

@@ -44,9 +44,16 @@ const useBack = <T,>({ url, reset,method ="POST",initialData }: UseBackProps<T>)
   }
 
    const formData = new FormData();
+
+    // Agregar items como JSON
+  if (data.items) {
+    formData.append('items', data.items);
+  }
   
 // Agregar solo los campos que han cambiado
 Object.keys(data).forEach((key) => {
+  if (key === 'items') return;
+
   if (method === "PUT" && initialData) {
 
     // Solo agregar campos que han cambiado

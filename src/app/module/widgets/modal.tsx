@@ -21,6 +21,7 @@ interface TypeModal {
   footer?:React.ReactNode
   size? : 'xs'| 'sm'| 'md'|'lg'| "xl"| "2xl"| "3xl" | "4xl" | "5xl" | "full"
   scroll?:  undefined | "normal" | "inside" | "outside"
+  isAlert?:'yes' | 'no';
 }
 
 export const Modal_Component = ({
@@ -33,7 +34,8 @@ export const Modal_Component = ({
   scroll = undefined,
   component,
   onDiscardChange,
-  size = 'md'
+  size = 'md',
+  isAlert
 }: TypeModal) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -66,7 +68,7 @@ export const Modal_Component = ({
                 </ModalHeader>
                 <ModalBody className="m-auto w-full   flex justify-start">
                 <div className="absolute blur-3xl -z-40 inset-0">
-                    <div className="w-full h-full opacity-50 bg-gradient-to-tl from-violet-500 to-teal-500 clip-modal  "></div>
+                    <div className="w-full h-full opacity-70 bg-gradient-to-tl from-violet-500 to-teal-500 clip-modal  "></div>
                   </div>
                   <div className="w-full absolute">
 
@@ -78,9 +80,12 @@ export const Modal_Component = ({
                     </div>
                   {component}
                 </ModalBody>
-                <ModalFooter>
-                  {!footer ? (
+                <ModalFooter className="flex flex-col">
+                  {isAlert == 'no' && footer}
+                  {(
                     <>
+                    <div className="flex w-full justify-end ">
+
                       <Button
                         color="danger"
                         className=" relative inline-flex items-center justify-center px-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200 "
@@ -96,16 +101,20 @@ export const Modal_Component = ({
                       <Button
                         color="primary"
                         onPress={() => {
-                          onClose();
-                         onActionChange && onActionChange(true) ;
+                          if (onActionChange) {
+                            const isValid = onActionChange(onClose); // Pasamos la función de cierre
+                            if (isValid) {
+                              onClose();
+                            }
+                          }
                         }}
-                      >
+                        >
                         Action
                       </Button>
+                        </div>
                     </>
-                  ) : (
-                    footer
                   )}
+                    {isAlert == 'yes' && footer}
                 </ModalFooter>
               </>
             )}
