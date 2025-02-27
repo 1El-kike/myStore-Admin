@@ -21,6 +21,7 @@ import { InputAutocomplet } from "../../widgets/InputAutocomplet";
 import { useEjecut } from "../../../hooks/useEjecut";
 import { Alert } from "@nextui-org/react";
 import { BodyModal, DataItem } from "./bodyModal";
+import { Number_Input } from "../../widgets/number_Input";
 
 // Define el tipo para los datos entrantes
 
@@ -161,6 +162,39 @@ export const OrderCreate = () => {
       </>
     );
   };
+
+
+  const Cuenta =()=>{
+    return <>
+    <div className="flex justify-end mt-10">
+
+    <div className="flex flex-col gap-5 w-1/2">
+
+        <div className="flex justify-between w-full">
+          <h1>Subtotal</h1>
+          <h2> $24.00 </h2>
+        </div>
+        <div className="flex justify-between w-full">
+          <h1>Discount</h1>
+          <h2> - </h2>
+        </div>
+        <div className="flex justify-between w-full">
+          <h1>Shipping</h1>
+          <h2> - </h2>
+        </div>
+        <div className="flex justify-between w-full">
+          <h1>Taxes</h1>
+          <h2>$24.00</h2>
+        </div>
+        <div className="flex justify-between w-full">
+          <h1 className="font-bold">Total</h1>
+          <h2 className="font-bold">$24.00</h2>
+        </div>
+    </div>
+    </div>
+    </>
+  }
+
   return (
     <>
       <PageTitleInit />
@@ -195,6 +229,11 @@ export const OrderCreate = () => {
                   placeholder="e.g EU3746473"
                 />
               </div>
+              <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
+              <Number_Input data="discount" label="Discount " />
+              <Number_Input data="rate" label="Shipping rate "  />
+              <Number_Input data="taxrate" label="Tax rate ( % ) "  />
+                </div>
             </div>
             <div className="grow mb-auto basis-72 px-5">
               <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
@@ -234,15 +273,19 @@ export const OrderCreate = () => {
                   </button>
                 </Modal_Component>
               </div>
+             
+                <div>
+                  <Cuenta/>
+                </div>
               <div>
                 <Submit
                   error={error}
                   isLoading={isLoading}
                   reset={methods.reset}
                   bottom1="Schedule"
-                  bottom2="Add Orders"
+                  bottom2="Create Orders"
                   success={success}
-                />
+                  />
               </div>
             </div>
           </form>
