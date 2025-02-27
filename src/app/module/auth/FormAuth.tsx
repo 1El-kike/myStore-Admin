@@ -8,7 +8,7 @@ interface FormAuths {
   first_input: string;
   second_input: string;
   three_input: string;
-  input4: string;
+  number_input: string;
   input5: string;
   input6: string;
 }
@@ -18,10 +18,11 @@ export const FormAuth: React.FC<FormAuths> = ({
   first_input,
   second_input,
   three_input,
-  input4,
+  number_input,
   input5,
   input6,
 }) => {
+
   const [role, setrole] = useState({
     roles: [
       { role: "" },
@@ -30,6 +31,8 @@ export const FormAuth: React.FC<FormAuths> = ({
       { role: "Client" },
     ],
   });
+
+ // const {saveAuth, setCurrentUser} = useAuth()
 
   const {
     register,
@@ -87,7 +90,7 @@ export const FormAuth: React.FC<FormAuths> = ({
 
       {[
         [three_input, "password", "****************"],
-        [input4, "number", "0000-0000-0000-0000"],
+        [number_input, "number", "0000-0000-0000-0000"],
       ].map((element: string[]) => {
         return (
           <>

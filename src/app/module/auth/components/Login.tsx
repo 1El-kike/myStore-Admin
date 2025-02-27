@@ -1,7 +1,8 @@
 import React from "react";
-import { FormAuth } from "./FormAuth";
+import { FormAuth } from "../FormAuth";
 
-export const Auth = () => {
+  export const Login = () => {
+
   return (
     <>
       <div className="bg-gradient-to-t  from-transparent via-indigo-300 to-violet-600 w-full h-full absolute"></div>
@@ -15,7 +16,7 @@ export const Auth = () => {
           first_input="name"
           second_input="iphone"
           three_input="password"
-          input4="Number Credit"
+          number_input="Number Credit"
           input5="Role"
           input6=""
           url="auth/register"

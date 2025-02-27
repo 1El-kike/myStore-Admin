@@ -4,12 +4,13 @@ import { PUBLIC_URL } from "../../config/env";
 import { ErrorsPage } from "../module/errors/errorsPage";
 import { PrivateRoutes } from "./privateRoutes";
 import { App } from "../../App";
-import { useAuth } from "../module/core/AuthContext";
 import { Logout } from "../module/auth/logout";
-import { Auth } from "../module/auth/auth";
+import { AuthPage } from "../module/auth/authPage";
+import { useAuth } from "../module/auth/core/Auth";
 
 export const Routers = () => {
-  const { user} = useAuth();
+  const {auth} = useAuth();
+  console.log(auth);
 
   return (
     <BrowserRouter basename={PUBLIC_URL}>
@@ -17,14 +18,14 @@ export const Routers = () => {
         <Route element={<App />}>
           <Route path="error/*" element={<ErrorsPage />} />
           <Route path="auth/logout" element={<Logout />} />
-          {true ? (
+          {auth ? (
             <>
               <Route path="/*" element={<PrivateRoutes />} />
               <Route index element={<Navigate to="dashboard" />} />
             </>
           ) : (
             <>
-              <Route path="auth/*" element={<Auth />} />
+              <Route path="auth/*" element={<AuthPage />} />
               <Route path="*" element={<Navigate to="/auth" />} /> 
             </>
           )}

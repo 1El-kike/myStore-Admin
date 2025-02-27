@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { useAuth } from "../module/core/AuthContext";
 import { useBack } from "../../interface/UserType";
 import { port } from "../../config/env";
+import { getUserByToken, login, register } from "../module/auth/core/_requests";
+import { useAuth } from "../module/auth/core/Auth";
 
 interface useAuthProps<T> {
   url?: string;
@@ -12,59 +13,43 @@ const useAuths = <T,>({ url }: useAuthProps<T>) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [user, setuser] = useState<useBack>({
-    userclient: {
-      0:{name: "",
-      iphone: "",}
-    },
-    token: "",
-  });
-
   const base = port;
 
   //Aser una funcion para hacer mejor la transformacion de datos numericos
   const transfoDatos = (value: any) => {};
-  const { login } = useAuth();
-
+  const {saveAuth, setCurrentUser} = useAuth()
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
-
     transfoDatos(data);
 
     try {
-      const response = await fetch(base + url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const auth = await register(data)
+      console.log(auth)
+      saveAuth(auth?.data?.userclient)
+     // const {data: user} = await getUserByToken(auth.data)
+      setCurrentUser(data)
 
-      if (!response.ok) {
-        throw new Error(result.message);
-      }
-      setuser(result);
-      setSuccess(true);
+      setSuccess(true); 
     } catch (error) {
+      console.error(error)
+      saveAuth(undefined)
       setError(error instanceof Error ? error.message : "Error desconocido");
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
+ /*  useEffect(() => {
     login(user?.userclient[0], user?.token);
-  }, [user]);
+  }, [user]); */
 
   return {
     onSubmit,
     isLoading,
     error,
     success,
-    user,
   };
 };
 

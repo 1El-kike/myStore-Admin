@@ -4,16 +4,16 @@ interface UserType {
   iphone: string;
   name: string;
   role?: string;
-  tarrjeta?: string;
+  tarjeta?: string;
 }
 
-interface User {
+interface AuthUser {
   user: UserType;
   token: string;
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: AuthUser | null;
   login: (user: UserType, token: string) => void;
   logout: () => void;
 }
@@ -27,31 +27,39 @@ const AuthContex = createContext<AuthContextType>({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setuserData] = useState<User | null>(null);
+  const [user, setuserData] = useState<AuthUser | null>(null);
 
-  const login = (user: UserType, token: string) => {
-    const newUser = { user, token };
+  const login = (userData: UserType, token: string) => {
+    const newUser: AuthUser = { user: userData, token };
     setuserData(newUser);
     localStorage.setItem('user', JSON.stringify(newUser));
   };
 
   const logout = () => {
     setuserData(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    localStorage.removeItem("authData");
   };
-
+  
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
+    const initializeAuth = (): void => {
+      const storedData = localStorage.getItem("authData");
+      if (!storedData) return;
+      
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setuserData(parsedUser);
+        const parsedData: AuthUser = JSON.parse(storedData);
+        // Validación básica de estructura
+        if (parsedData?.user && parsedData?.token) {
+          setuserData(parsedData);
+        } else {
+          localStorage.removeItem("authData");
+        }
       } catch (error) {
-        console.error("Error parsing user data:", error);
+        console.error("Error al analizar datos de autenticación:", error);
+        localStorage.removeItem("authData");
       }
-    }
+    };
+
+    initializeAuth();
   }, []);
 
   return (
