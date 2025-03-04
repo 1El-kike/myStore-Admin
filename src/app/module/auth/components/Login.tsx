@@ -16,10 +16,8 @@ import { FormAuth } from "../FormAuth";
           first_input="name"
           second_input="iphone"
           three_input="password"
-          number_input="Number Credit"
+          number_input="number"
           input5="Role"
-          input6=""
-          url="auth/register"
         />
       </div>
     </>

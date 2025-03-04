@@ -1,49 +1,75 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { useBack } from "../../interface/UserType";
-import { port } from "../../config/env";
 import { getUserByToken, login, register } from "../module/auth/core/_requests";
 import { useAuth } from "../module/auth/core/Auth";
+import { UserModel } from "../module/auth/core/_models";
+import axios, { AxiosError } from "axios";
 
-interface useAuthProps<T> {
-  url?: string;
+interface TypeuseAuth {
+  methods:'login' | "register"
 }
 
-const useAuths = <T,>({ url }: useAuthProps<T>) => {
+const useAuths  = ({methods}:TypeuseAuth ) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const base = port;
 
-  //Aser una funcion para hacer mejor la transformacion de datos numericos
-  const transfoDatos = (value: any) => {};
+  
+  
   const {saveAuth, setCurrentUser} = useAuth()
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
-    transfoDatos(data);
-
+    let auth: any | [] = [] 
     try {
-      const auth = await register(data)
-      console.log(auth)
-      saveAuth(auth?.data?.userclient)
-     // const {data: user} = await getUserByToken(auth.data)
-      setCurrentUser(data)
+      if (methods == "login") {
+         auth = await register(data)
+        saveAuth(auth?.data?.userclient)
+      }else if(methods == "register"){
+         auth = await register(data)
+        saveAuth(auth?.data?.userclient)
+      }
+      console.log('entro')
+
+      const {data: user} = await getUserByToken(auth?.data?.token)
+      console.log('salio',user)
+      setCurrentUser(user)
 
       setSuccess(true); 
     } catch (error) {
-      console.error(error)
+      // Verificar si es un error de Axios
+  if (axios.isAxiosError(error)) {
+    const axiosError = error as AxiosError;
+
+    // Acceder a la respuesta del servidor (si existe)
+    if (axiosError.response) {
+      const { status, data }:any = axiosError.response;
+      
+      // Mostrar mensaje del backend
+      console.error(data)
+      setError(`Error ${status}: ${data.error}`);
+      
+      // Si el backend envía un mensaje estructurado (ej: { message: "Error" })
+      if (typeof data === 'object' && data !== null && 'message' in data) {
+        console.error('Mensaje del servidor:', data.message);
+        setError( `${data.message}`)
+      }
+    } else {
+      console.error('Error de red o sin respuesta:', axiosError.message);
+      setError(`${axiosError.message}`)
+    }
+  } else {
+    // Error no relacionado con Axios
+    console.error('Error inesperado:', error);
+    setError(`${error}`)
+  }
       saveAuth(undefined)
-      setError(error instanceof Error ? error.message : "Error desconocido");
+      //setError(error instanceof Error ? error.message : "Error desconocido");
     } finally {
       setIsLoading(false);
     }
   };
-
- /*  useEffect(() => {
-    login(user?.userclient[0], user?.token);
-  }, [user]); */
 
   return {
     onSubmit,

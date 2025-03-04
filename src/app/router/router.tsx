@@ -9,8 +9,8 @@ import { AuthPage } from "../module/auth/authPage";
 import { useAuth } from "../module/auth/core/Auth";
 
 export const Routers = () => {
-  const {auth} = useAuth();
-  console.log(auth);
+  const { currentUser } = useAuth();
+  console.log(currentUser);
 
   return (
     <BrowserRouter basename={PUBLIC_URL}>
@@ -18,7 +18,7 @@ export const Routers = () => {
         <Route element={<App />}>
           <Route path="error/*" element={<ErrorsPage />} />
           <Route path="auth/logout" element={<Logout />} />
-          {auth ? (
+          {currentUser ? (
             <>
               <Route path="/*" element={<PrivateRoutes />} />
               <Route index element={<Navigate to="dashboard" />} />

@@ -4,33 +4,30 @@ import useAuth from "../../hooks/useAuth";
 import { Submit } from "../widgets/Submit";
 
 interface FormAuths {
-  url: string;
   first_input: string;
   second_input: string;
   three_input: string;
   number_input: string;
   input5: string;
-  input6: string;
 }
 
+const role ={
+  roles: [
+    { role: "" },
+    { role: "SuperAdmin" },
+    { role: "Administrador" },
+    { role: "Client" },
+  ],
+};
+
 export const FormAuth: React.FC<FormAuths> = ({
-  url,
   first_input,
   second_input,
   three_input,
   number_input,
   input5,
-  input6,
 }) => {
 
-  const [role, setrole] = useState({
-    roles: [
-      { role: "" },
-      { role: "SuperAdmin" },
-      { role: "Administrador" },
-      { role: "Client" },
-    ],
-  });
 
  // const {saveAuth, setCurrentUser} = useAuth()
 
@@ -41,9 +38,8 @@ export const FormAuth: React.FC<FormAuths> = ({
     handleSubmit,
   } = useForm();
 
-  const { error, isLoading, onSubmit, success } = useAuth({
-    url: url,
-  });
+  const { error, isLoading, onSubmit, success } = useAuth({methods:'register'});
+  
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

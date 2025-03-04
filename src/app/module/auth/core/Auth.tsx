@@ -18,7 +18,7 @@ import {
     auth: AuthModel | undefined
     saveAuth: (auth: AuthModel | undefined) => void
     currentUser: UserModel | undefined
-    setCurrentUser: Dispatch<SetStateAction< UserModel | undefined>>
+    setCurrentUser: Dispatch<SetStateAction< any | undefined>>
     logout: () => void
   }
   

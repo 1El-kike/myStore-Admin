@@ -15,10 +15,8 @@ export const Registration = () => {
               first_input="name"
               second_input="iphone"
               three_input="password"
-              number_input="Number Credit"
+              number_input="iphone"
               input5="Role"
-              input6=""
-              url="auth/register"
             />
           </div>
         </>
