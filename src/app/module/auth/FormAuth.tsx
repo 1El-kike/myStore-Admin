@@ -2,6 +2,7 @@ import React, { Component, ComponentProps, useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { Submit } from "../widgets/Submit";
+import { SignWithAuthCreated } from "./signWithAuthCreated";
 
 interface FormAuths {
   first_input: string;
@@ -41,10 +42,12 @@ export const FormAuth: React.FC<FormAuths> = ({
   const { error, isLoading, onSubmit, success } = useAuth({methods:'register'});
   
   return (
+    <div className="w-full flex relative justify-start items-center h-full">
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full fixed lg:ml-20 mt-32 ml-3 lg:mt-20 z-10 max-w-lg rounded-3xl border py-5 backdrop-blur-lg px-8"
+      className="w-full lg:ml-20 ml-3 z-10 max-w-lg rounded-3xl border py-5 backdrop-blur-lg px-8"
     >
+       <SignWithAuthCreated sign="Sign up" link="/auth/login" title="Sign in"/>
       <div className="flex flex-wrap -mx-3 mb-6">
         {[
           [first_input, "text"],
@@ -169,12 +172,14 @@ export const FormAuth: React.FC<FormAuths> = ({
         <Submit
           reset={reset}
           isLoading={isLoading}
-          bottom1="Log In"
-          bottom2="Register"
+          
+          bottom2="Sign Up"
           success={success}
           error={error}
         />
       </div>
     </form>
+    </div>
+
   );
 };

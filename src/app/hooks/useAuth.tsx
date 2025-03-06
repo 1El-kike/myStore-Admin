@@ -25,7 +25,7 @@ const useAuths  = ({methods}:TypeuseAuth ) => {
     try {
       if (methods == "login") {
          auth = await login(data)
-        saveAuth(auth?.data?.userclient)
+        saveAuth(auth?.data)
       }else if(methods == "register"){
          auth = await register(data)
         saveAuth(auth?.data)

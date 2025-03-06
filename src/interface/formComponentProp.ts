@@ -9,7 +9,7 @@ export interface FormComponentPropsCategory {
     error:string | null;
     success:boolean;
     reset:any;
-    bottom1:string;
+    bottom1?:string;
     bottom2:string;
   }
   
