@@ -24,16 +24,14 @@ const useAuths  = ({methods}:TypeuseAuth ) => {
     let auth: any | [] = [] 
     try {
       if (methods == "login") {
-         auth = await register(data)
+         auth = await login(data)
         saveAuth(auth?.data?.userclient)
       }else if(methods == "register"){
          auth = await register(data)
-        saveAuth(auth?.data?.userclient)
+        saveAuth(auth?.data)
       }
-      console.log('entro')
 
-      const {data: user} = await getUserByToken(auth?.data?.token)
-      console.log('salio',user)
+      const {data: user} = await getUserByToken(auth?.data?.api_token)
       setCurrentUser(user)
 
       setSuccess(true); 

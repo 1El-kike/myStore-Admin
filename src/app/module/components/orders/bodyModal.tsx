@@ -4,7 +4,7 @@ import { useEjecut } from '../../../hooks/useEjecut';
 import { InputAutocomplet } from '../../widgets/InputAutocomplet';
 import { FaObjectUngroup, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { MdRemove } from 'react-icons/md';
-import { Avatar, AvatarGroup, Button, Tooltip } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, Avatar, AvatarGroup, Button, modal, Tooltip } from '@nextui-org/react';
 import { port } from '../../../../config/env';
 
 export type DataItem = {
@@ -31,7 +31,7 @@ export  const BodyModal:React.FC<TypeBodyModal> = ({setdatosModal,datosModal}) =
     const lastItem = useMemo(() => items?.[items.length - 1], [items]);
 
     // Memoizar datos de autocompletado
-    const autocomplet = useMemo(
+    const autocomplet:Array<{ key: string | null; label: string | null }> = useMemo(
       () =>
         data?.map((item: DataItem) => ({
           key: item.id,
@@ -115,16 +115,27 @@ export  const BodyModal:React.FC<TypeBodyModal> = ({setdatosModal,datosModal}) =
     // Función para eliminar o vaciar producto
     const handleRemove = (index: number) => {
       if (fields.length > 1) {
-        remove(index);
         setdatosModal((prev: any) =>
           prev.filter((_: any, i: number) => i !== index)
         ); // Eliminar del mismo índice
       } else {
         // Si solo queda un elemento, vaciamos sus campos
-        setValue(`items.0.productId`, null);
-        setValue(`items.0.quantity`, 1);
-        setValue(`items.0.price`, null);
         setdatosModal([]);
+      }
+    };
+
+    const [value, setvalueCampo] = useState(1)
+    const handleSelection = (key: any,currentIndex:number) => {
+      const isDuplicate = datosModal.some(
+        (item:any, index:number) => item.productId === key && index !== currentIndex
+      );
+      if (isDuplicate) {
+       
+        // Mantener el valor anterior en el formulario
+      
+      } else {
+      
+        setvalueCampo(key);
       }
     };
 
@@ -135,7 +146,7 @@ export  const BodyModal:React.FC<TypeBodyModal> = ({setdatosModal,datosModal}) =
             key={field.id}
             className="flex justify-between items-center mb-4"
           >
-            <InputAutocomplet
+          {/*   <InputAutocomplet
               label="Select products"
               data={`items.${index}.productId`}
               dataAutocomplet={autocomplet}
@@ -143,7 +154,26 @@ export  const BodyModal:React.FC<TypeBodyModal> = ({setdatosModal,datosModal}) =
               existingItems={getValues("items")} // <-- Envía los items existentes
               currentIndex={index}
               placeholder="Search product..."
-            />
+            /> */}
+             <Autocomplete
+          selectedKey={value}
+          onSelectionChange={()=>handleSelection(field,index)}
+          isInvalid={undefined}
+          errorMessage="error"
+          isRequired
+          isClearable={false}
+          className="max-w-xs"
+          variant= "underlined"
+          items={autocomplet}
+          startContent={ undefined}
+          aria-label="search_customer"        
+          label="Select products"
+          placeholder= "Search product..."
+        >
+            {(item) => (
+            <AutocompleteItem key={item?.key}>{item?.label}</AutocompleteItem>
+          )}
+        </Autocomplete>
 
             {watch(`items.${index}.productId`) && (
               <div className="flex justify-center items-center gap-1 animate-appearance-in">
