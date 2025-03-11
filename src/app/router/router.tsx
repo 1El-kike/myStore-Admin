@@ -10,6 +10,7 @@ import { useAuth } from "../module/auth/core/Auth";
 
 export const Routers = () => {
   const { currentUser } = useAuth();
+  console.log(currentUser)
 
   return (
     <BrowserRouter basename={PUBLIC_URL}>

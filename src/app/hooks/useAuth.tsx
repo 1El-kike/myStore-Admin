@@ -2,7 +2,6 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { getUserByToken, login, register } from "../module/auth/core/_requests";
 import { useAuth } from "../module/auth/core/Auth";
-import { UserModel } from "../module/auth/core/_models";
 import axios, { AxiosError } from "axios";
 
 interface TypeuseAuth {
@@ -30,7 +29,6 @@ const useAuths  = ({methods}:TypeuseAuth ) => {
          auth = await register(data)
         saveAuth(auth?.data)
       }
-
       const {data: user} = await getUserByToken(auth?.data?.api_token)
       setCurrentUser(user)
 
