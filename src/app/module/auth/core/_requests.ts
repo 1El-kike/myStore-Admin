@@ -33,6 +33,6 @@ export function getUserByToken(token: string) {
   return axios.post<UserModel>(GET_USER_BY_ACCESSTOKEN_URL,{token:token} )
 }
 
-export function refreshToken(token:string)  {
-  return axios.post<UserModel>(REFRESH_TOKEN,token)
+export function refreshToken()  {
+  return axios.get<UserModel>(REFRESH_TOKEN)
 }

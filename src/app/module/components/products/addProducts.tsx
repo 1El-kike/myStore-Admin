@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../../core/AuthContext";
 import { categoryProduct, Form_product } from "../../../../model/type_product";
 import useBack from "../../../hooks/useBack";
 import { port } from "../../../../config/env";
@@ -17,11 +16,12 @@ import { Size } from "../../widgets/size";
 import { Pricing } from "../../widgets/Pricing";
 import { Submit } from "../../widgets/Submit";
 import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
+import { useAuth } from "../../auth/core/Auth";
 
 // Definimos la interfaz para los datos del formulario
 
 export const AddProducts: React.FC = () => {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const methods = useForm(Form_product);
   const [category, setcategory] = useState(null);
   const { idStore } = useParams();
@@ -40,7 +40,7 @@ export const AddProducts: React.FC = () => {
       const response = await fetch(`${port}productStore/create`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${auth?.api_token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),

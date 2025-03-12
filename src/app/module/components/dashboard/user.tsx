@@ -2,9 +2,9 @@ import React from "react";
 import { FaArrowDown, FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { Dropdown } from "flowbite-react";
 import {Avatar} from "@nextui-org/react";
-import { useAuth } from "../../core/AuthContext";
+import { useAuth } from "../../auth/core/Auth";
 export const User = () => {
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
 
   return (
     <aside className="flex animate-opacity h-1/2 gap-5 flex-col flex-grow justify-center items-center">
@@ -15,7 +15,7 @@ export const User = () => {
         src="https://i.pravatar.cc/150?u=a04258114e29026708c"
       />
         <p className="mt-2">Welcome back</p>
-        <h1 className="font-bold text-3xl">{user?.user.name}</h1>
+        <h1 className="font-bold text-3xl">{currentUser?.name}</h1>
       </div>
       <div className="w-full">
         <div className="flex px-4 gap-3  items-center flex-col">

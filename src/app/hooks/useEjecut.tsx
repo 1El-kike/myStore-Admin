@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { port } from "../../config/env";
+import axios from "axios";
+import { useAuth } from "../module/auth/core/Auth";
 
 export interface DataUseEjecut {
     data: null | any,
@@ -20,13 +22,19 @@ export const useEjecut = ({ url,submit } :UseEjecutProps ) => {
   });
 
   const { data, isLoadingData, errors } = state;
+  
+  const { auth } = useAuth(); 
+
 
   const getFetch = async () => {
     try {
-      const response = await fetch(port + url);
-      const data = await response.json();
+      const response = await axios.get(port + url, {
+        headers: {
+          Authorization: `Bearer ${auth?.api_token}` // O de cookies/contexto
+        }
+      });
       setState({
-        data,
+        data:response.data,
         isLoadingData: false,
         errors: null,
       });

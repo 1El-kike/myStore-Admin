@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { CollapseSidebar } from "./collapseSidebar";
 import { FaJediOrder } from "react-icons/fa6";
 
+
 const custom = {
   root: {
     base: "h-full",
@@ -151,12 +152,6 @@ export const LayatSidebar = ({ setancho }: any) => {
             </Sidebar.Item>
             <Sidebar.Item href="#" icon={HiShoppingBag}>
               {!collapsed ? "sssss" : hovered && "ssssssss"}
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiArrowSmRight}>
-              {!collapsed ? "Sign In" : hovered && "Sign In"}
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiTable}>
-              {!collapsed ? "Sign Up" : hovered && "Sign Up"}
             </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>

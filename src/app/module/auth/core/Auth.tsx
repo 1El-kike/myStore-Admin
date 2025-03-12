@@ -85,9 +85,7 @@ const AuthInit: FC<PropsWithChildren> = ({ children }) => {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
           try {
             // 1. Llama al endpoint de refreshToken
-            const { data: newTokens }: any = await refreshToken(
-              auth?.api_token as string
-            );
+            const { data: newTokens }: any = await refreshToken();
 
             // 2. Actualiza el access token en el estado de autenticación
             const miCookie = Cookies.get("refreshtoken");
@@ -99,7 +97,6 @@ const AuthInit: FC<PropsWithChildren> = ({ children }) => {
 
             // 3. Vuelve a obtener los datos del usuario con el nuevo token
             const { data: userData } = await getUserByToken(newTokens.token);
-            console.log(userData);
             setCurrentUser(userData);
           } catch (refreshError) {
             // Si el refresh token también falla, cierra sesión

@@ -1,4 +1,4 @@
-import { lazy, FC, Suspense, PropsWithChildren } from "react";
+import { lazy, FC, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Layout } from "../module/layout/layout";
 import { Dashboard } from "../pages/dashboard/dashboard";
@@ -12,8 +12,6 @@ import { OrderPage } from "../pages/orders/orderPage";
   }
 
 export const PrivateRoutes = () => {
-
-  
 
   const StoresPage = lazy(()=> 
     import('../pages/mannagerStores/storesRouter').then((module) => ({

@@ -1,27 +1,24 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
+import React, { useEffect, useMemo, useState } from "react";
+import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import {
   FormProvider,
-  useFieldArray,
   useForm,
-  useFormContext,
-  useWatch,
 } from "react-hook-form";
-import useBack from "../../../hooks/useBack";
-import { Submit } from "../../widgets/Submit";
-import { Input_text } from "../../widgets/Input_text";
-import { Calendary_Input } from "../../widgets/calendary_Input";
-import { TextareaComponent } from "../../widgets/textarea";
-import { Table } from "../../widgets/GroupBy";
-import { FaPlus, FaTrashAlt } from "react-icons/fa";
-import { Form_orders } from "../../../../model/type_orders";
-import { updateTable } from "../../core/filtertableandSearch";
-import { Modal_Component } from "../../widgets/modal";
-import { InputAutocomplet } from "../../widgets/InputAutocomplet";
-import { useEjecut } from "../../../hooks/useEjecut";
+import useBack from "../../../../hooks/useBack";
+import { Submit } from "../../../widgets/Submit";
+import { Input_text } from "../../../widgets/Input_text";
+import { Calendary_Input } from "../../../widgets/calendary_Input";
+import { TextareaComponent } from "../../../widgets/textarea";
+import { Table } from "../../../widgets/GroupBy";
+import { FaPlus } from "react-icons/fa";
+import { Form_orders } from "../../../../../model/type_orders";
+import { updateTable } from "../../../core/filtertableandSearch";
+import { Modal_Component } from "../../../widgets/modal";
+import { InputAutocomplet } from "../../../widgets/InputAutocomplet";
+import { useEjecut } from "../../../../hooks/useEjecut";
 import { Alert } from "@nextui-org/react";
 import { BodyModal, DataItem } from "./bodyModal";
-import { Number_Input } from "../../widgets/number_Input";
+import { Number_Input } from "../../../widgets/number_Input";
 
 // Define el tipo para los datos entrantes
 
@@ -41,65 +38,22 @@ export const OrderCreate = () => {
   ];
 
 
-  const FooterModal = ()=>{
-    return(
-      <>
-        {showAlert && (
-            <div className="flex animate-opacityonly flex-col gap-4 w-full">
-              <Alert
-                key={"error confirm"}
-                color="danger"
-                variant="flat"
-                className="mb-4"
-                onClose={() => setShowAlert(false)}
-                title={`This is a variant alert`}
-              >
-                <div className="flex flex-col">
-                  <p className="font-bold">Error de validación</p>
-                  <ul className="list-disc pl-4">
-                    {alertMessage.map((msg, i) => (
-                      <li key={i}>{msg}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Alert>
-            </div>
-          )}
-      </>
-    )
-  }
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string[]>([]);
+  useEffect(() => {
+    setdatosModal(datosModal)
+   }, [datosModal])
+   
 
   const onActionChange = (closeModal: () => void) => {
-    // Validar campos requeridos
-    const errores = datosModal
-      .map((item: any, index: number) => ({
-        row: index + 1,
-        missing: [
-          ...(!item?.id ? ["Producto"] : []),
-          ...(!item?.quantity ? ["Cantidad"] : []),
-          ...(!item?.price ? ["Precio"] : []),
-        ],
-      }))
-      .filter((e: any) => e.missing.length > 0);
-
-    if (errores.length > 0) {
-      const messages = errores.map(
-        (e: any) => `Fila ${e.row}: ${e.missing.join(", ")}`
-      );
-      setAlertMessage(messages);
-      setShowAlert(true);
-      /* setTimeout(()=>{
-        setShowAlert(false)
-      },3000) */
-      return false;
-    }
-    
     setdatosTable(datosModal);
-    setShowAlert(false);
+    const itemsArray = datosModal.map((item: any) => ({
+      productId: item.id,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+    // Establecer el nuevo array en "items"
+    methods.setValue("items", itemsArray);
     closeModal();
-    return true;
+    
   };
 
   const onDiscardChange = () => {
@@ -136,7 +90,7 @@ export const OrderCreate = () => {
         })) || [],
       [data]
     );
-    //console.log(JSON.stringify(methods.getValues(), null, 2),data);
+    
     return (
       <>
         <div>
@@ -151,9 +105,6 @@ export const OrderCreate = () => {
             label=""
             data={`userId`}
             variant="faded"
-            /*  startContent={
-              <Avatar alt="customer" className="w-6 h-6" src={port } />
-            } */
             className="w-full h-[41.6px]"
             dataAutocomplet={autocomplet}
             placeholder="search customer..."
@@ -165,6 +116,17 @@ export const OrderCreate = () => {
 
 
   const Cuenta =()=>{
+
+// Dentro de tu componente
+const subtotal = useMemo(() => {
+  return datosTable.reduce((accumulator:any, item:any) => {
+    // Verificar que price y quantity sean números válidos
+    const price = Number(item.price) || 0;
+    const quantity = Number(item.quantity) || 1;
+    return accumulator + (price * quantity);
+  }, 0);
+}, [datosModal])
+
     return <>
     <div className="flex justify-end mt-10">
 
@@ -172,7 +134,7 @@ export const OrderCreate = () => {
 
         <div className="flex justify-between w-full">
           <h1>Subtotal</h1>
-          <h2> $24.00 </h2>
+          <h2> ${subtotal} </h2>
         </div>
         <div className="flex justify-between w-full">
           <h1>Discount</h1>
@@ -194,6 +156,8 @@ export const OrderCreate = () => {
     </div>
     </>
   }
+
+ 
 
   return (
     <>
@@ -251,7 +215,6 @@ export const OrderCreate = () => {
                 <Table columns={columns} />
                 <Modal_Component
                   component={<BodyModal setdatosModal={setdatosModal} datosModal={datosModal} />}
-                  footer={<FooterModal/>}
                   isAlert="yes"
                   title={"Add product to order"}
                   size="2xl"

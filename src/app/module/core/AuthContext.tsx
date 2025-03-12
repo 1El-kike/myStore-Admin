@@ -24,7 +24,7 @@ const AuthContex = createContext<AuthContextType>({
   logout: () => {},
 });
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setuserData] = useState<AuthUser | null>(null);
@@ -69,4 +69,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useAuth = () => useContext(AuthContex);
+const useAuth = () => useContext(AuthContex);

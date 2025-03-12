@@ -4,7 +4,7 @@ import { PageTitleInit } from '../../module/layout/tollbar/tiltleInit'
 import { PageTitle } from '../../module/core/pageTitle'
 import { OrderList } from '../../module/components/orders/orderList'
 import { OrderListEdit } from '../../module/components/orders/orderListEdit'
-import { OrderCreate } from '../../module/components/orders/orderCreate'
+import { OrderCreate } from '../../module/components/orders/create/orderCreate'
 import { updateTable } from '../../module/core/filtertableandSearch'
 
 export const OrderPage = () => {

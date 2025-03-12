@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useAuth } from "../module/core/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { port } from "../../config/env";
+import { useAuth } from "../module/auth/core/Auth";
 
 export interface messageUseEjecut {
     message: null | any,
@@ -21,7 +21,7 @@ export const useDelite = ( ) => {
     errors: null ,
   });
 
-  const { user } = useAuth(); 
+  const { auth } = useAuth(); 
 
    const redirect = useNavigate()
    
@@ -37,7 +37,7 @@ export const useDelite = ( ) => {
       const response = await fetch(port + url + id,{
         method:"DELETE",
         headers: {
-            "Authorization": `Bearer ${user?.token}`,
+            "Authorization": `Bearer ${auth?.api_token}`,
            },
       });
       const message = await response.json();

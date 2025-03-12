@@ -9,9 +9,10 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { FaMailBulk, FaSearch, FaStore } from "react-icons/fa";
+import { FaMailBulk, FaSearch, FaSignInAlt, FaStore } from "react-icons/fa";
 import {
   MdAccountCircle,
+  MdLogout,
   MdMore,
   MdNotifications,
   MdNotificationsActive,
@@ -22,7 +23,8 @@ import {
 import { IconBase } from "react-icons";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
-import { FcSettings } from "react-icons/fc";
+import { FcCustomerSupport, FcSettings } from "react-icons/fc";
+import { useAuth } from "../../auth/core/Auth";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -71,6 +73,8 @@ export const Navbars = ({ width }: any) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
   const [whit, setwhit] = useState<boolean>(false);
+
+  const { logout } = useAuth();
 
   useEffect(() => {
     setwhit(width);
@@ -173,11 +177,20 @@ export const Navbars = ({ width }: any) => {
       open={isUserOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>User</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Sing In</MenuItem>
-      <Link to={"user"}>
-        <MenuItem onClick={handleMenuClose}>Sing Up</MenuItem>
-      </Link>
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          {" "}
+          <FcCustomerSupport />
+        </IconButton>
+        User
+      </MenuItem>
+      <MenuItem onClick={logout}>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          {" "}
+          <MdLogout />
+        </IconButton>
+        <span className="w-48">Logout</span>
+      </MenuItem>
     </Menu>
   );
 
@@ -234,6 +247,13 @@ export const Navbars = ({ width }: any) => {
           <FaStore />
         </IconButton>
         <p>Stores</p>
+      </MenuItem>
+      <MenuItem onClick={logout}>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          {" "}
+          <MdLogout />
+        </IconButton>
+        Logout
       </MenuItem>
     </Menu>
   );

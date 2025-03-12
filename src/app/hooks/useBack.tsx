@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import {  FieldValues, SubmitHandler } from "react-hook-form";
-import { useAuth } from "../module/core/AuthContext";
 import { typeProduct } from "../../interface/typeProducts";
 import { port } from "../../config/env";
+import { useAuth } from "../module/auth/core/Auth";
 
 interface UseBackProps<T> {
   url?: string;
@@ -15,7 +15,7 @@ interface UseBackProps<T> {
 
 const useBack = <T,>({ url, reset,method ="POST",initialData }: UseBackProps<T>) => {
 
-  const { user } = useAuth(); 
+  const { auth } = useAuth(); 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -87,7 +87,7 @@ if (method == "PUT") {
       const response = await fetch(base + url, {
         method: method,
         headers: {
-         "Authorization": `Bearer ${user?.token}`,
+         "Authorization": `Bearer ${auth?.api_token}`,
         },
         body: formData,
       });
