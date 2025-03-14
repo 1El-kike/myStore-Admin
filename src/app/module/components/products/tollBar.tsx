@@ -12,8 +12,8 @@ setlinkchange(linkchange)
   }
 
   const DataTabs:Option[] = [
-    { option:"Tabla",component:children[0], icon:<FaClipboardList/>,link:''},
-    { option:"List Frontal",component:children[1],icon:<FaClipboardList/>,link:''},
+    { option:"List Frontal",component:children[0],icon:<FaClipboardList/>,link:''},
+    { option:"Tabla",component:children[1], icon:<FaClipboardList/>,link:''},
     { option:"List Horizontal ",component:children[2], icon:<FaBoxes/>,link:''},
    { option:"Credit",component:"", icon:<FaClipboardList/>,link:''},
  //   { option:"Credit",component:"", icon:<FaClipboardList/>},

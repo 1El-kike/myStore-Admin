@@ -25,7 +25,11 @@ export const TabSelect = ({ link }: {link: string}) => {
     return data?.map(item => ({
       ...item,
       actions: {
-        urledit: link,
+        urledit: 
+      {
+        typeactions:"navigate",
+        element:link
+      },
       }
     }));
   };

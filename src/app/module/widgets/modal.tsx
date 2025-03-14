@@ -10,6 +10,11 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 
+interface Background {
+  opacity:string;
+  from:string;
+  to:string;
+}
 interface TypeModal {
   title: string;
   children: React.ReactNode;
@@ -18,6 +23,7 @@ interface TypeModal {
   className: string;
   onClick?: () => void;
   component?: any;
+  background:Background;
   footer?:React.ReactNode
   size? : 'xs'| 'sm'| 'md'|'lg'| "xl"| "2xl"| "3xl" | "4xl" | "5xl" | "full"
   scroll?:  undefined | "normal" | "inside" | "outside"
@@ -27,6 +33,7 @@ interface TypeModal {
 export const Modal_Component = ({
   title,
   children,
+  background,
   onActionChange,
   className,
   onClick,
@@ -68,7 +75,7 @@ export const Modal_Component = ({
                 </ModalHeader>
                 <ModalBody className="m-auto w-full   flex justify-start">
                 <div className="absolute blur-3xl -z-40 inset-0">
-                    <div className="w-full h-full opacity-70 bg-gradient-to-tl from-violet-500 to-teal-500 clip-modal  "></div>
+                    <div className={`w-full h-full opacity-${background.opacity} bg-gradient-to-tl from-${background.from} to-${background.to} clip-modal `}></div>
                   </div>
                   <div className="w-full absolute">
 

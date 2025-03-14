@@ -73,7 +73,7 @@ export const InputAutocomplet: React.FC<TypeAutocomplete> = memo(({
           errorMessage={fieldState.error?.message}
           isRequired
           isClearable={isClearable}
-          className={className || "max-w-xs "}
+          className={className || "max-w-xs" }
           variant={variant || "underlined"}
           items={dataAutocomplet}
           startContent={startContent ? startContent : undefined}

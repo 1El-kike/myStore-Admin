@@ -14,60 +14,60 @@ interface TypeDetailOrder {
 
 export const ViewDetailOrder = (order: any) => {
 
-  const statusColorMap: Record<string, ChipProps["color"]> = {
-    ACCEPTED: "success",
-    PENDING:"primary",
-    DELIVERING: "secondary",
-    DELIVERED: "success",
-    CANCELLED: "danger",
-  };
 
-  const { data } = useEjecut({ url: `orders/summary/${order.id}` });
-  const navigate = useNavigate();
+    const statusColorMap: Record<string, ChipProps["color"]> = {
+      ACCEPTED: "success",
+      PENDING:"primary",
+      DELIVERING: "secondary",
+      DELIVERED: "success",
+      CANCELLED: "danger",
+    };
+  
+    const { data } = useEjecut({ url: `orders/summary/${order.order.id}` });
+    const navigate = useNavigate();
+  
+    // Estado para almacenar los productos
+    const [product, setProduct] = useState<any[]>([]);
+  
+    // Procesar los datos cuando estén disponibles
+    useEffect(() => {
+      if (data && data.items) {
+        // Mapea los productos desde los datos recibidos
+        const itemsProduct = data.items.map((product: any) => ({
+          product: (
+            <div className="flex justify-center gap-3 items-center">
+              <img
+                className="w-10 h-10 rounded-xl"
+                src={`${port}${product.productImage}`}
+                alt=""
+              />
+              <p>{product.productName}</p>
+            </div>
+          ),
+          quantity: product.quantity,
+          price: product.price,
+          amount: product.amount,
+        }));
+  
+        // Actualiza el estado con los productos procesados
+        setProduct([
+          {
+            product: "Product",
+            quantity: "Qty",
+            price: "Unit Price",
+            amount: "Amount",
+          },
+          ...itemsProduct,
+        ]);
+      }
+    }, [data]);
 
-  // Estado para almacenar los productos
-  const [product, setProduct] = useState<any[]>([]);
-
-  // Procesar los datos cuando estén disponibles
-  useEffect(() => {
-    if (data && data.items) {
-      // Mapea los productos desde los datos recibidos
-      const itemsProduct = data.items.map((product: any) => ({
-        product: (
-          <div className="flex justify-center gap-3 items-center">
-            <img
-              className="w-10 h-10 rounded-xl"
-              src={`${port}${product.productImage}`}
-              alt=""
-            />
-            <p>{product.productName}</p>
-          </div>
-        ),
-        quantity: product.quantity,
-        price: product.price,
-        amount: product.amount,
-      }));
-
-      // Actualiza el estado con los productos procesados
-      setProduct([
-        {
-          product: "Product",
-          quantity: "Qty",
-          price: "Unit Price",
-          amount: "Amount",
-        },
-        ...itemsProduct,
-      ]);
-    }
-  }, [data]);
-
-  const Customer = () => {
-    let numPay = order.methodPayment.numPay;
+    let numPay = order?.order?.methodPayment?.numPay;
     let numPayStr = parseFloat(numPay).toString();
     let maskedNumPay = "***** " + numPayStr.slice(5);
 
     const ArrayCustomer = [
-      { detail: "Customer", customer: order.customer.customerName },
+      { detail: "Customer", customer: order?.order?.customer?.customerName },
       {
         detail: "Address",
         customer: (
@@ -76,17 +76,17 @@ export const ViewDetailOrder = (order: any) => {
           </Tooltip>
         ),
       },
-      { detail: "Date", customer: order.order.fechaOrder },
+      { detail: "Date", customer: order?.order?.fechaOrder },
       { detail: "Status", customer: (
         <Chip
         className="capitalize"
         color={
-          statusColorMap[order.status]
+          statusColorMap[order?.order?.status]
         }
         size="sm"
         variant="flat"
       >
-        {order.status}
+        {order?.order?.status}
       </Chip>
       )},
       {
@@ -99,8 +99,8 @@ export const ViewDetailOrder = (order: any) => {
               alt=""
             />
             <span>
-              <p>{order?.methodPayment?.tipoPay}</p>
-              {order?.methodPayment?.numPay === "N/A" ? (
+              <p>{order?.order?.methodPayment?.tipoPay}</p>
+              {order?.order?.methodPayment?.numPay === "N/A" ? (
                 ""
               ) : (
                 <p className="text-slate-500">{maskedNumPay}</p>
@@ -119,8 +119,8 @@ export const ViewDetailOrder = (order: any) => {
     }: TypeDetailOrder) => {
 
 const handle =()=> {
- 
-  navigate(`edit/${order.id}`);
+ console.log("entro")
+  navigate(`edit/${order?.order?.id}`);
 }
 
       return (
@@ -132,7 +132,7 @@ const handle =()=> {
                 <span
                 
                   onClick={()=> handle()}
-                  className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                  className="text-lg z-20 text-default-400 cursor-pointer active:opacity-50"
                 >
                   <EditIcon />
                 </span>
@@ -254,8 +254,4 @@ const handle =()=> {
     );
   };
 
-  return {
-    title: order.order.productName,
-    component: <Customer />,
-  };
-};
+

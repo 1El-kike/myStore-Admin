@@ -3,6 +3,7 @@ import {  FieldValues, SubmitHandler } from "react-hook-form";
 import { typeProduct } from "../../interface/typeProducts";
 import { port } from "../../config/env";
 import { useAuth } from "../module/auth/core/Auth";
+import axios from "axios";
 
 interface UseBackProps<T> {
   url?: string;
@@ -47,12 +48,17 @@ const useBack = <T,>({ url, reset,method ="POST",initialData }: UseBackProps<T>)
 
     // Agregar items como JSON
   if (data.items) {
-    formData.append('items', data.items);
+    formData.append('items', JSON.stringify(data.items));
+  }
+  if (data.timeOrder){
+    formData.append("timeOrder",JSON.stringify(data.timeOrder))
   }
   
 // Agregar solo los campos que han cambiado
 Object.keys(data).forEach((key) => {
   if (key === 'items') return;
+  
+  if (key === 'timeOrder') return;
 
   if (method === "PUT" && initialData) {
 
@@ -84,17 +90,32 @@ if (method == "PUT") {
 }
 
     try {
-      const response = await fetch(base + url, {
+
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]); 
+      }
+
+      /* const response = await fetch(base + url, {
         method: method,
         headers: {
          "Authorization": `Bearer ${auth?.api_token}`,
         },
         body: formData,
+      }); */
+
+      const response = await axios.request({
+        method: method,
+        url: base + url,
+         headers: {
+          "Authorization": `Bearer ${auth?.api_token}`,
+       //   "Content-Type": "multipart/form-data", // Axios detecta FormData, pero puedes explicitarlo
+        }, 
+        data: formData,
       });
 
-      const result = await response.json();
+      const result = await response.data;
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error(result.message);
       }
 

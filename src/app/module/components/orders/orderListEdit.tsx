@@ -8,7 +8,6 @@ export const OrderListEdit = () => {
     const params = useParams()
     const { data } = useEjecut({ url: `orders/summary/${params.id}` });
   
-    console.log(data)
   const ProductDetail =()=> {
     return (
       <>

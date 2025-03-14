@@ -10,6 +10,9 @@ export const Form_orders:TypeDefaultcreateOrder = {
       state:null,
       zipcode:null,
       TaxID: null,
+      taxrate: null,
+      discount:null,
+      shipping:null,
       userId:null,
       items:[{
         productId: null,

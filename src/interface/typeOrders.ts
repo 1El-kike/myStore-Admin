@@ -10,7 +10,10 @@ export interface TypeOrders {
   address: string | null;
   state: string | null;
   zipcode: string | null;
+  discount: number | null;
   TaxID: string | null;
+  taxrate: number | null;
+  shipping:number | null;
   userId: number | null;
   items: Array<{
     productId: string | null;

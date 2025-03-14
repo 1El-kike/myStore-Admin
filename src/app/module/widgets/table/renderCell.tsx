@@ -22,53 +22,6 @@ export const renderCell = (
 ) => {
   const cellValue = datos[columnKey];
 
-  
-
-
-  const JsxContent: any = () => {
-   // e.stopPropagation();
-   const [modal, setmodal] = useState({
-    title:'',
-    component: <div></div>
-   })
-   const handleView = () => {
-    try {
-        const view = datos?.actions?.urlview(datos);
-        const datosModal = view && view(datos);
-        setmodal(datosModal);
-    } catch (error) {
-         console.error("Error al manejar la vista:", error);
-    }
-  };
-
-   const handleClick = () => {
-      handleView(); // Llama a handleView solo cuando se hace clic aquí
-    };
-    return (
-      <>
-          <Modal_Component
-            component={modal.component || <div></div>}
-            title={modal.title || "" }
-            onClick={() => {}}
-            size="xl"
-            className=""
-            scroll={"inside"}
-          >
-            <Tooltip content="Details">
-              <span onClick={handleClick}
-                className="text-lg text-default-400 cursor-pointer active:opacity-50"
-              >
-                <TablesData />
-              </span>
-            </Tooltip>
-          </Modal_Component>
-       
-      </>
-    );
-  };
-
-  //const cellValue = "name"
-
   switch (columnKey) {
     case "order":
       const fechaOriginal = datos.order?.fechaOrder;
@@ -189,19 +142,67 @@ export const renderCell = (
       return (
         <div className="relative flex items-center gap-2">
              {datos?.actions?.urlview && (
-              <div >
-                <JsxContent /> 
-              </div>
+              datos?.actions?.urlview?.typeactions === "navigate" ?
+              <Tooltip content="Edit">
+                <span
+                  className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                >
+                   <Link to={`${datos?.actions?.urlview?.element}${datos.id}`}>
+                  <EditIcon />
+                   </Link>
+                </span>
+              </Tooltip>
+              : datos?.actions?.urlview?.typeactions === "modal" && 
+  
+              <Modal_Component
+              component={datos?.actions?.urlview?.element || <div></div>}
+              title={datos?.actions?.urlview?.title || "" }
+              onClick={() => {}}
+            background={{from:"violet-500",opacity:"30",to:"teal-500"}}
+              size="xl"
+              className=""
+              scroll={"outside"}
+            >
+              <Tooltip content="Details">
+                <span
+                  className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                >
+                  <TablesData />
+                </span>
+              </Tooltip>
+            </Modal_Component>
         )}
           {datos?.actions?.urledit && (
+            datos?.actions?.urledit?.typeactions === "navigate" ?
             <Tooltip content="Edit">
               <span
-                onClick={datos.actions.urledit}
+                className="text-lg text-default-400 cursor-pointer active:opacity-50"
+              >
+                 <Link to={`${datos?.actions?.urledit?.element}${datos.id}`}>
+                <EditIcon />
+                 </Link>
+              </span>
+            </Tooltip>
+            : datos?.actions?.urledit?.typeactions === "modal" && 
+
+            <Modal_Component
+            component={datos?.actions?.urledit?.element || <div></div>}
+            title={datos?.actions?.urledit?.title || "" }
+            onClick={() => {}}
+            size="xl"
+            className=""
+            background={{from:"violet-500",opacity:"30",to:"teal-500"}}
+            scroll={"inside"}
+          >
+            <Tooltip content="Edit">
+              <span
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
               >
                 <EditIcon />
               </span>
             </Tooltip>
+          </Modal_Component>
+
           )}
           {datos?.actions?.urldelite && (
             <Tooltip color="danger" content="Delete user">

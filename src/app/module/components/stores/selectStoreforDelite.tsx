@@ -75,6 +75,8 @@ export const SelectStoreforDelite = () => {
               <>
                 <Modal_Component
                   key={data.id}
+                  background={{from:"violet-500",opacity:"70",to:"teal-500"}}
+
                   component={
                     <StoreInfo
                     name={data.name}

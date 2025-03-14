@@ -4,9 +4,12 @@ import { Controller, useFormContext } from 'react-hook-form';
 interface NumberInput {
     label:string;
     data:string;
+    pattern?:string;
+    tipe?:"tel" | "number";
+    icon?:React.ReactNode
 }
 
-export const Number_Input:React.FC<NumberInput> = ({label,data}) => {
+export const Number_Input:React.FC<NumberInput> = ({label,tipe = 'tel',data,pattern ="[0-9]{3}-[0-9]{3}-[0-9]{4}",icon},) => {
 
   const { control, formState: { errors } } = useFormContext();
 
@@ -23,13 +26,16 @@ export const Number_Input:React.FC<NumberInput> = ({label,data}) => {
     name={data}
     control={control}
     render={({field})=> (
-        <input
+      <div>
+      <input
         {...field}
-        type='tel'
-        className={`bg-gray-50 mb-2 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors[data] ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
+        type={tipe}
+        className={`bg-gray-50 ${icon && "pl-10" } mb-2  border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${errors[data] ? "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 ": "text-gray-900"}`}
         placeholder='Number de telefono'
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        pattern={pattern}
         />
+      {icon && <span className='absolute top-[45px] left-4'>{icon}</span>}
+        </div>
     )}
     >
     </Controller>

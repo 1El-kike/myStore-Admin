@@ -10,15 +10,16 @@ import { Input_text } from "../../../widgets/Input_text";
 import { Calendary_Input } from "../../../widgets/calendary_Input";
 import { TextareaComponent } from "../../../widgets/textarea";
 import { Table } from "../../../widgets/GroupBy";
-import { FaPlus } from "react-icons/fa";
+import { FaDollarSign, FaPlus } from "react-icons/fa";
 import { Form_orders } from "../../../../../model/type_orders";
 import { updateTable } from "../../../core/filtertableandSearch";
 import { Modal_Component } from "../../../widgets/modal";
 import { InputAutocomplet } from "../../../widgets/InputAutocomplet";
 import { useEjecut } from "../../../../hooks/useEjecut";
-import { Alert } from "@nextui-org/react";
 import { BodyModal, DataItem } from "./bodyModal";
 import { Number_Input } from "../../../widgets/number_Input";
+import { MdDiscount } from "react-icons/md";
+import { Cuenta } from "./cuenta";
 
 // Define el tipo para los datos entrantes
 
@@ -35,6 +36,7 @@ export const OrderCreate = () => {
     { name: "PRODUCT", uid: "name" },
     { name: "QUANTITY", uid: "quantity" },
     { name: "UNIT PRICE", uid: "price" },
+    { name: "", uid: "actions" },
   ];
 
 
@@ -105,7 +107,7 @@ export const OrderCreate = () => {
             label=""
             data={`userId`}
             variant="faded"
-            className="w-full h-[41.6px]"
+            className="w-full bg-transparent h-[41.6px]"
             dataAutocomplet={autocomplet}
             placeholder="search customer..."
           />
@@ -115,47 +117,16 @@ export const OrderCreate = () => {
   };
 
 
-  const Cuenta =()=>{
+  
 
-// Dentro de tu componente
-const subtotal = useMemo(() => {
-  return datosTable.reduce((accumulator:any, item:any) => {
-    // Verificar que price y quantity sean números válidos
-    const price = Number(item.price) || 0;
-    const quantity = Number(item.quantity) || 1;
-    return accumulator + (price * quantity);
-  }, 0);
-}, [datosModal])
-
-    return <>
-    <div className="flex justify-end mt-10">
-
-    <div className="flex flex-col gap-5 w-1/2">
-
-        <div className="flex justify-between w-full">
-          <h1>Subtotal</h1>
-          <h2> ${subtotal} </h2>
-        </div>
-        <div className="flex justify-between w-full">
-          <h1>Discount</h1>
-          <h2> - </h2>
-        </div>
-        <div className="flex justify-between w-full">
-          <h1>Shipping</h1>
-          <h2> - </h2>
-        </div>
-        <div className="flex justify-between w-full">
-          <h1>Taxes</h1>
-          <h2>$24.00</h2>
-        </div>
-        <div className="flex justify-between w-full">
-          <h1 className="font-bold">Total</h1>
-          <h2 className="font-bold">$24.00</h2>
-        </div>
-    </div>
-    </div>
-    </>
-  }
+  useEffect(() => {
+  
+   if (methods.formState.isSubmitSuccessful){
+    setdatosModal([]);
+    setdatosTable([]);
+   }
+  }, [methods.formState.isSubmitSuccessful])
+  
 
  
 
@@ -173,7 +144,7 @@ const subtotal = useMemo(() => {
               <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
                 <h1 className="text-2xl mt-5 font-bold">Basic information</h1>
                 <SearchCustomer />
-                <Calendary_Input data="timeOrder" label="Issue data" />
+              <Calendary_Input defaultValue="yes" data="timeOrder" label="Issue data" /> 
                 <Input_text
                   data="numberOrder"
                   label="Number"
@@ -194,9 +165,10 @@ const subtotal = useMemo(() => {
                 />
               </div>
               <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
-              <Number_Input data="discount" label="Discount " />
-              <Number_Input data="rate" label="Shipping rate "  />
-              <Number_Input data="taxrate" label="Tax rate ( % ) "  />
+              <Number_Input pattern={undefined} tipe='number' data="discount" label="Discount " icon={<FaDollarSign/>} />
+            
+              <Number_Input pattern={undefined} data="shipping" label="Shipping rate " tipe="number" icon={<FaDollarSign/>} />
+              <Number_Input pattern={undefined} tipe='number' data="taxrate" label="Tax rate ( % ) " icon={<MdDiscount/>} />
                 </div>
             </div>
             <div className="grow mb-auto basis-72 px-5">
@@ -222,6 +194,7 @@ const subtotal = useMemo(() => {
                   onActionChange={(closeModal) => onActionChange(closeModal)}
                   className=""
                   onDiscardChange={onDiscardChange}
+                  background={{from:"violet-500",opacity:"70",to:"teal-500"}}
                   scroll={"normal"}
                 >
                   <button
@@ -238,7 +211,7 @@ const subtotal = useMemo(() => {
               </div>
              
                 <div>
-                  <Cuenta/>
+                  <Cuenta datosModal={datosModal} />
                 </div>
               <div>
                 <Submit
