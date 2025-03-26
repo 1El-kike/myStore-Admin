@@ -107,7 +107,7 @@ export const OrderCreate = () => {
             label=""
             data={`userId`}
             variant="faded"
-            className="w-full bg-transparent h-[41.6px]"
+            className="bg-transparent h-[41.6px] w-full"
             dataAutocomplet={autocomplet}
             placeholder="search customer..."
           />
@@ -138,11 +138,11 @@ export const OrderCreate = () => {
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
             encType="multipart/form-data"
-            className=" lg:flex w-full  md:mx-2 justify-center items-center "
+            className="justify-center w-full items-center lg:flex md:mx-2"
           >
-            <div className="grow basis-72 px-5 ">
-              <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
-                <h1 className="text-2xl mt-5 font-bold">Basic information</h1>
+            <div className="basis-72 grow px-5">
+              <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
+                <h1 className="text-2xl font-bold mt-5">Basic information</h1>
                 <SearchCustomer />
               <Calendary_Input defaultValue="yes" data="timeOrder" label="Issue data" /> 
                 <Input_text
@@ -152,8 +152,8 @@ export const OrderCreate = () => {
                   placeholder="ORD-001"
                 />
               </div>
-              <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
-                <h1 className="text-2xl mt-5 font-bold">Billing information</h1>
+              <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
+                <h1 className="text-2xl font-bold mt-5">Billing information</h1>
                 <Input_text data="city" label="City *" placeholder="" />
                 <Input_text data="address" label="Address *" placeholder="" />
                 <Input_text data="state" label="State *" placeholder="" />
@@ -164,16 +164,16 @@ export const OrderCreate = () => {
                   placeholder="e.g EU3746473"
                 />
               </div>
-              <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
+              <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
               <Number_Input pattern={undefined} tipe='number' data="discount" label="Discount " icon={<FaDollarSign/>} />
             
               <Number_Input pattern={undefined} data="shipping" label="Shipping rate " tipe="number" icon={<FaDollarSign/>} />
               <Number_Input pattern={undefined} tipe='number' data="taxrate" label="Tax rate ( % ) " icon={<MdDiscount/>} />
                 </div>
             </div>
-            <div className="grow mb-auto basis-72 px-5">
-              <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
-                <h1 className="text-2xl mt-5 font-bold">
+            <div className="basis-72 grow mb-auto px-5">
+              <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
+                <h1 className="text-2xl font-bold mt-5">
                   Shipping information
                 </h1>
                 <Input_text data="city" label="City *" placeholder="" />
@@ -182,8 +182,8 @@ export const OrderCreate = () => {
                   placeholder="e.g Leave package at the door"
                 />
               </div>
-              <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-2 flex flex-col gap-6 border-gray-300 rounded-2xl">
-                <h1 className="text-2xl mt-5 font-bold">Line items</h1>
+              <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
+                <h1 className="text-2xl font-bold mt-5">Line items</h1>
                 <Table columns={columns} />
                 <Modal_Component
                   component={<BodyModal setdatosModal={setdatosModal} datosModal={datosModal} />}
@@ -194,15 +194,15 @@ export const OrderCreate = () => {
                   onActionChange={(closeModal) => onActionChange(closeModal)}
                   className=""
                   onDiscardChange={onDiscardChange}
-                  background={{from:"violet-500",opacity:"70",to:"teal-500"}}
+                //  background={{from:"violet-500",opacity:"70",to:"teal-500"}}
                   scroll={"normal"}
                 >
                   <button
                     aria-label="Agregar producto al pedido"
                     type="button"
-                    className="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap font-normal subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-4 min-w-20 h-10 text-small gap-2 rounded-medium [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none shadow-lg shadow-danger/40 bg-danger text-danger-foreground data-[hover=true]:opacity-hover w-1/4"
+                    className="bg-danger h-10 justify-center rounded-medium shadow-danger/40 shadow-lg text-danger-foreground text-small w-1/4 [&>svg]:max-w-[theme(spacing.8)] appearance-none box-border data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 data-[focus-visible=true]:z-10 data-[hover=true]:opacity-hover data-[pressed=true]:scale-[0.97] font-normal gap-2 group inline-flex items-center min-w-20 motion-reduce:transition-none outline-none overflow-hidden px-4 relative select-none subpixel-antialiased tap-highlight-transparent transition-transform-colors-opacity whitespace-nowrap z-0"
                   >
-                    <span className="p-1 rounded-full border border-white">
+                    <span className="border border-white p-1 rounded-full">
                       <FaPlus />
                     </span>
                     Add item

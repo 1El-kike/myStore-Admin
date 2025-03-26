@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Group, List, Table } from "./GroupBy";
+import { Group, List, Table,All } from "./GroupBy";
 import { TollButtom } from "../components/products/tollBar";
 import { useEjecut } from "../../hooks/useEjecut";
 import { updateTable } from "../core/filtertableandSearch";
 
-export const TabSelect = ({ link }: {link: string}) => {
+export const TabSelect = ({ link,allData }: {link: string,allData?:string}) => {
   const buttonClasses = [
     "bg-gradient-to-tr to-violet-700 from-indigo-500",
     "bg-gradient-to-tr to-fuchsia-500 from-fuchsia-900",
@@ -19,6 +19,10 @@ export const TabSelect = ({ link }: {link: string}) => {
   ];
 
   const { data, isLoadingData, errors } = useEjecut({ url: "stores" });
+
+  if (allData) {
+    var { data:DataProduct, isLoadingData:LoadingProduct, errors:errorProduct } = useEjecut({ url: allData });
+  }
 
 
   const transformData = (data: any[]) => {
@@ -48,7 +52,7 @@ export const TabSelect = ({ link }: {link: string}) => {
     };
   }, []);
   
-  const option: React.JSX.Element[] = [
+  const option: any = [
     <List
     link={link}
     buttonClasses={buttonClasses}
@@ -64,6 +68,7 @@ export const TabSelect = ({ link }: {link: string}) => {
       fondoClasses={fondoClasses}
       data={data}
     />,
+    allData && <All data={DataProduct} link={''} />,
   
   ];
 

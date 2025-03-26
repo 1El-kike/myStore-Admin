@@ -158,7 +158,7 @@ export const renderCell = (
               component={datos?.actions?.urlview?.element || <div></div>}
               title={datos?.actions?.urlview?.title || "" }
               onClick={() => {}}
-            background={{from:"violet-500",opacity:"30",to:"teal-500"}}
+         //   background={{from:"violet-500",opacity:"30",to:"teal-500"}}
               size="xl"
               className=""
               scroll={"outside"}
@@ -186,12 +186,14 @@ export const renderCell = (
             : datos?.actions?.urledit?.typeactions === "modal" && 
 
             <Modal_Component
+            key={datos.id}
             component={datos?.actions?.urledit?.element || <div></div>}
             title={datos?.actions?.urledit?.title || "" }
             onClick={() => {}}
             size="xl"
             className=""
-            background={{from:"violet-500",opacity:"30",to:"teal-500"}}
+            onActionChange={datos?.actions?.urledit?.onActionChange || undefined}
+           // background={{from:"violet-500",opacity:"30",to:"rose-500"}}
             scroll={"inside"}
           >
             <Tooltip content="Edit">

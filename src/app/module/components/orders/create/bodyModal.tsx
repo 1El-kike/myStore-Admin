@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { FaObjectUngroup, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { MdRemove } from "react-icons/md";
 import {
@@ -11,6 +11,9 @@ import {
 } from "@nextui-org/react";
 import { useEjecut } from "../../../../hooks/useEjecut";
 import { port } from "../../../../../config/env";
+import { EditProduct } from "./editProduct";
+import { updateTable } from "../../../core/filtertableandSearch";
+import { useFormContext } from "react-hook-form";
 
 export type DataItem = {
   id: string | null;
@@ -29,7 +32,9 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
   const initialItems = [{ id: null, name: null, quantity: 1, price: null }];
   const [newDataModal, setnewDataModal] = useState<any[]>(initialItems);
   const [errors, setErrors] = useState<{ [key: number]: string }>({});
+  const [datosChildren, setdatosChildren] = useState([])
   const { data } = useEjecut({ url: `allProducts` });
+  const { setdatosTable } = updateTable();
 
   const lastItem = useMemo(
     () => newDataModal?.[newDataModal.length - 1],
@@ -82,17 +87,11 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
     }
   };
 
-  const InfoProduct =() =>{
-    return (
-      <>
-      <div>
-        hola mundo
-      </div>
-      </>
-    )
-  }
-  
-  
+  // 1. Crear callback memoizado
+  const handleDatosHijo = useCallback((nuevosDatos: any) => {
+    console.log("Datos recibidos del hijo:", nuevosDatos);
+    setdatosChildren(nuevosDatos);
+  }, []);
 
   const onSelectionChange = (key: React.Key | null, index: number) => {
     const selectedProduct = data?.find((item: any) => item.id == key);
@@ -122,28 +121,76 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
     } else {
       // Actualizar datos y limpiar error
       setnewDataModal((prev) => {
+        const description = selectedProduct.description;
+        const quantity_total = selectedProduct.quantity_total;
+        const inventoryStatus = selectedProduct.inventoryStatus;
+        const tipo = selectedProduct.tipo;
+        const id = selectedProduct.id;
+        const category = selectedProduct.category;
+        const img = selectedProduct.image;
         const newData = [...prev];
+        //para cuando el producto se halla acabado
+        /*  if (selectedProduct.inventoryStatus !== "") {
+          
+        } */
         newData[index] = {
           ...newData[index],
           id: selectedProduct.id,
           name: selectedProduct.name,
-          image: selectedProduct.image,
-          tipo: selectedProduct.tipo,
-          status: selectedProduct.inventoryStatus,
+          image: img,
           price: selectedProduct.price,
           quantity: newData[index]?.quantity || 1,
-          actions: { urledit: 
-            {
-              typeactions:"modal",
-              element:<InfoProduct/>,
-              title:selectedProduct.name,
-            },  },
-          
+          actions: {
+            urledit: {
+              typeactions: "modal",
+               onActionChange:(closeModal:any) => onActionChange(closeModal),
+              element: (
+                <EditProduct
+                  quantity={newData[index].quantity}
+                  id={id}
+                  img={img}
+                  category={category}
+                  onActionChange={handleDatosHijo}
+                  inventoryStatus={inventoryStatus}
+                  tipo={tipo}
+                  quantity_total={quantity_total}
+                  description={description}
+                />
+              ),
+              title: selectedProduct.name,
+            },
+          },
         };
         return newData;
       });
       setErrors((prev: any) => ({ ...prev, [index]: undefined }));
     }
+  };
+     const {setValue} = useFormContext();
+  
+  
+
+  const onActionChange = (closeModal: () => void) => {
+    const datoshijos:any = datosChildren
+    console.log(datosChildren)
+    if (datoshijos) {
+      const itemsArray = datosModal.map((item: any) => 
+        item.id === datoshijos.id ? { ...item, quantity:datoshijos.quantity } : item
+      );
+   /*  const itemsArray = datosModal.map((item: any) => (
+      item.id === datoshijos.id && 
+      {
+      
+      productId: item.id,
+      quantity: item.quantity,
+      price: item.price,
+    })); */
+    // Establecer el nuevo array en "items"
+    setdatosTable(itemsArray);
+    setValue("items", itemsArray);
+    }
+    closeModal();
+    
   };
 
   useEffect(() => {
@@ -198,26 +245,26 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
           </Autocomplete>
 
           {newDataModal[index].id != null && (
-            <div className="flex justify-center items-center gap-1 animate-appearance-in">
+            <div className="flex justify-center animate-appearance-in gap-1 items-center">
               <div
                 onClick={() => handleRemove(index)}
                 aria-label="Eliminar producto"
-                className="bg-gradient-to-br mr-1 hover:scale-110 duration-250 active:scale-95 focus:ring-2 cursor-pointer from-slate-500 to-slate-600 rounded-lg p-2"
+                className="bg-gradient-to-br p-2 rounded-lg active:scale-95 cursor-pointer duration-250 focus:ring-2 from-slate-500 hover:scale-110 mr-1 to-slate-600"
               >
                 <FaTrashAlt color="white" />
               </div>
               <div
                 onClick={() => lessQuantity(index)}
                 aria-label="Reducir cantidad"
-                className="bg-gradient-to-br hover:scale-110 duration-250 active:scale-95 focus:ring-2 cursor-pointer from-slate-50 to-slate-200 rounded-lg p-1"
+                className="bg-gradient-to-br p-1 rounded-lg active:scale-95 cursor-pointer duration-250 focus:ring-2 from-slate-50 hover:scale-110 to-slate-200"
               >
                 <MdRemove size={24} />
               </div>
-              <div className="mx-2 text-md">{newDataModal[index].quantity}</div>
+              <div className="text-md mx-2">{newDataModal[index].quantity}</div>
               <div
                 onClick={() => moreQuantity(index)}
                 aria-label="Aumentar cantidad"
-                className="bg-gradient-to-br hover:scale-110 active:scale-95 cursor-pointer duration-250 from-sky-500 to-violet-500 rounded-lg p-2"
+                className="bg-gradient-to-br p-2 rounded-lg active:scale-95 cursor-pointer duration-250 from-sky-500 hover:scale-110 to-violet-500"
               >
                 <FaPlus />
               </div>
@@ -226,7 +273,7 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
         </div>
       ))}
 
-      <div className="w-full flex items-center justify-between">
+      <div className="flex justify-between w-full items-center">
         {lastItem?.id && (
           <div className="mb-5 mt-1">
             <Tooltip color="secondary" content="Add Product">
@@ -242,13 +289,13 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
             </Tooltip>
           </div>
         )}
-        <div className="w-full flex justify-end">
+        <div className="flex justify-end w-full">
           <AvatarGroup isBordered>
             {newDataModal.map((field: any) => (
               <>
                 {field.id != null && (
                   <Avatar
-                    className="w-20 h-20 text-large"
+                    className="h-20 text-large w-20"
                     src={port + field.image}
                   />
                 )}

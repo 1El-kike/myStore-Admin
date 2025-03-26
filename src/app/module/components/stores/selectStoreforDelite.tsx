@@ -44,13 +44,13 @@ export const SelectStoreforDelite = () => {
     return (
       <>
        <p className="text-center">{text}</p>
-        <div className="flex inset-0 justify-center ">
+        <div className="flex justify-center inset-0">
           <Avatar
             src={port + img}
-            className="w-20 shadow-lg shadow-violet-800 border aspect-auto h-20 text-large"
+            className="border h-20 shadow-lg shadow-violet-800 text-large w-20 aspect-auto"
           />
-          <div className="ml-4 justify-center flex flex-col">
-            <span className="text-xl font-extrabold text-slate-600 ">
+          <div className="flex flex-col justify-center ml-4">
+            <span className="text-slate-600 text-xl font-extrabold">
               {name}
             </span>
             <StarRating rating={rating} size={21} />
@@ -69,13 +69,13 @@ export const SelectStoreforDelite = () => {
     <>
       <PageTitleInit />
       <div className="w-full">
-        <div className="flex ml-10 mt-5 gap-4 flex-auto flex-wrap">
+        <div className="flex flex-auto flex-wrap gap-4 ml-10 mt-5">
           {data?.map((data: any, index: number) => {
             return (
               <>
                 <Modal_Component
                   key={data.id}
-                  background={{from:"violet-500",opacity:"70",to:"teal-500"}}
+                 // background={{from:"violet-500",opacity:"70",to:"teal-500"}}
 
                   component={
                     <StoreInfo
@@ -89,7 +89,7 @@ export const SelectStoreforDelite = () => {
                   }
                   title={"Warning"}
                   onClick={() => setidStore(data.id)}
-                  className="w-[30%] mt-10 animate-appearance-in duration-1000 h-60"
+                  className="h-60 w-[30%] animate-appearance-in duration-1000 mt-10"
                 onActionChange={(closeModal) => onActionChange(closeModal)}
                 >
                   <Type_product

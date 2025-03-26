@@ -108,6 +108,7 @@ export const AddProducts: React.FC = () => {
                 <div className="animate-opacity">
                   <Size />
                 </div>
+                
               )}
               <Pricing />
               <div>

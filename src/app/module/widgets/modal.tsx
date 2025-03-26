@@ -23,7 +23,7 @@ interface TypeModal {
   className: string;
   onClick?: () => void;
   component?: any;
-  background:Background;
+ // background:Background;
   footer?:React.ReactNode
   size? : 'xs'| 'sm'| 'md'|'lg'| "xl"| "2xl"| "3xl" | "4xl" | "5xl" | "full"
   scroll?:  undefined | "normal" | "inside" | "outside"
@@ -33,7 +33,7 @@ interface TypeModal {
 export const Modal_Component = ({
   title,
   children,
-  background,
+  //background,
   onActionChange,
   className,
   onClick,
@@ -62,7 +62,7 @@ export const Modal_Component = ({
           ref={targetRef}
           backdrop="blur"
           size={size}
-          className="relative overflow-hidden"
+          className="overflow-hidden relative"
           isOpen={isOpen}
           scrollBehavior={scroll}
           onOpenChange={onOpenChange}
@@ -73,15 +73,14 @@ export const Modal_Component = ({
                 <ModalHeader {...moveProps} className="flex flex-col gap-1">
                   {title}
                 </ModalHeader>
-                <ModalBody className="m-auto w-full   flex justify-start">
-                <div className="absolute blur-3xl -z-40 inset-0">
-                    <div className={`w-full h-full opacity-${background.opacity} bg-gradient-to-tl from-${background.from} to-${background.to} clip-modal `}></div>
+                <ModalBody className="flex justify-start m-auto w-full">
+                <div className="-z-40 absolute blur-3xl inset-0">
+                    <div className={`w-full h-full opacity-30 bg-gradient-to-tl from-teal-500 to-rose-600 clip-modal `}></div>
                   </div>
                   <div className="w-full absolute">
-
                   <img
                     src="/store-logo/logoShop.jpg"
-                    className=" opacity-10 inset-0 blur-sm  -z-30 aspect-auto"
+                    className="-z-30 aspect-auto blur-sm inset-0 opacity-10"
                     alt=""
                     />
                     </div>
@@ -91,17 +90,17 @@ export const Modal_Component = ({
                   {isAlert == 'no' && footer}
                   {(
                     <>
-                    <div className="flex w-full justify-end ">
+                    <div className="flex justify-end w-full">
 
                       <Button
                         color="danger"
-                        className=" relative inline-flex items-center justify-center px-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200 "
+                        className="bg-gradient-to-br justify-center rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-4 focus:ring-purple-200 font-medium from-purple-500 group group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white inline-flex items-center mb-2 me-2 overflow-hidden px-0.5 relative to-pink-500"
                         onPress={() => {
                           onClose()
                           onDiscardChange &&  onDiscardChange()
                         }}
                       >
-                        <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                        <span className="bg-white rounded-md duration-75 ease-in group-hover:bg-opacity-0 px-5 py-2 relative transition-all">
                           Discard
                         </span>
                       </Button>

@@ -11,13 +11,18 @@ export const TollButtom = ({children}:any) => {
 setlinkchange(linkchange)
   }
 
-  const DataTabs:Option[] = [
+  const DataTabs:Option[] = 
+    children[3] ? [
     { option:"List Frontal",component:children[0],icon:<FaClipboardList/>,link:''},
     { option:"Tabla",component:children[1], icon:<FaClipboardList/>,link:''},
-    { option:"List Horizontal ",component:children[2], icon:<FaBoxes/>,link:''},
-   { option:"Credit",component:"", icon:<FaClipboardList/>,link:''},
- //   { option:"Credit",component:"", icon:<FaClipboardList/>},
-    ]
+    { option:"List Horizontal ",component:children[2], icon:<FaBoxes/>,link:''},   
+    { option:"All",component:children[3], icon:<FaClipboardList/>,link:''}] 
+    :
+    [{ option:"List Frontal",component:children[0],icon:<FaClipboardList/>,link:''},
+      { option:"Tabla",component:children[1], icon:<FaClipboardList/>,link:''},
+      { option:"List Horizontal ",component:children[2], icon:<FaBoxes/>,link:''}]   
+    
+    
 
   return (
     <>
