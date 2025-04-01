@@ -6,6 +6,10 @@ import { ProductMain } from "./prouctMain";
 import { PageTitle } from "../../module/core/pageTitle";
 import { SelectEditProducts } from "../../module/components/products/edit/selecteditProduct";
 import { EditProducts } from "../../module/components/products/edit/editProducts";
+import { SelectStoreEditProduct } from "../../module/components/products/edit/selectStoreEditProduct";
+import { DelitedProducts } from "../../module/components/products/delited/delitedProducts";
+import { DeliteSelectProducts } from "../../module/components/products/delited/deliteSelectProducts";
+import { Delite } from "../../module/components/products/delited/delite";
 
 interface PageLink {
   title: string;
@@ -43,20 +47,6 @@ export const ProductsPage = () => {
       isActive: false,
     },
   ];
-  const selectStoreEditProduct: Array<PageLink> = [
-    {
-      title: "Beginning",
-      path: "/products/management",
-      isSeparator: false,
-      isActive: false,
-    },
-    {
-      title: "Select store for edit products",
-      path: "/products/edit",
-      isSeparator: true,
-      isActive: false,
-    },
-  ];
   const addProduct: Array<PageLink> = [
     {
       title: "Beginning",
@@ -77,6 +67,21 @@ export const ProductsPage = () => {
       isActive: false,
     },
   ];
+  const selectStoreEditProduct: Array<PageLink> = [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for edit products",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
   const editProduct: Array<PageLink> = [
     {
       title: "Beginning",
@@ -86,7 +91,7 @@ export const ProductsPage = () => {
     },
     {
       title: "Select store for edit products",
-      path: "/products/edit",
+      path: "/products/select",
       isSeparator: true,
       isActive: false,
     },
@@ -98,8 +103,93 @@ export const ProductsPage = () => {
     },
   ];
 
+  const deleteProduct = [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for delete products",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
+  const deleteSelectProduct = [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for delete products",
+      path: "/products/delite",
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: "Delete products",
+      path: "/",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
+  const editProductofStore: Array<PageLink> = [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for edit products",
+      path: "/products/select",
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: "Select Products",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
   return (
     <Routes>
+       <Route
+          path="delite"
+          element={
+            <>
+              <PageTitle breadcrumbs={deleteProduct}>Delete Product</PageTitle>
+              <DelitedProducts />
+            </>
+          }
+        />
+         <Route
+          path="delite/select"
+          element={
+            <>
+              <PageTitle breadcrumbs={deleteSelectProduct}>Select Shop</PageTitle>
+              <DeliteSelectProducts />
+            </>
+          }
+        />
+          <Route
+          path="delite/select/:idProduct"
+          element={
+            <>
+              <PageTitle breadcrumbs={deleteSelectProduct}>Delete Product</PageTitle>
+              <Delite />
+
+            </>
+          }
+        />
       <Route
         path="management"
         element={
@@ -120,7 +210,7 @@ export const ProductsPage = () => {
           </>
         }
       />
-        <Route
+      <Route
         path="add/:idStore"
         element={
           <>
@@ -130,7 +220,7 @@ export const ProductsPage = () => {
         }
       />
       <Route
-        path="edit"
+        path="select"
         element={
           <>
             <PageTitle breadcrumbs={selectStoreEditProduct}>
@@ -140,8 +230,20 @@ export const ProductsPage = () => {
           </>
         }
       />
-       <Route
-        path="edit/:idProduct"
+      <Route
+        path="select/edit"
+        element={
+          <>
+            <PageTitle breadcrumbs={editProductofStore}>
+              Select Product
+            </PageTitle>
+            <SelectStoreEditProduct />
+          </>
+        }
+      />
+       
+      <Route
+        path="select/edit/:idProduct"
         element={
           <>
             <PageTitle breadcrumbs={editProduct}>Create Product</PageTitle>
@@ -149,7 +251,7 @@ export const ProductsPage = () => {
           </>
         }
       />
-    
+
       <Route index element={<Navigate to="management" />} />
     </Routes>
   );

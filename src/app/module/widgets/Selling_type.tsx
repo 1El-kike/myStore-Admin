@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 interface TypeSelling {
-  indexdefault?:string | null ;
+  indexdefault?:number | null ;
 }
 
 export const Selling_Type: React.FC<TypeSelling>= ({indexdefault}) => {
@@ -12,19 +12,15 @@ export const Selling_Type: React.FC<TypeSelling>= ({indexdefault}) => {
     { label: "Available both in-store and online", value: "both" },
   ];
   const [selectedSellingType, setSelectedSellingType] = useState<number | null>(
-    null
+    indexdefault || null
   );
 
   const {watch,clearErrors } = useFormContext()
 
-  const update =()=>{
-    isoption.map((opt,index) => opt.value == indexdefault && setSelectedSellingType(index))
-  }
   useEffect(() => {
-    if (indexdefault) {
-      update()
+    if (indexdefault != undefined ) {
+      setSelectedSellingType(indexdefault)
     }
-    console.log(indexdefault)
   }, [indexdefault])
   
 
@@ -37,7 +33,7 @@ export const Selling_Type: React.FC<TypeSelling>= ({indexdefault}) => {
     });
 
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [watch('selling_type')]);
 
   const {
     register,

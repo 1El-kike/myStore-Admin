@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Group, List, Table,All } from "./GroupBy";
+import { Group, List, Table} from "./GroupBy";
 import { TollButtom } from "../components/products/tollBar";
 import { useEjecut } from "../../hooks/useEjecut";
 import { updateTable } from "../core/filtertableandSearch";
+import { ProductAll } from "../components/products/edit/product";
 
-export const TabSelect = ({ link,allData }: {link: string,allData?:string}) => {
+export const TabSelect = ({ link,allData,notId,linkallData }: {link: string,allData?:string,notId?:boolean,linkallData?:string}) => {
   const buttonClasses = [
     "bg-gradient-to-tr to-violet-700 from-indigo-500",
     "bg-gradient-to-tr to-fuchsia-500 from-fuchsia-900",
@@ -55,6 +56,7 @@ export const TabSelect = ({ link,allData }: {link: string,allData?:string}) => {
   const option: any = [
     <List
     link={link}
+    notID={notId}
     buttonClasses={buttonClasses}
     fondoClasses={fondoClasses}
     data={data}
@@ -62,13 +64,16 @@ export const TabSelect = ({ link,allData }: {link: string,allData?:string}) => {
     <Table
       buttonClasses={buttonClasses}
       fondoClasses={fondoClasses}
+      notID={notId}
     />,
     <Group
       buttonClasses={buttonClasses}
       fondoClasses={fondoClasses}
       data={data}
+      notID={notId}
+
     />,
-    allData && <All data={DataProduct} link={''} />,
+    allData && <ProductAll data={DataProduct} link={linkallData} />,
   
   ];
 

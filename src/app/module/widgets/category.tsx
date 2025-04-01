@@ -16,7 +16,7 @@ export const Category: React.FC<Category> = ({label1,label2,index,data1,data2,se
   
   const [option, setoption] = useState(select);
 
-  const { register, formState: { errors } ,setValue,clearErrors} = useFormContext();
+  const { register, watch, formState: { errors } ,setValue,clearErrors} = useFormContext();
 
   const [indiceSeleccionado, setIndiceSeleccionado] = useState<number>(-1);
 
@@ -28,6 +28,14 @@ export const Category: React.FC<Category> = ({label1,label2,index,data1,data2,se
     setValue(data1,event.target.value);
     clearErrors(data1)
 };
+
+useEffect(() => {
+  option.option.map((e,i)=> {
+  e.category == watch(data1) 
+  && setIndiceSeleccionado(i)
+ })
+}, [watch(data1)])
+
 
 useEffect(() => {
    if (index) {
@@ -86,7 +94,7 @@ useEffect(() => {
             return (
               <>
                 <option  key={index + data2} value={value.tipo}>
-                  {value.tipo}
+                  { value.tipo}
                 </option>
               </>
             );

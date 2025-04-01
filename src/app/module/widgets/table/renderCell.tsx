@@ -19,6 +19,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 export const renderCell = (
   datos: any,
   columnKey: any,
+  notId?:boolean
 ) => {
   const cellValue = datos[columnKey];
 
@@ -178,7 +179,7 @@ export const renderCell = (
               <span
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
               >
-                 <Link to={`${datos?.actions?.urledit?.element}${datos.id}`}>
+                 <Link to={`${notId === true ? datos?.actions?.urledit?.element : datos?.actions?.urledit?.element + datos.id}`}>
                 <EditIcon />
                  </Link>
               </span>

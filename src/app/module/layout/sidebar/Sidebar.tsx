@@ -113,9 +113,9 @@ export const LayatSidebar = ({ setancho }: any) => {
               hovered={hovered}
               title="Products"
               collapseddata={[
-                {link:"products",name:"List Products"},
-                {link:"products",name:"Create Product"},
-                {link:"products",name:"Shipping"},
+                {link:"products",name:"Shipping",id:8},
+                {link:"products/watch",name:"List Products",id:6},
+                {link:"products/add",name:"Create Product",id:7}
                 ]}
             />
             <CollapseSidebar
@@ -124,9 +124,9 @@ export const LayatSidebar = ({ setancho }: any) => {
               hovered={hovered}
               title="Stores"
               collapseddata={[
-                {link:"stores",name:"Stores Management "},
-                {link:"stores/sales",name:"Stores Sales"},
-                {link:"stores",name:"Inventory"},
+                {link:"stores",name:"Stores Management ",id:0},
+                {link:"stores/sales",name:"Stores Sales",id:1},
+                {link:"stores",name:"Inventory",id:2},
                 ]}
             />
              <CollapseSidebar
@@ -135,9 +135,9 @@ export const LayatSidebar = ({ setancho }: any) => {
               hovered={hovered}
               title="Orders"
               collapseddata={[
-                {link:"orders/list",name:"List Order"},
-                {link:"orders/create",name:"Create Order"},
-                {link:"orders",name:"Order Details"},
+                {link:"orders/list",name:"List Order",id:3},
+                {link:"orders/create",name:"Create Order",id:4},
+                {link:"orders",name:"Order Details",id:5},
                 ]}
             />
             <Sidebar.Item

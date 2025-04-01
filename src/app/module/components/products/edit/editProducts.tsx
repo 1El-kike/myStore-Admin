@@ -52,6 +52,7 @@ export const EditProducts = () => {
   }, [data, methods]);
 
   const [initialData, setInitialData] = useState<any | null>(data);
+  console.log(initialData,'ss')
 
   const { onSubmit, error, success, isLoading } = useBack<FormData>({
     url: "allProducts/update",
@@ -86,10 +87,10 @@ export const EditProducts = () => {
                 data1="quantity_total"
                 data2="sku"
               />
-              <Selling_Type />
+              <Selling_Type  indexdefault={data?.selling_type == 'In-store' ? 0 : data?.selling_type == 'Online' ? 1 :  data?.selling_type == 'both' ? 2 : null}/>
             </div>
             <div className="grow mb-auto basis-72 px-5">
-              <Images data="image" label="Product Images" />
+              <Images data="image" label="Product Images" imagenDefault={data?.image} />
               { data?.category === "Food" && (
                 <div className="animate-opacity">
                   <Shipping_Delivery />
@@ -100,7 +101,7 @@ export const EditProducts = () => {
                   <Size />
                 </div>
               )}
-              <Pricing />
+              <Pricing defaultPrice={data?.price} />
               <div>
                 <Submit
                   error={error}

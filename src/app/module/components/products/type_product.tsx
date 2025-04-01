@@ -1,7 +1,7 @@
 import { Image } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { FaAngleRight, FaAppStore, FaStore } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 interface TypeP {
   image: string;
   title: string;
@@ -11,8 +11,9 @@ interface TypeP {
   scale: string;
   button: string | undefined;
   idStore: number;
-  position?: "horisontal"| "vertical";
-  link?:string;
+  position?: "horisontal" | "vertical";
+  link?: string;
+  notID?: boolean;
 }
 
 export const Type_product = ({
@@ -26,57 +27,69 @@ export const Type_product = ({
   idStore,
   position = "horisontal",
   link,
+  notID,
 }: TypeP) => {
-
-  const [links, setlinks] = useState(link)
+  const [links, setlinks] = useState(link);
 
   useEffect(() => {
-    console.log(link)
-    setlinks(link)
-  }, [link])
-  
+    setlinks(link);
+  }, [link]);
 
+  const navigate = useNavigate();
 
- const linDirect = links ? `${links}${idStore}` : ''
+  const handleToRouter = ()=>{
+    if (notID) { 
+      navigate(`${links}`,{state:{id:idStore}})
+    } else {
+      navigate(`${links}${idStore}`)
+    }
+  }
+
+  const linDirect = links
+    ? notID == true
+      ? `${links}`
+      : `${links}${idStore}`
+    : "";
 
   return (
-    <Link  to={ linDirect}>
+    <div onClick={handleToRouter}  >
       <div className="w-full h-full transition-all hover:scale-105 ease-in-out duration-700 cursor-pointer mb-10">
         <div
           className={` w-full relative overflow-hidden  h-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex p-5 rounded-3xl ${fondo}`}
         >
-          
-            <div className={`rounded-2xl overflow-hidden flex h-full ${position == "vertical" ? "" : "w-[30%] "}`}>
-              { position == "horisontal" ?
-               <Image
-               isBlurred
-               alt="Album Cover"
-               className="scale-105 justify-center aspect-square m-auto rounded-2xl"
-               src={image}
-               width={240}
-               />
-             
-             /*  <img
+          <div
+            className={`rounded-2xl overflow-hidden flex h-full ${
+              position == "vertical" ? "" : "w-[30%] "
+            }`}
+          >
+            {position == "horisontal" ? (
+              <Image
+                isBlurred
+                alt="Album Cover"
+                className="scale-105 justify-center aspect-square m-auto rounded-2xl"
+                src={image}
+                width={240}
+              />
+            ) : (
+              /*  <img
                 className={` scale-${scale} justify-center aspect-square m-auto rounded-2xl `}
                 src={image}
                 alt="Title"
               /> */
-              :
               <div className="absolute w-full h-full blur-sm">
-              <img
-              className={` h-full clip-edit  w-full bottom-0 z-10  opacity-50 aspect-auto scale-${scale} `}
-              src={image}
-              
-              alt="Title"
-              />
+                <img
+                  className={` h-full clip-edit  w-full bottom-0 z-10  opacity-50 aspect-auto scale-${scale} `}
+                  src={image}
+                  alt="Title"
+                />
               </div>
-              
-            
-            }
-          
+            )}
           </div>
-          <div className={`text-center m-auto justify-center  z-20 ${position == "horisontal" ? "text-slate-600" : "text-slate-800"} `}>
-          
+          <div
+            className={`text-center m-auto justify-center  z-20 ${
+              position == "horisontal" ? "text-slate-600" : "text-slate-800"
+            } `}
+          >
             <h4 className="line-clamp-1 text-center  text-slate-950 font-bold text-2xl mb-4">
               {title}
             </h4>
@@ -93,11 +106,16 @@ export const Type_product = ({
             <FaAngleRight />
           </button>
         </div>
-        <div className={"absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-10 "}>
-        <div className={" p-4 text-white rounded-2xl " + button }>
-            <FaStore size={28}/>
-  </div></div>
+        <div
+          className={
+            "absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-10 "
+          }
+        >
+          <div className={" p-4 text-white rounded-2xl " + button}>
+            <FaStore size={28} />
+          </div>
+        </div>
       </div>
-    </Link>
+    </div>
   );
 };

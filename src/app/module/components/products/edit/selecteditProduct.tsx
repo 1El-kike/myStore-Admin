@@ -12,7 +12,7 @@ export const SelectEditProducts = () => {
     <PageTitleInit/>
     <div className="w-full">
            <div className="w-[85%]">
-             <TabSelect link="/products/edit/" allData="allProducts" />
+             <TabSelect link="/products/select/edit/" notId={true} linkallData="edit/" allData="allProducts" />
            </div>
          </div>
            <Toolbar action='Edit Products' element='Admin of product'/>

@@ -19,9 +19,10 @@ export interface TypeColumns {
 interface TableData {
   columns: TypeColumns[];
   isDetails?: boolean;
+  notId?:boolean
 }
 
-export const Tables: FC<TableData> = ({ columns, isDetails }) => {
+export const Tables: FC<TableData> = ({ columns, isDetails,notId }) => {
   const {
     setSortDescriptor,
     sortDescriptor,
@@ -35,7 +36,7 @@ export const Tables: FC<TableData> = ({ columns, isDetails }) => {
   const bottomContent = <BottomContent />;
 
   const render = useCallback((dato: any, columnKey: any) => {
-    return renderCell(dato, columnKey);
+    return renderCell(dato, columnKey ,notId);
   }, []);
 
   return (

@@ -1,0 +1,18 @@
+import React from "react";
+import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
+import { TabSelect } from "../../../widgets/tabsSelect";
+import { Toolbar } from "../../../widgets/Toolbar";
+
+export const DelitedProducts = () => {
+  return (
+    <>
+      <PageTitleInit />
+      <div className="w-full">
+                 <div className="w-[85%]">
+                   <TabSelect link="/products/delite/select" notId={true} linkallData="select/" allData="allProducts" />
+                 </div>
+               </div>
+                 <Toolbar action='Delite Products' element='Admin of product'/>
+    </>
+  );
+};

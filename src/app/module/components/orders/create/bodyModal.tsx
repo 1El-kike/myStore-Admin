@@ -16,7 +16,11 @@ import { updateTable } from "../../../core/filtertableandSearch";
 import { useFormContext } from "react-hook-form";
 
 export type DataItem = {
-  id: string | null;
+  id: string | null ;
+  product?:{
+    id:string  
+    name:string
+  }
   name: string | null;
 };
 
