@@ -56,9 +56,9 @@ export const Card = () => {
     );
   };
   const DataTabs:Option[] = [
-   { option:"Universal card",component:<TarjetaCdredit/>, icon:<FaRegCreditCard size={22}/>},
-   { option:"Inventory",component:<TarjetaCdredit/>, icon:<MdOutlineInventory size={22} />},
-   { option:"Personnel",component:<TarjetaCdredit/>, icon:<ImUsers size={22} /> },
+   { option:"Universal card",component:<TarjetaCdredit/>, icon:<FaRegCreditCard size={22}/>,link:''},
+   { option:"Inventory",component:<TarjetaCdredit/>, icon:<MdOutlineInventory size={22} />,link:''},
+   { option:"Personnel",component:<TarjetaCdredit/>, icon:<ImUsers size={22} />,link:''},
   ]
 
   return (

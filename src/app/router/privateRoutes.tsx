@@ -2,8 +2,6 @@ import { lazy, FC, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Layout } from "../module/layout/layout";
 import { Dashboard } from "../pages/dashboard/dashboard";
-import { Products } from "../module/components/products/add/productMannager";
-import { AddProducts } from "../module/components/products/addProducts";
 import { Progress } from '@nextui-org/react';
 import { ProductsPage } from "../pages/mananagerProduct/productsPage";
 import { OrderPage } from "../pages/orders/orderPage";

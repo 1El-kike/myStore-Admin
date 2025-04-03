@@ -1,9 +1,12 @@
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { FC } from "react";
 import { usePageData } from "../core/pageTitle";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export const ShoppingCartIcon = (props:any) => {
+
+
   return (
     <svg
       aria-hidden="true"
@@ -39,6 +42,13 @@ export const Breadcrumb:FC<any> =({link})=> {
 
   const {pageBreadcrumbs} = usePageData()
 
+  const navigate = useNavigate()
+
+  const handleClick = (prop:string | number)=>{
+    if (prop == -1) {
+      navigate(-1)
+    }
+  }
 
   return (
     <Breadcrumbs
@@ -55,7 +65,7 @@ export const Breadcrumb:FC<any> =({link})=> {
       <BreadcrumbItem href={link}>
         <ShoppingCartIcon />
       </BreadcrumbItem>
-      {pageBreadcrumbs?.map( breadcrum => { return <BreadcrumbItem href={breadcrum.path}>{breadcrum.title}</BreadcrumbItem>
+      {pageBreadcrumbs?.map( breadcrum => { return <BreadcrumbItem onClick={()=> handleClick(breadcrum.path)} href={breadcrum.path}>{breadcrum.title}</BreadcrumbItem>
       })}
     </Breadcrumbs>
   );

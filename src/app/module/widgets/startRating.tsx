@@ -10,10 +10,10 @@ export const StarRating: React.FC<{ rating: number,size:number }> = ({ rating ,s
     <div className="flex">
       {/* Renderizar estrellas completas */}
       {[...Array(fullStars)].map((_, index) => (
-        <FaStar size={size} key={index} className="text-yellow-500" />
+        <FaStar size={size} key={index} className="text-yellow-400" />
       ))}
       {/* Renderizar media estrella si corresponde */}
-      {hasHalfStar && <FaStarHalfStroke size={size} className="text-yellow-500" />}
+      {hasHalfStar && <FaStarHalfStroke size={size} className="text-yellow-400" />}
     </div>
   );
 };

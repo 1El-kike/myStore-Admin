@@ -26,7 +26,7 @@ export const ProductMain = () => {
   const DeliteProducts = () => {
     return (
       <>
-        <div className=" grow">
+        <div className="grow">
           <Link to={"/products/delite"}>
             <div className=" shadow-teal-800 mt-4 shadow-2xl border overflow-hidden border-gray-300  rounded-xl flex h-72">
               <img src="/product/deleteProduct.png" className="w-full hover:scale-110 duration-400" alt="" />

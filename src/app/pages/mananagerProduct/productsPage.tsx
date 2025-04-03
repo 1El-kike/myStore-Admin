@@ -10,6 +10,9 @@ import { SelectStoreEditProduct } from "../../module/components/products/edit/se
 import { DelitedProducts } from "../../module/components/products/delited/delitedProducts";
 import { DeliteSelectProducts } from "../../module/components/products/delited/deliteSelectProducts";
 import { Delite } from "../../module/components/products/delited/delite";
+import { WatchProducts } from "../../module/components/products/watch/watchProducts";
+import { WatchSelectProducts } from "../../module/components/products/watch/watchSelectProducts";
+import { Watch } from "../../module/components/products/watch/watch";
 
 interface PageLink {
   title: string;
@@ -82,6 +85,27 @@ export const ProductsPage = () => {
     },
   ];
 
+  const editProductofStore: Array<PageLink> = [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for edit products",
+      path: "/products/select",
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: "Select Products",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
   const editProduct: Array<PageLink> = [
     {
       title: "Beginning",
@@ -97,6 +121,69 @@ export const ProductsPage = () => {
     },
     {
       title: "Edit Products",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
+  const watchProduct =  [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for watch products",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
+  const watchSelectProduct = [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for watch products",
+      path: "/products/watch",
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: "Watch products",
+      path: "/",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
+  const watch = [
+    {
+      title: "Beginning",
+      path: "/products/management",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "Select store for watch products",
+      path: "/products/watch",
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: "Watch products",
+      path: -1,
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: "Select products",
       path: "",
       isSeparator: true,
       isActive: false,
@@ -139,29 +226,40 @@ export const ProductsPage = () => {
     },
   ];
 
-  const editProductofStore: Array<PageLink> = [
-    {
-      title: "Beginning",
-      path: "/products/management",
-      isSeparator: false,
-      isActive: false,
-    },
-    {
-      title: "Select store for edit products",
-      path: "/products/select",
-      isSeparator: true,
-      isActive: false,
-    },
-    {
-      title: "Select Products",
-      path: "",
-      isSeparator: true,
-      isActive: false,
-    },
-  ];
+  
 
   return (
     <Routes>
+      {/*###################  Ruta del campo mirar  #######################*/}
+      <Route
+          path="watch"
+          element={
+            <>
+              <PageTitle breadcrumbs={watchProduct}>Watch Product</PageTitle>
+              <WatchProducts />
+            </>
+          }
+        />
+          <Route
+          path="watch/select"
+          element={
+            <>
+              <PageTitle breadcrumbs={watchSelectProduct}>Watch Product</PageTitle>
+              <WatchSelectProducts />
+            </>
+          }
+        />
+         <Route
+          path="watch/select/:idProduct"
+          element={
+            <>
+              <PageTitle breadcrumbs={watch}>Watch Product</PageTitle>
+              <Watch />
+
+            </>
+          }
+        />
+        {/*############### Ruta de campo Delite ######################### */}
        <Route
           path="delite"
           element={

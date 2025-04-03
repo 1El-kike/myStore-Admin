@@ -4,7 +4,7 @@ import React, {FC, PropsWithChildren, createContext, useContext, useEffect, useS
 
 export interface PageLink {
   title: string
-  path: string
+  path: string | any
   isActive: boolean
   isSeparator?: boolean
 }
