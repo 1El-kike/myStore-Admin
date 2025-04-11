@@ -78,7 +78,7 @@ useEffect(() => {
               <svg
                 className="w-8 h-8 mb-4 text-gray-500 "
                 aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns=""
                 fill="none"
                 viewBox="0 0 20 16"
               >
@@ -153,7 +153,7 @@ useEffect(() => {
               Remove
             </button>
           </div>
-          <img alt="" className="scale-150 " src={imagePreview.length > 0 ?  imagePreview[0]  : `${PUBLIC_URL}"description/image(2).png` }></img>
+          <img alt="" className="scale-150 " src={imagePreview.length > 0 ?  imagePreview[0]  : `${PUBLIC_URL}description/image(2).png` }></img>
         </div>
         <div className="grow">
           <div className="md:w-36 overflow-clip h-28 justify-center items-center flex rounded-2xl mb-2 bg-yellow-700">

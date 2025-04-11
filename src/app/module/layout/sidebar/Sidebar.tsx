@@ -14,6 +14,7 @@ import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { CollapseSidebar } from "./collapseSidebar";
 import { FaJediOrder } from "react-icons/fa6";
+import { PUBLIC_URL } from "../../../../config/env";
 
 
 const custom = {
@@ -85,7 +86,7 @@ export const LayatSidebar = ({ setancho }: any) => {
           <Link to={""}>
             <Sidebar.Logo
               href=""
-              img="/description/image(2).png"
+              img={`${PUBLIC_URL}description/image(2).png`}
               imgAlt="Flowbite logo"
               className="text-white relative"
             >

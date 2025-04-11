@@ -58,7 +58,7 @@ export const Image_Input: React.FC<TypeImage> = ({ label, data,setimagenew }) =>
                         <svg
                           className="w-8 h-8 mb-4 text-gray-500 "
                           aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns=""
                           fill="none"
                           viewBox="0 0 20 16"
                         >
