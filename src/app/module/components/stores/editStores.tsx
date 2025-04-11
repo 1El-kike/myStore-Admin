@@ -10,7 +10,7 @@ export const EditStores = () => {
 
   return (
     <div onMouseLeave={()=> setisEnter(false)} onMouseEnter={()=> setisEnter(true)} className='w-full flex justify-center items-center h-full relative'>
-        <img src="/Mindset-de-produto-blogpost-SULTS-min-676x450.jpg" className={`${isEnter && "transition-all duration-300 scale-50 translate-x-16  translate-y-8" } transition-all duration-300 absolute scale-125 aspect-video top-2  clip-editStore`} alt="" />
+        <img src="Mindset-de-produto-blogpost-SULTS-min-676x450.jpg" className={`${isEnter && "transition-all duration-300 scale-50 translate-x-16  translate-y-8" } transition-all duration-300 absolute scale-125 aspect-video top-2  clip-editStore`} alt="" />
         <div className='z-20 text-white  w-full pl-5 h-full justify-center items-start flex flex-col '>
             <h1 className='uppercase text-3xl font-extrabold'>Editar Stores</h1>
             <p className='capitalize text-white text-xs md:text-sm text-wrap md:w-[50%]'>This is camp for edit are Stores</p>

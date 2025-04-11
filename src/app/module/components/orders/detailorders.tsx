@@ -94,7 +94,7 @@ export const ViewDetailOrder = (order: any) => {
         customer: (
           <div className="flex items-center gap-3 w-full px-4 py-5">
             <img
-              src="/1.png"
+              src="1.png"
               className="w-9 h-9 shadow-lg shadow-slate-400 rounded-full"
               alt=""
             />

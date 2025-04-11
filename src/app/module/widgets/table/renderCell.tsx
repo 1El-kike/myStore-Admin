@@ -70,7 +70,7 @@ export const renderCell = (
       return (
         <div className="flex items-center gap-3">
           <img
-            src="/1.png"
+            src="1.png"
             className="w-9 h-9 shadow-lg shadow-slate-400 rounded-full"
             alt=""
           />
@@ -95,7 +95,7 @@ export const renderCell = (
       return (
         <div className="flex items-center gap-3">
           <img
-            src={datos.customer.customerImg || "/avatar/perfil.png"}
+            src={datos.customer.customerImg || "avatar/perfil.png"}
             className="w-9 h-9 shadow-lg shadow-slate-400 rounded-full"
             alt=""
           />

@@ -14,7 +14,7 @@ export const Card = () => {
           {/* Tarjeta de credit */}
           <div className=" w-80 ">
             <img
-              src="/tarjeta-credito.png"
+              src="tarjeta-credito.png"
               className="drop-shadow-2xl "
               alt=""
             />

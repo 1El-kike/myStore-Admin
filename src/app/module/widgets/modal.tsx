@@ -79,7 +79,7 @@ export const Modal_Component = ({
                   </div>
                   <div className="w-full absolute">
                   <img
-                    src="/store-logo/logoShop.jpg"
+                    src="store-logo/logoShop.jpg"
                     className="-z-30 aspect-auto blur-sm inset-0 opacity-10"
                     alt=""
                     />

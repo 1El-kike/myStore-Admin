@@ -10,7 +10,7 @@ export const Dashboard = () => {
       <div className="flex overflow-clip flex-wrap-reverse relative w-full">
         <div className="absolute blur-sm w-full -right-[121px] -z-20 h-full">
           <img
-            src="/home/home3.png"
+            src="home/home3.png"
             className="w-[45%] -top-10 right-28 aspect-auto opacity-90 clip-dashbo -z-30 absolute"
             alt=""
           />

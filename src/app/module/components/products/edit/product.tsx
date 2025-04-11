@@ -81,7 +81,7 @@ export const ProductAll: React.FC<any> = ({ data ,link}) => {
         >
           <div className="p-2 m-3 rounded-2xl relative flex gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
             <img
-              src={port + (product.image || "/placeholder-product.png")}
+              src={port + (product.image || "placeholder-product.png")}
               className="w-40 h-40 rounded-xl object-cover"
               alt={product.name}
             />

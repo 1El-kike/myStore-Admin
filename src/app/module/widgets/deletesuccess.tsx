@@ -36,6 +36,7 @@ export const Deletesuccess = () => {
                 ) : typeof deliteData[key] === "string" &&
                   deliteData[key].includes("uploads") ? (
                   <img
+                    alt=""
                     className="w-40 first:absolute"
                     src={port + deliteData[key]}
                   ></img>

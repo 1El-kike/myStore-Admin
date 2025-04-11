@@ -24,12 +24,12 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
             </div>
             <div>
               <img
-                src="/products2.png"
+                src="products2.png"
                 className="absolute bottom-0 animate-transition"
                 alt=""
               />
               <img
-                src="/products.png"
+                src="products.png"
                 className="absolute left-60 bottom-4 animate-transitionleft"
                 alt=""
               />

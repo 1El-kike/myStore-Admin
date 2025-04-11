@@ -14,7 +14,7 @@ export const AddStores = () => {
       <div className="relative w-full h-full">
         <div onMouseLeave={()=> setisEnter(false)} onMouseEnter={()=>setisEnter(true)} className={ "w-full  h-full absolute"}>
         <img
-          src="/CPA-Header-Image-2021-Careers.png"
+          src="CPA-Header-Image-2021-Careers.png"
           className={isEnter ? "scale-125 transition-all duration-300 translate-x-60 w-full  h-full absolute z-0  clip-addStore" : "w-full transition-all duration-300 z-0 absolute h-full  clip-addStore"}
           alt=""
         />

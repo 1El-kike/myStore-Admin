@@ -10,8 +10,8 @@ export const WatchStore = () => {
   
     return (
       <div onClick={()=> redirect('/stores/watch')} onMouseLeave={()=> setisEnter(false)} onMouseEnter={()=> setisEnter(true)} className=' w-full flex  justify-center items-center h-full relative'>
-          <img src="/home/home.jpg" className={`${isEnter && "scale-125" } transition-all duration-300 absolute clip-watchStore aspect-video`} alt="" />
-          <img src="/home/home.jpg" className={`transition-all opacity-20 duration-300 absolute  aspect-video`} alt="" />
+          <img src="home/home.jpg" className={`${isEnter && "scale-125" } transition-all duration-300 absolute clip-watchStore aspect-video`} alt="" />
+          <img src="home/home.jpg" className={`transition-all opacity-20 duration-300 absolute  aspect-video`} alt="" />
           <div className='z-20 text-white  w-full pl-5 h-full justify-center items-start flex flex-col-reverse '>
               <h1 className='uppercase text-3xl font-extrabold'>Watch Stores</h1>
               <p className='capitalize mt-12 text-white text-xs md:text-sm text-wrap md:w-[50%]'>This is camp for wacth you Stores</p>
