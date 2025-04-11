@@ -32,7 +32,7 @@ export const categoryProduct:TypeCategory = {
       {category:"Para Hogar",
         tipos:[
           {tipo:"Aseo y Limpieza"},
-          {tipo:"barro"},
+          {tipo:"Electrodomestico"},
           {tipo:"Pants"},
           {tipo:"hat"},
           {tipo:"calzones"},

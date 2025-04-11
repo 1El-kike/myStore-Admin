@@ -5,7 +5,7 @@ import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import { port } from "../../../../../config/env";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { StarRating } from "../../../widgets/startRating";
-import { FaHeart, FaPlus, FaShare, FaStoreAlt } from "react-icons/fa";
+import { FaHeart, FaPencilAlt, FaPlus, FaShare, FaStoreAlt } from "react-icons/fa";
 import { MdAccessTimeFilled, MdFireTruck } from "react-icons/md";
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { VscVerified, VscVerifiedFilled} from "react-icons/vsc"
@@ -238,9 +238,25 @@ export const Watch = () => {
     )
   }
 
-  const Reviews =() => (
-    <div>
+  const Reviews =({rating}:{rating:any}) => (
+    <div className="flex">
+        <div className="grow basis-56 border-r">
+            {/* cantidad de rating verdadera */}
+            <div className="flex flex-col items-center justify-center gap-3">
+             <p className="text-xl font-bold">Average rating</p>
+              <h1 className="text-7xl bg-gradient-to-tr from-slate-800 bg-clip-text text-transparent to-rose-900 font-extrabold">{`${rating}/5`}</h1>
+              <StarRating rating={rating} size={25}/>
+              <p className="text-slate-400">{`(9.12k reviews)`}</p>
+            </div>
+        </div>
+        <div className="grow basis-56 border-r">
 
+        </div>
+        <div className="grow flex justify-center items-center basis-56 ">
+        <Button startContent={<FaPencilAlt />} className="text-base font-semibold"  color="default" variant="light">
+            Write your review
+          </Button>
+        </div>
     </div>
   )
 
@@ -314,7 +330,7 @@ export const Watch = () => {
 
     const DataTabs:Option[] = [
      { option:"Description ",component:<Description details={details} benefits={benefits} />,link:''},
-     { option:"Reviews",component:<Reviews/>,link:'',badge:{color:'default',contex:8}},
+     { option:"Reviews",component:<Reviews rating={product?.rating} />,link:'',badge:{color:'default',contex:8}},
     ]
 
 

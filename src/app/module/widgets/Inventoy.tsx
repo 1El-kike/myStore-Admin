@@ -67,7 +67,7 @@ export const Inventoy: React.FC<InventType> = ({
                 {label1}
               </label>
               <input
-                type="text"
+                type="number"
                 id={label1}
                 {...register(data1, {
                   required: "This field is required",

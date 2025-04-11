@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { SelectAddProducts } from "../../module/components/products/add/productMannager";
-import { AddProducts } from "../../module/components/products/addProducts";
+import { AddProducts } from "../../module/components/products/add/addProducts";
 import { ProductMain } from "./prouctMain";
 import { PageTitle } from "../../module/core/pageTitle";
 import { SelectEditProducts } from "../../module/components/products/edit/selecteditProduct";

@@ -61,6 +61,8 @@ export const EditProducts = () => {
     initialData,
   });
 
+console.log(data?.selling_type)
+
   return (
     <>
       <div className="z-30 overflow-clip w-full">
@@ -87,7 +89,10 @@ export const EditProducts = () => {
                 data1="quantity_total"
                 data2="sku"
               />
-              <Selling_Type  indexdefault={data?.selling_type == 'In-store' ? 0 : data?.selling_type == 'Online' ? 1 :  data?.selling_type == 'both' ? 2 : null}/>
+              
+              {data?.selling_type && 
+              <Selling_Type  indexdefault={data?.selling_type == 'In-store' ? 0 : data?.selling_type == 'Online' ? 1 :  data?.selling_type == 'both' ? 2 : 0}/>
+              }
             </div>
             <div className="grow mb-auto basis-72 px-5">
               <Images data="image" label="Product Images" imagenDefault={data?.image} />
@@ -101,7 +106,7 @@ export const EditProducts = () => {
                   <Size />
                 </div>
               )}
-              <Pricing defaultPrice={data?.price} />
+              <Pricing  />
               <div>
                 <Submit
                   error={error}

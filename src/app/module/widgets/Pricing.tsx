@@ -23,49 +23,37 @@ export const Pricing: React.FC<TypePrice> = ({ defaultPrice }) => {
     clearErrors,
   } = useFormContext();
 
-   useEffect(() => {
-    if (defaultPrice) {
-      setResult((parseFloat(defaultPrice) / 320).toFixed(2));
-    }
-  }, [defaultPrice]);
+  const price = watch("price");
+  const comparePrice = watch("comparePrice");
 
+  // Inicializar valores por defecto
   useEffect(() => {
-    const subcription = watch((value)=>{
-      if (!value.price) {
-        setPrice(''); 
-      }
-      if (!value.comparePrice) {
-        setResult('')
-      }
-    })
-    return () =>   subcription.unsubscribe()
-  }, [watch('price'),watch('comparePrice')])
-
-
-  const [price, setPrice] = useState(defaultPrice || ""); // Estado para el primer input
-  const [result, setResult] = useState(""); // Estado para el segundo input
-
-  const handlePriceChange = (e: any) => {
-    const value = e.target.value;
-    setPrice(value); // Actualiza el estado del precio
-
-    // Realiza la división solo si el valor es un número
-    if (!isNaN(value) && value !== "") {
-      setResult((parseFloat(value) / 320).toFixed(2)); // Divide y formatea a 2 decimales
-    } else {
-      setResult(""); // Limpia el resultado si no es un número válido
+    if (defaultPrice) {
+      const initialValue = parseFloat(defaultPrice).toFixed(2);
+      setValue("price", initialValue);
+      setValue("comparePrice", (parseFloat(initialValue) / 320).toFixed(2));
     }
+  }, [defaultPrice, setValue]);
 
-    clearErrors("price");
-  };
+  // Actualizar comparePrice cuando cambia price
+  useEffect(() => {
+    if (price) {
+      const numericValue = parseFloat(price);
+      if (!isNaN(numericValue)) {
+        const calculated = (numericValue / 320).toFixed(2);
+        setValue("comparePrice", calculated);
+      }
+    } else {
+      setValue("comparePrice", "");
+    }
+  }, [price, setValue]);
 
-    
-
-  //Datos para el metodo changeMony para la conversion de dinero
+  // Datos para la selección de moneda
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedIndexCompare, setSelectedIndexCompare] = useState(0);
-  const [isMony, setisMony] = useState(false);
-  const [isCompareMony, setisCompareMony] = useState(false);
+  const [isMony, setIsMony] = useState(false);
+  const [isCompareMony, setIsCompareMony] = useState(false);
+  
   const typemony: TypeSelectMony[] = [
     { elemen: <FaDollarSign />, value: "dolar" },
     { elemen: <FaEuroSign />, value: "euro" },
@@ -74,48 +62,45 @@ export const Pricing: React.FC<TypePrice> = ({ defaultPrice }) => {
     { elemen: <FaYenSign />, value: "yen" },
   ];
 
+
   return (
     <>
-      <h1 className="text-2xl mt-5 font-bold">Pricing </h1>
-      <div className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4  border-gray-300 rounded-2xl">
+      <h1 className="text-2xl mt-5 font-bold">Pricing</h1>
+      <div className="shadow-xl shadow-slate-200 border my-5 px-3 py-2 md:flex gap-4 border-gray-300 rounded-2xl">
+        {/* Price Input */}
         <div className="flex mt-4 mb-2 flex-grow flex-col">
-          <label
-            htmlFor="website-admin"
-            className="block mb-2  text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label className="block mb-2 text-sm font-medium text-gray-900">
             Price
           </label>
-          <div className="flex relative mb-6  ">
+          <div className="flex relative mb-6">
             {isMony && (
               <SelectMony
-                setIsOpen={setisMony}
+                setIsOpen={setIsMony}
                 set={setSelectedIndex}
                 typemony={typemony}
                 indexPosition={selectedIndex}
               />
             )}
             <span
-              onClick={() => setisMony(!isMony)}
+              onClick={() => setIsMony(!isMony)}
               className={`${
                 errors?.price && "bg-red-300 border-red-500 text-red-900"
-              } inline-flex items-center px-3 cursor-pointer  text-gray-900 bg-gray-200 font-extrabold text-sm border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600`}
+              } inline-flex items-center px-3 cursor-pointer text-gray-900 bg-gray-200 font-extrabold text-sm border rounded-e-0 border-gray-300 border-e-0 rounded-s-md`}
             >
               {typemony[selectedIndex].elemen}
             </span>
             <input
               type="number"
-              step={"0.01"}
-              value={price}
+              step="0.01"
               {...register("price", {
                 required: "This field is required",
                 min: 0,
+                onChange: () => clearErrors("price"),
               })}
-              onChange={handlePriceChange}
-              id="website-admin"
               className={`${
                 errors?.price &&
-                "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "
-              } rounded-none font-extrabold rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                "bg-red-50 border border-red-500 text-red-900 placeholder-red-700"
+              } rounded-none font-extrabold rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
               placeholder="00.00"
             />
             {errors.price && (
@@ -125,42 +110,40 @@ export const Pricing: React.FC<TypePrice> = ({ defaultPrice }) => {
             )}
           </div>
         </div>
+
+        {/* Compare Price Input */}
         <div className="flex mt-4 mb-2 flex-grow flex-col">
-          <label
-            htmlFor="website-admin"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+          <label className="block mb-2 text-sm font-medium text-gray-900">
             <span className="flex items-center gap-2">
               Compare at Price <HiExclamationCircle />
             </span>
           </label>
-          <div className="flex relative mb-6 ">
+          <div className="flex relative mb-6">
             {isCompareMony && (
               <SelectMony
-                setIsOpen={setisCompareMony}
+                setIsOpen={setIsCompareMony}
                 set={setSelectedIndexCompare}
                 typemony={typemony}
                 indexPosition={selectedIndexCompare}
               />
             )}
             <span
-              onClick={() => setisCompareMony(!isCompareMony)}
+              onClick={() => setIsCompareMony(!isCompareMony)}
               className={`${
                 errors?.comparePrice && "bg-red-300 border-red-500 text-red-900"
-              } inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600`}
+              } inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md`}
             >
               {typemony[selectedIndexCompare].elemen}
             </span>
             <input
               type="number"
               disabled
-              value={result}
-              onChange={() => setValue("comparePrice", result)}
-              id="website-admin"
-              className={`rounded-none font-extrabold rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+              {...register("comparePrice")}
+              value={comparePrice || ""}
+              className="rounded-none font-extrabold rounded-e-lg bg-gray-50 border text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
               placeholder="00.00"
             />
-            {errors.comparePrice && (
+            {errors.comparePrice  && (
               <span className="text-red-500 absolute italic -bottom-7">
                 {errors.comparePrice.message}
               </span>

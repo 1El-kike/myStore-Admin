@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { categoryProduct, Form_product } from "../../../../model/type_product";
-import useBack from "../../../hooks/useBack";
-import { port } from "../../../../config/env";
-import { useEjecut } from "../../../hooks/useEjecut";
-import { Toolbar } from "../../widgets/Toolbar";
-import { Description } from "../../widgets/description";
-import { Category } from "../../widgets/category";
-import { Inventoy } from "../../widgets/Inventoy";
-import { Selling_Type } from "../../widgets/Selling_type";
-import { Images } from "../../widgets/addImage";
-import { Shipping_Delivery } from "../../widgets/Shipping_Delivery";
-import { Size } from "../../widgets/size";
-import { Pricing } from "../../widgets/Pricing";
-import { Submit } from "../../widgets/Submit";
-import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
-import { useAuth } from "../../auth/core/Auth";
+import { categoryProduct, Form_product } from "../../../../../model/type_product";
+import useBack from "../../../../hooks/useBack";
+import { port } from "../../../../../config/env";
+import { useEjecut } from "../../../../hooks/useEjecut";
+import { Toolbar } from "../../../widgets/Toolbar";
+import { Description } from "../../../widgets/description";
+import { Category } from "../../../widgets/category";
+import { Inventoy } from "../../../widgets/Inventoy";
+import { Selling_Type } from "../../../widgets/Selling_type";
+import { Images } from "../../../widgets/addImage";
+import { Shipping_Delivery } from "../../../widgets/Shipping_Delivery";
+import { Size } from "../../../widgets/size";
+import { Pricing } from "../../../widgets/Pricing";
+import { Submit } from "../../../widgets/Submit";
+import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
+import { useAuth } from "../../../auth/core/Auth";
 
 // Definimos la interfaz para los datos del formulario
 

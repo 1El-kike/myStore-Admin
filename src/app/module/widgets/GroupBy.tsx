@@ -16,6 +16,7 @@ export const Group: React.FC<TypeGroup> = ({
   data,
   buttonClasses,
   fondoClasses,
+  link,
   notID
 }) => {
   return (
@@ -23,9 +24,9 @@ export const Group: React.FC<TypeGroup> = ({
       {data?.map((data: any, index: number) => {
         return (
           <>
-            <div className="w-[32%] mt-12 animate-appearance-in duration-1000 h-60 ">
+            <div className="w-[100%] md:w-[45%] lg:w-[32%]   mt-12 animate-appearance-in duration-1000 h-60 ">
               <Type_product
-                link="/stores/edit/"
+                link={link}
                 position="vertical"
                 key={data.id}
                 idStore={data.id}

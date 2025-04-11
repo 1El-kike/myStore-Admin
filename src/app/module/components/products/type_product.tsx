@@ -87,7 +87,7 @@ export const Type_product = ({
           </div>
           <div
             className={`text-center m-auto justify-center  z-20 ${
-              position == "horisontal" ? "text-slate-600" : "text-slate-800"
+              position == "horisontal" ? "text-slate-600" : "text-slate-800 h-52"
             } `}
           >
             <h4 className="line-clamp-1 text-center  text-slate-950 font-bold text-2xl mb-4">

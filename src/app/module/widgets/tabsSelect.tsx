@@ -70,6 +70,7 @@ export const TabSelect = ({ link,allData,notId,linkallData }: {link: string,allD
       buttonClasses={buttonClasses}
       fondoClasses={fondoClasses}
       data={data}
+      link={link}
       notID={notId}
 
     />,
