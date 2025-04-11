@@ -3,6 +3,7 @@ import { Card } from "../../module/components/dashboard/card";
 import { LastTransactions } from "../../module/components/dashboard/lastTransactions";
 import { User } from "../../module/components/dashboard/user";
 import { Moneyflow } from "../../module/components/dashboard/moneyflow";
+import { PUBLIC_URL } from "../../../config/env";
 
 export const Dashboard = () => {
   return (
@@ -10,7 +11,7 @@ export const Dashboard = () => {
       <div className="flex overflow-clip flex-wrap-reverse relative w-full">
         <div className="absolute blur-sm w-full -right-[121px] -z-20 h-full">
           <img
-            src="home/home3.png"
+            src={`${PUBLIC_URL}home/home3.png`}
             className="w-[45%] -top-10 right-28 aspect-auto opacity-90 clip-dashbo -z-30 absolute"
             alt=""
           />

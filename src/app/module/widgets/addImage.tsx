@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HiArrowUpCircle } from "react-icons/hi2";
 import { useFormContext, Controller } from "react-hook-form";
-import { port } from "../../../config/env";
+import { port, PUBLIC_URL } from "../../../config/env";
 
 interface Typeimage {
   data:string;
@@ -153,14 +153,14 @@ useEffect(() => {
               Remove
             </button>
           </div>
-          <img alt="" className="scale-150 " src={imagePreview.length > 0 ?  imagePreview[0]  : "description/image(2).png" }></img>
+          <img alt="" className="scale-150 " src={imagePreview.length > 0 ?  imagePreview[0]  : `${PUBLIC_URL}"description/image(2).png` }></img>
         </div>
         <div className="grow">
           <div className="md:w-36 overflow-clip h-28 justify-center items-center flex rounded-2xl mb-2 bg-yellow-700">
-          <img alt="" className=" scale-150 bg-slate-100  bg-opacity-50 " src={imagePreview.length > 1 ? imagePreview[1] : "description/image.png"}></img>
+          <img alt="" className=" scale-150 bg-slate-100  bg-opacity-50 " src={imagePreview.length > 1 ? imagePreview[1] : `${PUBLIC_URL}description/image.png`}></img>
           </div>
           <div className="md:w-36 bg-lime-200 overflow-clip  justify-center items-center flex rounded-2xl h-28">
-          <img alt="" className="scale-150 bg-slate-800  bg-opacity-50" src={imagePreview.length > 2 ? imagePreview[2] : "description/IMAGE.jpg"}></img>
+          <img alt="" className="scale-150 bg-slate-800  bg-opacity-50" src={imagePreview.length > 2 ? imagePreview[2] : `${PUBLIC_URL}description/IMAGE.jpg`}></img>
           </div>
         </div>
       </div>

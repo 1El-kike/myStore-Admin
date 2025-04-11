@@ -5,7 +5,7 @@ import { FaPlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { Tooltip } from "flowbite-react";
 import { TypeStore } from "../../../interface/typestore";
-import { port } from "../../../config/env";
+import { port, PUBLIC_URL } from "../../../config/env";
 
 interface Type {
   element: string;
@@ -24,12 +24,12 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
             </div>
             <div>
               <img
-                src="products2.png"
+                src={`${PUBLIC_URL}products2.png`}
                 className="absolute bottom-0 animate-transition"
                 alt=""
               />
               <img
-                src="products.png"
+                src={`${PUBLIC_URL}products.png`}
                 className="absolute left-60 bottom-4 animate-transitionleft"
                 alt=""
               />

@@ -2,7 +2,7 @@ import { Chip, ChipProps, Tooltip, useDisclosure } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { EditIcon } from "../../../utils/icons";
 import { useEjecut } from "../../../hooks/useEjecut";
-import { port } from "../../../../config/env";
+import { port, PUBLIC_URL } from "../../../../config/env";
 import { useNavigate } from "react-router-dom";
 
 interface TypeDetailOrder {
@@ -94,7 +94,7 @@ export const ViewDetailOrder = (order: any) => {
         customer: (
           <div className="flex items-center gap-3 w-full px-4 py-5">
             <img
-              src="1.png"
+              src={`${PUBLIC_URL}1.png`}  
               className="w-9 h-9 shadow-lg shadow-slate-400 rounded-full"
               alt=""
             />

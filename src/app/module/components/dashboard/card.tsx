@@ -5,6 +5,7 @@ import { FaRegCreditCard } from "react-icons/fa6";
 import { MdOutlineInventory } from "react-icons/md";
 import { Option } from "../../../../interface/TypeTabs";
 import { TabsNext } from "../../widgets/tabs";
+import { PUBLIC_URL } from "../../../../config/env";
 
 export const Card = () => {
   const TarjetaCdredit = () => {
@@ -14,7 +15,7 @@ export const Card = () => {
           {/* Tarjeta de credit */}
           <div className=" w-80 ">
             <img
-              src="tarjeta-credito.png"
+              src={`${PUBLIC_URL}tarjeta-credito.png`}
               className="drop-shadow-2xl "
               alt=""
             />

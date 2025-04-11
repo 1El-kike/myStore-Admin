@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PUBLIC_URL } from '../../../../config/env'
 
 export const DeliteStores = () => {
 
@@ -10,7 +11,7 @@ export const DeliteStores = () => {
 
   return (
     <div onMouseLeave={()=> setisEnter(false)} onMouseEnter={()=> setisEnter(true)} className='w-full flex justify-center items-center h-full relative'>
-        <img src="pngtree-stunning-3d-render-of-a-modern-supermarket-image_13561321.png" className={`${isEnter && "bg-blue-500 transition-all duration-300 scale-50 translate-x-16  translate-y-8" } transition-all duration-300 absolute scale-150 aspect-video top-2  clip-deiteStore`} alt="" />
+        <img src={`${PUBLIC_URL}pngtree-stunning-3d-render-of-a-modern-supermarket-image_13561321.png`} className={`${isEnter && "bg-blue-500 transition-all duration-300 scale-50 translate-x-16  translate-y-8" } transition-all duration-300 absolute scale-150 aspect-video top-2  clip-deiteStore`} alt="" />
         <div className='z-20 text-white  w-full pl-5 h-full justify-center items-start flex flex-col '>
             <h1 className='uppercase text-3xl font-extrabold'>Delite Stores</h1>
             <p className='capitalize text-white text-xs md:text-sm text-wrap md:w-[50%]'>This is camp for edit are Stores</p>

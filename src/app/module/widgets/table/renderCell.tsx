@@ -1,6 +1,6 @@
 import { Chip, ChipProps, Tooltip, User } from "@nextui-org/react";
 import React, { ReactNode, useCallback, useState } from "react";
-import { port } from "../../../../config/env";
+import { port, PUBLIC_URL } from "../../../../config/env";
 import { Link } from "react-router-dom";
 import { DeleteIcon, EditIcon, TablesData } from "../../../utils/icons";
 import { Modal_Component } from "../modal";
@@ -70,7 +70,7 @@ export const renderCell = (
       return (
         <div className="flex items-center gap-3">
           <img
-            src="1.png"
+            src={`${PUBLIC_URL}1.png`}
             className="w-9 h-9 shadow-lg shadow-slate-400 rounded-full"
             alt=""
           />

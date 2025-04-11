@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
+import { PUBLIC_URL } from "../../../config/env";
 
 interface Background {
   opacity:string;
@@ -79,7 +80,7 @@ export const Modal_Component = ({
                   </div>
                   <div className="w-full absolute">
                   <img
-                    src="store-logo/logoShop.jpg"
+                    src={`${PUBLIC_URL}store-logo/logoShop.jpg`}
                     className="-z-30 aspect-auto blur-sm inset-0 opacity-10"
                     alt=""
                     />
