@@ -45,12 +45,6 @@ export const Type_product = ({
     }
   }
 
-  const linDirect = links
-    ? notID == true
-      ? `${links}`
-      : `${links}${idStore}`
-    : "";
-
   return (
     <div onClick={handleToRouter}  >
       <div className="w-full h-full transition-all hover:scale-105 ease-in-out duration-700 cursor-pointer mb-10">

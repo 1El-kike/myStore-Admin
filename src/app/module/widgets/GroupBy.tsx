@@ -102,6 +102,7 @@ export const Table: React.FC<TypeGroup> = ({  columns, isDetails,notID }) => {
     { name: "ACTIONS", uid: "actions" },
   ];
 
+  
   return (
     <>
       <Tables

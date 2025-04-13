@@ -9,6 +9,7 @@ export const WatchSelectProducts = () => {
 
   const location = useLocation();
       const { id } = location.state || {};
+      console.log(id)
       const {
         data: items,
         errors,

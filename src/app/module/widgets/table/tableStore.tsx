@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback } from "react";
 import {
   Table,
   TableHeader,
@@ -11,6 +11,7 @@ import BottomContent from "./bottomContent";
 import TopContent from "./topContent";
 import { renderCell } from "./renderCell";
 import { updateTable } from "../../core/filtertableandSearch";
+import { useNavigate } from "react-router-dom";
 
 export interface TypeColumns {
   name: string;
@@ -33,10 +34,21 @@ export const Tables: FC<TableData> = ({ columns, isDetails,notId }) => {
 
   const topContent = <TopContent datos={datosTable} />;
 
+  const navigate = useNavigate()
+
+
+  const handleNavigate = (link:string,id:number) => {
+    if (notId) { 
+      navigate(`${link}`,{state:{id:id}})
+    } else {
+      navigate(`${link}${id}`)
+    }
+    }
+
   const bottomContent = <BottomContent />;
 
   const render = useCallback((dato: any, columnKey: any) => {
-    return renderCell(dato, columnKey ,notId);
+    return renderCell(dato, columnKey , handleNavigate);
   }, []);
 
   return (

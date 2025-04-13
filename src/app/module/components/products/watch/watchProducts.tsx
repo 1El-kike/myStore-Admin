@@ -12,7 +12,7 @@ export const WatchProducts = () => {
                       <TabSelect link="/products/watch/select" notId={true} linkallData="select/" allData="allProducts" />
                     </div>
                   </div>
-                    <Toolbar action='Delite Products' element='Admin of product'/>
+                    <Toolbar action='Watch Products' element='Admin of product'/>
     </>
   )
 }

@@ -52,7 +52,6 @@ export const EditProducts = () => {
   }, [data, methods]);
 
   const [initialData, setInitialData] = useState<any | null>(data);
-  console.log(initialData,'ss')
 
   const { onSubmit, error, success, isLoading } = useBack<FormData>({
     url: "allProducts/update",
@@ -61,7 +60,6 @@ export const EditProducts = () => {
     initialData,
   });
 
-console.log(data?.selling_type)
 
   return (
     <>
@@ -74,15 +72,15 @@ console.log(data?.selling_type)
             encType="multipart/form-data"
             className=" lg:flex  md:mx-2 justify-center items-center "
           >
-            <div className="grow basis-72 px-5 ">
+            <div className="grow mb-auto basis-72 px-5 ">
               <Description name="product" />
-              <Category
+            {/*   <Category
                 select={categoryProduct}
                 label1="Product Category"
                 label2=" Product Type"
                 data1="category"
                 data2="tipo"
-              />
+              /> */}
               <Inventoy
                 label1="Quantity"
                 label2="SKU(Option)"
@@ -113,7 +111,7 @@ console.log(data?.selling_type)
                   isLoading={isLoading}
                   reset={methods.reset}
                   bottom1="Schedule"
-                  bottom2="Add Product"
+                  bottom2="Update Product"
                   success={success}
                 />
               </div>

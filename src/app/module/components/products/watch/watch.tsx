@@ -8,14 +8,14 @@ import { StarRating } from "../../../widgets/startRating";
 import { FaHeart, FaPencilAlt, FaPlus, FaShare, FaStoreAlt } from "react-icons/fa";
 import { MdAccessTimeFilled, MdFireTruck } from "react-icons/md";
 import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
-import { VscVerified, VscVerifiedFilled} from "react-icons/vsc"
-import { GoShieldCheck } from "react-icons/go";
+import {  VscVerifiedFilled} from "react-icons/vsc"
 import { HiShieldCheck } from "react-icons/hi";
 import { TabsNext } from "../../../widgets/tabs";
 import { Option } from "../../../../../interface/TypeTabs";
 
 export const Watch = () => {
   const { idProduct: id } = useParams();
+  console.log(id)
 
   const CarouselPersonalizado = ({ children }: any) => {
     const [currentIndex, setCurrentIndex] = useState(0);

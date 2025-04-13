@@ -19,7 +19,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 export const renderCell = (
   datos: any,
   columnKey: any,
-  notId?:boolean
+  handleNavigate:any
 ) => {
   const cellValue = datos[columnKey];
 
@@ -27,7 +27,6 @@ export const renderCell = (
     case "order":
       const fechaOriginal = datos.order?.fechaOrder;
       const fecha = new Date(fechaOriginal);
-
       const dia = String(fecha.getDate()).padStart(2, "0"); // Asegura que el día tenga 2 dígitos
       const mesesAbreviados = [
         "ene",
@@ -179,9 +178,11 @@ export const renderCell = (
               <span
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
               >
-                 <Link to={`${notId === true ? datos?.actions?.urledit?.element : datos?.actions?.urledit?.element + datos.id}`}>
+                <div onClick={()=> handleNavigate(datos?.actions?.urledit?.element,datos.id)}>
                 <EditIcon />
-                 </Link>
+                </div>
+               {/*   <Link to={`${notId === true ? datos?.actions?.urledit?.element : datos?.actions?.urledit?.element + datos.id}`}>
+                 </Link> */}
               </span>
             </Tooltip>
             : datos?.actions?.urledit?.typeactions === "modal" && 

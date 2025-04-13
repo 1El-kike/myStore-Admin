@@ -68,16 +68,17 @@ export const ProductAll: React.FC<any> = ({ data ,link}) => {
       </Autocomplete>
     </div>
 
-    {filteredItems?.map((item:any) => {
+    {filteredItems?.map((item:any,index:number) => {
       const product = item.product || item;
       const status = product.inventoryStatus as keyof typeof statusClasses;
-      const itemLink = product.id ? `${link}${product.id}` : "#";
+      const itemLink = !item.product ? `${link}${item?.id}` : `${item?.product?.id}`/*  product.id ? `${link}${product.id}` : "#"; */;
 
       return (
         <Link
-          key={product.id}
+         // key={product.id}
           className="w-full hover:scale-[1.02] transition-transform"
-          to={itemLink}
+          key={item?.id + index || item?.product?.id + index}
+          to={ itemLink}
         >
           <div className="p-2 m-3 rounded-2xl relative flex gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
             <img

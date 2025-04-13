@@ -16,7 +16,7 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/"); // Redirige a la página principal
+    navigate(-1); // Redirige a la página anterior
   };
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
                     {"Back to top"}
                   </Button>
                   <Button color="gray" onClick={() => setOpenModal(false)}>
-                    Keep adding
+                    Keep Here
                   </Button>
                 </div>
               </div>
