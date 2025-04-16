@@ -74,18 +74,19 @@ export const ProductAll: React.FC<any> = ({ data ,link}) => {
       const itemLink = !item.product ? `${link}${item?.id}` : `${item?.product?.id}`/*  product.id ? `${link}${product.id}` : "#"; */;
 
       return (
+        <div className="w-full hover:scale-[1.02] transition-transform">
+
         <Link
          // key={product.id}
-          className="w-full hover:scale-[1.02] transition-transform"
-          key={item?.id + index || item?.product?.id + index}
-          to={ itemLink}
-        >
+         key={item?.id + index || item?.product?.id + index}
+         to={ itemLink}
+         >
           <div className="p-2 m-3 rounded-2xl relative flex gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
             <img
               src={port + (product.image || `${PUBLIC_URL}placeholder-product.png`)}
               className="w-40 h-40 rounded-xl object-cover"
               alt={product.name}
-            />
+              />
             
             <div className="flex flex-col justify-between w-full">
               <div>
@@ -115,6 +116,7 @@ export const ProductAll: React.FC<any> = ({ data ,link}) => {
             </div>
           </div>
         </Link>
+              </div>
       );
     })}
   </div>

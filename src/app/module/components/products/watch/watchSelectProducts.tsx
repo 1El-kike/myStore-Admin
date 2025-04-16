@@ -21,7 +21,7 @@ export const WatchSelectProducts = () => {
     <>
    <PageTitleInit />
         <div className="w-full m-10">
-               <div className="flex justify-center items-end flex-col w-[80%] ">
+               <div className="w-[70%] ">
                {isLoadingData && <p>loading...</p>}
                {items && <ProductAll data={items} />}
                {errors && <p>error...</p>}

@@ -5,6 +5,8 @@ import { useEjecut } from "../../../../hooks/useEjecut";
 import { Link, useLocation } from "react-router-dom";
 import { port } from "../../../../../config/env";
 import { ProductAll } from "./product";
+import { NotItems } from "../../../widgets/datosvacios/NotItems";
+import { FaProductHunt } from "react-icons/fa";
 
 export const SelectStoreEditProduct = () => {
   const location = useLocation();
@@ -19,9 +21,11 @@ export const SelectStoreEditProduct = () => {
     <>
       <PageTitleInit />
       <div className="w-full m-10">
-        <div className="flex justify-center items-end flex-col w-[80%] ">
         {isLoadingData && <p>loading...</p>}
-        {items && <ProductAll data={items} />}
+        <div className="w-[70%] ">
+        {items && items.length > 0 ?<ProductAll data={items} /> : 
+        <NotItems link={`/products/add/${id}`} Icon={FaProductHunt} text=" Don't products that show. First you have that add new Product in Store . Follou next link for start"/>
+        }
         </div>
       </div>
       <Toolbar action="Add Product" element="Admin of Product" />

@@ -1,3 +1,4 @@
+import { FaStore } from "react-icons/fa";
 import { port } from "../../../config/env";
 import { Type_product } from "../components/products/type_product";
 import { ErrorsItems } from "../errors/errorsItems";
@@ -60,7 +61,8 @@ export const Group: React.FC<TypeGroup> = ({
           );
         })
       ) : (
-        <NotItems />
+               <NotItems link="/stores/add"  text=" Don't stores that show. First you have that add new Store . Follou next link for start" Icon={FaStore}/>
+       
       )}
     </div>
   );
@@ -113,7 +115,8 @@ export const List: React.FC<TypeGroup> = ({
             );
           })
         ) : (
-          <NotItems />
+                <NotItems link="/stores/add"  text=" Don't stores that show. First you have that add new Store . Follou next link for start" Icon={FaStore}/>
+        
         )}
       </div>
     </>
@@ -140,7 +143,8 @@ export const Table: React.FC<TypeGroup> = ({ columns, isDetails, notID,isLoading
         notId={notID}
       />
       :(
-        <NotItems />
+               <NotItems link="/stores/add" text=" Don't stores that show. First you have that add new Store . Follou next link for start" Icon={FaStore}/>
+       
       ) }
     </>
   );
