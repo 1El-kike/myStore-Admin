@@ -22,7 +22,7 @@ export const NotItems:React.FC<TypeNotItem> = ({Icon,text,link}) => {
     }
   return (
     <div onMouseLeave={handleEffectHoverL} onMouseEnter={handleEffectHoverE} className='w-full relative bg-gradient-to-tr from-violet-50 border via-rose-50 rounded-xl h-96 flex flex-col justify-center items-center'>
-       <div className='border-2  border-dashed rounded-lg flex flex-col justify-center items-center mx-20 py-7'>
+       <div className='border-2  border-dashed rounded-lg flex flex-col justify-center items-center mx-20 py-1'>
         <Icon className={`bg-gradient-to-tr text-slate-400 text-9xl ${effect && 'animate-pulse'}`} />
         <div
         className="fixed inset-x-0 -z-20 h-[79%]  transform-gpu overflow-hidden blur-xl"

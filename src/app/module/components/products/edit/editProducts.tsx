@@ -29,6 +29,7 @@ export const EditProducts = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       methods.reset({
         id: data.id,
         name: data.name,
@@ -42,7 +43,7 @@ export const EditProducts = () => {
         selling_type: data.selling_type,
         items_weight: data.items_weight || "",
         length: data.length,
-        breadth: data.breadth,
+        breadth: data.breadth || "",
         status: data.status,
         comparePrice: data.comparePrice,
         width: data.width,
@@ -94,7 +95,7 @@ export const EditProducts = () => {
             </div>
             <div className="grow mb-auto basis-72 px-5">
               <Images data="image" label="Product Images" imagenDefault={data?.image} />
-              { data?.category === "Food" && (
+              { data?.category === "Para Hogar" && (
                 <div className="animate-opacity">
                   <Shipping_Delivery />
                 </div>

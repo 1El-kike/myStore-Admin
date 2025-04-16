@@ -37,8 +37,8 @@ const useBack = <T,>({ url, reset,method ="POST",initialData }: UseBackProps<T>)
      // Verificar si los datos son iguales a los valores iniciales
   if (method === "PUT" && initialData) {
     const hasChanges = Object.keys(data).some((key) => data[key] !== initialData[key]);
-    console.log(error)
- 
+    const Changes = Object.keys(data).filter((key) => data[key] !== initialData[key]);
+      console.log(Changes,data['breadth'] , initialData['breadth'])
     if (!hasChanges) {
       setError(`No se ha cambiado nada`);
       setIsLoading(false);

@@ -99,7 +99,7 @@ export const AddProducts: React.FC = () => {
             </div>
             <div className="grow mb-auto basis-72 px-5">
               <Images data="image" label="Product Images" />
-              {category === "Food" && (
+              {category === "Para Hogar" && (
                 <div className="animate-opacity">
                   <Shipping_Delivery />
                 </div>
