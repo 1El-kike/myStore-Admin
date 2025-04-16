@@ -26,6 +26,7 @@ const useBack = <T,>({ url, reset,method ="POST",initialData }: UseBackProps<T>)
   
 
   const base = port;
+  
 
   const onSubmit:  SubmitHandler<FieldValues>= async (data) => {
     console.log(data)
@@ -36,9 +37,10 @@ const useBack = <T,>({ url, reset,method ="POST",initialData }: UseBackProps<T>)
      // Verificar si los datos son iguales a los valores iniciales
   if (method === "PUT" && initialData) {
     const hasChanges = Object.keys(data).some((key) => data[key] !== initialData[key]);
-
+    console.log(error)
+ 
     if (!hasChanges) {
-      setError("No se ha cambiado nada.");
+      setError(`No se ha cambiado nada`);
       setIsLoading(false);
       return; // Salir de la función si no hay cambios
     }
@@ -122,8 +124,8 @@ if (method == "PUT") {
       setresult(result);
       setSuccess(true);
       reset();
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Error desconocido");
+    } catch (error:any) {
+      setError( error.response.data.message || "Error desconocido");
     } finally {
       setIsLoading(false);
     }

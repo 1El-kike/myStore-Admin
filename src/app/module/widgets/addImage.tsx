@@ -11,6 +11,8 @@ interface Typeimage {
 
 export const Images:React.FC<Typeimage> = ({data,label,imagenDefault}) => {
 
+  console.log(imagenDefault)
+
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const { control,watch,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
 
@@ -24,7 +26,7 @@ useEffect(() => {
 }, [imagenDefault])
 
   useEffect(() => {
-   if (isSubmitSuccessful) {
+   if (isSubmitSuccessful && !imagenDefault) {
     setImagePreview([])
     //setValue(data, [])
    }

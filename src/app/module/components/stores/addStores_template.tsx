@@ -58,7 +58,7 @@ export const AddStores_template = () => {
                   isLoading={isLoading}
                   reset={methods.reset}
                   bottom1="Schedule"
-                  bottom2="Add Product"
+                  bottom2="Add Store"
                   success={success}
                 />
               </div>

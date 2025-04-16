@@ -10,9 +10,9 @@ interface Type {
   success: boolean;
 }
 
-export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
+export const ProccesSend: React.FC<Type> = ({ isLoading, error, success }) => {
   const [openModal, setOpenModal] = useState<null | boolean>(true);
-
+const [errors, setError] = useState<string | null>(error);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -23,8 +23,22 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
   setOpenModal(success)
   }, [success])
   
+  useEffect(() => {
+    let timeoutId: any;
+    if (error ) {
+      setError(error)
+      // Cierra automáticamente después de 5 segundos
+      timeoutId = setTimeout(() => {
+        setError(null)
+      }, 5000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [error, setError]);
  
-
+const handleSuccess = ()=>{
+  setOpenModal(false)
+ // window.location.reload()
+}
   return (
     <div className="z-50 ">
       {isLoading && (
@@ -36,13 +50,13 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
           />
         </div>
       )}
-      {error && (
+      {errors && (
         <div className="fixed top-10 right-10">
-          <Toast>
+          <Toast className="animate-appearance-in " key={`${error}-${Date.now()}`}>
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
               <HiExclamation className="h-5 w-5" />
             </div>
-            <div className="ml-3 text-sm font-normal">{error}</div>
+            <div className="ml-3 text-sm font-normal">{errors}</div>
             <Toast.Toggle />
           </Toast>
         </div>
@@ -67,7 +81,7 @@ export const Loading: React.FC<Type> = ({ isLoading, error, success }) => {
                   <Button color="success" onClick={handleClick}>
                     {"Back to top"}
                   </Button>
-                  <Button color="gray" onClick={() => setOpenModal(false)}>
+                  <Button color="gray" onClick={handleSuccess }>
                     Keep Here
                   </Button>
                 </div>

@@ -1,5 +1,5 @@
 import { useForm, useFormContext } from "react-hook-form";
-import { Loading } from "./Loading";
+import { ProccesSend } from "./ProccesSend";
 import { FormComponentSubmit } from "../../../interface/formComponentProp";
 
 export const Submit: React.FC<FormComponentSubmit> = ({
@@ -41,7 +41,7 @@ export const Submit: React.FC<FormComponentSubmit> = ({
         >
           {bottom2} 
         </button>
-        <Loading isLoading={isLoading} success={success} error={error} />
+        <ProccesSend isLoading={isLoading} success={success} error={error} />
       </div>
     </div>
   );

@@ -60,11 +60,16 @@ export const TabSelect = ({ link,allData,notId,linkallData }: {link: string,allD
     buttonClasses={buttonClasses}
     fondoClasses={fondoClasses}
     data={data}
+    isLoadingData={isLoadingData}
+    errors={errors}
+
     />,
     <Table
       buttonClasses={buttonClasses}
       fondoClasses={fondoClasses}
       notID={notId}
+      data={data}
+
     />,
     <Group
       buttonClasses={buttonClasses}
