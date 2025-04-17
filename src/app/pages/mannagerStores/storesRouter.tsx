@@ -1,13 +1,13 @@
 import React from "react";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Stores } from "./main-stores";
-import { AddStores_template } from "../../module/components/stores/addStores_template";
-import { SelectStoreforEdit } from "../../module/components/stores/selectStoreforEdit";
-import { WatchtoreforEdit } from "../../module/components/stores/watchtoreforEdit";
-import { SelectStoreforDelite } from "../../module/components/stores/selectStoreforDelite";
+import { AddStores_template } from "../../module/components/stores/add/addStores_template";
+import { SelectStoreforEdit } from "../../module/components/stores/edit/selectStoreforEdit";
+import { WatchtoreforEdit } from "../../module/components/stores/watch/watchtoreforEdit";
 import { Deletesuccess } from "../../module/widgets/deletesuccess";
-import { EditStore_template } from "../../module/components/stores/editStore_template";
+import { EditStore_template } from "../../module/components/stores/edit/editStore_template";
 import { PageLink, PageTitle } from "../../module/core/pageTitle";
+import { SelectStoreforDelite } from "../../module/components/stores/delete/selectStoreforDelite";
 
 export const StoresRouter = () => {
 

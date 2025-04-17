@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { categoryStore, Form_stores } from "../../../../model/type_store";
-import { DataUseEjecut, useEjecut } from "../../../hooks/useEjecut";
-import useBack from "../../../hooks/useBack";
-import { Toolbar } from "../../widgets/Toolbar";
-import { Description } from "../../widgets/description";
-import { Detalles } from "../../widgets/detalles";
-import { Category } from "../../widgets/category";
-import { Images } from "../../widgets/addImage";
-import { LogoAndApariencia } from "../../widgets/LogoAndApariencia";
-import { Inventoy } from "../../widgets/Inventoy";
-import { Selling_Type } from "../../widgets/Selling_type";
-import { Submit } from "../../widgets/Submit";
-import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
+import { categoryStore, Form_stores } from "../../../../../model/type_store";
+import { DataUseEjecut, useEjecut } from "../../../../hooks/useEjecut";
+import useBack from "../../../../hooks/useBack";
+import { Toolbar } from "../../../widgets/Toolbar";
+import { Description } from "../../../widgets/description";
+import { Detalles } from "../../../widgets/detalles";
+import { Category } from "../../../widgets/category";
+import { Images } from "../../../widgets/addImage";
+import { LogoAndApariencia } from "../../../widgets/LogoAndApariencia";
+import { Inventoy } from "../../../widgets/Inventoy";
+import { Selling_Type } from "../../../widgets/Selling_type";
+import { Submit } from "../../../widgets/Submit";
+import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 
 export const EditStore_template = () => {
   const id = useParams();

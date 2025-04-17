@@ -1,8 +1,8 @@
 import React from "react";
-import { AddStores } from "./addStores";
-import { EditStores } from "./editStores";
-import { DeliteStores } from "./deliteStore";
-import { WatchStore } from "./watchStore";
+import { AddStores } from "./add/addStores";
+import { EditStores } from "./edit/editStores";
+import { WatchStore } from "./watch/watchStore";
+import { DeliteStores } from "./delete/deliteStore";
 
 export const SettingStores = () => {
   return (

@@ -184,7 +184,7 @@ export const OrderCreate = () => {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
                 <h1 className="text-2xl font-bold mt-5">Line items</h1>
-                <Table columns={columns} />
+                <Table columns={columns}  notItem={true} />
                 <Modal_Component
                   component={<BodyModal setdatosModal={setdatosModal} datosModal={datosModal} />}
                   isAlert="yes"

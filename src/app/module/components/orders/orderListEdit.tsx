@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 export const OrderListEdit = () => {
 
     const params = useParams()
-    const { data } = useEjecut({ url: `orders/summary/${params.id}` });
+    const { data,errors,isLoadingData } = useEjecut({ url: `orders/summary/${params.id}` });
   
   const ProductDetail =()=> {
     return (

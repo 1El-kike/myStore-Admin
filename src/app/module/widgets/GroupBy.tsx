@@ -1,10 +1,10 @@
-import { FaStore } from "react-icons/fa";
 import { port } from "../../../config/env";
 import { Type_product } from "../components/products/type_product";
 import { ErrorsItems } from "../errors/errorsItems";
 import { NotItems } from "./datosvacios/NotItems";
 import { Loading_items } from "./loading/loading_items";
 import { Tables, TypeColumns } from "./table/tableStore";
+import { FcShop } from "react-icons/fc";
 
 interface TypeGroup {
   data?: any;
@@ -16,6 +16,7 @@ interface TypeGroup {
   columns?: TypeColumns[];
   isLoadingData?: any;
   errors?: any;
+  notItem?:any;
 }
 
 export const Group: React.FC<TypeGroup> = ({
@@ -29,9 +30,7 @@ export const Group: React.FC<TypeGroup> = ({
 }) => {
   return (
     <div className=" flex  gap-4 flex-auto flex-wrap">
-      {isLoadingData && <Loading_items />}
-      {errors && <ErrorsItems />}
-      {data && data.length > 0 ? (
+      {errors ? <ErrorsItems /> : isLoadingData ? <Loading_items /> : data && data.length > 0 ? (
         data?.map((data: any, index: number) => {
           return (
             <>
@@ -61,9 +60,13 @@ export const Group: React.FC<TypeGroup> = ({
           );
         })
       ) : (
-               <NotItems link="/stores/add"  text=" Don't stores that show. First you have that add new Store . Follou next link for start" Icon={FaStore}/>
-       
+        <NotItems
+          link="/stores/add"
+          text="There are no stores to display, you must first add a new store. Follow the link beloe to get started"
+          Icon={FcShop}
+        />
       )}
+      
     </div>
   );
 };
@@ -77,12 +80,15 @@ export const List: React.FC<TypeGroup> = ({
   isLoadingData,
   errors,
 }) => {
+  console.log(isLoadingData);
   return (
     <>
       <div className="">
-        {isLoadingData && <Loading_items />}
-        {errors && <ErrorsItems />}
-        {data && data.length > 0 ? (
+        {errors ? (
+          <ErrorsItems />
+        ) : isLoadingData ? (
+          <Loading_items />
+        ) : data?.length > 0 ? (
           data?.map((data: any, index: number) => {
             return (
               <>
@@ -115,16 +121,26 @@ export const List: React.FC<TypeGroup> = ({
             );
           })
         ) : (
-                <NotItems link="/stores/add"  text=" Don't stores that show. First you have that add new Store . Follou next link for start" Icon={FaStore}/>
-        
+          <NotItems
+            link="/stores/add"
+            text="There are no stores to display, you must first add a new store. Follow the link beloe to get started"
+            Icon={FcShop}
+          />
         )}
       </div>
     </>
   );
 };
 
-export const Table: React.FC<TypeGroup> = ({ columns, isDetails, notID,isLoadingData,data,
-  errors }) => {
+export const Table: React.FC<TypeGroup> = ({
+  columns,
+  isDetails,
+  notID,
+  isLoadingData,
+  data,
+  errors,
+  notItem
+}) => {
   const defaultcolumn = [
     { name: "STORES", uid: "name" },
     { name: "ROLE", uid: "role" },
@@ -134,17 +150,22 @@ export const Table: React.FC<TypeGroup> = ({ columns, isDetails, notID,isLoading
 
   return (
     <>
-       {isLoadingData && <Loading_items/>}
-       {errors && <ErrorsItems/>}
-       { data && data.length > 0 ?
-      <Tables
-        isDetails={isDetails}
-        columns={(columns && columns) || defaultcolumn}
-        notId={notID}
-      />
-      :(
-               <NotItems link="/stores/add" text=" Don't stores that show. First you have that add new Store . Follou next link for start" Icon={FaStore}/>
-       
+      {errors ? (
+        <ErrorsItems />
+      ) : isLoadingData ? (
+        <Loading_items />
+      ) : data && data?.length > 0  || notItem ? (
+        <Tables
+          isDetails={isDetails}
+          columns={(columns && columns) || defaultcolumn}
+          notId={notID}
+        />
+      ) :(
+        <NotItems
+          link="/stores/add"
+          text="There are no stores to display, you must first add a new store. Follow the link beloe to get started"
+          Icon={FcShop}
+        />
       ) }
     </>
   );

@@ -1,17 +1,17 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { categoryStore, Form_stores } from "../../../../model/type_store";
-import useBack from "../../../hooks/useBack";
-import { Toolbar } from "../../widgets/Toolbar";
-import { Description } from "../../widgets/description";
-import { Detalles } from "../../widgets/detalles";
-import { Category } from "../../widgets/category";
-import { Images } from "../../widgets/addImage";
-import { LogoAndApariencia } from "../../widgets/LogoAndApariencia";
-import { Inventoy } from "../../widgets/Inventoy";
-import { Selling_Type } from "../../widgets/Selling_type";
-import { Submit } from "../../widgets/Submit";
-import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
+import { categoryStore, Form_stores } from "../../../../../model/type_store";
+import useBack from "../../../../hooks/useBack";
+import { Toolbar } from "../../../widgets/Toolbar";
+import { Description } from "../../../widgets/description";
+import { Detalles } from "../../../widgets/detalles";
+import { Category } from "../../../widgets/category";
+import { Images } from "../../../widgets/addImage";
+import { LogoAndApariencia } from "../../../widgets/LogoAndApariencia";
+import { Inventoy } from "../../../widgets/Inventoy";
+import { Selling_Type } from "../../../widgets/Selling_type";
+import { Submit } from "../../../widgets/Submit";
+import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 
 export const AddStores_template = () => {
   const methods = useForm(Form_stores);

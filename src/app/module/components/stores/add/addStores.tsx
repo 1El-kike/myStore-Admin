@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { PUBLIC_URL } from "../../../../config/env";
+import { PUBLIC_URL } from "../../../../../config/env";
 
 
 export const AddStores = () => {
@@ -32,7 +32,7 @@ export const AddStores = () => {
           </p>
           <div className=" flex justify-center gap-10 items-center">
           <button onClick={()=> redirect('/stores/add')} className={`${isEnter && "animate-pulse "} z-10 hover:scale-95 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2`}>
-            Add +Stores
+            Add + Stores
           </button>
             <FaLeftLong color="white" className={`${!isEnter ? "opacity-0 transition-all duration-100" :"duration-500 animate-ping opacity-100"}`} size={56}/>
           </div>

@@ -3,27 +3,41 @@ import { DataItem } from "../../orders/create/bodyModal";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { port, PUBLIC_URL } from "../../../../../config/env";
+import { NotItems } from "../../../widgets/datosvacios/NotItems";
+import { FaProductHunt } from "react-icons/fa";
+import { FcPaid } from "react-icons/fc";
 
-export const ProductAll: React.FC<any> = ({ data ,link}) => {
- 
-  
+export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
+  /* if (!Loading && data.length == 0) {
+    return (
+      <NotItems
+      link={`/products/add/`}
+      Icon={FaProductHunt}
+      text=" There are not products that show. First you have that add new Product in Store . Follou next link for start"
+    />
+    )
+  } */
+
   const [searchTerm, setSearchTerm] = useState("");
 
   // Memoizar datos de autocompletado
   const autocompletItems = useMemo(() => {
-    return data?.map((item:any) => ({
-      key: item.id?.toString() || item.product?.id?.toString(),
-      label: item.name || item.product?.name || "",
-    })) || [];
+    return (
+      data?.map((item: any) => ({
+        key: item.id?.toString() || item.product?.id?.toString(),
+        label: item.name || item.product?.name || "",
+      })) || []
+    );
   }, [data]);
 
   // Filtrar items basado en el término de búsqueda
   const filteredItems = useMemo(() => {
     if (!searchTerm) return data;
-    
+
     const lowerTerm = searchTerm.toLowerCase();
-    return data.filter((item:any) => {
-      const name = item.name?.toLowerCase() || item.product?.name?.toLowerCase() || "";
+    return data.filter((item: any) => {
+      const name =
+        item.name?.toLowerCase() || item.product?.name?.toLowerCase() || "";
       return name.includes(lowerTerm);
     });
   }, [data, searchTerm]);
@@ -31,8 +45,8 @@ export const ProductAll: React.FC<any> = ({ data ,link}) => {
   // Manejar selección del autocompletado
   const handleSelectionChange = (key: string | null) => {
     if (!key) return;
-    
-    const selectedItem = autocompletItems.find((item:any) => item.key === key);
+
+    const selectedItem = autocompletItems.find((item: any) => item.key === key);
     setSearchTerm(selectedItem?.label || "");
   };
 
@@ -44,81 +58,103 @@ export const ProductAll: React.FC<any> = ({ data ,link}) => {
 
   return (
     <div className="flex flex-col gap-4">
-    <div className="flex justify-end">
-      <Autocomplete
-        className="max-w-xs"
-        variant="underlined"
-        aria-label="Buscar productos"
-        label="Seleccionar producto"
-        placeholder="Buscar producto..."
-        onInputChange={setSearchTerm}
-        onSelectionChange={(key:any) => handleSelectionChange(key)}
-        inputValue={searchTerm}
-     /*    onFilter={(items:any, filterValue:any) => 
+      {error ? (
+        <p>Error...</p>
+      ) : Loading ? (
+        <p>Loading...</p>
+      ) : data.length == 0 ? (
+        <NotItems
+          link={`/products/add/`}
+          Icon={FcPaid}
+          text=" There are not products that show. First you have that add new Product in Store . Follou next link for start"
+        />
+      ) : (
+        <>
+          <div className="flex justify-end">
+            <Autocomplete
+              className="max-w-xs"
+              variant="underlined"
+              aria-label="Buscar productos"
+              label="Seleccionar producto"
+              placeholder="Buscar producto..."
+              onInputChange={setSearchTerm}
+              onSelectionChange={(key: any) => handleSelectionChange(key)}
+              inputValue={searchTerm}
+              /*    onFilter={(items:any, filterValue:any) => 
           items.filter((item:any) => 
             item.label?.toLowerCase().includes(filterValue.toLowerCase())
           )
         } */
-      >
-        {autocompletItems.map((item:any) => (
-          <AutocompleteItem key={item.key} value={item.key}>
-            {item.label}
-          </AutocompleteItem>
-        ))}
-      </Autocomplete>
-    </div>
-
-    {filteredItems?.map((item:any,index:number) => {
-      const product = item.product || item;
-      const status = product.inventoryStatus as keyof typeof statusClasses;
-      const itemLink = !item.product ? `${link}${item?.id}` : `${item?.product?.id}`/*  product.id ? `${link}${product.id}` : "#"; */;
-
-      return (
-        <div className="w-full hover:scale-[1.02] transition-transform">
-
-        <Link
-         // key={product.id}
-         key={item?.id + index || item?.product?.id + index}
-         to={ itemLink}
-         >
-          <div className="p-2 m-3 rounded-2xl relative flex gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
-            <img
-              src={port + (product.image || `${PUBLIC_URL}placeholder-product.png`)}
-              className="w-40 h-40 rounded-xl object-cover"
-              alt={product.name}
-              />
-            
-            <div className="flex flex-col justify-between w-full">
-              <div>
-                <h1 className="font-bold text-danger text-2xl">
-                  {product.name}
-                </h1>
-                <p className="line-clamp-3 mt-2 px-4">
-                  {product.description}
-                </p>
-              </div>
-
-              <div className="flex justify-between items-end">
-                <div>
-                  <h3 className="font-bold text-rose-900">
-                    $ {product.price}.00
-                  </h3>
-                  <p>
-                    Categoría: {product.category} - {product.tipo}
-                  </p>
-                  <p>Tipo de venta: {product.selling_type}</p>
-                </div>
-
-                <span className={`${statusClasses[status]} text-white font-bold py-1 px-3 rounded-2xl shadow-lg shadow-gray-400`}>
-                  {product.inventoryStatus}
-                </span>
-              </div>
-            </div>
+            >
+              {autocompletItems.map((item: any) => (
+                <AutocompleteItem key={item.key} value={item.key}>
+                  {item.label}
+                </AutocompleteItem>
+              ))}
+            </Autocomplete>
           </div>
-        </Link>
+
+          {filteredItems?.map((item: any, index: number) => {
+            const product = item.product || item;
+            const status =
+              product.inventoryStatus as keyof typeof statusClasses;
+            const itemLink = !item.product
+              ? `${link}${item?.id}`
+              : `${item?.product?.id}`; /*  product.id ? `${link}${product.id}` : "#"; */
+
+            return (
+              <div className="w-full hover:scale-[1.02] transition-transform">
+                <Link
+                  // key={product.id}
+                  key={item?.id + index || item?.product?.id + index}
+                  to={itemLink}
+                >
+                  <div className="p-2 m-3 rounded-2xl relative flex gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
+                    <img
+                      src={
+                        port +
+                        (product.image ||
+                          `${PUBLIC_URL}placeholder-product.png`)
+                      }
+                      className="w-40 h-40 rounded-xl object-cover"
+                      alt={product.name}
+                    />
+
+                    <div className="flex flex-col justify-between w-full">
+                      <div>
+                        <h1 className="font-bold text-danger text-2xl">
+                          {product.name}
+                        </h1>
+                        <p className="line-clamp-3 mt-2 px-4">
+                          {product.description}
+                        </p>
+                      </div>
+
+                      <div className="flex justify-between items-end">
+                        <div>
+                          <h3 className="font-bold text-rose-900">
+                            $ {product.price}.00
+                          </h3>
+                          <p>
+                            Categoría: {product.category} - {product.tipo}
+                          </p>
+                          <p>Tipo de venta: {product.selling_type}</p>
+                        </div>
+
+                        <span
+                          className={`${statusClasses[status]} text-white font-bold py-1 px-3 rounded-2xl shadow-lg shadow-gray-400`}
+                        >
+                          {product.inventoryStatus}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               </div>
-      );
-    })}
-  </div>
+            );
+          })}
+        </>
+      )}
+    </div>
   );
 };

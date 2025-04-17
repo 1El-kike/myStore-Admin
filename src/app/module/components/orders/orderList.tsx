@@ -13,7 +13,7 @@ import {
 import { ImCancelCircle } from "react-icons/im";
 import { useEjecut } from "../../../hooks/useEjecut";
 import { updateTable } from "../../core/filtertableandSearch";
-import { useNavigate } from "react-router-dom";;
+import { useNavigate } from "react-router-dom";
 import { ViewDetailOrder } from "./detailorders";
 import { Chip, ChipProps, Tooltip } from "@nextui-org/react";
 import { EditIcon } from "../../../utils/icons";
@@ -54,7 +54,6 @@ interface TypeOrder {
 }
 
 export const OrderList = () => {
-
   const navigate = useNavigate();
 
   const columns = [
@@ -112,28 +111,23 @@ export const OrderList = () => {
   }
 
   const actions = (order: any) => {
-
-
-     const editOrder = () => {
+    const editOrder = () => {
       navigate(`edit/${order.id}`);
     };
 
     return {
-      urledit: 
-      {
-        typeactions:"navigate",
-        element:`edit/${order.id}`
+      urledit: {
+        typeactions: "navigate",
+        element: `edit/${order.id}`,
       },
       urldelite: "delite/",
-      urlview: /* () => ViewDetailOrder */{
-        typeactions:"modal",
-       ...(order && {element: <ViewDetailOrder order={order} />} ) ,
-        title:order.order.productName
+      urlview: /* () => ViewDetailOrder */ {
+        typeactions: "modal",
+        ...(order && { element: <ViewDetailOrder order={order} /> }),
+        title: order.order.productName,
       },
     };
   };
-  
-
 
   const functionactions = (data: any[]) => {
     const newData = data.map((prev: any) => ({
@@ -146,7 +140,7 @@ export const OrderList = () => {
   const Datacomponent: Option[] = [
     {
       option: "All",
-      component: <Table columns={columns} isDetails={true} />,
+      component: <Table columns={columns} notItem={true} isDetails={true} />,
       icon: <FaReplyAll size={22} />,
       badge: { color: "primary", contex: data?.countsByStatus.AllCount | 0 },
       link: "all",
@@ -154,7 +148,7 @@ export const OrderList = () => {
 
     {
       option: "Pending",
-      component: <Table columns={columns} isDetails={true} />,
+      component: <Table columns={columns} notItem={true} isDetails={true} />,
       icon: <MdOutlinePendingActions size={22} />,
       badge: {
         color: "warning",
@@ -164,7 +158,7 @@ export const OrderList = () => {
     },
     {
       option: "Accepted",
-      component: <Table columns={columns} isDetails={true} />,
+      component: <Table columns={columns} notItem={true} isDetails={true} />,
       icon: <MdOutlineIncompleteCircle size={22} />,
       badge: {
         color: "success",
@@ -175,7 +169,7 @@ export const OrderList = () => {
 
     {
       option: "Delivering",
-      component: <Table columns={columns} isDetails={true} />,
+      component: <Table columns={columns} notItem={true} isDetails={true} />,
       icon: <MdNoiseAware size={22} />,
       badge: {
         color: "default",
@@ -185,7 +179,7 @@ export const OrderList = () => {
     },
     {
       option: "Delivered",
-      component: <Table columns={columns} isDetails={true} />,
+      component: <Table columns={columns} notItem={true} isDetails={true} />,
       icon: <MdNoiseAware size={22} />,
       badge: {
         color: "secondary",
@@ -195,7 +189,7 @@ export const OrderList = () => {
     },
     {
       option: "Cancelled",
-      component: <Table columns={columns} isDetails={true} />,
+      component: <Table columns={columns} notItem={true} isDetails={true} />,
       icon: <ImCancelCircle size={22} />,
       badge: {
         color: "danger",

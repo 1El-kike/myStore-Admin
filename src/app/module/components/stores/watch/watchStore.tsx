@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { PUBLIC_URL } from '../../../../config/env'
+import { PUBLIC_URL } from '../../../../../config/env'
 
 export const WatchStore = () => {
   

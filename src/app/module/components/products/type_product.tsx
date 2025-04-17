@@ -37,16 +37,16 @@ export const Type_product = ({
 
   const navigate = useNavigate();
 
-  const handleToRouter = ()=>{
-    if (notID) { 
-      navigate(`${links}`,{state:{id:idStore}})
+  const handleToRouter = () => {
+    if (notID) {
+      navigate(`${links}`, { state: { id: idStore } });
     } else {
-      navigate(`${links}${idStore}`)
+      links ? navigate(`${links}${idStore}`) : "";
     }
-  }
+  };
 
   return (
-    <div onClick={handleToRouter}  >
+    <div onClick={handleToRouter}>
       <div className="w-full h-full transition-all hover:scale-105 ease-in-out duration-700 cursor-pointer mb-10">
         <div
           className={` w-full relative overflow-hidden  h-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex p-5 rounded-3xl ${fondo}`}
@@ -81,7 +81,9 @@ export const Type_product = ({
           </div>
           <div
             className={`text-center m-auto justify-center  z-20 ${
-              position == "horisontal" ? "text-slate-600" : "text-slate-800 h-52"
+              position == "horisontal"
+                ? "text-slate-600"
+                : "text-slate-800 h-52"
             } `}
           >
             <h4 className="line-clamp-1 text-center  text-slate-950 font-bold text-2xl mb-4">

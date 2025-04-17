@@ -1,7 +1,7 @@
 import React from "react";
-import { Toolbar } from "../../widgets/Toolbar";
-import { TabSelect } from "../../widgets/tabsSelect";
-import { PageTitleInit } from "../../layout/tollbar/tiltleInit";
+import { Toolbar } from "../../../widgets/Toolbar";
+import { TabSelect } from "../../../widgets/tabsSelect";
+import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 
 export const SelectStoreforEdit = () => {
   return (
