@@ -6,17 +6,11 @@ import { port, PUBLIC_URL } from "../../../../../config/env";
 import { NotItems } from "../../../widgets/datosvacios/NotItems";
 import { FaProductHunt } from "react-icons/fa";
 import { FcPaid } from "react-icons/fc";
+import { LoadingProduct } from "../../../widgets/loading/loadingProduct";
+import { StarRating } from "../../../widgets/startRating";
 
 export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
-  /* if (!Loading && data.length == 0) {
-    return (
-      <NotItems
-      link={`/products/add/`}
-      Icon={FaProductHunt}
-      text=" There are not products that show. First you have that add new Product in Store . Follou next link for start"
-    />
-    )
-  } */
+  
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -58,19 +52,7 @@ export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      {error ? (
-        <p>Error...</p>
-      ) : Loading ? (
-        <p>Loading...</p>
-      ) : data.length == 0 ? (
-        <NotItems
-          link={`/products/add/`}
-          Icon={FcPaid}
-          text=" There are not products that show. First you have that add new Product in Store . Follou next link for start"
-        />
-      ) : (
-        <>
-          <div className="flex justify-end">
+      <div className="flex justify-end">
             <Autocomplete
               className="max-w-xs"
               variant="underlined"
@@ -80,11 +62,6 @@ export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
               onInputChange={setSearchTerm}
               onSelectionChange={(key: any) => handleSelectionChange(key)}
               inputValue={searchTerm}
-              /*    onFilter={(items:any, filterValue:any) => 
-          items.filter((item:any) => 
-            item.label?.toLowerCase().includes(filterValue.toLowerCase())
-          )
-        } */
             >
               {autocompletItems.map((item: any) => (
                 <AutocompleteItem key={item.key} value={item.key}>
@@ -94,6 +71,19 @@ export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
             </Autocomplete>
           </div>
 
+      {error ? (
+        <p>Error...</p>
+      ) : Loading ? (
+        <LoadingProduct/>
+      ) : data.length == 0 ? (
+        <NotItems
+          link={`/products/add/`}
+          Icon={FcPaid}
+          text=" There are not products that show. First you have that add new Product in Store . Follou next link for start"
+        />
+      ) : (
+        <>
+          
           {filteredItems?.map((item: any, index: number) => {
             const product = item.product || item;
             const status =
@@ -109,40 +99,41 @@ export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
                   key={item?.id + index || item?.product?.id + index}
                   to={itemLink}
                 >
-                  <div className="p-2 m-3 rounded-2xl relative flex gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
-                    <img
+                  <div className="p-2 m-3 rounded-2xl relative flex flex-wrap gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
+
+                    <div className="flex flex-wrap items-start justify-between h-full w-full ">
+                    <div className="  md:w-[35%] xl:w-[20%] h-full">
+                    <img   
                       src={
                         port +
                         (product.image ||
                           `${PUBLIC_URL}placeholder-product.png`)
                       }
-                      className="w-40 h-40 rounded-xl object-cover"
+                      className="w-40  h-40 rounded-xl"
                       alt={product.name}
                     />
-
-                    <div className="flex flex-col justify-between w-full">
-                      <div>
+                    </div>
+                    <div className="w-full h-full md:w-[50%]">
                         <h1 className="font-bold text-danger text-2xl">
                           {product.name}
                         </h1>
-                        <p className="line-clamp-3 mt-2 px-4">
+                        <p className="line-clamp-3 text-center  mt-2 px-4">
                           {product.description}
                         </p>
-                      </div>
-
-                      <div className="flex justify-between items-end">
-                        <div>
+                     </div>
+                     <div className="flex w-full lg:w-[30%]  md:min-w-[250px] items-start">
+                        <div className=" flex flex-col gap-4 items-start p-2 h-full">
                           <h3 className="font-bold text-rose-900">
                             $ {product.price}.00
                           </h3>
+                          <StarRating rating={product.rating} size={23}/>
                           <p>
                             Categoría: {product.category} - {product.tipo}
                           </p>
                           <p>Tipo de venta: {product.selling_type}</p>
                         </div>
-
                         <span
-                          className={`${statusClasses[status]} text-white font-bold py-1 px-3 rounded-2xl shadow-lg shadow-gray-400`}
+                          className={`${statusClasses[status]} absolute text-white right-0 -top-2 font-bold py-1 px-3 rounded-2xl shadow-lg shadow-gray-400`}
                         >
                           {product.inventoryStatus}
                         </span>

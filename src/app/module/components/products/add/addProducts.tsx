@@ -17,6 +17,7 @@ import { Pricing } from "../../../widgets/Pricing";
 import { Submit } from "../../../widgets/Submit";
 import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import { useAuth } from "../../../auth/core/Auth";
+import { LoadingAddProduct } from "../../../widgets/loading/LoadingAddProduct";
 
 // Definimos la interfaz para los datos del formulario
 
@@ -57,7 +58,7 @@ export const AddProducts: React.FC = () => {
     }
   };
 
-  const { data } = useEjecut({ url: `stores/${idStore}` });
+  const { data,errors,isLoadingData } = useEjecut({ url: `stores/${idStore}` });
 
   useEffect(() => {
     if (result) {
@@ -72,7 +73,18 @@ export const AddProducts: React.FC = () => {
   return (
     <>
       <div className="z-30 overflow-clip w-full">
-        <Toolbar element={"products"} action={`Add New Product`} info={data} />
+        {error ? <>
+          <Toolbar element={"products"} action={`Add New Product`}  />
+            <p>Error...</p>
+        </>
+          : isLoadingData ? 
+          <>
+          <Toolbar element={"products"} action={`Add New Product`}  />
+            <LoadingAddProduct/>
+        </>
+          :
+           <Toolbar element={"products"} action={`Add New Product`} info={data}  />
+      }
         <PageTitleInit />
         <FormProvider {...methods}>
           <form

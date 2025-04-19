@@ -16,7 +16,7 @@ interface Type {
 export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
   return (
     <>
-      <div className="md:flex animate-appearance-in relative justify-between">
+      <div className="md:flex flex-col lg:flex-row animate-appearance-in relative justify-between">
         {info && (
           <>
             <div className="absolute w-full overflow-hidden opacity-10 h-full">
@@ -25,18 +25,18 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
             <div>
               <img
                 src={`${PUBLIC_URL}products2.png`}
-                className="absolute bottom-0 animate-transition"
+                className="absolute hidden lg:block bottom-0 animate-transition"
                 alt=""
               />
               <img
                 src={`${PUBLIC_URL}products.png`}
-                className="absolute left-60 bottom-4 animate-transitionleft"
+                className="absolute hidden lg:block left-60 bottom-4 animate-transitionleft"
                 alt=""
               />
             </div>
           </>
         )}
-        <div className="w-full my-5 flex mx-4 md:mx-20">
+        <div className="w-full my-5 flex mx-4 md:w-[60%] xl:w-full xl:mx-20">
           <div className="w-24 h-[52px] flex">
             <Button />
           </div>
@@ -46,9 +46,9 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
           </div>
         </div>
         {info && (
-          <div className="flex relative h-96  items-center w-full flex-col">
-            <div className=" flex justify-center w-full">
-              <div className="relative left-full">
+          <div className="flex relative mb-14 mx-2 lg:mb-0 h-96  items-center w-full flex-col">
+            <div className=" flex  mt-20 sm:mt-3 lg:mt-0 justify-center w-full">
+              <div className="relative  left-full">
                 <button
                   type="button"
                   className="cursor-pointer absolute right-6 top-6 bg-slate-900 p-2 rounded-full z-40 "
@@ -70,10 +70,10 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
               <div className="z-30 w-full">
                 <img
                   src={port + info.imgStore}
-                  className="absolute  -right-10 rounded-full shadow-2xl shadow-violet-950 -bottom-10 w-56 h-56 z-20 aspect-auto"
+                  className="absolute hidden md:block  -right-10 rounded-full shadow-2xl shadow-violet-950 -bottom-10 w-56 h-56 z-20 aspect-auto"
                   alt=""
                 />
-                <h1 className="z-30 text-6xl mt-16 line-clamp-1 mr-auto font-black text-slate-950">
+                <h1 className="z-30 text-6xl md:mt-16  line-clamp-1 mr-auto font-black text-slate-950">
                   {info.name}
                 </h1>
 
@@ -81,7 +81,7 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
                   {info.description}
                 </p>
 
-                <div className="flex w-3/5 my-2 justify-between">
+                <div className="flex w-4/5 md:w-3/5 my-2 justify-between">
                   <div>
                     <p>Address:</p>
                     <p className="z-30 text-sm font-bold text-slate-950 line-clamp-1 mt-auto">

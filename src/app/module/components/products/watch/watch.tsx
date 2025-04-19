@@ -12,10 +12,10 @@ import {  VscVerifiedFilled} from "react-icons/vsc"
 import { HiShieldCheck } from "react-icons/hi";
 import { TabsNext } from "../../../widgets/tabs";
 import { Option } from "../../../../../interface/TypeTabs";
+import LoadingWatch from "../../../widgets/loading/loadingWatch";
 
 export const Watch = () => {
   const { idProduct: id } = useParams();
-  console.log(id)
 
   const CarouselPersonalizado = ({ children }: any) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -52,7 +52,7 @@ export const Watch = () => {
 
     return (
       <div className="flex flex-col justify-center items-center ">
-        <div className="w-[80%] relative rounded-xl border h-[500px] overflow-hidden">
+        <div className="w-[80%] relative rounded-xl border h-[300px] lg:h-[500px] overflow-hidden">
           <ButtonPrev />
           <ButtonNext />
           <div
@@ -116,8 +116,7 @@ export const Watch = () => {
   ];
 
   const isNeworNot = true;
-  console.log(product);
-
+  
   const [typeProduct, settypeProduct] = useState("");
   const [typeProductDescript, settypeProductDescript] = useState("");
 
@@ -206,10 +205,10 @@ export const Watch = () => {
           </h1>
         </div>
         <div className="flex mt-10 items-center justify-center gap-6">
-          <button className="bg-gradient-to-br flex justify-center items-center gap-3 from-violet-300 py-4 hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-6 rounded-xl font-bold text-slate-500 to-teal-200">
+          <button className="bg-gradient-to-br flex justify-center items-center gap-1 lg:gap-3 from-violet-300 py-1 lg:py-4 hover:scale-105 lg:hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-2 lg:px-6  rounded-xl text-sm md:text-base font-bold text-slate-500 to-teal-200">
             <FaStoreAlt size={28} /> <span>Go to the store</span>
           </button>
-          <button className="bg-gradient-to-br flex justify-center items-center gap-3 from-violet-300 py-4 hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-6 rounded-xl font-bold text-slate-500 to-teal-200">
+          <button className="bg-gradient-to-br flex justify-center items-center gap-3 from-violet-300 py-1 lg:py-4 hover:scale-105 lg:hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-2 lg:px-6 rounded-xl font-bold text-slate-500  text-sm md:text-base  to-teal-200">
             <MdFireTruck size={28} /> <span>Go to the orders</span>
           </button>
         </div>
@@ -337,7 +336,11 @@ export const Watch = () => {
   return (
     <>
       <PageTitleInit />
-
+      {
+        errors ? <p>error...</p>
+        : isLoadingData ? 
+          <LoadingWatch/>
+        : (
       <div className="flex flex-col lg:flex-row items-center justify-content-center w-full">
         <div className="grow basis-[75%]">
           <div className="mt-5 ml-5">
@@ -348,6 +351,8 @@ export const Watch = () => {
           <AsideDetail />
         </div>
       </div>
+        )
+      }
       <div className="flex mt-20 flex-col lg:flex-row items-center justify-content-center w-full">
           <div className="flex w-full justify-around">
           <Divs icon={<VscVerifiedFilled/>} text={'100% original'} descript={'Chocolate bar candy canes ice cream toffee cookie halvah.'}/>

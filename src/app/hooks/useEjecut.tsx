@@ -28,11 +28,11 @@ export const useEjecut = ({ url,submit } :UseEjecutProps ) => {
 
   const getFetch = async () => {
 
-    /* return setState({
+    return setState({
       data:null,
       isLoadingData: true,
       errors: null,
-    }); */
+    });
     try {
       const response = await axios.get(port + url, {
         headers: {

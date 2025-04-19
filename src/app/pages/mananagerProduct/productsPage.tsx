@@ -177,12 +177,6 @@ export const ProductsPage = () => {
       isActive: false,
     },
     {
-      title: "Watch products",
-      path: -1,
-      isSeparator: true,
-      isActive: false,
-    },
-    {
       title: "Select products",
       path: "",
       isSeparator: true,

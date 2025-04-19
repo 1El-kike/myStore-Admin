@@ -52,24 +52,20 @@ export const Type_product = ({
           className={` w-full relative overflow-hidden  h-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex p-5 rounded-3xl ${fondo}`}
         >
           <div
-            className={`rounded-2xl overflow-hidden flex h-full ${
-              position == "vertical" ? "" : "w-[30%] "
+            className={`rounded-2xl overflow-hidden flex  h-full ${
+              position == "vertical" ? "" : " justify-center bg-gradient-to-tr from-rose-100 to-violet-100"
             }`}
           >
             {position == "horisontal" ? (
               <Image
                 isBlurred
                 alt="Album Cover"
-                className="scale-105 justify-center aspect-square m-auto rounded-2xl"
+              
+                className="scale-105 justify-center w-full aspect-square m-auto rounded-2xl"
                 src={image}
                 width={240}
               />
             ) : (
-              /*  <img
-                className={` scale-${scale} justify-center aspect-square m-auto rounded-2xl `}
-                src={image}
-                alt="Title"
-              /> */
               <div className="absolute w-full h-full blur-sm">
                 <img
                   className={` h-full clip-edit  w-full bottom-0 z-10  opacity-50 aspect-auto scale-${scale} `}

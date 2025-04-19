@@ -29,12 +29,12 @@ export const Group: React.FC<TypeGroup> = ({
   errors,
 }) => {
   return (
-    <div className=" flex  gap-4 flex-auto flex-wrap">
-      {errors ? <ErrorsItems /> : isLoadingData ? <Loading_items /> : data && data.length > 0 ? (
+    <div className=" flex gap-1 bg- lg:gap-4  flex-wrap">
+      {errors ? <ErrorsItems /> : isLoadingData ? <Loading_items typeLoad="vertical" /> : data && data.length > 0 ? (
         data?.map((data: any, index: number) => {
           return (
             <>
-              <div className="w-[100%] md:w-[45%] lg:w-[32%]   mt-12 animate-appearance-in duration-1000 h-60 ">
+              <div className="w-[100%] md:w-[50%] lg:w-[32%]   mt-12 animate-appearance-in duration-1000 h-60 ">
                 <Type_product
                   link={link}
                   position="vertical"
@@ -80,14 +80,13 @@ export const List: React.FC<TypeGroup> = ({
   isLoadingData,
   errors,
 }) => {
-  console.log(isLoadingData);
   return (
     <>
       <div className="">
         {errors ? (
           <ErrorsItems />
         ) : isLoadingData ? (
-          <Loading_items />
+          <Loading_items typeLoad="horisontal" />
         ) : data?.length > 0 ? (
           data?.map((data: any, index: number) => {
             return (
@@ -153,7 +152,7 @@ export const Table: React.FC<TypeGroup> = ({
       {errors ? (
         <ErrorsItems />
       ) : isLoadingData ? (
-        <Loading_items />
+        <Loading_items typeLoad="Table"  />
       ) : data && data?.length > 0  || notItem ? (
         <Tables
           isDetails={isDetails}
