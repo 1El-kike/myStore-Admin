@@ -11,7 +11,7 @@ export const LoadingAddProduct = () => {
             labelColor="danger"
             color="danger" /* label="Loading..." */
           />
-          <div className="hidden md:flex mt-16 w-full  lg:w-[55%] flex-col relative bg-gradient-to-tr from-violet-100 to-teal-100 rounded-xl py-2 px-4 h-64 -top-20">
+          <div className="hidden md:flex mt-16  xl:mt-1 w-full  lg:w-[55%] xl:w-[45%] flex-col relative bg-gradient-to-tr from-rose-100/20 to-teal-100 rounded-xl py-2 px-4 h-80 -top-20">
             <Skeleton className="rounded-md mt-5 w-52 h-6 mb-2" />
             <Skeleton className="rounded-md w-[30%] h-6 mb-2" />
             <Skeleton className="rounded-md w-[30%] h-6 mb-2" />
