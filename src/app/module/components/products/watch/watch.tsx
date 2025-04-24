@@ -1,19 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEjecut } from "../../../../hooks/useEjecut";
 import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import { port } from "../../../../../config/env";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { StarRating } from "../../../widgets/startRating";
-import { FaHeart, FaPencilAlt, FaPlus, FaShare, FaStoreAlt } from "react-icons/fa";
+import {
+  FaHeart,
+  FaPencilAlt,
+  FaPlus,
+  FaShare,
+  FaStoreAlt,
+} from "react-icons/fa";
 import { MdAccessTimeFilled, MdFireTruck } from "react-icons/md";
-import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
-import {  VscVerifiedFilled} from "react-icons/vsc"
+import {
+  Button,
+  Progress,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
+import { VscVerifiedFilled } from "react-icons/vsc";
 import { HiShieldCheck } from "react-icons/hi";
 import { TabsNext } from "../../../widgets/tabs";
 import { Option } from "../../../../../interface/TypeTabs";
 import LoadingWatch from "../../../widgets/loading/loadingWatch";
 import { ErrorsItems } from "../../../errors/errorsItems";
+import ProgressReviews from "../../../widgets/reviews/progressReviews";
+import { CustomerReviews } from "../../../widgets/reviews/customerReviews";
+import { Reviews } from "../../../widgets/reviews/review";
+
+interface ReviewStats {
+  star: number;
+  count: number;
+  totalLikes: number;
+}
 
 export const Watch = () => {
   const { idProduct: id } = useParams();
@@ -117,7 +141,7 @@ export const Watch = () => {
   ];
 
   const isNeworNot = true;
-  
+
   const [typeProduct, settypeProduct] = useState("");
   const [typeProductDescript, settypeProductDescript] = useState("");
 
@@ -206,21 +230,21 @@ export const Watch = () => {
           </h1>
         </div>
         <div className="flex mt-10 items-center justify-center gap-6">
-          <button className="bg-gradient-to-br flex justify-center items-center gap-1 lg:gap-3 from-violet-300 py-1 lg:py-4 hover:scale-105 lg:hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-2 lg:px-6  rounded-xl text-sm md:text-base font-bold text-slate-500 to-teal-200">
+          <button className="bg-gradient-to-br flex justify-center items-center gap-1 lg:gap-3 from-slate-300 py-1 lg:py-2 hover:scale-105 lg:hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-2 lg:px-6  rounded-xl text-sm md:text-base font-bold text-slate-500 to-slate-200">
             <FaStoreAlt size={28} /> <span>Go to the store</span>
           </button>
-          <button className="bg-gradient-to-br flex justify-center items-center gap-3 from-violet-300 py-1 lg:py-4 hover:scale-105 lg:hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-2 lg:px-6 rounded-xl font-bold text-slate-500  text-sm md:text-base  to-teal-200">
+          <button className="bg-gradient-to-br flex justify-center items-center gap-3 from-slate-300 py-1 lg:py-2 hover:scale-105 lg:hover:scale-110 duration-400 hover:bg-gradient-to-bl hover:from-blue-500 hover:to-violet-500 hover:text-white px-2 lg:px-6 rounded-xl font-bold text-slate-500  text-sm md:text-base  to-slate-200">
             <MdFireTruck size={28} /> <span>Go to the orders</span>
           </button>
         </div>
         <div className="flex gap-2 justify-center items-center">
-          <Button startContent={<FaPlus />} color="secondary" variant="light">
+          <Button startContent={<FaPlus />} color="default" variant="light">
             Compare
           </Button>
-          <Button startContent={<FaHeart />} color="secondary" variant="light">
+          <Button startContent={<FaHeart />} color="default" variant="light">
             Favorite
           </Button>
-          <Button startContent={<FaShare />} color="secondary" variant="light">
+          <Button startContent={<FaShare />} color="default" variant="light">
             Share
           </Button>
         </div>
@@ -228,144 +252,169 @@ export const Watch = () => {
     );
   };
 
-  const Divs = ({icon,text,descript}:{icon:any,text:string,descript:string}) => {
+  const Divs = ({
+    icon,
+    text,
+    descript,
+  }: {
+    icon: any;
+    text: string;
+    descript: string;
+  }) => {
     return (
       <div className="flex gap-5 flex-col justify-center items-center">
         <span className="text-success-600 text-3xl"> {icon}</span>
         <h1 className="font-bold text-xl">{text}</h1>
-        <p className="text-slate-600 text-base w-full max-w-56 text-center">{descript}</p>
+        <p className="text-slate-600 text-base w-full max-w-56 text-center">
+          {descript}
+        </p>
       </div>
-    )
-  }
+    );
+  };
 
-  const Reviews =({rating}:{rating:any}) => (
-    <div className="flex">
-        <div className="grow basis-56 border-r">
-            {/* cantidad de rating verdadera */}
-            <div className="flex flex-col items-center justify-center gap-3">
-             <p className="text-xl font-bold">Average rating</p>
-              <h1 className="text-7xl bg-gradient-to-tr from-slate-800 bg-clip-text text-transparent to-rose-900 font-extrabold">{`${rating}/5`}</h1>
-              <StarRating rating={rating} size={25}/>
-              <p className="text-slate-400">{`(9.12k reviews)`}</p>
-            </div>
-        </div>
-        <div className="grow basis-56 border-r">
 
-        </div>
-        <div className="grow flex justify-center items-center basis-56 ">
-        <Button startContent={<FaPencilAlt />} className="text-base font-semibold"  color="default" variant="light">
-            Write your review
-          </Button>
-        </div>
-    </div>
-  )
-
-  const Description = ({details,benefits}:{details:any,benefits:any}) => (
-    
-    <div className="flex flex-col gap-5">
+  const Description = ({
+    details,
+    benefits,
+  }: {
+    details: any;
+    benefits: any;
+  }) => (
+    <div className="flex pl-4 flex-col gap-5">
       <div className="w-full max-w-[60%]">
         <div className="flex flex-col gap-4">
-
-        <h1 className="text-xl font-bold">Specifications</h1>
-        <Table isStriped aria-label="Example static collection table">
-      <TableHeader>
-        <TableColumn>Category</TableColumn>
-        <TableColumn>Mobile</TableColumn>
-      </TableHeader>
-      <TableBody>
-        <TableRow key="1">
-          <TableCell>Tony Reichert</TableCell>
-          <TableCell>CEO</TableCell>
-        </TableRow>
-        <TableRow key="2">
-          <TableCell>Zoey Lang</TableCell>
-          <TableCell>Technical Lead</TableCell>
-        </TableRow>
-        <TableRow key="3">
-          <TableCell>Jane Fisher</TableCell>
-          <TableCell>Senior Developer</TableCell>
-        </TableRow>
-        <TableRow key="4">
-          <TableCell>William Howard</TableCell>
-          <TableCell>Community Manager</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-    </div>
-    </div>
+          <h1 className="text-xl font-bold">Specifications</h1>
+          <Table isStriped aria-label="Example static collection table">
+            <TableHeader>
+              <TableColumn>Category</TableColumn>
+              <TableColumn>Mobile</TableColumn>
+            </TableHeader>
+            <TableBody>
+              <TableRow key="1">
+                <TableCell>Tony Reichert</TableCell>
+                <TableCell>CEO</TableCell>
+              </TableRow>
+              <TableRow key="2">
+                <TableCell>Zoey Lang</TableCell>
+                <TableCell>Technical Lead</TableCell>
+              </TableRow>
+              <TableRow key="3">
+                <TableCell>Jane Fisher</TableCell>
+                <TableCell>Senior Developer</TableCell>
+              </TableRow>
+              <TableRow key="4">
+                <TableCell>William Howard</TableCell>
+                <TableCell>Community Manager</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
       <div className="flex flex-col gap-4">
-      <h1 className="text-xl font-bold">Product details</h1>
-      <ul className="list-disc space-y-3 pl-5 ">
-          {details?.map((item:any) => (
-            <li key={item?.id} className="my-2" >{item?.text}</li>
+        <h1 className="text-xl font-bold">Product details</h1>
+        <ul className="list-disc space-y-3 pl-5 ">
+          {details?.map((item: any) => (
+            <li key={item?.id} className="my-2">
+              {item?.text}
+            </li>
           ))}
-          </ul>
+        </ul>
       </div>
       <div className="flex  flex-col gap-4">
-      <h1 className="text-xl font-bold">Benefits</h1>
-          <ul className="list-disc space-y-3 pl-5">
-          {benefits?.map((item:any) => (
-            <li key={item?.id} className="my-2" >{item?.text}</li>
+        <h1 className="text-xl font-bold">Benefits</h1>
+        <ul className="list-disc space-y-3 pl-5">
+          {benefits?.map((item: any) => (
+            <li key={item?.id} className="my-2">
+              {item?.text}
+            </li>
           ))}
-          </ul>
+        </ul>
       </div>
     </div>
-  )
+  );
 
   const details = [
-    {id:1,text:"The foam sockliner feels soft and confortable."},
-    {id:2,text:"Pull tab."},
-    {id:3,text:"Not intended for use Personal Protective Equipment."},
-    {id:4,text:"Colour Shown: White/Back/Oxygen Purple."},
-    {id:5,text:"Style:9218293-109."},
-    {id:6,text:"Country/region."},
-  ]
+    { id: 1, text: "The foam sockliner feels soft and confortable." },
+    { id: 2, text: "Pull tab." },
+    { id: 3, text: "Not intended for use Personal Protective Equipment." },
+    { id: 4, text: "Colour Shown: White/Back/Oxygen Purple." },
+    { id: 5, text: "Style:9218293-109." },
+    { id: 6, text: "Country/region." },
+  ];
 
   const benefits = [
-    {id:1,text:"Mesh and synthenic materials on the upper keep the fluid look of the OG while adding comfortand durability"},
-    {id:2,text:"Originally designed for performance running the full-lenght Max Air unit adds soft, comfortable cushioning underfoot."},
-    {id:3,text:"The foam midsole feels springy and soft."},
-    {id:4,text:"The rubber outsle adds traction and durability."},
-  ]
+    {
+      id: 1,
+      text: "Mesh and synthenic materials on the upper keep the fluid look of the OG while adding comfortand durability",
+    },
+    {
+      id: 2,
+      text: "Originally designed for performance running the full-lenght Max Air unit adds soft, comfortable cushioning underfoot.",
+    },
+    { id: 3, text: "The foam midsole feels springy and soft." },
+    { id: 4, text: "The rubber outsle adds traction and durability." },
+  ];
 
-    const DataTabs:Option[] = [
-     { option:"Description ",component:<Description details={details} benefits={benefits} />,link:''},
-     { option:"Reviews",component:<Reviews rating={product?.rating} />,link:'',badge:{color:'default',contex:8}},
-    ]
-
+  const DataTabs: Option[] = [
+    {
+      option: "Description ",
+      component: <Description details={details} benefits={benefits} />,
+      link: "",
+    },
+    {
+      option: "Reviews",
+      component: <Reviews productId={id} />,
+      link: "",
+      badge: { color: "default", contex: 8 },
+    },
+  ];
 
   return (
     <>
       <PageTitleInit />
-      {
-        errors ? 
+      {errors ? (
         <div className="m-16">
-          <ErrorsItems/>
+          <ErrorsItems />
         </div>
-        : isLoadingData ? 
-          <LoadingWatch/>
-        : (
-      <div className="flex flex-col lg:flex-row items-center justify-content-center w-full">
-        <div className="grow basis-[75%]">
-          <div className="mt-5 ml-5">
-            <CarouselPersonalizado children={image} />
+      ) : isLoadingData ? (
+        <LoadingWatch />
+      ) : (
+        <div className="flex flex-col lg:flex-row items-center justify-content-center w-full">
+          <div className="grow basis-[75%]">
+            <div className="mt-5 ml-5">
+              <CarouselPersonalizado children={image} />
+            </div>
+          </div>
+          <div className="grow basis-[700px] gap-3">
+            <AsideDetail />
           </div>
         </div>
-        <div className="grow basis-[700px] gap-3">
-          <AsideDetail />
+      )}
+      <div className="flex lg:mt-20  items-center justify-content-center w-full">
+        <div className="flex w-full flex-col  lg:flex-row justify-around">
+          <Divs
+            icon={<VscVerifiedFilled />}
+            text={"100% original"}
+            descript={
+              "Chocolate bar candy canes ice cream toffee cookie halvah."
+            }
+          />
+          <Divs
+            icon={<MdAccessTimeFilled />}
+            text={"10 days replacement"}
+            descript={"Marshmallow biscuit donut dragee fruitcake wafer."}
+          />
+          <Divs
+            icon={<HiShieldCheck />}
+            text={"Year warranty"}
+            descript={"Cotton candy gingerbread cake I love sugar sweet"}
+          />
         </div>
       </div>
-        )
-      }
-      <div className="flex mt-20 flex-col lg:flex-row items-center justify-content-center w-full">
-          <div className="flex w-full justify-around">
-          <Divs icon={<VscVerifiedFilled/>} text={'100% original'} descript={'Chocolate bar candy canes ice cream toffee cookie halvah.'}/>
-          <Divs icon={<MdAccessTimeFilled/>} text={'10 days replacement'} descript={'Marshmallow biscuit donut dragee fruitcake wafer.'}/>
-          <Divs icon={<HiShieldCheck/>} text={'Year warranty'} descript={'Cotton candy gingerbread cake I love sugar sweet'}/>
-          </div>
-      </div>
-      <div className="flex mt-20 ml-10 flex-col lg:flex-row items-center justify-content-center w-full" >
-      <TabsNext children={DataTabs} />
+      <div className="flex mt-20 ml-10 flex-col lg:flex-row items-center justify-content-center w-full">
+        <div className="bg-white border w-full pt-2  rounded-xl  ">
+          <TabsNext children={DataTabs} />
+        </div>
       </div>
     </>
   );

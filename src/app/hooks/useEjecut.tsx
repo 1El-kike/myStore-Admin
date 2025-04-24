@@ -30,9 +30,9 @@ export const useEjecut = ({ url,submit } :UseEjecutProps ) => {
 
      /* return setState({
       data:[],
-      isLoadingData: false,
-      errors: true,
-    }); */ 
+      isLoadingData: true,
+      errors: false,
+    });  */
     try {
       const response = await axios.get(port + url, {
         headers: {

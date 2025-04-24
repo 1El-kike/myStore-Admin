@@ -96,7 +96,7 @@ export const Loading_items: React.FC<TypeLoading> = ({
   return (
     <>
       {typeLoad == "horisontal" && (
-        <div className="flex mt-10 flex-col  gap-2 ">
+        <div className="flex mt-10 flex-col  gap-4 ">
           <CustomCard />
           <CustomCard />
           <CustomCard />
