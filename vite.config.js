@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/myStore-Admin/" : "/",
   plugins: [react()],
-  build: {
+/*   build: {
     outDir: "dist",
     rollupOptions: {
       input: {
@@ -13,5 +13,5 @@ export default defineConfig(({ mode }) => ({
         "404": "./public/404.html",
       },
     },
-  },
+  }, */
 }));
