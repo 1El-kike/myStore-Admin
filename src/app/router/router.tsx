@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import { PUBLIC_URL } from "../../config/env";
 import { ErrorsPage } from "../module/errors/errorsPage";
 import { PrivateRoutes } from "./privateRoutes";
@@ -12,7 +12,7 @@ export const Routers = () => {
   const { currentUser } = useAuth();
   console.log(PUBLIC_URL)
   return (
-    <BrowserRouter basename={PUBLIC_URL}>
+    <Router basename={PUBLIC_URL}>
       <Routes>
         <Route element={<App />}>
           <Route path="error/*" element={<ErrorsPage />} />
@@ -30,6 +30,6 @@ export const Routers = () => {
           )}
         </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 };
