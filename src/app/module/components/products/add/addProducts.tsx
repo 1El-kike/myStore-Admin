@@ -17,7 +17,7 @@ import { Pricing } from "../../../widgets/Pricing";
 import { Submit } from "../../../widgets/Submit";
 import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import { useAuth } from "../../../auth/core/Auth";
-import { LoadingAddProduct } from "../../../widgets/loading/LoadingAddProduct";
+import { LoadingAddProduct } from "../../../widgets/loading/loadingAddProduct";
 
 // Definimos la interfaz para los datos del formulario
 
