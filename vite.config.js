@@ -5,4 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/myStore-Admin/" : "/",
   plugins: [react()],
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      input: {
+        main: "./index.html",
+        "404": "./public/404.html",
+      },
+    },
+  },
 }));
