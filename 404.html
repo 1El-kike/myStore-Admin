@@ -5,9 +5,11 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirección</title>
   <script>
-    const segment = 1; // Número de segmentos en la URL base (ej: "myStore-Admin" => segment=1)
-    const path = window.location.pathname.split('/').slice(segment + 1).join('/');
-    window.location.href = `/${window.location.pathname.split('/')[segment]}/#/${path}`;
+    const repoName = 'myStore-Admin'; // Nombre de tu repositorio
+    const pathSegments = window.location.pathname.split('/').filter(p => p);
+    const isInRepo = pathSegments[0] === repoName;
+    const redirectPath = isInRepo ? pathSegments.slice(1).join('/') : pathSegments.join('/');
+    window.location.href = `/${repoName}/#/${redirectPath}`;
   </script>
 </head>
 <body></body>
