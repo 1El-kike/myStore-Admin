@@ -6,6 +6,9 @@ import { ProductAll } from "../edit/product";
 import { Toolbar } from "../../../widgets/Toolbar";
 import { NotItems } from "../../../widgets/datosvacios/NotItems";
 import { FaShop, FaShopSlash } from "react-icons/fa6";
+import { ErrorsItems } from "../../../errors/errorsItems";
+import { Loading_items } from "../../../widgets/loading/loading_items";
+import { FcShop } from "react-icons/fc";
 
 export const DeliteSelectProducts = () => {
   const location = useLocation();
@@ -21,19 +24,12 @@ export const DeliteSelectProducts = () => {
       <PageTitleInit />
       <div className="w-full m-10">
         <div className=" w-[70%] ">
-          {errors ? (
-            <p>error...</p>
-          ) : isLoadingData ? (
-            <p>loading...</p>
-          ) : items?.length > 0 ? (
-            <ProductAll data={items} />
-          ) : (
-            <NotItems
-              link="/stores/add"
-              Icon={FaShopSlash}
-              text="There Are not stores for watch, before of continue you should add Store in you Count. In next link you would can create one"
-            />
-          )}
+          <ProductAll
+            data={items}
+            error={errors}
+            Loading={isLoadingData}
+            text="There Are not product for watch, before of continue you should add Store in you Count. In next link you would can create one"
+          />
         </div>
       </div>
       <Toolbar action="Add Product" element="Admin of Product" />

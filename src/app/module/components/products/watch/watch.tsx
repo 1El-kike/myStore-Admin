@@ -13,6 +13,7 @@ import { HiShieldCheck } from "react-icons/hi";
 import { TabsNext } from "../../../widgets/tabs";
 import { Option } from "../../../../../interface/TypeTabs";
 import LoadingWatch from "../../../widgets/loading/loadingWatch";
+import { ErrorsItems } from "../../../errors/errorsItems";
 
 export const Watch = () => {
   const { idProduct: id } = useParams();
@@ -337,7 +338,10 @@ export const Watch = () => {
     <>
       <PageTitleInit />
       {
-        errors ? <p>error...</p>
+        errors ? 
+        <div className="m-16">
+          <ErrorsItems/>
+        </div>
         : isLoadingData ? 
           <LoadingWatch/>
         : (

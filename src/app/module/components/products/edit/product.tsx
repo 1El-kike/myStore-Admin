@@ -8,8 +8,18 @@ import { FaProductHunt } from "react-icons/fa";
 import { FcPaid } from "react-icons/fc";
 import { LoadingProduct } from "../../../widgets/loading/loadingProduct";
 import { StarRating } from "../../../widgets/startRating";
+import { ErrorsItems } from "../../../errors/errorsItems";
 
-export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
+interface TypeProduct {
+  data:any;
+  link?:string;
+  Loading:boolean | undefined;
+  error:any;
+  text?:string;
+  icon?:any;
+}
+
+export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error,text,icon }) => {
   
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,14 +82,14 @@ export const ProductAll: React.FC<any> = ({ data, link, Loading, error }) => {
           </div>
 
       {error ? (
-        <p>Error...</p>
+        <ErrorsItems/>
       ) : Loading ? (
         <LoadingProduct/>
       ) : data.length == 0 ? (
         <NotItems
           link={`/products/add/`}
-          Icon={FcPaid}
-          text=" There are not products that show. First you have that add new Product in Store . Follou next link for start"
+          Icon={icon || FcPaid}
+          text={text || " There are not products that show. before of continue you should add Store in you Count. In next link you would can create one"}
         />
       ) : (
         <>

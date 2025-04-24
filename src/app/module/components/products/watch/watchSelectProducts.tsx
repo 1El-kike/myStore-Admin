@@ -22,9 +22,9 @@ export const WatchSelectProducts = () => {
    <PageTitleInit />
         <div className="w-full m-10">
                <div className="w-[70%] ">
-               {isLoadingData && <p>loading...</p>}
-               {items && <ProductAll data={items} />}
-               {errors && <p>error...</p>}
+             
+              <ProductAll Loading={isLoadingData} error={errors}  data={items} />
+              
                </div>
              </div>
              <Toolbar action="Add Product" element="Admin of Product" />

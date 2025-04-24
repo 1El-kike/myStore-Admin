@@ -18,18 +18,21 @@ import {
 import { Shipping_Delivery } from "../../../widgets/Shipping_Delivery";
 import { Size } from "../../../widgets/size";
 import { Pricing } from "../../../widgets/Pricing";
+import { ErrorsItems } from "../../../errors/errorsItems";
+import { Loading_items } from "../../../widgets/loading/loading_items";
+import { LoadingFormulario } from "../../../widgets/loading/loadingFormulario";
 
 export const EditProducts = () => {
   const id = useParams();
   const methods = useForm(Form_product);
-  const { data }: DataUseEjecut = useEjecut({
+  const { data, errors, isLoadingData }: DataUseEjecut = useEjecut({
     url: `allProducts/${id.idProduct}`,
     submit: methods.formState.isSubmitting,
   });
 
   useEffect(() => {
     if (data) {
-      console.log(data)
+      console.log(data);
       methods.reset({
         id: data.id,
         name: data.name,
@@ -61,64 +64,87 @@ export const EditProducts = () => {
     initialData,
   });
 
-
   return (
     <>
       <div className="z-30 overflow-clip w-full">
-        <Toolbar element="product" action="Update Product"  />
+        <Toolbar element="product" action="Update Product" />
         <PageTitleInit />
-        <FormProvider {...methods}>
-          <form
-            onSubmit={methods.handleSubmit(onSubmit)}
-            encType="multipart/form-data"
-            className=" lg:flex  md:mx-2 justify-center items-center "
-          >
-            <div className="grow mb-auto basis-72 px-5 ">
-              <Description name="product" />
-            {/*   <Category
-                select={categoryProduct}
-                label1="Product Category"
-                label2=" Product Type"
-                data1="category"
-                data2="tipo"
-              /> */}
-              <Inventoy
-                label1="Quantity"
-                label2="SKU(Option)"
-                data1="quantity_total"
-                data2="sku"
-              />
-              
-              {data?.selling_type && 
-              <Selling_Type  indexdefault={data?.selling_type == 'In-store' ? 0 : data?.selling_type == 'Online' ? 1 :  data?.selling_type == 'both' ? 2 : 0}/>
-              }
-            </div>
-            <div className="grow mb-auto basis-72 px-5">
-              <Images data="image" label="Product Images" imagenDefault={data?.image} />
-              { data?.category === "Para Hogar" && (
-                <div className="animate-opacity">
-                  <Shipping_Delivery />
+        {errors ? (
+          <div className="m-10 pb-16 justify-center ">
+          <ErrorsItems />
+          </div>
+        ) : isLoadingData ? (
+            <LoadingFormulario />
+        ) : (
+          data && (
+            <FormProvider {...methods}>
+              <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                encType="multipart/form-data"
+                className=" lg:flex  md:mx-2 justify-center items-center "
+              >
+                <div className="grow mb-auto basis-72 px-5 ">
+                  <Description name="product" />
+                  {/*   <Category
+              select={categoryProduct}
+              label1="Product Category"
+              label2=" Product Type"
+              data1="category"
+              data2="tipo"
+            /> */}
+                  <Inventoy
+                    label1="Quantity"
+                    label2="SKU(Option)"
+                    data1="quantity_total"
+                    data2="sku"
+                  />
+
+                  {data?.selling_type && (
+                    <Selling_Type
+                      indexdefault={
+                        data?.selling_type == "In-store"
+                          ? 0
+                          : data?.selling_type == "Online"
+                          ? 1
+                          : data?.selling_type == "both"
+                          ? 2
+                          : 0
+                      }
+                    />
+                  )}
                 </div>
-              )}
-              {data?.category === "Clothes" && (
-                <div className="animate-opacity">
-                  <Size />
+                <div className="grow mb-auto basis-72 px-5">
+                  <Images
+                    data="image"
+                    label="Product Images"
+                    imagenDefault={data?.image}
+                  />
+                  {data?.category === "Para Hogar" && (
+                    <div className="animate-opacity">
+                      <Shipping_Delivery />
+                    </div>
+                  )}
+                  {data?.category === "Clothes" && (
+                    <div className="animate-opacity">
+                      <Size />
+                    </div>
+                  )}
+                  <Pricing />
+                  <div>
+                    <Submit
+                      error={error}
+                      isLoading={isLoading}
+                      reset={methods.reset}
+                      bottom1="Schedule"
+                      bottom2="Update Product"
+                      success={success}
+                    />
+                  </div>
                 </div>
-              )}
-              <Pricing  />
-              <div>
-                <Submit
-                  error={error}
-                  isLoading={isLoading}
-                  reset={methods.reset}
-                  bottom1="Schedule"
-                  bottom2="Update Product"
-                  success={success}
-                />
-              </div>
-            </div>
-          </form>
-        </FormProvider>
+              </form>
+            </FormProvider>
+          )
+        )}
       </div>
     </>
   );
