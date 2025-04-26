@@ -15,9 +15,6 @@ import { useEjecut } from "../../../hooks/useEjecut";
 import { updateTable } from "../../core/filtertableandSearch";
 import { useNavigate } from "react-router-dom";
 import { ViewDetailOrder } from "./detailorders";
-import { Chip, ChipProps, Tooltip } from "@nextui-org/react";
-import { EditIcon } from "../../../utils/icons";
-import { port } from "../../../../config/env";
 
 interface TypeData {
   orders: any[];
@@ -87,8 +84,9 @@ export const OrderList = () => {
   useEffect(() => {
     if (data) {
       setdatosTable(() => functionactions(data?.data[link].orders));
+      console.log("entro")
       if (data?.data[link]?.totalPages) {
-        setlimit(data.data[link].totalPages);
+        setlimit(data?.data[link]?.totalPages);
       }
     }
     //return datosTable.unSudcribe()

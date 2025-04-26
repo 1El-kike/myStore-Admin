@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import {  FieldValues, SubmitHandler } from "react-hook-form";
 import { typeProduct } from "../../interface/typeProducts";
 import { port } from "../../config/env";
-import { useAuth } from "../module/auth/core/Auth";
 import axios from "axios";
 
 interface UseBackProps<T> {
@@ -16,15 +15,10 @@ interface UseBackProps<T> {
 
 const useBack = <T,>({ url, reset,method ="POST",initialData }: UseBackProps<T>) => {
 
-  const { auth } = useAuth(); 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [result, setresult] = useState<typeProduct | null>(null);
-
-
-  
-
   const base = port;
   
 
@@ -107,7 +101,7 @@ if (method == "PUT") {
         method: method,
         url: base + url,
          headers: {
-          "Authorization": `Bearer ${auth?.api_token}`,
+       //   "Authorization": `Bearer ${auth?.api_token}`,
        //   "Content-Type": "multipart/form-data", // Axios detecta FormData, pero puedes explicitarlo
         }, 
         data: formData,

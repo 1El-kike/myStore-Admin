@@ -1,47 +1,169 @@
 import { Button } from "@nextui-org/react";
 import { StarRating } from "../startRating";
 import ProgressReviews from "./progressReviews";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt, FaStar } from "react-icons/fa";
 import { CustomerReviews } from "./customerReviews";
 import { useEjecut } from "../../../hooks/useEjecut";
+import { ErrorsItems } from "../../errors/errorsItems";
+import { Modal_Component } from "../modal";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { port } from "../../../../config/env";
+import { useAuth } from "../../auth/core/Auth";
+import axios from "axios";
+import { ModalCreateReview } from "./ModalCreateReview";
+import { Toast } from "flowbite-react";
+import { HiExclamation } from "react-icons/hi";
+import { LoadingReview } from "../loading/LoadingReview";
 
-export const Reviews = ({ productId  }: { productId: any }) =>{
+export const Reviews = ({ productId }: { productId: any }) => {
+  
+  const [selectedStars, setSelectedStars] = useState(0);
+  const [refreshFlag, setRefreshFlag] = useState(0);
+  const [valuetextReview, setvaluetextReview] = useState("");
+  const { currentUser } = useAuth();
+  const [errorReview, seterror] = useState("");
+const [datos, setdatos] = useState([])
+ 
 
-     const {
-        data: reviewData,
-        errors,
-        isLoadingData,
-      } = useEjecut({ url: `review/stats/${productId}` });
+const { data:reviewData, errors, isLoadingData } = useEjecut({
+  url: `review/stats/${productId}`
+})
 
-return (
+useEffect(() => {
+  if (reviewData) {
+        setdatos(reviewData)
+      }
+    }, [datos,reviewData])
+    
+
+  useEffect(() => {
+    let timeoutId: any;
+    if (errorReview) {
+      seterror(errorReview);
+      // Cierra automáticamente después de 5 segundos
+      timeoutId = setTimeout(() => {
+        seterror("");
+      }, 5000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [errorReview, seterror]);
+
+  const createReviews = async (closeModal: () => void) => {
+    if (selectedStars == 0) {
+      seterror("You have select a rating");
+      return;
+    }
+    if (valuetextReview == "") {
+      seterror("You do not have comment nothing");
+      return;
+    }
+
+    const data = {
+      rating: selectedStars,
+      productId,
+      userId: currentUser ? currentUser.id : null,
+      comment: valuetextReview,
+    };
+    axios.post<any>(`${port}review/`, data);
+    seterror("");
+    setSelectedStars(0);
+    setRefreshFlag(prev => prev + 1); // Forzar recarga
+    closeModal();
+  };
+
+  const average = useMemo(()=> {
+    if (!datos) return 0
+
+    const {totalSum, totalCount} = datos.reduce(
+      (acc,{star , count}) => ({
+        totalSum: acc.totalSum + star * count,
+        totalCount: acc.totalCount + count,
+      }),
+      {totalSum:0,totalCount:0}
+    )
+    return totalCount > 0 ? (totalSum / totalCount * 100) / 100  : 0;
+  },[datos])
+
+  const totalReviews = datos?.reduce((acc:any, curr:any) => acc + curr.count, 0) || 0;
+
+   const formatLikes = useCallback((likes: number): string => {
+      if (likes >= 1000) {
+        return `${(likes / 1000).toFixed(1)}k`;
+      }
+      return likes.toString();
+    }, []);
+
+  return (
     <div className="flex w-full flex-col ">
-      <div className="flex pl-3 scale-90 items-center">
-        <div className="grow basis-56 border-r">
-          {/* cantidad de rating verdadera */}
-          <div className="flex flex-col  items-center justify-center gap-3">
-            <p className="text-xl font-bold">Average rating</p>
-            <h1 className="text-7xl bg-gradient-to-tr from-slate-800 bg-clip-text text-transparent to-rose-900 font-extrabold">{`${4}/5`}</h1>
-            <StarRating rating={4} size={22} />
-            <p className="text-slate-400">{`(9.12k reviews)`}</p>
+      {errors ? (
+        <ErrorsItems />
+      ) : isLoadingData ? (
+        <LoadingReview/>
+      ) : datos && datos.length > 0 ? (
+        <div>
+          <div className="flex  flex-col md:flex-row md:pl-3 scale-90 items-center">
+            <div className="grow  w-full md:basis-56 border-r">
+              {/* cantidad de rating verdadera */}
+              <div className="flex flex-col  items-center justify-center md:gap-3">
+                <p className=" md:text-xl font-bold">Average rating</p>
+                <h1 className=" text-4xl md:text-7xl bg-gradient-to-tr from-slate-800 bg-clip-text text-transparent to-rose-900 font-extrabold">{`${Math.round(average * 10) / 10 }/5`}</h1>
+                <StarRating rating={average} size={22} />
+                <p className="text-slate-400">{`( ${formatLikes(totalReviews)} reviews )`}</p>
+              </div>
+            </div>
+            <div className="grow  w-full md:basis-56 border-r">
+              <ProgressReviews reviewData={datos} />
+            </div>
+            <div className="grow flex justify-center items-center basis-56 ">
+              <Modal_Component
+                component={
+                  <ModalCreateReview
+                    selectedStars={selectedStars}
+                    setSelectedStars={setSelectedStars}
+                    setvaluetextReview={setvaluetextReview}
+                    valuetextReview={valuetextReview}
+                  />
+                }
+                isAlert="yes"
+                title={"Add Review"}
+                size="2xl"
+                onClick={() => {}}
+                onActionChange={(closeModal) => createReviews(closeModal)}
+                className=""
+
+                //  onDiscardChange={onDiscardChange}
+              >
+                <Button
+                  startContent={<FaPencilAlt />}
+                  className="text-base font-semibold"
+                  color="default"
+                  variant="light"
+                  onPress={(e: any) => e.preventDefault()}
+                >
+                  Write your review
+                </Button>
+              </Modal_Component>
+            </div>
+          </div>
+          <div className="flex border-t-1 w-full">
+            <CustomerReviews productId={productId}  refreshFlag={refreshFlag}/>
           </div>
         </div>
-        <div className="grow basis-56 border-r">
-          <ProgressReviews errors={errors} isLoadingData={isLoadingData} reviewData={reviewData} />
-        </div>
-        <div className="grow flex justify-center items-center basis-56 ">
-          <Button
-            startContent={<FaPencilAlt />}
-            className="text-base font-semibold"
-            color="default"
-            variant="light"
-          >
-            Write your review
-          </Button>
-        </div>
-      </div>
-      <div className="flex border-t-1 w-full">
-        <CustomerReviews productId={productId}/>
-      </div>
+      ) : (
+        <p>Do not have reviews</p>
+      )}
+      {errorReview && (
+        <Toast
+          className="animate-appearance-in absolute"
+          key={`$${Date.now() + errorReview}`}
+        >
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+            <HiExclamation className="h-5 w-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">{errorReview}</div>
+          <Toast.Toggle />
+        </Toast>
+      )}
     </div>
   );
-} 
+};

@@ -1,7 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
 import { Progress } from '@nextui-org/react';
-import { useEjecut } from '../../../hooks/useEjecut';
-import { ErrorsItems } from '../../errors/errorsItems';
 
 interface ReviewStats {
   star: number;
@@ -9,7 +7,7 @@ interface ReviewStats {
   totalLikes: number;
 }
 
-const ProgressReviews = ({ reviewData,isLoadingData, errors}: { reviewData: any,isLoadingData:boolean | undefined,errors:any }) => {
+const ProgressReviews = ({ reviewData}: { reviewData: any}) => {
  
 
   const processedStats = useMemo(() => {
@@ -42,19 +40,12 @@ const ProgressReviews = ({ reviewData,isLoadingData, errors}: { reviewData: any,
     return likes.toString();
   }, []);
 
-  if (isLoadingData) {
-    return <div>Cargando estadísticas...</div>;
-  }
-
-  if (errors) {
-    return <ErrorsItems/>;
-  }
 
   return (
-    <div className="flex flex-col justify-center items-center gap-4 m-5">
+    <div className="flex flex-col justify-center items-center gap-1 md:gap-4 mt-5 md:m-5">
       {processedStats.map((item) => (
-        <div key={item.star} className="flex w-full gap-4 items-center">
-          <p className="grow font-semibold w-16">{item.star} Star</p>
+        <div key={item.star} className="flex text-sm lg:text-base w-full gap-4 items-center">
+          <p className="grow  font-semibold w-16">{item.star} Star</p>
           <Progress 
             aria-label={`${item.percentage}%`}
             size="sm"

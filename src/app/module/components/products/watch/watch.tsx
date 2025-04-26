@@ -280,8 +280,8 @@ export const Watch = () => {
     details: any;
     benefits: any;
   }) => (
-    <div className="flex pl-4 flex-col gap-5">
-      <div className="w-full max-w-[60%]">
+    <div className="flex w-[98%] pl-4 flex-col gap-5">
+      <div className=" md:max-w-[60%]">
         <div className="flex flex-col gap-4">
           <h1 className="text-xl font-bold">Specifications</h1>
           <Table isStriped aria-label="Example static collection table">
@@ -411,7 +411,7 @@ export const Watch = () => {
           />
         </div>
       </div>
-      <div className="flex mt-20 ml-10 flex-col lg:flex-row items-center justify-content-center w-full">
+      <div className="flex mt-20 ml-2  md:ml-10 flex-col lg:flex-row items-center justify-content-center w-full">
         <div className="bg-white border w-full pt-2  rounded-xl  ">
           <TabsNext children={DataTabs} />
         </div>

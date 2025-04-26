@@ -28,17 +28,13 @@ export const useEjecut = ({ url,submit } :UseEjecutProps ) => {
 
   const getFetch = async () => {
 
-     /* return setState({
-      data:[],
-      isLoadingData: true,
-      errors: false,
+    /*  return setState({
+      data:null,
+      isLoadingData: false,
+      errors: true,
     });  */
     try {
-      const response = await axios.get(port + url, {
-        headers: {
-          Authorization: `Bearer ${auth?.api_token}` // O de cookies/contexto
-        }
-      });
+      const response = await axios.get(port + url);
       setState({
         data:response.data,
         isLoadingData: false,
