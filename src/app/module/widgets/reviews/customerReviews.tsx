@@ -64,7 +64,6 @@ export const CustomerReviews = ({ productId,refreshFlag }: { productId: string ,
   const { data: reviewData, isLoadingData } = useEjecut({
     url: `review/product/${productId}?page=${page}&limit=10`,
   });
-
   useEffect(() => {
     // Resetear datos y paginación
     setMergedData([]);
