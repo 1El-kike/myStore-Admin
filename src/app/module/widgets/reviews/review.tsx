@@ -165,7 +165,6 @@ export const Reviews = ({ productId }: { productId: any }) => {
            
                 <CustomerReviews
                   productId={productId}
-                  //first={first}
                   refreshFlag={refreshFlag}
                 />
             </div>
