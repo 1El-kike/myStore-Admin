@@ -169,8 +169,7 @@ useEffect(() => {
         observer.current.disconnect();
       }
     };
-  }, [mergedData.length, isLoadingData, hasMore, isInitialLoad.current]);
-
+  }, [mergedData.length, isLoadingData, hasMore, isInitialLoad.current,]);
 
   return (
     <div className="flex flex-col mt-5 items-center w-full">
