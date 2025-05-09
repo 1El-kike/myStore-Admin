@@ -23,7 +23,6 @@ export const useEjecut = ({ url,submit } :UseEjecutProps ) => {
 
   const { data, isLoadingData, errors } = state;
   
-  const { auth } = useAuth(); 
 
 
   const getFetch = async () => {

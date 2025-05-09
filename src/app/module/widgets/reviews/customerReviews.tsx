@@ -3,11 +3,25 @@ import { useEjecut } from "../../../hooks/useEjecut";
 import { Avatar, Spinner } from "@nextui-org/react";
 import { StarRating } from "../startRating";
 import { GoVerified } from "react-icons/go";
-import { HiOutlineHandThumbDown, HiOutlineHandThumbUp } from "react-icons/hi2";
+import { HiHandThumbUp, HiOutlineHandThumbDown, HiOutlineHandThumbUp } from "react-icons/hi2";
 import { MessageReviewLoading } from "../loading/LoadingReview";
+import axios from "axios";
+import { port } from "../../../../config/env";
+
 
 // Componente memoizado para evitar rerenders innecesarios
 const ReviewItem = React.memo(({ item }: { item: any }) => {
+  
+  const [datos, setdatos] = useState(item)
+
+  useEffect(() => {
+    if (item) {  
+      setdatos(item)
+    }
+  }, [item])
+  
+ 
+
   const formatDate = useCallback((dateString: string | Date) => {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
@@ -19,17 +33,45 @@ const ReviewItem = React.memo(({ item }: { item: any }) => {
     return new Intl.DateTimeFormat("en-US", options).format(date);
   }, []);
 
+  const sendlikeorNot = async (reviewId:number,type:'like'| 'dontLike') =>{
+    switch (type) {
+      case 'like':
+        try {
+          if (true) {
+            console.log("entro")
+            await axios.put(port + `review/like/${reviewId}`)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+        break;
+       case 'dontLike':
+        try {
+          if (true) {
+            console.log("entro")
+            await axios.put(port + `review/like/${reviewId}`)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+        break;
+    }
+   
+  }
+
+
+
   return (
     <div className="flex flex-col md:flex-row justify-between w-[90%] m-5">
-      <div className="flex w-full mb-3 md:mb-0 md:flex-col gap-5 md:gap-1 items-center md:w-[20%]">
+      <div className="flex w-full mb-3 md:mb-0 md:flex-col gap-5 md:gap-1 items-center  md:w-[20%]">
         <Avatar
           isBordered
           className="w-14 h-14"
           src="https://i.pravatar.cc/150?u=a04258114e29026708c"
         />
-        <div>
-          <p>{item?.user?.name}</p>
-          <p className="text-sm text-gray-500">{formatDate(item.createdAt)}</p>
+        <div className="text-center">
+          <p>{datos?.user?.name}</p>
+          <p className="text-sm text-gray-500">{formatDate(datos.createdAt)}</p>
         </div>
       </div>
       <div className="flex flex-col gap-2 pl-3 w-[95%] md:w-[70%]">
@@ -38,15 +80,15 @@ const ReviewItem = React.memo(({ item }: { item: any }) => {
           <GoVerified />
           <p>Verified purchase</p>
         </div>
-        <p>{item?.comment}</p>
+        <p>{datos?.comment}</p>
         <div className="flex mt-2 gap-2">
-          <div className="flex items-center gap-2 cursor-pointer">
-            <HiOutlineHandThumbUp />
-            <p className="text-sm">{item?.likes}</p>
+          <div onClick={() => sendlikeorNot(datos.id,'like')} className="flex items-center gap-2 cursor-pointer">
+            {false ?  <HiHandThumbUp className="text-red-500"/> :  <HiOutlineHandThumbUp /> }
+            <p className="text-sm">{datos?.likes}</p>
           </div>
-          <div className="flex items-center gap-2 cursor-pointer">
+          <div onClick={()=> sendlikeorNot(datos.id,'dontLike')} className="flex items-center gap-2 cursor-pointer">
             <HiOutlineHandThumbDown />
-            <p className="text-sm">{item?.notlikes || 0}</p>
+            <p className="text-sm">{datos?.notlikes || 0}</p>
           </div>
         </div>
       </div>
@@ -60,47 +102,66 @@ export const CustomerReviews = ({ productId,refreshFlag }: { productId: string ,
   const [hasMore, setHasMore] = useState(true);
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
+  const isFetching = useRef(false)
+  const isInitialLoad = useRef(true);
+
 
   const { data: reviewData, isLoadingData } = useEjecut({
-    url: `review/product/${productId}?page=${page}&limit=10`,
+    url: `review/product/${productId}?page=${page}&limit=10&refresh=${refreshFlag}`,
   });
-  useEffect(() => {
-    // Resetear datos y paginación
+
+// Efecto para resetear TODO al agregar nueva reseña
+useEffect(() => {
+  /* if (!isInitialMount.current) {  */// <- Evitar ejecución en el primer render
     setMergedData([]);
     setPage(1);
     setHasMore(true);
-  }, [refreshFlag]); // Se ejecuta cuando refreshFlag cambia
+    isFetching.current = false;
+    isInitialLoad.current = true;
+    // Desconectar observer existente
+    if (observer.current) {  observer.current.disconnect(); }
+  /* } */
+}, [refreshFlag]);
+
 
   // Efecto para acumular datos y verificar paginación
   useEffect(() => {
     if (reviewData) {
-      if (reviewData.length === 0) {
-        setHasMore(false);
-      } else {
-        setMergedData((prev) => [...prev, ...reviewData]);
+      setHasMore(reviewData.length > 0);
+    // Reemplazar datos en lugar de acumular cuando es una actualización
+      setMergedData((prev) => (page === 1 ? [...reviewData] : [...prev, ...reviewData]));
+      isFetching.current = false;
+       // Después de la carga inicial, permitir nuevas peticiones
+       if (isInitialLoad.current) {
+        isInitialLoad.current = false;
       }
     }
   }, [reviewData]);
 
-  // Efecto para el observer de scroll infinito
-  useEffect(() => {
-    if (isLoadingData || !hasMore) return;
 
-    const options = {
-      root: null,
-      rootMargin: "200px",
-      threshold: 0.1,
+  useEffect(() => {
+    const currentLoader = loaderRef.current;
+    if (!currentLoader || isLoadingData || !hasMore || isInitialLoad.current) return;
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && !isFetching.current) {
+        isFetching.current = true;
+        console.log("entro")
+        setPage(prev => prev + 1);
+      }
     };
 
-    observer.current = new IntersectionObserver((entries) => {
-      const firstEntry = entries[0];
-      if (firstEntry.isIntersecting) {
-        setPage((prev) => prev + 1);
-      }
-    }, options);
+    const newObserver = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: "200px",
+      threshold: 0.1
+    });
 
-    if (loaderRef.current) {
-      observer.current.observe(loaderRef.current);
+    // Reconectar observer solo si no está observando
+    if (!observer.current?.takeRecords().length) {
+      observer.current = newObserver;
+      newObserver.observe(currentLoader);
     }
 
     return () => {
@@ -108,7 +169,8 @@ export const CustomerReviews = ({ productId,refreshFlag }: { productId: string ,
         observer.current.disconnect();
       }
     };
-  }, [isLoadingData, hasMore]);
+  }, [mergedData.length, isLoadingData, hasMore, isInitialLoad.current]);
+
 
   return (
     <div className="flex flex-col mt-5 items-center w-full">
@@ -125,12 +187,16 @@ export const CustomerReviews = ({ productId,refreshFlag }: { productId: string ,
           </div>
         )}
         {!hasMore && mergedData.length > 0 && (
+           <div className="w-full flex justify-center items-center h-56">
           <p className="text-gray-500">No hay más reseñas para mostrar</p>
+          </div>
         )}
       </div>
 
       {!hasMore && mergedData.length === 0 && (
+         <div className="w-full flex justify-center items-center h-56">
         <p className="text-gray-500">Este producto no tiene reseñas aún</p>
+        </div>
       )}
     </div>
   );
