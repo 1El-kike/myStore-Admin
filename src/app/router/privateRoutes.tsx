@@ -2,26 +2,25 @@ import { lazy, FC, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { Layout } from "../module/layout/layout";
 import { Dashboard } from "../pages/dashboard/dashboard";
-import { Progress } from '@nextui-org/react';
+import { Progress } from "@nextui-org/react";
 import { ProductsPage } from "../pages/mananagerProduct/productsPage";
 import { OrderPage } from "../pages/orders/orderPage";
-  interface WithChildren {
-    children: React.ReactNode;
-  }
+interface WithChildren {
+  children: React.ReactNode;
+}
 
 export const PrivateRoutes = () => {
-
-  const StoresPage = lazy(()=> 
-    import('../pages/mannagerStores/storesRouter').then((module) => ({
+  const StoresPage = lazy(() =>
+    import("../pages/mannagerStores/storesRouter").then((module) => ({
       default: module.StoresRouter, // Asegúrate de que component sea la exportación nombrada
     }))
-  )
-  
+  );
+
   const SuspensedView: FC<WithChildren> = ({ children }) => {
     return (
       <Suspense
         fallback={
-          <div style={{ width: '100%', padding: '20px' }}>
+          <div style={{ width: "100%", padding: "20px" }}>
             <Progress
               isIndeterminate // Propiedad para mostrar una barra de progreso indefinida
               color="primary" // Define el color de la barra (usa colores predefinidos de NextUI)
@@ -43,25 +42,32 @@ export const PrivateRoutes = () => {
         {/* Pages */}
         <Route path="dashboard" element={<Dashboard />}></Route>
 
-        <Route path="stores/*" element={
-          <SuspensedView>
-            <StoresPage />
-          </SuspensedView>
-          }></Route>
-           <Route path="products/*" element={
-          <SuspensedView>
-            <ProductsPage />
-          </SuspensedView>
-          }></Route>
-          <Route path="orders/*" element={
+        <Route
+          path="stores/*"
+          element={
+            <SuspensedView>
+              <StoresPage />
+            </SuspensedView>
+          }
+        ></Route>
+        <Route
+          path="products/*"
+          element={
+            <SuspensedView>
+              <ProductsPage />
+            </SuspensedView>
+          }
+        ></Route>
+        <Route
+          path="orders/*"
+          element={
             <SuspensedView>
               <OrderPage />
             </SuspensedView>
-            }></Route>
+          }
+        ></Route>
         <Route path="*" element={<Navigate to="/error/404" />} />
       </Route>
     </Routes>
   );
 };
-
-

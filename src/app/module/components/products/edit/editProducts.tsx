@@ -5,21 +5,18 @@ import { DataUseEjecut, useEjecut } from "../../../../hooks/useEjecut";
 import useBack from "../../../../hooks/useBack";
 import { Toolbar } from "../../../widgets/Toolbar";
 import { Description } from "../../../widgets/description";
-import { Category } from "../../../widgets/category";
 import { Images } from "../../../widgets/addImage";
 import { Inventoy } from "../../../widgets/Inventoy";
 import { Selling_Type } from "../../../widgets/Selling_type";
 import { Submit } from "../../../widgets/Submit";
 import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import {
-  categoryProduct,
   Form_product,
 } from "../../../../../model/type_product";
 import { Shipping_Delivery } from "../../../widgets/Shipping_Delivery";
 import { Size } from "../../../widgets/size";
 import { Pricing } from "../../../widgets/Pricing";
 import { ErrorsItems } from "../../../errors/errorsItems";
-import { Loading_items } from "../../../widgets/loading/loading_items";
 import { LoadingFormulario } from "../../../widgets/loading/loadingFormulario";
 
 export const EditProducts = () => {

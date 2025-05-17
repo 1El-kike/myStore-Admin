@@ -69,10 +69,10 @@ export const SelectStoreforDelite = () => {
     closeModal();
   };
 
-  console.log(data);
 
   return (
-    <>
+    <div className=" flex flex-col justify-between h-screen">
+      <div>     
       <PageTitleInit />
       <div className="w-full">
         <div className="flex flex-auto flex-wrap gap-4 ml-10 mt-5">
@@ -130,7 +130,10 @@ export const SelectStoreforDelite = () => {
           )}
         </div>
       </div>
+      </div>
+      <div className="">
       <Toolbar action="Delite Stores" element="Admin of Store" />
-    </>
+      </div>
+    </div>
   );
 };

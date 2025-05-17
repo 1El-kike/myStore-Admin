@@ -3,8 +3,21 @@ import { FaArrowDown, FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { Dropdown } from "flowbite-react";
 import {Avatar} from "@nextui-org/react";
 import { useAuth } from "../../auth/core/Auth";
-export const User = () => {
+import { useDashboardData } from "../../../hooks/useDashboardData";
+
+interface TypeData{
+  entityType:string
+}
+
+export const User:React.FC<TypeData> = ({entityType}) => {
   const { currentUser } = useAuth();
+    const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
+
+  
+
+// Muestra estados de carga y error
+if (isLoading) return <div>Cargando...</div>;
+if (isError) return <div>Error cargando datos</div>;
 
   return (
     <aside className="flex animate-opacity h-1/2 gap-5 flex-col flex-grow justify-center items-center">
@@ -26,7 +39,7 @@ export const User = () => {
             <span>
               <p>Incorme</p>
               <p className="text-2xl">
-                <b>$62,569</b>
+                <b>${dashboardData && Math.floor(dashboardData?.income) || "00.00"  }</b>
               </p>
             </span>
             <div className="h-full flex justify-end w-1/3">
@@ -54,7 +67,7 @@ export const User = () => {
             <span>
               <p>Expense</p>
               <p className="text-2xl">
-                <b>$62,569</b>
+                <b>${dashboardData && Math.floor(dashboardData?.expense) || "00.00"}</b>
               </p>
             </span>
             <div className="h-full items-start flex justify-end w-1/3">

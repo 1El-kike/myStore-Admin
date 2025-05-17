@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "../../module/components/dashboard/card";
 import { LastTransactions } from "../../module/components/dashboard/lastTransactions";
 import { User } from "../../module/components/dashboard/user";
 import { Moneyflow } from "../../module/components/dashboard/moneyflow";
-import { PUBLIC_URL } from "../../../config/env";
+import { port, PUBLIC_URL } from "../../../config/env";
+import { useWebSocket } from "../../hooks/useWebSocket";
+
 
 export const Dashboard = () => {
+
+  useWebSocket( window.location.hostname === 'localhost' 
+    ? `ws://localhost:3450`
+    : `wss://${window.location.host}`)
+
+
   return (
     <>
       <div className="flex overflow-clip flex-wrap-reverse relative w-full">
@@ -26,12 +34,12 @@ export const Dashboard = () => {
             <Card />
           </div>
           <div className="flex flex-col w-full mt-4 h-full">
-            <LastTransactions />
+            <LastTransactions entityType='transactions'/>
           </div>
         </div>
         <div className="flex flex-col mt-5 flex-grow basis-1/3">
           {/* componente de User */}
-          <User />
+          <User  entityType='moneyinfflow'/>
           <Moneyflow />
         </div>
       </div>

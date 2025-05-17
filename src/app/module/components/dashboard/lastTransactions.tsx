@@ -1,9 +1,14 @@
-import { Table } from "flowbite-react";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { TablesLastTrans } from "../../widgets/tablelastTransation";
+import { Entity } from "../../../../interface/typeswebSocket";
 
-export const LastTransactions = () => {
+interface DataTable {
+  entityType:string
+}
+
+export const LastTransactions = ({entityType}:DataTable) => {
+
   return (
     <div className="animate-appearance-in">
       <div className="flex w-full my-4 mb-auto justify-between">
@@ -15,7 +20,7 @@ export const LastTransactions = () => {
         </div>
       </div>
       <div className="mt-3">
-        <TablesLastTrans datos={""} />
+        <TablesLastTrans entityType={entityType} />
       </div>
     </div>
   );

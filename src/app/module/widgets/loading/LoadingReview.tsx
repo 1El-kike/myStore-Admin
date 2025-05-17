@@ -1,13 +1,12 @@
 import { Skeleton, Spinner } from "@nextui-org/react";
 import React from "react";
-import { FaPencilAlt } from "react-icons/fa";
 
 export const MessageReviewLoading = () => (
     <div className="flex border-t-1 w-full">
     <div className="flex  flex-col mt-5 items-center w-full">
       <div className="flex flex-col md:flex-row justify-between w-[90%] m-5">
         <div className="flex w-60   mb-3 md:mb-0 md:flex-col gap-5 md:gap-1 items-center md:w-[20%]">
-          <Skeleton className="w-20 h-20  rounded-full" />
+          <Skeleton className="w-16 h-16  rounded-full" />
           <div className="w-60 rounded-md items-center flex flex-col gap-2">
             <Skeleton className="w-[60%] rounded-md h-4" />
             <Skeleton className="w-[40%] h-4 rounded-md" />

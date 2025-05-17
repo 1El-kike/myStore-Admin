@@ -355,6 +355,18 @@ export const Watch = () => {
     { id: 4, text: "The rubber outsle adds traction and durability." },
   ];
 
+  const {
+    data: reviewData,
+    errors:err,
+    isLoadingData:load,
+  } = useEjecut({
+    url: `review/stats/${id}`,
+  });
+
+  const totalReviews =
+  reviewData?.reduce((acc: any, curr: any) => acc + curr.count, 0) || 0;
+
+
   const DataTabs: Option[] = [
     {
       option: "Description ",
@@ -365,7 +377,7 @@ export const Watch = () => {
       option: "Reviews",
       component: <Reviews productId={id} />,
       link: "",
-      badge: { color: "default", contex: 8 },
+      badge: { color: "default", contex: totalReviews },
     },
   ];
 
