@@ -2,78 +2,80 @@ import React, { useEffect, useState } from "react";
 import { HiArrowUpCircle } from "react-icons/hi2";
 import { useFormContext, Controller } from "react-hook-form";
 import { port, PUBLIC_URL } from "../../../config/env";
+import { Image } from "@nextui-org/react";
 
 interface Typeimage {
-  data:string;
-  label:string
-  imagenDefault?: string | null
+  data: string;
+  label: string;
+  imagenDefault?: string | null;
 }
 
-export const Images:React.FC<Typeimage> = ({data,label,imagenDefault}) => {
-
-
+export const Images: React.FC<Typeimage> = ({ data, label, imagenDefault }) => {
   const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const { control,watch,formState: { errors,isSubmitSuccessful } ,setValue} = useFormContext();
-
-useEffect(() => {
-  
-  if (imagenDefault) {
-    setImagePreview([port + imagenDefault])
-  setValue(data,imagenDefault) 
-  }
-
-}, [imagenDefault])
+  const {
+    control,
+    watch,
+    formState: { errors, isSubmitSuccessful },
+    setValue,
+  } = useFormContext();
 
   useEffect(() => {
-   if (isSubmitSuccessful && !imagenDefault) {
-    setImagePreview([])
-    //setValue(data, [])
-   }
+    if (imagenDefault) {
+      setImagePreview([port + imagenDefault]);
+      setValue(data, imagenDefault);
+    }
+  }, [imagenDefault]);
 
-  }, [isSubmitSuccessful]) 
+  useEffect(() => {
+    if (isSubmitSuccessful && !imagenDefault) {
+      setImagePreview([]);
+      //setValue(data, [])
+    }
+  }, [isSubmitSuccessful]);
 
-   useEffect(() => {
-      const subscription = watch((value) => {
-        if (!value[data]) {
-          setImagePreview([]); // Restablece a null si no hay tipo de venta seleccionado
+  useEffect(() => {
+    const subscription = watch((value) => {
+      if (!value[data]) {
+        setImagePreview([]); // Restablece a null si no hay tipo de venta seleccionado
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+  const handleImage = (files: FileList | null) => {
+    if (files) {
+      const newimage = Array.from(files).map((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        return new Promise<string>((res) => {
+          reader.onloadend = () => res(reader.result as string);
+        });
+      });
+
+      Promise.all(newimage).then((urls) => {
+        if (!errors[data]) {
+          setImagePreview((prev: any) => [...prev.slice(-2), ...urls]);
+          setValue(data, Array.from(files));
         }
       });
-  
-      return () => subscription.unsubscribe();
-    }, [watch]);
-
-  const handleImage =(files:FileList | null )=>{
-     if (files) {
-       const newimage = Array.from(files).map(file =>{
-         const reader = new FileReader();
-         reader.readAsDataURL(file);
-         return new Promise<string>((res)=>{
-           reader.onloadend = () => res(reader.result as string)
-         });
-       });
- 
-       Promise.all(newimage).then((urls)=>{
-         if(!errors[data]){
-           setImagePreview((prev:any) =>[...prev.slice(-2),...urls]);
-           setValue(data, Array.from(files));
-    
-         }
-       })
-     }
-  
-  }
-
+    }
+  };
 
   return (
     <>
       <h1 className="text-2xl mt-5 font-bold flex items-center gap-2">
-       {label} <HiArrowUpCircle />
+        {label} <HiArrowUpCircle />
       </h1>
-      <div className="shadow-xl pb-10 shadow-slate-200 border my-5 px-3 py-7 md:flex gap-4  border-gray-300 rounded-2xl">
-        <div className="grow  basis-44">
+      <div className="shadow-xl shadow-slate-200 pb-5 border my-5 px-3  md:flex gap-4  border-gray-300 rounded-2xl">
+        <div className="grow my-4 basis-44">
           <label
             htmlFor="dropzone-file"
-            className={`${errors[data] ? "border-red-500 bg-red-50" : "bg-gray-50 border-gray-300"} flex relative h-full flex-col items-center justify-center w-full h-34 border-2  border-dashed rounded-lg cursor-pointer   hover:bg-gray-100 `}
+            className={`${
+              errors[data]
+                ? "border-red-500 bg-red-50"
+                : "bg-gray-50 border-gray-300"
+            } flex relative h-full flex-col items-center justify-center w-full h-34 border-2  border-dashed rounded-lg cursor-pointer   hover:bg-gray-100 `}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
@@ -92,30 +94,46 @@ useEffect(() => {
                 />
               </svg>
               <p className="mb-2 text-center text-sm text-gray-500 ">
-                <span className={ ` ${errors[data] && "text-red-500"} italic font-semibold`}>Click to upload</span> or drag
-                and drop
+                <span
+                  className={` ${
+                    errors[data] && "text-red-500"
+                  } italic font-semibold`}
+                >
+                  Click to upload
+                </span>{" "}
+                or drag and drop
               </p>
             </div>
             <Controller
               name={data} // Nombre del campo en el formulario
               control={control}
               rules={{
-                required:"This field is required",
+                required: "This field is required",
                 validate: {
                   fileType: (value) => {
-                    if (!value || value.length === 0) return "La imagen es requerida";
-                    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                    if (!value || value.length === 0)
+                      return "La imagen es requerida";
+                    const validTypes = ["image/jpeg", "image/png", "image/gif"];
                     if (!imagenDefault) {
-                      return Array.from(value).every((file:any ) => validTypes.includes(file.type))  || "Type of file is not validate";
+                      return (
+                        Array.from(value).every((file: any) =>
+                          validTypes.includes(file.type)
+                        ) || "Type of file is not validate"
+                      );
                     }
                   },
                   fileSize: (value) => {
-                    if (!value || value.length === 0) return "La imagen es requerida";
+                    if (!value || value.length === 0)
+                      return "La imagen es requerida";
                     if (!imagenDefault) {
-                      return Array.from(value).every((file:any) => file.size <= 2000000) || "File size must be less than 2MB"; // Limitar a 2MB
-                      }
-                  }
-                }
+                      return (
+                        Array.from(value).every(
+                          (file: any) => file.size <= 2000000
+                        ) || "File size must be less than 2MB"
+                      ); // Limitar a 2MB
+                    }
+                  },
+                },
               }}
               render={({ field }) => (
                 <input
@@ -124,18 +142,22 @@ useEffect(() => {
                   multiple={true}
                   //accept="image/*" // Aceptar solo imágenes
                   className="hidden"
-                  onChange={(e) => { 
+                  onChange={(e) => {
                     handleImage(e.target.files);
-                    field.onChange(e.target.files)
+                    field.onChange(e.target.files);
                   }}
                 />
               )}
             />
-           
-            {errors[data] && <span className="text-red-500 absolute italic -bottom-9 l-0">{ errors[data].message }</span>} 
+
+            {errors[data] && (
+              <span className="text-red-500 hidden md:block absolute italic w-52 -bottom-7 left-0">
+                {errors[data].message}
+              </span>
+            )}
           </label>
         </div>
-        <div className="grow flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">
+        <div className="grow  my-4 flex justify-center items-center md:w-52 overflow-clip bg-gray-400 after:bg-slate-950 after:contents rounded-2xl relative">
           <div className="absolute z-20 w-full bg-black h-full rounded-2xl bg-opacity-30  flex flex-col justify-center items-center gap-2">
             <button
               type="button"
@@ -154,14 +176,47 @@ useEffect(() => {
               Remove
             </button>
           </div>
-          <img alt="" className="scale-150 " src={imagePreview.length > 0 ?  imagePreview[0]  : `${PUBLIC_URL}description/image(2).png` }></img>
-        </div>
-        <div className="grow">
-          <div className="md:w-36 overflow-clip h-28 justify-center items-center flex rounded-2xl mb-2 bg-yellow-700">
-          <img alt="" className=" scale-150 bg-slate-100  bg-opacity-50 " src={imagePreview.length > 1 ? imagePreview[1] : `${PUBLIC_URL}description/image.png`}></img>
+          <div className="flex  w-full h-full justify-center items-center">
+            <Image
+              isBlurred
+              alt="Album Cover"
+              //height={230}
+              className="max-h-[230px]"
+              src={
+                imagePreview.length > 0
+                  ? imagePreview[0]
+                  : `${PUBLIC_URL}description/image(2).png`
+              }
+            />
           </div>
-          <div className="md:w-36 bg-lime-200 overflow-clip  justify-center items-center flex rounded-2xl h-28">
-          <img alt="" className="scale-150 bg-slate-800  bg-opacity-50" src={imagePreview.length > 2 ? imagePreview[2] : `${PUBLIC_URL}description/IMAGE.jpg`}></img>
+        </div>
+        <div className="grow my-4 flex gap-3 md:gap-0 md:flex-col ">
+          <div className="md:w-36 grow  basis-1/2 overflow-clip h-28 justify-center items-center flex rounded-2xl mb-2 bg-yellow-700">
+            <div className=" scale-150 bg-slate-100  bg-opacity-50 ">
+              <Image
+                isBlurred
+                height={120}
+                className=""
+                alt="Album Cover"
+                src={
+                  imagePreview.length > 1
+                    ? imagePreview[1]
+                    : `${PUBLIC_URL}description/image.png`
+                }
+              />
+            </div>
+          </div>
+          <div className="md:w-36 grow basis-1/2 overflow-clip h-28 justify-center items-center flex rounded-2xl  bg-lime-200">
+            <Image
+              isBlurred
+              alt="Album Cover"
+              height={120}
+              src={
+                imagePreview.length > 2
+                  ? imagePreview[2]
+                  : `${PUBLIC_URL}description/IMAGE.jpg`
+              }
+            />
           </div>
         </div>
       </div>

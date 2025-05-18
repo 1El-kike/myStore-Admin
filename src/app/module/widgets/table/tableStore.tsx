@@ -83,7 +83,7 @@ export const Tables: FC<TableData> = ({ columns, isDetails,notId }) => {
       >
         {(item: any) => (
           <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{render(item, columnKey)}</TableCell>}
+            {(columnKey) => <TableCell className="">{render(item, columnKey)}</TableCell>}
           </TableRow>
         )}
       </TableBody>

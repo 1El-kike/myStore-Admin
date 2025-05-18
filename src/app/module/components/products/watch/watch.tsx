@@ -5,17 +5,11 @@ import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import { port } from "../../../../../config/env";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { StarRating } from "../../../widgets/startRating";
-import {
-  FaHeart,
-  FaPencilAlt,
-  FaPlus,
-  FaShare,
-  FaStoreAlt,
-} from "react-icons/fa";
+import { FaHeart, FaPlus, FaShare, FaStoreAlt } from "react-icons/fa";
 import { MdAccessTimeFilled, MdFireTruck } from "react-icons/md";
 import {
   Button,
-  Progress,
+  Image,
   Table,
   TableBody,
   TableCell,
@@ -29,8 +23,6 @@ import { TabsNext } from "../../../widgets/tabs";
 import { Option } from "../../../../../interface/TypeTabs";
 import LoadingWatch from "../../../widgets/loading/loadingWatch";
 import { ErrorsItems } from "../../../errors/errorsItems";
-import ProgressReviews from "../../../widgets/reviews/progressReviews";
-import { CustomerReviews } from "../../../widgets/reviews/customerReviews";
 import { Reviews } from "../../../widgets/reviews/review";
 
 interface ReviewStats {
@@ -85,12 +77,15 @@ export const Watch = () => {
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {children?.map((image: any) => (
-              <div key={image?.id} className="w-full h-[500px] flex-shrink-0">
-                <img
-                  className="w-full h-full object-cover"
-                  src={port + image?.url}
-                  alt=""
-                />
+              <div key={image?.id} className="w-full flex-shrink-0">
+                <div className="w-auto  object-cover">
+                  <Image
+                    isBlurred
+                    className="aspect-square"
+                    alt="Album Cover"
+                    src={port + image?.url}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -107,15 +102,19 @@ export const Watch = () => {
                   key={image?.id}
                   className={`w-full flex-shrink-0 `}
                 >
-                  <img
-                    className={`w-full h-full rounded-2xl ${
+                  <div className={`w-full h-full rounded-2xl ${
                       currentIndex == index
-                        ? " scale-105 border-2 border-red-500 duration-300 z-10"
-                        : "opacity-65"
-                    } object-cover`}
+                      ? " scale-105 border-2 border-red-500 duration-300 z-10"
+                      : "opacity-65 z-20"
+                    } object-cover`}>
+                  <Image
+                    isBlurred
+                    
+                    width={"100%"}
+                    alt="Album Cover"
                     src={port + image?.url}
-                    alt=""
-                  />
+                    />
+                    </div>
                 </div>
               ))}
             </div>
@@ -272,7 +271,6 @@ export const Watch = () => {
     );
   };
 
-
   const Description = ({
     details,
     benefits,
@@ -357,15 +355,14 @@ export const Watch = () => {
 
   const {
     data: reviewData,
-    errors:err,
-    isLoadingData:load,
+    errors: err,
+    isLoadingData: load,
   } = useEjecut({
     url: `review/stats/${id}`,
   });
 
   const totalReviews =
-  reviewData?.reduce((acc: any, curr: any) => acc + curr.count, 0) || 0;
-
+    reviewData?.reduce((acc: any, curr: any) => acc + curr.count, 0) || 0;
 
   const DataTabs: Option[] = [
     {

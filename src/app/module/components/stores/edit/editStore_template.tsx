@@ -15,12 +15,12 @@ import { Selling_Type } from "../../../widgets/Selling_type";
 import { Submit } from "../../../widgets/Submit";
 import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import { ErrorsItems } from "../../../errors/errorsItems";
-import { LoadingFormulario } from "../../../widgets/loading/loadingFormulario";
+import { LoadingAddProduct } from "../../../widgets/loading/loadingAddItem";
 
 export const EditStore_template = () => {
   const id = useParams();
   const methods = useForm(Form_stores);
-  const { data,isLoadingData,errors }: DataUseEjecut = useEjecut({
+  const { data, isLoadingData, errors }: DataUseEjecut = useEjecut({
     url: `stores/${id.id}`,
     submit: methods.formState.isSubmitting,
   });
@@ -48,7 +48,6 @@ export const EditStore_template = () => {
         tipo: data.tipo,
         website_admin: data.website_admin,
       });
-      
     }
     setInitialData(data);
   }, [data, methods]);
@@ -65,16 +64,23 @@ export const EditStore_template = () => {
   return (
     <>
       <div className="z-30 overflow-clip w-full">
-        <Toolbar element="stores" action="Update Store" info={data} />
+        {errors ? (
+          <>
+            <Toolbar element="stores" action="Update Store" info={data} />
+            <div className="m-10 pb-16 justify-center ">
+              <ErrorsItems />
+            </div>
+          </>
+        ) : isLoadingData ? (
+          <>
+            <Toolbar element="stores" action="Update Store" info={data} />
+            <LoadingAddProduct />
+          </>
+        ) : (
+          <Toolbar element="stores" action="Update Store" info={data} />
+        )}
+
         <PageTitleInit />
-         {errors ? (
-                  <div className="m-10 pb-16 justify-center ">
-                  <ErrorsItems />
-                  </div>
-                ) : isLoadingData ? (
-                    <LoadingFormulario />
-                ) : (
-                  data && (
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
@@ -123,7 +129,7 @@ export const EditStore_template = () => {
               </div>
             </div>
           </form>
-        </FormProvider> ) ) }
+        </FormProvider>
       </div>
     </>
   );

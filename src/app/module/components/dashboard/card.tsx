@@ -6,6 +6,7 @@ import { MdOutlineInventory } from "react-icons/md";
 import { Option } from "../../../../interface/TypeTabs";
 import { TabsNext } from "../../widgets/tabs";
 import { PUBLIC_URL } from "../../../../config/env";
+import { Image } from "@nextui-org/react";
 
 export const Card = () => {
   const TarjetaCdredit = () => {
@@ -14,11 +15,16 @@ export const Card = () => {
         <div className="pt-4 flex-col gap-10 md:gap-0 flex md:flex-row items-center mb-2 justify-around">
           {/* Tarjeta de credit */}
           <div className=" w-80 ">
-            <img
-              src={`${PUBLIC_URL}tarjeta-credito.png`}
-              className="drop-shadow-2xl "
-              alt=""
+            <div  className="drop-shadow-2xl ">
+
+            <Image
+            isBlurred
+            alt="Album Cover"
+            className=""
+            src={`${PUBLIC_URL}tarjeta-credito.png`}
+            width={"100%"}
             />
+            </div>
           </div>
           <div>
             <Table className="">

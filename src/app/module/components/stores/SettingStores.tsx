@@ -11,7 +11,7 @@ export const SettingStores = () => {
         <div className="absolute blur-sm w-screen -top-16 -z-20 -left-32 aspect-auto">
           {/*   <img src="/home/home.jpg" className='clip-store fixed' alt="" /> */}
         </div>
-        <div className="md:w-[60%] animate-opacityonly w-full flex gap-2 flex-col mx-4 h-[79.2%]">
+        <div className="md:w-[60%] animate-opacityonly w-full flex gap-2 mr-10 flex-col md:mx-4 h-[79.2%]">
           <div className="w-full bg-gradient-to-l from-violet-950 via-blue-800 to-blue-950  rounded-lg h-[30%] md:h-[64.9%] overflow-hidden">
             <AddStores />
           </div>
@@ -20,7 +20,7 @@ export const SettingStores = () => {
             <div className="w-full h-full  md:grow bg-lime-500">""</div>
           </div>
         </div>
-        <div className="md:w-[30%] w-full animate-appearance-in flex flex-col mx-4 md:mx-0 gap-2 h-[100%]">
+        <div className="md:w-[30%] w-full animate-appearance-in flex flex-col mr-10 lg:mx-4 md:mx-0 gap-2 h-[100%]">
           <div className="w-full h-[25%] bg-gradient-to-l from-teal-300 overflow-clip via-teal-500 to-teal-700  rounded-lg">
             <EditStores />
           </div>

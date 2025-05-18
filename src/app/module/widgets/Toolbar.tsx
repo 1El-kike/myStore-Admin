@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Tooltip } from "flowbite-react";
 import { TypeStore } from "../../../interface/typestore";
 import { port, PUBLIC_URL } from "../../../config/env";
+import { Image } from "@nextui-org/react";
 
 interface Type {
   element: string;
@@ -16,23 +17,40 @@ interface Type {
 export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
   return (
     <>
-      <div className="md:flex flex-col lg:flex-row animate-appearance-in relative justify-between">
+      <div className="md:flex flex-col lg:flex-row animate-appearance-ins relative justify-between">
         {info && (
           <>
             <div className="absolute w-full overflow-hidden opacity-10 h-full">
-              <img src={port + info?.imgfondo} className="w-full " alt="" />
+              <div className="w-full top-0">
+                <Image
+                  isBlurred
+                  className=""
+                  width={"100%"}
+                  alt="Album Cover"
+                  src={port + info?.imgfondo}
+                />
+              </div>
             </div>
             <div>
-              <img
-                src={`${PUBLIC_URL}products2.png`}
-                className="absolute hidden lg:block bottom-0 animate-transition"
-                alt=""
-              />
-              <img
-                src={`${PUBLIC_URL}products.png`}
-                className="absolute hidden lg:block left-60 bottom-4 animate-transitionleft"
-                alt=""
-              />
+              <div  className="absolute hidden lg:block bottom-0 animate-transition">
+              <Image
+                  isBlurred
+                  className="-z-0"
+                  width={"100%"}
+                  alt="Album Cover"
+                  src={`${PUBLIC_URL}products2.png`}
+                />
+              </div>
+              <div  className="absolute hidden lg:block left-60 bottom-4 animate-transitionleft">
+              <Image
+                  isBlurred
+                  className=""
+                  width={"100%"}
+                  alt="Album Cover"
+                  src={`${PUBLIC_URL}products.png`}
+                />
+              </div>
+             
             </div>
           </>
         )}
@@ -60,19 +78,26 @@ export const Toolbar: React.FC<Type> = ({ element, action, info }) => {
               </div>
               <div className="absolute bg-gradient-to-br blur from-transparent via-transparent to-purple-950 rounded-s-3xl w-lvw h-20 right-0 bottom-0"></div>
               <div className="absolute top-4 right-3 w-full h-4/5 rounded-lg overflow-hidden">
-                <div className="w-full absolute h-full  bg-gradient-to-t via-white from-white to-transparent z-10"></div>
-                <img
+                <div className="w-full absolute h-full  bg-gradient-to-t via-white from-white to-transparent z-20"></div>
+                <div className="aspect-auto w-full">
+                  <Image
+                  isBlurred
+                  className=""
+                  alt="Album Cover"
                   src={port + info.imgPortada}
-                  className=" aspect-auto w-full"
-                  alt=""
                 />
+                  </div>
               </div>
               <div className="z-30 w-full">
-                <img
+                <div  className="absolute hidden md:flex justify-center items-center overflow-hidden  bg-gradient-to-tr from-violet-300 to-rose-300 -right-10 rounded-full shadow-2xl shadow-violet-950  -bottom-10 w-56 h-56 z-20 aspect-auto">
+                <Image
+                  isBlurred
+                  className="scale-150 h-[150px]"
+                  alt="Album Cover"
                   src={port + info.imgStore}
-                  className="absolute hidden md:block  -right-10 rounded-full shadow-2xl shadow-violet-950 -bottom-10 w-56 h-56 z-20 aspect-auto"
-                  alt=""
                 />
+                </div>
+               
                 <h1 className="z-30 text-6xl md:mt-16  line-clamp-1 mr-auto font-black text-slate-950">
                   {info.name}
                 </h1>

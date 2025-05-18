@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { categoryProduct, Form_product } from "../../../../../model/type_product";
+import {
+  categoryProduct,
+  Form_product,
+} from "../../../../../model/type_product";
 import useBack from "../../../../hooks/useBack";
 import { port } from "../../../../../config/env";
 import { useEjecut } from "../../../../hooks/useEjecut";
@@ -17,7 +20,8 @@ import { Pricing } from "../../../widgets/Pricing";
 import { Submit } from "../../../widgets/Submit";
 import { PageTitleInit } from "../../../layout/tollbar/tiltleInit";
 import { useAuth } from "../../../auth/core/Auth";
-import { LoadingAddProduct } from "../../../widgets/loading/loadingAddProduct";
+import { LoadingAddProduct } from "../../../widgets/loading/loadingAddItem";
+import { ErrorsItems } from "../../../errors/errorsItems";
 
 // Definimos la interfaz para los datos del formulario
 
@@ -58,7 +62,9 @@ export const AddProducts: React.FC = () => {
     }
   };
 
-  const { data,errors,isLoadingData } = useEjecut({ url: `stores/${idStore}` });
+  const { data, errors, isLoadingData } = useEjecut({
+    url: `stores/${idStore}`,
+  });
 
   useEffect(() => {
     if (result) {
@@ -73,18 +79,25 @@ export const AddProducts: React.FC = () => {
   return (
     <>
       <div className="z-30 overflow-clip w-full">
-        {error ? <>
-          <Toolbar element={"products"} action={`Add New Product`}  />
-            <p>Error...</p>
-        </>
-          : isLoadingData ? 
+        {errors ? (
           <>
-          <Toolbar element={"products"} action={`Add New Product`}  />
-            <LoadingAddProduct/>
-        </>
-          :
-           <Toolbar element={"products"} action={`Add New Product`} info={data}  />
-      }
+            <Toolbar element={"products"} action={`Add New Product`} />
+            <div className="m-10 pb-16 justify-center ">
+              <ErrorsItems />
+            </div>
+          </>
+        ) : isLoadingData ? (
+          <>
+            <Toolbar element={"products"} action={`Add New Product`} />
+            <LoadingAddProduct />
+          </>
+        ) : (
+          <Toolbar
+            element={"products"}
+            action={`Add New Product`}
+            info={data}
+          />
+        )}
         <PageTitleInit />
         <FormProvider {...methods}>
           <form
@@ -120,7 +133,6 @@ export const AddProducts: React.FC = () => {
                 <div className="animate-opacity">
                   <Size />
                 </div>
-                
               )}
               <Pricing />
               <div>

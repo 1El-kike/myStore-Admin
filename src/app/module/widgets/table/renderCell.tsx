@@ -116,7 +116,7 @@ export const renderCell = (
       );
     case "role":
       return (
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-32">
           <p className="text-bold text-sm capitalize text-teal-400">
             +1 {datos.phone}
           </p>
