@@ -96,13 +96,13 @@ export const ProductMain = () => {
             <div
               className="absolute top-0 left-0 scale-125 h-auto "
             >
-            <Image
-              isBlurred
-              alt="Album Cover"
-              className=""
-              src={`${PUBLIC_URL}product/productList.jpg`}
+              <Image
+                isBlurred
+                alt="Album Cover"
+                className=""
+                src={`${PUBLIC_URL}product/productList.jpg`}
               />
-              </div>
+            </div>
             <div className="w-full h-full absolute bg-gradient-to-l from-violet-500 to-rose-500  opacity-80 clip-path"></div>
             <div className="rounded-3xl uppercase duration-400 hover:scale-110 backdrop-blur-md my-10 z-30 w-[60%] pb-10">
               <Link to={"/products/watch"}>
@@ -127,12 +127,12 @@ export const ProductMain = () => {
     <>
       <PageTitleInit />
       <div className="flex md:flex-col lg:flex-row flex-wrap w-full justify-center items-center">
-        <div className="grow w-full lg:w-[50%] gap-5 p-10 flex flex-col md:flex-row flex-wrap">
+        <div className="grow w-full lg:w-[50%] gap-5 p-10 flex flex-col md:flex-row flex-wrap animate-opacityonly">
           <AddProducts />
           <EditProducts />
           <DeliteProducts />
         </div>
-        <div className="grow w-full lg:w-[50%] gap-5 p-10 flex flex-col md:flex-row flex-wrap ">
+        <div className="grow w-full lg:w-[50%] gap-5 p-10 flex flex-col md:flex-row flex-wrap animate-appearance-in">
           <ListProducts />
         </div>
       </div>
