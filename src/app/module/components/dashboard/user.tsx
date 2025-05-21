@@ -1,32 +1,34 @@
 import React from "react";
 import { FaArrowDown, FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { Dropdown } from "flowbite-react";
-import {Avatar} from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 import { useAuth } from "../../auth/core/Auth";
 import { useDashboardData } from "../../../hooks/useDashboardData";
+import { formatCount } from "../../../utils/formatCount";
 
-interface TypeData{
-  entityType:string
+interface TypeData {
+  entityType: string
 }
 
-export const User:React.FC<TypeData> = ({entityType}) => {
+export const User: React.FC<TypeData> = ({ entityType }) => {
   const { currentUser } = useAuth();
-    const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
+  const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
 
-  
+  const income = formatCount(dashboardData?.income)
+  const expense = formatCount(dashboardData?.expense)
 
-// Muestra estados de carga y error
-if (isLoading) return <div>Cargando...</div>;
-if (isError) return <div>Error cargando datos</div>;
+  // Muestra estados de carga y error
+  if (isLoading) return <div>Cargando...</div>;
+  if (isError) return <div>Error cargando datos</div>;
 
   return (
     <aside className="flex animate-opacity h-1/2 gap-5 flex-col flex-grow justify-center items-center">
       <div className="flex leading-none flex-col justify-center items-center flex-grow">
-      <Avatar
-      isBordered
-        className="w-20 h-20 text-large"
-        src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-      />
+        <Avatar
+          isBordered
+          className="w-20 h-20 text-large"
+          src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+        />
         <p className="mt-2">Welcome back</p>
         <h1 className="font-bold text-3xl">{currentUser?.name}</h1>
       </div>
@@ -39,7 +41,7 @@ if (isError) return <div>Error cargando datos</div>;
             <span>
               <p>Incorme</p>
               <p className="text-2xl">
-                <b>${dashboardData && Math.floor(dashboardData?.income) || "00.00"  }</b>
+                <b>${dashboardData && income || "00.00"}</b>
               </p>
             </span>
             <div className="h-full flex justify-end w-1/3">
@@ -67,11 +69,11 @@ if (isError) return <div>Error cargando datos</div>;
             <span>
               <p>Expense</p>
               <p className="text-2xl">
-                <b>${dashboardData && Math.floor(dashboardData?.expense) || "00.00"}</b>
+                <b>${dashboardData && expense || "00.00"}</b>
               </p>
             </span>
             <div className="h-full items-start flex justify-end w-1/3">
-            <Dropdown
+              <Dropdown
                 placement="left-start"
                 size="sm"
                 label=""

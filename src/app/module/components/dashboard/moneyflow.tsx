@@ -3,31 +3,32 @@ import ReactApexChart from "react-apexcharts";
 import DateCalendarServerRequest from "./DataTime";
 import { useDashboardData } from "../../../hooks/useDashboardData";
 
-
-interface TypeData{
-  entityType:string
+interface TypeData {
+  entityType: string;
 }
 
+export const Moneyflow: React.FC<TypeData> = ({ entityType }) => {
+  const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
 
-export const Moneyflow:React.FC<TypeData> = ({entityType}) => {
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading data</div>;
 
-     const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
+  const series = dashboardData ? [dashboardData?.del, dashboardData?.can] : null;
 
-// Muestra estados de carga y error
-if (isLoading) return <div>Cargando...</div>;
-if (isError) return <div>Error cargando datos</div>;
+  // Función para verificar si todos los valores son cero
+  const allValuesZero = (arr: number[] | null) => {
+    return arr?.every(num => num === 0) ?? false;
+  };
 
-
-const series =  [dashboardData?.del,dashboardData?.can]
 
   const ApexChart = () => {
-    const [state, setState] = React.useState({
+    const [state] = React.useState({
       series: series,
       options: {
-        colors: ['#128af3',"#FF4560",'#eed118', "#000"],
+        colors: ['#128af3', "#FF4560", '#eed118', "#000"],
         chart: {
           width: 300,
-          type: "donut" as "donut",
+          type: "donut" as const,
         },
         plotOptions: {
           pie: {
@@ -46,13 +47,9 @@ const series =  [dashboardData?.del,dashboardData?.can]
         },
         legend: {
           formatter: function (val: any, opts: any) {
-            const label = ["DELIVERED","CANCELLED",]
-
-            return label[opts.seriesIndex] + " - "  + opts.w.globals.series[opts.seriesIndex];
+            const label = ["DELIVERED", "CANCELLED"];
+            return `${label[opts.seriesIndex]} - ${opts.w.globals.series[opts.seriesIndex]}`;
           },
-        },
-        title: {
-          text: "",
         },
         responsive: [
           {
@@ -70,23 +67,27 @@ const series =  [dashboardData?.del,dashboardData?.can]
       },
     });
 
-
-    
     return (
-      
-      <div>
-        <div id="chart">
-          <ReactApexChart
-            options={state.options}
-            series={state.series}
-            type="donut"
-            width={380}
-          />
-        </div>
-        <div id="html-dist"></div>
+      <div id="chart">
+        <ReactApexChart
+          options={state.options}
+          series={state.series || [0, 0]}
+          type="donut"
+          width={380}
+        />
       </div>
     );
   };
+
+  const NoDataMessage = () => (
+    <div className="flex flex-col items-center justify-center h-full p-8 space-y-4">
+      <div className="text-6xl">📭</div>
+      <div className="text-center">
+        <h3 className="text-xl font-semibold text-gray-600">No Orders Data</h3>
+        <p className="text-gray-500">No orders have been placed yet</p>
+      </div>
+    </div>
+  );
 
   return (
     <div className="w-full animate-transition flex-col h-full flex items-center justify-center">
@@ -95,8 +96,12 @@ const series =  [dashboardData?.del,dashboardData?.can]
         <div className="relative ml-4 ms-4 mb-10">
           <DateCalendarServerRequest />
         </div>
-        <div className="mt-3">
-          <ApexChart />
+        <div className="mt-3 min-h-[300px] flex items-center justify-center">
+          {!series || allValuesZero(series) ? (
+            <NoDataMessage />
+          ) : (
+            <ApexChart />
+          )}
         </div>
       </div>
     </div>

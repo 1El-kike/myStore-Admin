@@ -9,55 +9,52 @@ import { PUBLIC_URL } from "../../../../config/env";
 import { Image } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useDashboardData } from "../../../hooks/useDashboardData";
-
-interface TypeData{
-  entityType:string
+import { formatCount } from '../../../utils/formatCount'
+interface TypeData {
+  entityType: string
 }
 
-export const Card:React.FC<TypeData> = ({entityType})  => {
+export const Card: React.FC<TypeData> = ({ entityType }) => {
 
-     const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
+  const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
 
+  const mony = formatCount(dashboardData?.totalAmount)
 
-     const formatMony = (mony:number) => {
-      const newvalue = mony
-      return newvalue
-     }
 
 
   const TarjetaCdredit = () => {
 
     // Muestra estados de carga y error
-  if (isLoading) return <div>Cargando...</div>;
-  if (isError) return <div>Error cargando datos</div>;
+    if (isLoading) return <div>Cargando...</div>;
+    if (isError) return <div>Error cargando datos</div>;
 
     return (
       <>
         <div className="pt-4 flex-col gap-10 md:gap-0 flex md:flex-row items-center mb-2 justify-around">
           {/* Tarjeta de credit */}
           <div className=" w-80 ">
-            <div  className="drop-shadow-2xl ">
+            <div className="drop-shadow-2xl ">
 
-            <Image
-            isBlurred
-            alt="Album Cover"
-            className=""
-            src={`${PUBLIC_URL}tarjeta-credito.png`}
-            width={"100%"}
-            />
+              <Image
+                isBlurred
+                alt="Album Cover"
+                className=""
+                src={`${PUBLIC_URL}tarjeta-credito.png`}
+                width={"100%"}
+              />
             </div>
           </div>
           <div>
             <Table className="">
               <Table.Head className="">
                 <Table.HeadCell className="bg-transparent text-2xl absolute -left-5 text-green-950 font-extrabold -top-9 line-clamp-1 w-full">
-                {`$ ${formatMony(dashboardData?.totalAmount) || "00.00"}`}
+                  {`$ ${mony || "00.00"}`}
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-transparent">
-                  {dayjs().set('month',dayjs().month()).format("MMMM")}
+                  {dayjs().set('month', dayjs().month()).format("MMMM")}
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-transparent">
-                  {dayjs().set('month',dayjs().month() -1 ).format("MMMM")}
+                  {dayjs().set('month', dayjs().month() - 1).format("MMMM")}
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="">
@@ -83,10 +80,10 @@ export const Card:React.FC<TypeData> = ({entityType})  => {
       </>
     );
   };
-  const DataTabs:Option[] = [
-   { option:"Universal card",component:<TarjetaCdredit/>, icon:<FaRegCreditCard size={22}/>,link:''},
-   { option:"Inventory",component:<TarjetaCdredit/>, icon:<MdOutlineInventory size={22} />,link:''},
-   { option:"Personnel",component:<TarjetaCdredit/>, icon:<ImUsers size={22} />,link:''},
+  const DataTabs: Option[] = [
+    { option: "Universal card", component: <TarjetaCdredit />, icon: <FaRegCreditCard size={22} />, link: '' },
+    { option: "Inventory", component: <TarjetaCdredit />, icon: <MdOutlineInventory size={22} />, link: '' },
+    { option: "Personnel", component: <TarjetaCdredit />, icon: <ImUsers size={22} />, link: '' },
   ]
 
   return (

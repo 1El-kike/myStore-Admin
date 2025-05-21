@@ -10,16 +10,16 @@ export type DashboardData = {
   moneyFlow: any[];
   income: number;
   expense: number;
-  lastTransactions:any[];
-  apexChart:{
-    del:number,
-    can:number
+  lastTransactions: any[];
+  apexChart: {
+    del: number,
+    can: number
   };
-  card:any[];
+  card: any[];
   // ... otros tipos según tu API
 };
 
-export const useWebSocket = (url: string,time:dayjs.Dayjs | null) => {
+export const useWebSocket = (url: string, time: dayjs.Dayjs | null) => {
   const queryClient = useQueryClient();
 
 
@@ -32,13 +32,13 @@ export const useWebSocket = (url: string,time:dayjs.Dayjs | null) => {
 
     // 1. Pedir datos iniciales al conectarse
     socket.on("connect", () => {
-      socket.emit("get-dashboard-data",time); // Dispara el evento del backend
+      socket.emit("get-dashboard-data", time); // Dispara el evento del backend
       queryClient.setQueryData(["socket-status"], "connected");
     });
 
     // 2. Recibir datos iniciales
     socket.on("dashboard-data", (data: DashboardData) => {
-      console.log(data);
+      //  console.log(data);
       queryClient.setQueryData(["moneyinfflow"], {
         income: data.income,
         expense: data.expense,
