@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
+import dayjs, { Dayjs } from "dayjs";
 
 export type DashboardData = {
   totalSales: number;
@@ -10,11 +11,17 @@ export type DashboardData = {
   income: number;
   expense: number;
   lastTransactions:any[];
+  apexChart:{
+    del:number,
+    can:number
+  };
+  card:any[];
   // ... otros tipos según tu API
 };
 
-export const useWebSocket = (url: string) => {
+export const useWebSocket = (url: string,time:dayjs.Dayjs | null) => {
   const queryClient = useQueryClient();
+
 
   useEffect(() => {
     const socket: Socket = io(url, {
@@ -25,18 +32,20 @@ export const useWebSocket = (url: string) => {
 
     // 1. Pedir datos iniciales al conectarse
     socket.on("connect", () => {
-      socket.emit("get-dashboard-data"); // Dispara el evento del backend
+      socket.emit("get-dashboard-data",time); // Dispara el evento del backend
       queryClient.setQueryData(["socket-status"], "connected");
     });
 
     // 2. Recibir datos iniciales
     socket.on("dashboard-data", (data: DashboardData) => {
-     // console.log(data);
+      console.log(data);
       queryClient.setQueryData(["moneyinfflow"], {
         income: data.income,
         expense: data.expense,
       });
-      queryClient.setQueryData(["card"], data.income);
+      queryClient.setQueryData(["card"], data.card);
+
+      queryClient.setQueryData(["apexChart"], data.apexChart);
       queryClient.setQueryData(["transactions"], data.lastTransactions);
     });
 

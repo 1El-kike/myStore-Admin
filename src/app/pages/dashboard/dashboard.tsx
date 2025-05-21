@@ -6,12 +6,21 @@ import { Moneyflow } from "../../module/components/dashboard/moneyflow";
 import { PUBLIC_URL } from "../../../config/env";
 import { useWebSocket } from "../../hooks/useWebSocket";
 import { Image } from "@nextui-org/react";
+import dayjs from "dayjs";
+
 
 export const Dashboard = () => {
+
+  const [filterTimeStart, setfilterTimeStart] = useState<dayjs.Dayjs | null>(
+      dayjs()
+    );
+    
+
   useWebSocket(
     window.location.hostname === "localhost"
       ? `ws://localhost:3450`
-      : `wss://${window.location.host}`
+      : `wss://${window.location.host}`,
+      filterTimeStart
   );
 
   return (
@@ -32,10 +41,10 @@ export const Dashboard = () => {
           <div className="flex justify-between w-full">
             {/* componente de header */}
             <h1 className="text-2xl font-bold">Dashboard</h1>
-            <div>Aug 16 2019</div>
+            <div>{`${dayjs().set('month',dayjs().month()).format("MMMM")} ${dayjs().date()} ${dayjs().year()}`}</div>
           </div>
           <div className="flex justify-center animate-transitionleft items-center w-full">
-            <Card />
+            <Card entityType="card"/>
           </div>
           <div className="flex flex-col w-full mt-4 h-full">
             <LastTransactions entityType="transactions" />
@@ -44,7 +53,7 @@ export const Dashboard = () => {
         <div className="flex flex-col mt-5 flex-grow basis-1/3">
           {/* componente de User */}
           <User entityType="moneyinfflow" />
-          <Moneyflow />
+          <Moneyflow  entityType="apexChart"/>
         </div>
       </div>
     </>

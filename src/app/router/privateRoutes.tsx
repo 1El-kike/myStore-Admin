@@ -3,8 +3,6 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { Layout } from "../module/layout/layout";
 import { Dashboard } from "../pages/dashboard/dashboard";
 import { Progress } from "@nextui-org/react";
-import { ProductsPage } from "../pages/mananagerProduct/productsPage";
-import { OrderPage } from "../pages/orders/orderPage";
 interface WithChildren {
   children: React.ReactNode;
 }
@@ -15,12 +13,31 @@ export const PrivateRoutes = () => {
       default: module.StoresRouter, // Asegúrate de que component sea la exportación nombrada
     }))
   );
+  const ProductsPage = lazy(() =>
+    import("../pages/mananagerProduct/productsPage").then((module) => ({
+      default: module.ProductsPage,
+    }))
+  );
+  const OrderPage = lazy(() =>
+    import("../pages/orders/orderPage").then((module) => ({
+      default: module.OrderPage,
+    }))
+  );
 
   const SuspensedView: FC<WithChildren> = ({ children }) => {
     return (
       <Suspense
         fallback={
-          <div style={{ width: "100%", padding: "20px" }}>
+          <div
+            style={{
+              width: "100%",
+              height: "100vh",
+              padding: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Progress
               isIndeterminate // Propiedad para mostrar una barra de progreso indefinida
               color="primary" // Define el color de la barra (usa colores predefinidos de NextUI)

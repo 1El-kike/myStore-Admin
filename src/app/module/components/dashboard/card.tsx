@@ -7,9 +7,30 @@ import { Option } from "../../../../interface/TypeTabs";
 import { TabsNext } from "../../widgets/tabs";
 import { PUBLIC_URL } from "../../../../config/env";
 import { Image } from "@nextui-org/react";
+import dayjs from "dayjs";
+import { useDashboardData } from "../../../hooks/useDashboardData";
 
-export const Card = () => {
+interface TypeData{
+  entityType:string
+}
+
+export const Card:React.FC<TypeData> = ({entityType})  => {
+
+     const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
+
+
+     const formatMony = (mony:number) => {
+      const newvalue = mony
+      return newvalue
+     }
+
+
   const TarjetaCdredit = () => {
+
+    // Muestra estados de carga y error
+  if (isLoading) return <div>Cargando...</div>;
+  if (isError) return <div>Error cargando datos</div>;
+
     return (
       <>
         <div className="pt-4 flex-col gap-10 md:gap-0 flex md:flex-row items-center mb-2 justify-around">
@@ -30,13 +51,13 @@ export const Card = () => {
             <Table className="">
               <Table.Head className="">
                 <Table.HeadCell className="bg-transparent text-2xl absolute -left-5 text-green-950 font-extrabold -top-9 line-clamp-1 w-full">
-                  $1.234.767
+                {`$ ${formatMony(dashboardData?.totalAmount) || "00.00"}`}
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-transparent">
-                  Julio
+                  {dayjs().set('month',dayjs().month()).format("MMMM")}
                 </Table.HeadCell>
                 <Table.HeadCell className="bg-transparent">
-                  Agost
+                  {dayjs().set('month',dayjs().month() -1 ).format("MMMM")}
                 </Table.HeadCell>
               </Table.Head>
               <Table.Body className="">

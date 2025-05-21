@@ -1,35 +1,54 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import DateCalendarServerRequest from "./DataTime";
+import { useDashboardData } from "../../../hooks/useDashboardData";
 
-export const Moneyflow = () => {
+
+interface TypeData{
+  entityType:string
+}
+
+
+export const Moneyflow:React.FC<TypeData> = ({entityType}) => {
+
+     const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
+
+// Muestra estados de carga y error
+if (isLoading) return <div>Cargando...</div>;
+if (isError) return <div>Error cargando datos</div>;
+
+
+const series =  [dashboardData?.del,dashboardData?.can]
+
   const ApexChart = () => {
     const [state, setState] = React.useState({
-      series: [140, 410],
+      series: series,
       options: {
-        colors: ["#FF4560", "#000"],
+        colors: ['#128af3',"#FF4560",'#eed118', "#000"],
         chart: {
-          width: 3000,
+          width: 300,
           type: "donut" as "donut",
         },
         plotOptions: {
           pie: {
-            startAngle: -20,
-            endAngle: 340,
+            startAngle: 45,
+            endAngle: 360,
             donut: {
               size: "20%",
             },
           },
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
         },
         fill: {
           type: "gradient",
         },
         legend: {
           formatter: function (val: any, opts: any) {
-            return val + " - " + opts.w.globals.series[opts.seriesIndex];
+            const label = ["DELIVERED","CANCELLED",]
+
+            return label[opts.seriesIndex] + " - "  + opts.w.globals.series[opts.seriesIndex];
           },
         },
         title: {
@@ -51,7 +70,10 @@ export const Moneyflow = () => {
       },
     });
 
+
+    
     return (
+      
       <div>
         <div id="chart">
           <ReactApexChart
