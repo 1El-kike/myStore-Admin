@@ -90,7 +90,6 @@ export const TablesLastTrans = ({ entityType }: { entityType: string }) => {
         )}
       </TableHeader>
       <TableBody
-        className="bg-gradient-to-br from-rose-400 to-purple-400"
         emptyContent={"No rows to display."}
         items={data || []}
       >

@@ -11,16 +11,15 @@ export default function DateCalendarViews() {
   const [isCalendarVisible, setIsCalendarVisible] = React.useState(false); // Estado para controlar la visibilidad
   const [selectedDate, setSelectedDate] = React.useState(dayjs()); // Fecha seleccionada inicial
 
-   React.useEffect(() => {
-   // useCreateQuery("dataTime", {hola:""});
+  React.useEffect(() => {
+    // useCreateQuery("dataTime", {hola:""});
   }, [selectedDate.month(), selectedDate.year()]);
- 
+
 
   return (
     <div
-      className={`absolute ml-1 grow w-60 md:w-full  h-[310px] overflow-hidden ${
-        isCalendarVisible && "z-20"
-      }`}
+      className={`absolute ml-1  grow w-60 md:w-full  h-[310px] overflow-hidden ${isCalendarVisible && "z-20"
+        }`}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer
@@ -30,7 +29,7 @@ export default function DateCalendarViews() {
             {isCalendarVisible && ( // Renderiza el calendario solo si es visible
               <DateCalendar
                 disableFuture
-                className="bg-gradient-to-bl from-rose-200 to-violet-200"
+                className="bg-gradient-to-bl rounded-3xl from-rose-200 to-violet-200"
                 value={selectedDate} // Muestra la fecha seleccionada
                 views={["month", "year"]}
                 openTo="month"

@@ -91,8 +91,8 @@ export const Moneyflow: React.FC<TypeData> = ({ entityType }) => {
 
   return (
     <div className="w-full animate-transition flex-col h-full flex items-center justify-center">
-      <h1 className="text-2xl font-bold w-full mb-5 ml-28">Money flow</h1>
-      <div className="bg-gradient-to-bl from-rose-200 to-violet-200 gap-6 flex flex-col rounded-2xl">
+      <h1 className="text-2xl text-white font-bold w-full mb-5 ml-28">Money flow</h1>
+      <div className="bg-gradient-to-bl from-rose-200/60 to-violet-200 gap-6 flex flex-col rounded-2xl">
         <div className="relative ml-4 ms-4 mb-10">
           <DateCalendarServerRequest />
         </div>

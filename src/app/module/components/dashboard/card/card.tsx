@@ -3,13 +3,15 @@ import { Table } from "flowbite-react";
 import { ImUsers } from "react-icons/im";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { MdOutlineInventory } from "react-icons/md";
-import { Option } from "../../../../interface/TypeTabs";
-import { TabsNext } from "../../widgets/tabs";
-import { PUBLIC_URL } from "../../../../config/env";
+import { Option } from "../../../../../interface/TypeTabs";
+import { TabsNext } from "../../../widgets/tabs";
+import { PUBLIC_URL } from "../../../../../config/env";
 import { Image } from "@nextui-org/react";
 import dayjs from "dayjs";
-import { useDashboardData } from "../../../hooks/useDashboardData";
-import { formatCount } from '../../../utils/formatCount'
+import { useDashboardData } from "../../../../hooks/useDashboardData";
+import { formatCount } from '../../../../utils/formatCount'
+import SalesComparisonChart from "./SalesComparisonChart ";
+import { StoreTrafficList } from "./StoreTrafficCardProps ";
 interface TypeData {
   entityType: string
 }
@@ -45,7 +47,7 @@ export const Card: React.FC<TypeData> = ({ entityType }) => {
             </div>
           </div>
           <div>
-            <Table className="">
+            <Table className="bg-transparent">
               <Table.Head className="">
                 <Table.HeadCell className="bg-transparent text-2xl absolute -left-5 text-green-950 font-extrabold -top-9 line-clamp-1 w-full">
                   {`$ ${mony || "00.00"}`}
@@ -80,17 +82,18 @@ export const Card: React.FC<TypeData> = ({ entityType }) => {
       </>
     );
   };
+
+
   const DataTabs: Option[] = [
     { option: "Universal card", component: <TarjetaCdredit />, icon: <FaRegCreditCard size={22} />, link: '' },
-    { option: "Inventory", component: <TarjetaCdredit />, icon: <MdOutlineInventory size={22} />, link: '' },
-    { option: "Personnel", component: <TarjetaCdredit />, icon: <ImUsers size={22} />, link: '' },
+    { option: "Inventory", component: <StoreTrafficList />, icon: <MdOutlineInventory size={22} />, link: '' },
+    { option: "Personnel", component: <SalesComparisonChart />, icon: <ImUsers size={22} />, link: '' },
   ]
 
   return (
     <div className="mt-2  shadow-2xl shadow-zinc-400 flex w-full h-full rounded-2xl justify-center items-center bg-gradient-to-br from-rose-200 via-purple-100 to-purple-200">
-      <div className="mb-auto w-full relative mr-auto">
+      <div className="mb-auto w-full max-w-[800px] md:min-h-[330px] h-auto relative mr-auto">
         <TabsNext children={DataTabs} />
-        {/*  <span className='border-b-1 border-red-400'  /> */}
       </div>
     </div>
   );
