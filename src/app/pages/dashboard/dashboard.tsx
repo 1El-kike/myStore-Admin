@@ -3,7 +3,7 @@ import { Card } from "../../module/components/dashboard/card/card";
 import { LastTransactions } from "../../module/components/dashboard/lastTransactions";
 import { User } from "../../module/components/dashboard/user";
 import { Moneyflow } from "../../module/components/dashboard/moneyflow";
-import { PUBLIC_URL } from "../../../config/env";
+import { port, PUBLIC_URL } from "../../../config/env";
 import { useWebSocket } from "../../hooks/useWebSocket";
 import { Image } from "@nextui-org/react";
 import dayjs from "dayjs";
@@ -19,7 +19,7 @@ export const Dashboard = () => {
   useWebSocket(
     window.location.hostname === "localhost"
       ? `ws://localhost:3450`
-      : `wss://${window.location.host}`,
+      : `${port}`,
     filterTimeStart
   );
 
