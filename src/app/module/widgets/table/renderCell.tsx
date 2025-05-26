@@ -19,7 +19,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 export const renderCell = (
   datos: any,
   columnKey: any,
-  handleNavigate:any
+  handleNavigate: any
 ) => {
   const cellValue = datos[columnKey];
 
@@ -107,7 +107,7 @@ export const renderCell = (
     case "name":
       return (
         <User
-          avatarProps={!datos.image ? { radius: "lg", src: port + datos.imgStore } : {radius:"lg", src:port + datos.image }}
+          avatarProps={!datos.image ? { radius: "lg", src: port + datos.imgStore } : { radius: "lg", src: port + datos.image }}
           description={datos.email || datos.tipo}
           name={cellValue}
         >
@@ -141,71 +141,71 @@ export const renderCell = (
     case "actions":
       return (
         <div className="relative flex items-center gap-2">
-             {datos?.actions?.urlview && (
-              datos?.actions?.urlview?.typeactions === "navigate" ?
+          {datos?.actions?.urlview && (
+            datos?.actions?.urlview?.typeactions === "navigate" ?
               <Tooltip content="Edit">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
                 >
-                   <Link to={`${datos?.actions?.urlview?.element}${datos.id}`}>
-                  <EditIcon />
-                   </Link>
+                  <Link to={`${datos?.actions?.urlview?.element}${datos.id}`}>
+                    <EditIcon />
+                  </Link>
                 </span>
               </Tooltip>
-              : datos?.actions?.urlview?.typeactions === "modal" && 
-  
+              : datos?.actions?.urlview?.typeactions === "modal" &&
+
               <Modal_Component
-              component={datos?.actions?.urlview?.element || <div></div>}
-              title={datos?.actions?.urlview?.title || "" }
-              onClick={() => {}}
-         //   background={{from:"violet-500",opacity:"30",to:"teal-500"}}
-              size="xl"
-              className=""
-              scroll={"outside"}
-            >
-              <Tooltip content="Details">
+                component={datos?.actions?.urlview?.element || <div></div>}
+                title={datos?.actions?.urlview?.title || ""}
+                onClick={() => { }}
+                //   background={{from:"violet-500",opacity:"30",to:"teal-500"}}
+                size="xl"
+                className=""
+                scroll={"outside"}
+              >
+                <Tooltip content="Details">
+                  <span
+                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                  >
+                    <TablesData />
+                  </span>
+                </Tooltip>
+              </Modal_Component>
+          )}
+          {datos?.actions?.urledit && (
+            datos?.actions?.urledit?.typeactions === "navigate" ?
+              <Tooltip content="Edit">
                 <span
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
                 >
-                  <TablesData />
+                  <div onClick={() => handleNavigate(datos?.actions?.urledit?.element, datos.id)}>
+                    <EditIcon />
+                  </div>
+                  {/*   <Link to={`${notId === true ? datos?.actions?.urledit?.element : datos?.actions?.urledit?.element + datos.id}`}>
+                 </Link> */}
                 </span>
               </Tooltip>
-            </Modal_Component>
-        )}
-          {datos?.actions?.urledit && (
-            datos?.actions?.urledit?.typeactions === "navigate" ?
-            <Tooltip content="Edit">
-              <span
-                className="text-lg text-default-400 cursor-pointer active:opacity-50"
-              >
-                <div onClick={()=> handleNavigate(datos?.actions?.urledit?.element,datos.id)}>
-                <EditIcon />
-                </div>
-               {/*   <Link to={`${notId === true ? datos?.actions?.urledit?.element : datos?.actions?.urledit?.element + datos.id}`}>
-                 </Link> */}
-              </span>
-            </Tooltip>
-            : datos?.actions?.urledit?.typeactions === "modal" && 
+              : datos?.actions?.urledit?.typeactions === "modal" &&
 
-            <Modal_Component
-            key={datos.id}
-            component={datos?.actions?.urledit?.element || <div></div>}
-            title={datos?.actions?.urledit?.title || "" }
-            onClick={() => {}}
-            size="xl"
-            className=""
-            onActionChange={datos?.actions?.urledit?.onActionChange || undefined}
-           // background={{from:"violet-500",opacity:"30",to:"rose-500"}}
-            scroll={"inside"}
-          >
-            <Tooltip content="Edit">
-              <span
-                className="text-lg text-default-400 cursor-pointer active:opacity-50"
+              <Modal_Component
+                key={datos.id}
+                component={datos?.actions?.urledit?.element || <div></div>}
+                title={datos?.actions?.urledit?.title || ""}
+                onClick={() => { }}
+                size="xl"
+                className=""
+                onActionChange={datos?.actions?.urledit?.onActionChange || undefined}
+                // background={{from:"violet-500",opacity:"30",to:"rose-500"}}
+                scroll={"inside"}
               >
-                <EditIcon />
-              </span>
-            </Tooltip>
-          </Modal_Component>
+                <Tooltip content="Edit">
+                  <span
+                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                  >
+                    <EditIcon />
+                  </span>
+                </Tooltip>
+              </Modal_Component>
 
           )}
           {datos?.actions?.urldelite && (

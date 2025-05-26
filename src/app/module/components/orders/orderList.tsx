@@ -84,7 +84,6 @@ export const OrderList = () => {
   useEffect(() => {
     if (data) {
       setdatosTable(() => functionactions(data?.data[link].orders));
-      console.log("entro")
       if (data?.data[link]?.totalPages) {
         setlimit(data?.data[link]?.totalPages);
       }
@@ -110,13 +109,14 @@ export const OrderList = () => {
 
   const actions = (order: any) => {
     const editOrder = () => {
-      navigate(`edit/${order.id}`);
+      navigate(`edit/${id}`);
     };
+    const { id } = order;
 
     return {
       urledit: {
         typeactions: "navigate",
-        element: `edit/${order.id}`,
+        element: "edit/" + id,
       },
       urldelite: "delite/",
       urlview: /* () => ViewDetailOrder */ {
@@ -138,7 +138,7 @@ export const OrderList = () => {
   const Datacomponent: Option[] = [
     {
       option: "All",
-      component: <Table columns={columns} notItem={true} isDetails={true} />,
+      component: <Table notID={true} columns={columns} notItem={true} isDetails={true} />,
       icon: <FaReplyAll size={22} />,
       badge: { color: "primary", contex: data?.countsByStatus.AllCount | 0 },
       link: "all",
@@ -146,7 +146,7 @@ export const OrderList = () => {
 
     {
       option: "Pending",
-      component: <Table columns={columns} notItem={true} isDetails={true} />,
+      component: <Table notID={true} columns={columns} notItem={true} isDetails={true} />,
       icon: <MdOutlinePendingActions size={22} />,
       badge: {
         color: "warning",
@@ -156,7 +156,7 @@ export const OrderList = () => {
     },
     {
       option: "Accepted",
-      component: <Table columns={columns} notItem={true} isDetails={true} />,
+      component: <Table notID={true} columns={columns} notItem={true} isDetails={true} />,
       icon: <MdOutlineIncompleteCircle size={22} />,
       badge: {
         color: "success",
@@ -167,7 +167,7 @@ export const OrderList = () => {
 
     {
       option: "Delivering",
-      component: <Table columns={columns} notItem={true} isDetails={true} />,
+      component: <Table notID={true} columns={columns} notItem={true} isDetails={true} />,
       icon: <MdNoiseAware size={22} />,
       badge: {
         color: "default",
@@ -177,7 +177,7 @@ export const OrderList = () => {
     },
     {
       option: "Delivered",
-      component: <Table columns={columns} notItem={true} isDetails={true} />,
+      component: <Table notID={true} columns={columns} notItem={true} isDetails={true} />,
       icon: <MdNoiseAware size={22} />,
       badge: {
         color: "secondary",
@@ -187,7 +187,7 @@ export const OrderList = () => {
     },
     {
       option: "Cancelled",
-      component: <Table columns={columns} notItem={true} isDetails={true} />,
+      component: <Table notID={true} columns={columns} notItem={true} isDetails={true} />,
       icon: <ImCancelCircle size={22} />,
       badge: {
         color: "danger",

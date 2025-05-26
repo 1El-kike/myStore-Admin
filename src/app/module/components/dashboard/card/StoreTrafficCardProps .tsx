@@ -14,12 +14,11 @@ interface StoreTrafficData {
 
 const StoreTrafficCard = ({ store }: { store: StoreTrafficData }) => {
     const isPositive = store.trendPercentage >= 0;
-    const image = 'fondo.jpg'
-    console.log(port + image)
+    const image = 'uploads/1744988831585-palco4.jpg'
 
     return (
-        <div className="bg-white relative mt-3 p-4 rounded-xl shadow-sm  hover:shadow-md transition-shadow border border-gray-100">
-            <div className='h-full clip-edit  w-full bottom-0 z-10  opacity-50 aspect-auto absolute'>
+        <div className="bg-white overflow-hidden relative mt-3 p-4 rounded-xl shadow-sm  hover:shadow-md transition-shadow border border-gray-100">
+            <div className='h-full clip-edit  w-full bottom-0 z-10 opacity-10 aspect-auto absolute'>
                 <Image
                     isBlurred
                     alt="Album Cover"

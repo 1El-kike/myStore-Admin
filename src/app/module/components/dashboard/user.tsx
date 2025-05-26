@@ -5,6 +5,7 @@ import { Avatar } from "@nextui-org/react";
 import { useAuth } from "../../auth/core/Auth";
 import { useDashboardData } from "../../../hooks/useDashboardData";
 import { formatCount } from "../../../utils/formatCount";
+import { port } from "../../../../config/env";
 
 interface TypeData {
   entityType: string
@@ -13,6 +14,8 @@ interface TypeData {
 export const User: React.FC<TypeData> = ({ entityType }) => {
   const { currentUser } = useAuth();
   const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
+
+  console.log(port + currentUser?.image)
 
   const income = formatCount(dashboardData?.income)
   const expense = formatCount(dashboardData?.expense)
@@ -27,7 +30,7 @@ export const User: React.FC<TypeData> = ({ entityType }) => {
         <Avatar
           isBordered
           className="w-20 h-20 text-large"
-          src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+          src={port + currentUser?.image}
         />
         <p className="mt-2">Welcome back</p>
         <h1 className="font-bold text-3xl">{currentUser?.name}</h1>
