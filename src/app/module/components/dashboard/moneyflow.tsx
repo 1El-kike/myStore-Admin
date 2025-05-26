@@ -80,7 +80,7 @@ export const Moneyflow: React.FC<TypeData> = ({ entityType }) => {
   };
 
   const NoDataMessage = () => (
-    <div className="flex flex-col items-center justify-center h-full p-8 space-y-4">
+    <div className="flex flex-col w-full min-w-96 items-center justify-center h-full p-8 space-y-4">
       <div className="text-6xl">📭</div>
       <div className="text-center">
         <h3 className="text-xl font-semibold text-gray-600">No Orders Data</h3>
@@ -97,7 +97,7 @@ export const Moneyflow: React.FC<TypeData> = ({ entityType }) => {
           <DateCalendarServerRequest />
         </div>
         <div className="mt-3 min-h-[300px] flex items-center justify-center">
-          {!series || allValuesZero(series) ? (
+          {(!series || allValuesZero(series)) ? (
             <NoDataMessage />
           ) : (
             <ApexChart />
