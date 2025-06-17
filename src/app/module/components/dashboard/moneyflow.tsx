@@ -32,7 +32,7 @@ export const Moneyflow: React.FC<TypeData> = ({ entityType }) => {
         },
         plotOptions: {
           pie: {
-            startAngle: 45,
+            startAngle: 0,
             endAngle: 360,
             donut: {
               size: "20%",

@@ -121,7 +121,7 @@ export const StoreTrafficList = () => {
         <div className='flex '>
 
             <div className="grid animate-appearance-in gap-4 h-[320px]   grow basis-[90%] p-2">
-                <ScrollShadow className='overflow-x-hidden scroll-m-2 pr-4'>
+                <ScrollShadow hideScrollBar className=''>
                     {stores.map((store) => (
                         <StoreTrafficCard key={store.id} store={store} />
                     ))}
