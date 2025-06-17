@@ -1,7 +1,7 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import DateCalendarServerRequest from "./DataTime";
-import { useDashboardData } from "../../../hooks/useDashboardData";
+import { useDashboardData } from "../../../service/useDashboardData";
 
 interface TypeData {
   entityType: string;

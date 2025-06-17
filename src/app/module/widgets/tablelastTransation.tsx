@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { EditIcon } from "../../utils/icons";
-import { useDashboardData } from "../../hooks/useDashboardData";
+import { useDashboardData } from "../../service/useDashboardData";
 
 export const columns = [
   { name: "NAME OF TRANSACTIONS", uid: "userName" },
@@ -50,7 +50,7 @@ export const TablesLastTrans = ({ entityType }: { entityType: string }) => {
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize text-teal-400">
-              +1 {datos.userAdress}
+              +1 {datos.destination}
             </p>
             {/*    <p className="text-bold text-sm capitalize text-default-400">{datos.address}</p> */}
           </div>

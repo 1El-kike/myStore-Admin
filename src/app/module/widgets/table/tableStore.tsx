@@ -20,10 +20,10 @@ export interface TypeColumns {
 interface TableData {
   columns: TypeColumns[];
   isDetails?: boolean;
-  notId?:boolean
+  notId?: boolean
 }
 
-export const Tables: FC<TableData> = ({ columns, isDetails,notId }) => {
+export const Tables: FC<TableData> = ({ columns, isDetails, notId }) => {
   const {
     setSortDescriptor,
     sortDescriptor,
@@ -37,23 +37,25 @@ export const Tables: FC<TableData> = ({ columns, isDetails,notId }) => {
   const navigate = useNavigate()
 
 
-  const handleNavigate = (link:string,id:number) => {
-    if (notId) { 
-      navigate(`${link}`,{state:{id:id}})
+  const handleNavigate = (link: string, id: number) => {
+    if (notId) {
+      navigate(`${link}`, { state: { id: id } })
     } else {
       navigate(`${link}${id}`)
     }
-    }
+  }
 
   const bottomContent = <BottomContent />;
 
   const render = useCallback((dato: any, columnKey: any) => {
-    return renderCell(dato, columnKey , handleNavigate);
+    return renderCell(dato, columnKey, handleNavigate);
   }, []);
 
   return (
     <Table
       color="danger"
+      selectionBehavior='toggle'
+      onRowAction={() => { }}
       onSortChange={setSortDescriptor}
       sortDescriptor={sortDescriptor}
       bottomContentPlacement="outside"
@@ -83,7 +85,10 @@ export const Tables: FC<TableData> = ({ columns, isDetails,notId }) => {
       >
         {(item: any) => (
           <TableRow key={item.id}>
-            {(columnKey) => <TableCell className="">{render(item, columnKey)}</TableCell>}
+            {(columnKey) =>
+              <TableCell className="">
+                {render(item, columnKey)}
+              </TableCell>}
           </TableRow>
         )}
       </TableBody>

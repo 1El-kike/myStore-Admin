@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Type_product } from "../../products/type_product";
-import { Avatar, Button, Dropdown } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 import { useDelite } from "../../../../hooks/useDelite";
 import { useEjecut } from "../../../../hooks/useEjecut";
 import { port } from "../../../../../config/env";
@@ -72,67 +72,67 @@ export const SelectStoreforDelite = () => {
 
   return (
     <div className=" flex flex-col justify-between h-screen">
-      <div>     
-      <PageTitleInit />
-      <div className="w-full">
-        <div className="flex flex-auto flex-wrap gap-4 ml-10 mt-5">
-          {errors ? (
-            <p>error...</p>
-          ) : isLoadingData ? (
-            <p>Loading...</p>
-          ) : data?.length > 0 ? (
-            data?.map((data: any, index: number) => {
-              return (
-                <>
-                  <Modal_Component
-                    key={data.id}
-                    // background={{from:"violet-500",opacity:"70",to:"teal-500"}}
-
-                    component={
-                      <StoreInfo
-                        name={data.name}
-                        rating={data.rating}
-                        img={data.imgStore}
-                        text={
-                          "Are you sure you want to delete this Store " +
-                          data.name
-                        }
-                        alert=" You will not be able to undo the change and all related records will be lost"
-                      />
-                    }
-                    title={"Warning"}
-                    onClick={() => setidStore(data.id)}
-                    className="h-60 w-[30%] animate-appearance-in duration-1000 mt-10"
-                    onActionChange={(closeModal) => onActionChange(closeModal)}
-                  >
-                    <Type_product
-                      position="vertical"
+      <div>
+        <PageTitleInit />
+        <div className="w-full">
+          <div className="flex flex-auto flex-wrap gap-4 ml-10 mt-5">
+            {errors ? (
+              <p>error...</p>
+            ) : isLoadingData ? (
+              <p>Loading...</p>
+            ) : data?.length > 0 ? (
+              data?.map((data: any, index: number) => {
+                return (
+                  <>
+                    <Modal_Component
                       key={data.id}
-                      idStore={data.id}
-                      scale="125"
-                      button={buttonClasses[index % buttonClasses.length]}
-                      fondo={fondoClasses[index % fondoClasses.length]}
-                      image={`${port + data.imgPortada}`}
-                      title={`${data.name}`}
-                      textsecondary="For more info look out page soport"
-                      text={data.description}
-                    />
-                  </Modal_Component>
-                </>
-              );
-            })
-          ) : (
-            <NotItems
-              link="/stores/add"
-              Icon={FcHighPriority}
-              text="There are currently no stores to display, follow the link below to create a store"
-            />
-          )}
+                      // background={{from:"violet-500",opacity:"70",to:"teal-500"}}
+
+                      component={
+                        <StoreInfo
+                          name={data.name}
+                          rating={data.rating}
+                          img={data.imgStore}
+                          text={
+                            "Are you sure you want to delete this Store " +
+                            data.name
+                          }
+                          alert=" You will not be able to undo the change and all related records will be lost"
+                        />
+                      }
+                      title={"Warning"}
+                      onClick={() => setidStore(data.id)}
+                      className="h-60 w-[30%] animate-appearance-in duration-1000 mt-10"
+                      onActionChange={(closeModal) => onActionChange(closeModal)}
+                    >
+                      <Type_product
+                        position="vertical"
+                        key={data.id}
+                        idStore={data.id}
+                        scale="125"
+                        button={buttonClasses[index % buttonClasses.length]}
+                        fondo={fondoClasses[index % fondoClasses.length]}
+                        image={`${port + data.imgPortada}`}
+                        title={`${data.name}`}
+                        textsecondary="For more info look out page soport"
+                        text={data.description}
+                      />
+                    </Modal_Component>
+                  </>
+                );
+              })
+            ) : (
+              <NotItems
+                link="/stores/add"
+                Icon={FcHighPriority}
+                text="There are currently no stores to display, follow the link below to create a store"
+              />
+            )}
+          </div>
         </div>
       </div>
-      </div>
       <div className="">
-      <Toolbar action="Delite Stores" element="Admin of Store" />
+        <Toolbar action="Delite Stores" element="Admin of Store" />
       </div>
     </div>
   );

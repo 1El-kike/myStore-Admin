@@ -27,6 +27,10 @@ export const renderCell = (
     case "order":
       const fechaOriginal = datos.order?.fechaOrder;
       const fecha = new Date(fechaOriginal);
+      const totalAmount: number[] | number = datos.order?.priceProduct
+      const totalcantidad: number[] | number = datos.order?.cantidad
+      const total: any = Array.isArray(totalAmount) ? totalAmount.reduce((total, sum) => total + sum) : totalAmount
+      const cantidad: any = Array.isArray(totalcantidad) ? totalcantidad.reduce((total, sum) => total + sum) : totalcantidad
       const dia = String(fecha.getDate()).padStart(2, "0"); // Asegura que el día tenga 2 dígitos
       const mesesAbreviados = [
         "ene",
@@ -55,9 +59,9 @@ export const renderCell = (
             <p className="font-semibold"> {datos.order?.productName}</p>
             <span className="flex">
               <p className="text-slate-500">
-                {datos.order?.cantidad + " products - "}
+                {cantidad + " products - "}
               </p>
-              <p>{"$" + Math.floor(datos.order?.priceProduct)}</p>
+              <p>{"$" + Math.floor(total)}</p>
             </span>
           </div>
         </div>

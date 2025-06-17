@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 export type DashboardData = {
   totalSales: number;
@@ -12,8 +12,8 @@ export type DashboardData = {
   expense: number;
   lastTransactions: any[];
   apexChart: {
-    del: number,
-    can: number
+    del: number;
+    can: number;
   };
   card: any[];
   // ... otros tipos según tu API
@@ -21,7 +21,6 @@ export type DashboardData = {
 
 export const useWebSocket = (url: string, time: dayjs.Dayjs | null) => {
   const queryClient = useQueryClient();
-
 
   useEffect(() => {
     const socket: Socket = io(url, {

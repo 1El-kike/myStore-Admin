@@ -1,25 +1,39 @@
-import { useState, useCallback, memo } from 'react';
-import { Button, Chip, Badge, useDisclosure } from '@nextui-org/react';
-import { MdCancel, MdCheckCircle, MdDoneAll, MdLocalShipping, MdPending } from 'react-icons/md';
-import { FiArrowDown, FiArrowLeft, FiArrowRight, FiPackage } from 'react-icons/fi';
+import { useState, useCallback, memo, useEffect, useMemo } from 'react';
+import { Button, Chip, Badge, DropdownItem, DropdownSection, cn } from '@nextui-org/react';
 
-type OrderStatus = 'PENDING' | 'ACCEPTED' | 'DELIVERING' | 'DELIVERED' | 'CANCELLED'
+import { MdCancel, MdCheckCircle, MdLocalShipping } from 'react-icons/md';
+import { FiPackage } from 'react-icons/fi';
+import { DeleteDocumentIcon, DropdownComponent } from '../../../widgets/Dropdown';
+import { FaCheckCircle } from 'react-icons/fa';
+
+export type OrderStatus = 'PENDING' | 'ACCEPTED' | 'PROCESSING' | 'DELIVERING' | 'DELIVERED' | 'CANCELLED'
+
 
 
 export type Order = {
     id: number
-    items: IItemsItem[]
+    storeOrders: IItemsItem[]
     totalAmount: number
-    status: OrderStatus
+    globalStatus: OrderStatus
     createdAt: string
 }
-export type IItemsItem = {
-    quantity: number
-    price: number
-    amount: number
+
+type Item = {
+
     productName: string
     productImage: string
-    storeName: string
+
+}
+export type IItemsItem = {
+    id: number;
+    quantity: number;
+    price: number;
+    status: OrderStatus;
+    amount: number;
+    items: Item[];
+    store: {
+        name: string
+    }
     customer: ICustomer
     delivery: IDelivery
 }
@@ -37,10 +51,11 @@ export type IDelivery = {
 interface OrderLifecycleProps {
     order: Order;
     onStatusChange: (orderId: any, newStatus: OrderStatus) => void;
+    children: any
 }
 
 
-const statusConfig: Record<any, { color: string; icon: JSX.Element; nextActions: OrderStatus[] }> = {
+export const statusConfig: Record<any, { color: string; icon: JSX.Element; nextActions: OrderStatus[] }> = {
 
     PENDING: {
         color: 'warning',
@@ -48,6 +63,11 @@ const statusConfig: Record<any, { color: string; icon: JSX.Element; nextActions:
         nextActions: ['ACCEPTED', 'CANCELLED']
     },
     ACCEPTED: {
+        color: 'warning',
+        icon: <MdCheckCircle className="text-lg" />,
+        nextActions: ['PROCESSING', 'CANCELLED']
+    },
+    PROCESSING: {
         color: 'primary',
         icon: <MdCheckCircle className="text-lg" />,
         nextActions: ['DELIVERING', 'CANCELLED']
@@ -69,100 +89,176 @@ const statusConfig: Record<any, { color: string; icon: JSX.Element; nextActions:
     }
 };
 
-const OrderLifecycleController = memo(({ order, onStatusChange }: OrderLifecycleProps) => {
-    const [currentStatus, setCurrentStatus] = useState<OrderStatus>(order?.status);
-    const { isOpen, onOpen, onClose } = useDisclosure();
+const OrderLifecycleController = memo(({ order, onStatusChange, children }: OrderLifecycleProps) => {
+
+    const currentStatusGlobal = order?.globalStatus;
+
+    // Procesar storeOrders directamente desde props
+    const storeOrders = useMemo(() => {
+        return order?.storeOrders?.map(storeOrder => ({
+            id: storeOrder.id,
+            status: storeOrder.status,
+            store: storeOrder.store.name
+        })) || [];
+    }, [order]);
 
 
+    const [stores, orderStore] = useMemo(() => {
+        const storesSet = new Set();
+        order?.storeOrders?.forEach(store => storesSet.add(store));
 
+        const storeData = Array.from(storesSet).map((store: any) => ({
+            id: store.id,
+            status: store.status,
+            store: store.store.name
+        }));
+        return [storesSet, storeData];
+    }, [order]); // <- Dependencia crítica
+
+    const [currentStatus, setCurrentStatus] = useState<{
+        id: number;
+        status: OrderStatus;
+        store: string
+    }[]>(orderStore);
+
+
+    // Función para manejar cambios de estado
     const handleStatusUpdate = useCallback(
-        (newStatus: OrderStatus) => {
-            setCurrentStatus(newStatus);
-            onStatusChange(order?.id, newStatus);
-            onClose();
+        (newStatus: OrderStatus, id: number) => {
+            onStatusChange(id, newStatus);
         },
-        [onStatusChange, order?.id, onClose]
+        [onStatusChange]
     );
 
-    const getStatusButton = (status: any) => {
-        if (!statusConfig[currentStatus].nextActions.includes(status)) return null;
-
-        const buttonConfig = {
-            PENDING: { label: 'Accepted orden', color: 'primary' },
-            ACCEPTED: { label: 'Accepted Orden', color: 'primary' },
-            DELIVERING: { label: 'Delivering order', color: 'secondary' },
-            DELIVERED: { label: 'Confirmar Entrega', color: 'success' },
-            CANCELLED: { label: 'Cancelled Orden', color: 'danger' }
-        }[status as OrderStatus];
-
-        return (
-            <Button
-                key={status}
-                color={buttonConfig.color as any}
-                variant="flat"
-                className="capitalize"
-                onPress={() => handleStatusUpdate(status)}
-                endContent={statusConfig[status]?.icon}
-            >
-                {buttonConfig.label}
-            </Button>
-        );
+    const buttonConfig: Record<OrderStatus, { label: string; color: string }> = {
+        PENDING: { label: 'Pending orden', color: 'warning' },
+        ACCEPTED: { label: 'Acepted orden ', color: 'warning' },
+        PROCESSING: { label: 'Processing order ', color: 'primary' },
+        DELIVERING: { label: 'Shipped orden', color: 'secondary' },
+        DELIVERED: { label: 'Delivered order', color: 'success' },
+        CANCELLED: { label: 'Cancelar orden', color: 'danger' }
     };
 
-    const store = new Set()
-    order?.items?.map(storeName => {
-        store.add(storeName?.storeName)
-    })
+    const renderStatusButtons = (status: OrderStatus, storeId: number) => (
+        <Button
+            key={status}
+            color={buttonConfig[status].color as any}
+            variant="flat"
+            className="capitalize"
+            onPressStart={() => handleStatusUpdate(status, storeId)}
+            endContent={statusConfig[status]?.icon}
+        >
+            {buttonConfig[status].label}
+        </Button>
+    );
+
+
+    const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
 
     return (
-        <div className="border mt-10 flex flex-col rounded-xl p-4 min-w-96 min-h-64 shadow-sm bg-white">
-            <div className="flex items-center justify-between mb-4">
+        <div className="border w-full xl:w-1/2 md:m-auto lg:ml-auto mt-2 md:mt-10 xl:mt-44 md:ml-5  flex flex-col rounded-xl p-4 min-w-64 min-h-64 shadow-sm bg-white">
+            <div className="flex items-center justify-between  mb-4">
                 <div>
                     <h3 className="text-lg font-semibold">Orden #{order?.id}</h3>
-                    {[...store].map((store: any) =>
-                        <p className="text-sm text-gray-500">{store}</p>
+                    {[...stores].map((store: any) =>
+                        <p className="text-sm text-gray-500">{store?.store.name}</p>
                     )}
                 </div>
-                <Badge content={order?.items?.length} color="primary">
+                <Badge content={order?.storeOrders?.length} color="primary">
                     <Chip
-                        color={statusConfig[currentStatus]?.color as any}
+                        color={statusConfig[currentStatusGlobal]?.color as any}
                         variant="bordered"
-                        startContent={statusConfig[currentStatus]?.icon}
+                        startContent={statusConfig[currentStatusGlobal]?.icon}
                         classNames={{ base: "px-4 py-2" }}
                     >
-                        <span className="capitalize">{currentStatus}</span>
+                        <span className="capitalize">{currentStatusGlobal}</span>
                     </Chip>
                 </Badge>
             </div>
 
             <div className="grid  grid-cols-1 md:grid-cols-2 gap-2 mb-4">
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Cliente: {order?.items[0]?.customer?.name}</p>
-                    <p className="text-sm">Total: ${order?.totalAmount.toFixed(2)}</p>
-                    <p className="text-xs text-gray-500">{new Date(order?.createdAt).toLocaleString()}</p>
+                    <p className="text-sm ">Total: <span className='ml-2 font-bold text-xl mt-auto'>${Math.floor(Number(order?.totalAmount.toFixed(2)))}</span></p>
+
                 </div>
                 <div className="space-y-1">
                     <p className="text-sm font-medium">Productos:</p>
                     <div className="flex flex-wrap gap-1">
-                        {order?.items.map((product) => (
-                            <Chip key={product.productName} size="sm" variant="flat" color="default">
-                                {product.productName}
-                            </Chip>
-                        ))}
+                        {order?.storeOrders.map((product) => {
+                            return product?.items.map(
+                                element => {
+                                    return (
+                                        <Chip key={element.productName} size="sm" variant="flat" color="default">
+                                            {element.productName}
+                                        </Chip>
+                                    )
+                                }
+                            )
+
+                        })}
                     </div>
                 </div>
             </div>
 
+
             <div className="flex h-full mt-auto flex-wrap gap-2 justify-end">
-                {statusConfig[currentStatus]?.nextActions.map((status: OrderStatus) => getStatusButton(status))}
+                {children}
+                {!children ? stores.size > 1 ? (
+                    (currentStatusGlobal !== 'DELIVERED' && currentStatusGlobal !== 'CANCELLED') &&
+                    <DropdownComponent>
+                        {storeOrders.map(store => (
+                            <DropdownItem
+                                key={store.id}
+                                color={buttonConfig[currentStatusGlobal].color as any}
+                                textValue={`Estado tienda ${store.id}`}
+
+                                description={'Status of store : ' + store.store}>
+
+                                <div className="flex h-full mt-auto flex-wrap gap-2 justify-end">
+                                    {statusConfig[store.status]?.nextActions.map(status =>
+                                        renderStatusButtons(status, store.id)
+                                    )}
+                                </div>
+                            </DropdownItem>
+                        ))}
+                        <DropdownSection title="Danger zone">
+                            <DropdownItem
+                                key="delete"
+                                className="text-danger"
+                                color="danger"
+                                description="Permanently delete the file"
+                                shortcut="⌘⇧D"
+                                startContent={<DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />}
+                            >
+                                Delete file
+                            </DropdownItem>
+                        </DropdownSection>
+                    </DropdownComponent>
+                ) : (
+                    <div className="flex h-full mt-auto flex-wrap gap-2 justify-end">
+                        {statusConfig[currentStatusGlobal]?.nextActions.map(status =>
+                            renderStatusButtons(status, currentStatus[0].id)
+                        )}
+                    </div>
+                )
+                    : null}
             </div>
 
-            {currentStatus === 'CANCELLED' && (
+
+
+            {currentStatusGlobal === 'CANCELLED' && (
                 <div className="mt-4 p-3 bg-red-50 rounded-lg text-red-600 text-sm">
                     <MdCancel className="inline-block mr-2" />
-                    Esta orden fue cancelada y no puede ser modificada
+                    This order has been canceled and cannot be modified.
                 </div>
             )}
+            {currentStatusGlobal === 'DELIVERED' && (
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg text-blue-600 text-sm">
+                    <FaCheckCircle className="inline-block mr-2" />
+                    This order has been successfully completed.
+                </div>
+            )}
+
         </div>
     );
 });

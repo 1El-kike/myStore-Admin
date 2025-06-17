@@ -19,7 +19,7 @@ import { useEjecut } from "../../../../hooks/useEjecut";
 import { BodyModal, DataItem } from "./bodyModal";
 import { Number_Input } from "../../../widgets/number_Input";
 import { MdDiscount } from "react-icons/md";
-import { Cuenta } from "./cuenta";
+import { CuentaCreateOrder } from "./cuenta";
 
 // Define el tipo para los datos entrantes
 
@@ -42,8 +42,8 @@ export const OrderCreate = () => {
 
   useEffect(() => {
     setdatosModal(datosModal)
-   }, [datosModal])
-   
+  }, [datosModal])
+
 
   const onActionChange = (closeModal: () => void) => {
     setdatosTable(datosModal);
@@ -55,7 +55,7 @@ export const OrderCreate = () => {
     // Establecer el nuevo array en "items"
     methods.setValue("items", itemsArray);
     closeModal();
-    
+
   };
 
   const onDiscardChange = () => {
@@ -77,7 +77,7 @@ export const OrderCreate = () => {
       }));
       // Establecer el nuevo array en "items"
       methods.setValue("items", itemsArray);
-       setdatosModal(datosTable);
+      setdatosModal(datosTable);
     }
   };
 
@@ -92,7 +92,7 @@ export const OrderCreate = () => {
         })) || [],
       [data]
     );
-    
+
     return (
       <>
         <div>
@@ -117,18 +117,18 @@ export const OrderCreate = () => {
   };
 
 
-  
+
 
   useEffect(() => {
-  
-   if (methods.formState.isSubmitSuccessful){
-    setdatosModal([]);
-    setdatosTable([]);
-   }
-  }, [methods.formState.isSubmitSuccessful])
-  
 
- 
+    if (methods.formState.isSubmitSuccessful) {
+      setdatosModal([]);
+      setdatosTable([]);
+    }
+  }, [methods.formState.isSubmitSuccessful])
+
+
+
 
   return (
     <>
@@ -144,7 +144,7 @@ export const OrderCreate = () => {
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
                 <h1 className="text-2xl font-bold mt-5">Basic information</h1>
                 <SearchCustomer />
-              <Calendary_Input defaultValue="yes" data="timeOrder" label="Issue data" /> 
+                <Calendary_Input defaultValue="yes" data="timeOrder " label="Issue data" />
                 <Input_text
                   data="numberOrder"
                   label="Number"
@@ -155,7 +155,7 @@ export const OrderCreate = () => {
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
                 <h1 className="text-2xl font-bold mt-5">Billing information</h1>
                 <Input_text data="city" label="City *" placeholder="" />
-                <Input_text data="address" label="Address *" placeholder="" />
+                <Input_text data="destination" label="Address destination *" placeholder="" />
                 <Input_text data="state" label="State *" placeholder="" />
                 <Input_text data="zipcode" label="Zip code *" placeholder="" />
                 <Input_text
@@ -165,11 +165,10 @@ export const OrderCreate = () => {
                 />
               </div>
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
-              <Number_Input pattern={undefined} tipe='number' data="discount" label="Discount " icon={<FaDollarSign/>} />
-            
-              <Number_Input pattern={undefined} data="shipping" label="Shipping rate " tipe="number" icon={<FaDollarSign/>} />
-              <Number_Input pattern={undefined} tipe='number' data="taxrate" label="Tax rate ( % ) " icon={<MdDiscount/>} />
-                </div>
+                <Number_Input pattern={undefined} tipe='number' data="discount" label="Discount " icon={<FaDollarSign />} />
+                <Number_Input pattern={undefined} data="shipping" label="Shipping rate " tipe="number" icon={<FaDollarSign />} />
+                <Number_Input pattern={undefined} tipe='number' data="taxrate" label="Tax rate ( % ) " icon={<MdDiscount />} />
+              </div>
             </div>
             <div className="basis-72 grow mb-auto px-5">
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
@@ -184,17 +183,17 @@ export const OrderCreate = () => {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
                 <h1 className="text-2xl font-bold mt-5">Line items</h1>
-                <Table columns={columns}  notItem={true} />
+                <Table columns={columns} notItem={true} />
                 <Modal_Component
                   component={<BodyModal setdatosModal={setdatosModal} datosModal={datosModal} />}
                   isAlert="yes"
                   title={"Add product to order"}
                   size="2xl"
-                  onClick={() => {}}
+                  onClick={() => { }}
                   onActionChange={(closeModal) => onActionChange(closeModal)}
                   className=""
                   onDiscardChange={onDiscardChange}
-                //  background={{from:"violet-500",opacity:"70",to:"teal-500"}}
+                  //  background={{from:"violet-500",opacity:"70",to:"teal-500"}}
                   scroll={"normal"}
                 >
                   <button
@@ -209,10 +208,10 @@ export const OrderCreate = () => {
                   </button>
                 </Modal_Component>
               </div>
-             
-                <div>
-                  <Cuenta datosModal={datosModal} />
-                </div>
+
+              <div>
+                <CuentaCreateOrder datosModal={datosModal} />
+              </div>
               <div>
                 <Submit
                   error={error}
@@ -221,7 +220,7 @@ export const OrderCreate = () => {
                   bottom1="Schedule"
                   bottom2="Create Orders"
                   success={success}
-                  />
+                />
               </div>
             </div>
           </form>

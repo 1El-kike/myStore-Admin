@@ -8,7 +8,7 @@ import { TabsNext } from "../../../widgets/tabs";
 import { PUBLIC_URL } from "../../../../../config/env";
 import { Image } from "@nextui-org/react";
 import dayjs from "dayjs";
-import { useDashboardData } from "../../../../hooks/useDashboardData";
+import { useDashboardData } from "../../../../service/useDashboardData";
 import { formatCount } from '../../../../utils/formatCount'
 import SalesComparisonChart from "./SalesComparisonChart ";
 import { StoreTrafficList } from "./StoreTrafficCardProps ";

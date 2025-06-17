@@ -24,7 +24,7 @@ export const Routers = () => {
           ) : (
             <>
               <Route path="auth/*" element={<AuthPage />} />
-              <Route path="*" element={<Navigate to="/auth" />} /> 
+              <Route path="*" element={<Navigate to="/auth" />} />
             </>
           )}
         </Route>

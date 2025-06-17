@@ -82,6 +82,7 @@ export const OrderList = () => {
   };
 
   useEffect(() => {
+    console.log(data)
     if (data) {
       setdatosTable(() => functionactions(data?.data[link].orders));
       if (data?.data[link]?.totalPages) {

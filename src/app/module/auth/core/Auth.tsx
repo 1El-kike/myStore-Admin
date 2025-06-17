@@ -26,10 +26,10 @@ type AuthContextProps = {
 
 const initAuthContextPropsState = {
   auth: authHelper.getAuth(),
-  saveAuth: () => {},
+  saveAuth: () => { },
   currentUser: undefined,
-  setCurrentUser: () => {},
-  logout: () => {},
+  setCurrentUser: () => { },
+  logout: () => { },
 };
 
 const AuthContext = createContext<AuthContextProps>(initAuthContextPropsState);
@@ -68,6 +68,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 const AuthInit: FC<PropsWithChildren> = ({ children }) => {
   const { auth, logout, setCurrentUser, saveAuth } = useAuth();
   const didRequest = useRef(false);
+
   const [showSplashScreen, setShowSplashScreen] = useState(true);
   // We should request user by authToken (IN OUR EXAMPLE IT'S API_TOKEN) before rendering the application
   useEffect(() => {
@@ -120,6 +121,9 @@ const AuthInit: FC<PropsWithChildren> = ({ children }) => {
       logout();
       setShowSplashScreen(false);
     }
+
+    // window.addEventListener('focus', requestUser(auth.api_token));
+
     // eslint-disable-next-line
   }, []);
 

@@ -3,7 +3,7 @@ import { FaArrowDown, FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { Dropdown } from "flowbite-react";
 import { Avatar } from "@nextui-org/react";
 import { useAuth } from "../../auth/core/Auth";
-import { useDashboardData } from "../../../hooks/useDashboardData";
+import { useDashboardData } from "../../../service/useDashboardData";
 import { formatCount } from "../../../utils/formatCount";
 import { port } from "../../../../config/env";
 

@@ -16,10 +16,10 @@ import { updateTable } from "../../../core/filtertableandSearch";
 import { useFormContext } from "react-hook-form";
 
 export type DataItem = {
-  id: string | null ;
-  product?:{
-    id:string  
-    name:string
+  id: string | null;
+  product?: {
+    id: string
+    name: string
   }
   name: string | null;
 };
@@ -147,7 +147,7 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
           actions: {
             urledit: {
               typeactions: "modal",
-               onActionChange:(closeModal:any) => onActionChange(closeModal),
+              onActionChange: (closeModal: any) => onActionChange(closeModal),
               element: (
                 <EditProduct
                   quantity={newData[index].quantity}
@@ -170,31 +170,21 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
       setErrors((prev: any) => ({ ...prev, [index]: undefined }));
     }
   };
-     const {setValue} = useFormContext();
-  
-  
+  const { setValue } = useFormContext();
+
+
 
   const onActionChange = (closeModal: () => void) => {
-    const datoshijos:any = datosChildren
-    console.log(datosChildren)
+    const datoshijos: any = datosChildren
     if (datoshijos) {
-      const itemsArray = datosModal.map((item: any) => 
-        item.id === datoshijos.id ? { ...item, quantity:datoshijos.quantity } : item
+      const itemsArray = datosModal.map((item: any) =>
+        item.id === datoshijos.id ? { ...item, quantity: datoshijos?.quantity, origin: datoshijos?.origin } : item
       );
-   /*  const itemsArray = datosModal.map((item: any) => (
-      item.id === datoshijos.id && 
-      {
-      
-      productId: item.id,
-      quantity: item.quantity,
-      price: item.price,
-    })); */
-    // Establecer el nuevo array en "items"
-    setdatosTable(itemsArray);
-    setValue("items", itemsArray);
+      setdatosTable(itemsArray);
+      setValue("items", itemsArray);
     }
     closeModal();
-    
+
   };
 
   useEffect(() => {

@@ -2,24 +2,69 @@ import React, { useEffect, useState } from 'react'
 import { PageTitleInit } from '../../../layout/tollbar/tiltleInit'
 import { useEjecut } from '../../../../hooks/useEjecut';
 import { useParams } from 'react-router-dom';
-import OrderLifecycleController, { Order } from './OrderLifecycleProps';
+import OrderLifecycleController, { OrderStatus } from './OrderLifecycleProps';
 import axios from 'axios';
 import { Image, Spinner } from '@nextui-org/react';
 import { port } from '../../../../../config/env';
 import { DetaillOrder } from './detaillOrder';
+import CustomizedSteppers from '../../../widgets/Stepper';
+import { FaBox } from 'react-icons/fa';
+import { FaLocationDot } from 'react-icons/fa6';
+import { OrderTrackingMap } from './OrderTrackingMap ';
 
 export const OrderListEdit = () => {
 
+
+  // En tu componente padre
+  const statusSequence: OrderStatus[] = [
+    'PENDING',
+    'ACCEPTED',
+    'PROCESSING',
+    'DELIVERING',
+    'DELIVERED'
+  ];
   const params = useParams()
   const { data, errors, isLoadingData } = useEjecut({ url: `orders/summary/${params.id}` });
   const [loading, setloading] = useState(false)
+  const [datos, setdatos] = useState(data)
+  const [activeStep, setActiveStep] = React.useState(0);
 
-  console.log(data, `${port}uploads/${data?.productImage}`)
+  // Función para actualizar el estado del pedido en el padre
+  const updateOrderStatus = (storeOrderStatus: OrderStatus, globalStatus: OrderStatus, id: string) => {
+    setdatos((prevData: any) => {
+      // Actualizar correctamente el estado de las tiendas
+      const updatedStoreOrders = prevData.storeOrders.map((storeOrder: any) =>
+        storeOrder.id === id ? { ...storeOrder, status: storeOrderStatus } : storeOrder
+      );
 
-  const onStatusChange = (id: string, newStatus: string) => {
+      return {
+        ...prevData,
+        globalStatus: globalStatus,
+        storeOrders: updatedStoreOrders
+      };
+    });
+  };
+
+  useEffect(() => {
+    if (data) {
+      setdatos(data)
+      const newActiveStep = statusSequence.indexOf(data?.globalStatus);
+      setActiveStep(newActiveStep);
+    }
+
+  }, [data])
+
+  // console.log(datos)
+  const onStatusChange = async (id: string, newStatus: OrderStatus) => {
+
     setloading(true)
     try {
-      axios.put(port + 'orders/update', { orderId: id, status: newStatus })
+      const dataOrder = await axios.put(port + 'orders/update', { storeOrderId: id, status: newStatus })
+      updateOrderStatus(dataOrder.data.storeOrderStatus, dataOrder.data.globalStatus, id)
+      // Calcular nuevo paso activo basado en secuencia
+      const newActiveStep = statusSequence.indexOf(dataOrder.data.globalStatus);
+      setActiveStep(newActiveStep);
+      console.log(datos)
       setloading(false)
     } catch (error) {
       setloading(false)
@@ -27,6 +72,12 @@ export const OrderListEdit = () => {
     }
 
   }
+
+
+  const adress = new Set()
+  datos?.storeOrders.map((e: any) => e.items.map((x: any) => adress?.add(x.Store.address)))
+
+
 
   const ProductDetail = () => {
     return (
@@ -42,48 +93,119 @@ export const OrderListEdit = () => {
                 labelColor="danger"
                 color="danger" /* label="Loading..." */
               />) :
-              <div className={`duration-250 m-auto ${loading ? ' ' : ''}`}>
-                {
-                  loading &&
-                  (
-                    <Spinner
-                      labelColor="danger"
-                      color="danger" /* label="Loading..." */
-                    />
-                  )
-                }
-                <div className='w-full h-36 -z-10 absolute  bg-gradient-to-tr from-violet-300/50 to-teal-400/50 inset-0'>
-
+              <div className={`duration-250 pl-5 md:pl-0 ${loading ? ' ' : ''}`}>
+                <div className='w-full mt-4 flex md:justify-center justify-start items-center h-auto md:h-36 md:-z-10 md:absolute relative  bg-gradient-to-tr from-violet-200/50 to-teal-100/50 '>
+                  <CustomizedSteppers activeStep={activeStep} />
                 </div>
-                <OrderLifecycleController order={data} onStatusChange={onStatusChange} />
+                <div className='flex flex-wrap gap-6 mx-1 md:mx-5'>
+                  <div className='flex gap-8 flex-wrap grow justify-around md:ml-auto mt-2 md:mt-44'>
+                    <div className='flex w-full lg:w-auto text-sm flex-col gap-2'>
+                      <h1 className='flex text-lg font-semibold gap-3 items-center'>
+                        <span><FaBox /></span>Order Information</h1>
+                      <div className=''>
+                        <p className='text-gray-500 '>
+                          PICKUP DATE
+                        </p>
+                        <p className='font-semibold text-base'>{datos?.createdAt}</p>
+                      </div>
+                      <div className=''>
+                        <p className='text-gray-500'>
+                          ESTIMATE DRCP
+                        </p>
+                        <p className='font-semibold text-base'> 8 Days {/* TENGO QUE PONER UNA API AQUIO */}</p>
+                      </div>
+                      <div className=''>
+                        <p className='text-gray-500'>
+                          RETURN AVALIABLE TIME
+                        </p>
+                        <p className='font-semibold text-base'> 7 Days {/* TENGO QUE PONER UNA API AQUIO */}</p>
+                      </div>
+                    </div>
+                    <div className='flex w-full lg:w-auto lg:max-w-72 text-sm flex-col gap-2'>
+                      <h1 className='flex text-lg font-semibold gap-3 items-center'>
+                        <span><FaLocationDot /></span>Locations</h1>
+                      <div className=''>
+                        <p className='text-gray-500'> PICKUP LOCATIONS</p>
+                        <span className=' font-semibold text-base'>
+                          {/* Crear API aqui Lugar de recogida */}
+                          {
+                            [...adress]?.map((pickup: any, index: number) => (
+                              <div key={index}>
+                                <p className='font-normal text-rose-700'>Address - {index + 1}</p>
+                                <p>{pickup}</p>
+                              </div>
+                            ))
+                          }
+                        </span>
+                      </div>
+                      <div className=''>
+                        <p className='text-gray-500'> DROPOFT LOCATIONS</p>
+                        <span className=' font-semibold text-base'>
+                          {/* Crear API aqui Lugar de recogida */}
+                          <p>{datos?.city}</p>
+                          <p>{datos?.destination}</p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <OrderLifecycleController order={datos} onStatusChange={onStatusChange} >
+                    {
+                      loading &&
+                      (
+                        <Spinner
+                          labelColor="danger"
+                          color="danger" /* label="Loading..." */
+                        />
+                      )
+                    }
+                  </OrderLifecycleController>
+                </div>
               </div>
         }
-        <DetaillOrder >
-          {data?.items.map((elem: any) =>
-          (
-            <div className='flex justify-start gap-5 ml-10'>
+        <DetaillOrder customer={datos?.customer}>
+          {datos?.storeOrders.flatMap((e: any) => e?.items.map((elem: any) => {
 
-              <Image
-                isBlurred
-                alt="Album Cover"
-                className='min-w-20'
-                src={`${port}${elem.productImage}`}
-                width={80}
-                height={80}
-              />
-              <div>
-                <p className="text-sm font-medium">{elem.productName}</p>
-                <p className="text-sm">{elem?.productDescription}</p>
-                <p className="text-xs text-gray-500"></p>
+            return (
+              <div className='flex flex-col lg:flex-row mt-5 justify-start items-start gap-5 md:ml-10'>
+
+                <Image
+                  isBlurred
+                  alt="Album Cover"
+                  className='min-w-20'
+                  src={`${port}${elem?.productImage}`}
+                  width={80}
+                  height={80}
+                />
+                <div className=' lg:w-full w-[70%]'>
+                  <p className="text-sm font-medium">{elem?.productName}</p>
+                  <p className="text-sm max-w-96 line-clamp-3">{elem?.productDescription}</p>
+                  <div className='flex gap-5 mt-4 flex-wrap'>
+                    <div className=' flex items-center  gap-2 '>
+                      <p className="text-xs text-gray-500">Store:</p>
+                      <p className="text-xs">{elem?.storeName}</p>
+                    </div>
+                    <div className=' flex gap-2 '>
+                      <p className="text-xs text-gray-500">Price:</p>
+                      <p className="text-xs text-gray-500"> ${elem?.price}</p>
+                    </div>
+                    <div className='flex gap-5'>
+                      <p className="text-xs text-gray-500">Quantity:</p>
+                      <p className="text-xs text-gray-500">{elem?.quantity}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          )
 
-          )}
-          <div>
+            )
 
-          </div>
+          }))}
+
         </DetaillOrder>
+        <div className='w-full flex justify-center mb-10 mt-10'>
+          <div className='w-[90%]'>
+            {/* <OrderTrackingMap orderId={datos?.id} /> */}
+          </div>
+        </div>
       </div>
     )
   }
