@@ -33,7 +33,6 @@ export const useWebSocketOrder = (url: string, orderId: any) => {
 
     // 2. Recibir datos iniciales
     socket.on("route-update", (newRoute: LatLngExpression[]) => {
-      console.log(newRoute);
       //   setRoute(newRoute);
       queryClient.setQueryData(["order-route", orderId], newRoute);
     });

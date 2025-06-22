@@ -47,6 +47,7 @@ export const OrderListEdit = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(datos?.id)
       setdatos(data)
       const newActiveStep = statusSequence.indexOf(data?.globalStatus);
       setActiveStep(newActiveStep);
@@ -54,7 +55,7 @@ export const OrderListEdit = () => {
 
   }, [data])
 
-  // console.log(datos)
+  //console.log(datos)
   const onStatusChange = async (id: string, newStatus: OrderStatus) => {
 
     setloading(true)
@@ -64,20 +65,16 @@ export const OrderListEdit = () => {
       // Calcular nuevo paso activo basado en secuencia
       const newActiveStep = statusSequence.indexOf(dataOrder.data.globalStatus);
       setActiveStep(newActiveStep);
-      console.log(datos)
       setloading(false)
     } catch (error) {
       setloading(false)
       console.log(error)
     }
-
   }
 
 
   const adress = new Set()
   datos?.storeOrders.map((e: any) => e.items.map((x: any) => adress?.add(x.Store.address)))
-
-
 
   const ProductDetail = () => {
     return (
@@ -203,7 +200,7 @@ export const OrderListEdit = () => {
         </DetaillOrder>
         <div className='w-full flex justify-center mb-10 mt-10'>
           <div className='w-[90%]'>
-            {/* <OrderTrackingMap orderId={datos?.id} /> */}
+            <OrderTrackingMap storeOrderId={datos?.id} />
           </div>
         </div>
       </div>
