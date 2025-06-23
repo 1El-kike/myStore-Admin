@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L, { LatLngBounds, LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { port } from "../../../../../config/env";
+import { API_KEY_MAP, port } from "../../../../../config/env";
 import Route from "../../../widgets/routerPolyline";
 import { useWebSocketOrder } from "../../../../service/useWebSocketLocationOrder";
 import { useRouteData } from "../../../../service/useLocation";
@@ -82,6 +82,7 @@ export const OrderTrackingMap = ({ storeOrderId }: { storeOrderId: string }) => 
     // Almacenar destinos únicos para evitar duplicados
     const uniqueDestinations = new Map<string, boolean>();
 
+
     return (
         <div className="h-96 w-full relative">
             {mapError && (
@@ -96,7 +97,7 @@ export const OrderTrackingMap = ({ storeOrderId }: { storeOrderId: string }) => 
                 className="h-full w-full rounded-lg"
             >
                 <TileLayer
-                    url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+                    url={`https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${API_KEY_MAP}`}
                     attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
                 />
 

@@ -7,6 +7,7 @@ import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
+import { API_KEY_MAP } from "../../../config/env";
 
 // Configuración de íconos
 const defaultIcon = L.icon({
@@ -138,11 +139,11 @@ export const Input_Adress: React.FC<Input_Text> = ({
         setValue(coordinatesLat, lat);
         setValue(coordinatesLon, lng);
       } else {
-        setError("No se pudo obtener la dirección para estas coordenadas.");
+        setError("The address could not be obtained for these coordinates.");
       }
     } catch (err) {
       console.error("Error en geocodificación inversa:", err);
-      setError("Error al obtener la dirección.");
+      setError("Error obtaining the address.");
     } finally {
       setIsLoading(false);
     }
@@ -234,7 +235,7 @@ export const Input_Adress: React.FC<Input_Text> = ({
                   }}
                 >
                   <TileLayer
-                    url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+                    url={`https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=${API_KEY_MAP}`}
                     attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
                   />
                   <MapUpdater center={mapCenter} />
