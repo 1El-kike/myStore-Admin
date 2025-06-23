@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/myStore-Admin/" : "/",
   plugins: [react()],
-  server: {
+  /*  server: {
     proxy: {
       "/osrm-proxy": {
         target: "https://router.project-osrm.org",
@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => ({
         secure: false,
       },
     },
-  },
+  }, */
   /*   build: {
     outDir: "dist",
     rollupOptions: {

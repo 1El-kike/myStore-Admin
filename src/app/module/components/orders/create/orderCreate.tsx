@@ -20,6 +20,7 @@ import { BodyModal, DataItem } from "./bodyModal";
 import { Number_Input } from "../../../widgets/number_Input";
 import { MdDiscount } from "react-icons/md";
 import { CuentaCreateOrder } from "./cuenta";
+import { Input_Adress } from "../../../widgets/input_adress";
 
 // Define el tipo para los datos entrantes
 
@@ -154,8 +155,8 @@ export const OrderCreate = () => {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
                 <h1 className="text-2xl font-bold mt-5">Billing information</h1>
+                <Input_Adress data='destination' placeholder='' label='Address destination *' coordinatesLat="deliveryLat" coordinatesLon='deliveryLng' />
                 <Input_text data="city" label="City *" placeholder="" />
-                <Input_text data="destination" label="Address destination *" placeholder="" />
                 <Input_text data="state" label="State *" placeholder="" />
                 <Input_text data="zipcode" label="Zip code *" placeholder="" />
                 <Input_text

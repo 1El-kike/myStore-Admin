@@ -47,12 +47,10 @@ export const OrderListEdit = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(datos?.id)
       setdatos(data)
       const newActiveStep = statusSequence.indexOf(data?.globalStatus);
       setActiveStep(newActiveStep);
     }
-
   }, [data])
 
   //console.log(datos)
@@ -159,45 +157,7 @@ export const OrderListEdit = () => {
                 </div>
               </div>
         }
-        <DetaillOrder customer={datos?.customer}>
-          {datos?.storeOrders.flatMap((e: any) => e?.items.map((elem: any) => {
-
-            return (
-              <div className='flex flex-col lg:flex-row mt-5 justify-start items-start gap-5 md:ml-10'>
-
-                <Image
-                  isBlurred
-                  alt="Album Cover"
-                  className='min-w-20'
-                  src={`${port}${elem?.productImage}`}
-                  width={80}
-                  height={80}
-                />
-                <div className=' lg:w-full w-[70%]'>
-                  <p className="text-sm font-medium">{elem?.productName}</p>
-                  <p className="text-sm max-w-96 line-clamp-3">{elem?.productDescription}</p>
-                  <div className='flex gap-5 mt-4 flex-wrap'>
-                    <div className=' flex items-center  gap-2 '>
-                      <p className="text-xs text-gray-500">Store:</p>
-                      <p className="text-xs">{elem?.storeName}</p>
-                    </div>
-                    <div className=' flex gap-2 '>
-                      <p className="text-xs text-gray-500">Price:</p>
-                      <p className="text-xs text-gray-500"> ${elem?.price}</p>
-                    </div>
-                    <div className='flex gap-5'>
-                      <p className="text-xs text-gray-500">Quantity:</p>
-                      <p className="text-xs text-gray-500">{elem?.quantity}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            )
-
-          }))}
-
-        </DetaillOrder>
+        <DetaillOrder customer={datos?.customer} datos={datos?.storeOrders} />
         <div className='w-full flex justify-center mb-10 mt-10'>
           <div className='w-[90%]'>
             <OrderTrackingMap storeOrderId={datos?.id} />

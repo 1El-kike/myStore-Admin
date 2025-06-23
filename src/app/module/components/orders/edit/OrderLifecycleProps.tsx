@@ -182,7 +182,7 @@ const OrderLifecycleController = memo(({ order, onStatusChange, children }: Orde
 
                 </div>
                 <div className="space-y-1">
-                    <p className="text-sm font-medium">Productos:</p>
+                    <p className="text-sm font-medium">Products Name:</p>
                     <div className="flex flex-wrap gap-1">
                         {order?.storeOrders.map((product) => {
                             return product?.items.map(

@@ -11,9 +11,6 @@ export type LocationData = {
 
 export const useWebSocketOrder = (url: string, orderId: any) => {
   const queryClient = useQueryClient();
-  /* const [position, setPosition] = useState<L.LatLngTuple>([23.133, -82.38304]);
-  const [route, setRoute] = useState<LatLngExpression[]>([]);
-  const [locations, setLocations] = useState<L.LatLngTuple[]>([]); */
 
   useEffect(() => {
     if (!orderId) return;
@@ -36,10 +33,6 @@ export const useWebSocketOrder = (url: string, orderId: any) => {
       //   setRoute(newRoute);
       queryClient.setQueryData(["order-route", orderId], newRoute);
     });
-    /*   socket.on("route-update", (route: [number, number][]) => {
-      console.log(route);
-      queryClient.setQueryData(["order-route", orderId], route);
-    }); */
 
     // 3. Recibir actualizaciones en tiempo real
     socket.on("location-update", (newLocation: LocationData) => {
@@ -50,11 +43,6 @@ export const useWebSocketOrder = (url: string, orderId: any) => {
         ["location-history", orderId],
         (old: any) => [...(old || []), newLocation]
       );
-      //setLocations((prev) => [...prev, [newLocation.lat, newLocation.lng]]);
-      /* queryClient.setQueryData(["newLocation"], (old: LocationData) => ({
-        ...(old || {}),
-        ...newLocation,
-      })); */
     });
 
     socket.on("order-tracking-error", (error) => {
