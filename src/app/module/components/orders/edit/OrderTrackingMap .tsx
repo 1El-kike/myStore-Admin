@@ -2,28 +2,28 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L, { LatLngBounds, LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { API_KEY_MAP, port } from "../../../../../config/env";
+import { API_KEY_MAP, port, PUBLIC_URL } from "../../../../../config/env";
 import Route from "../../../widgets/routerPolyline";
 import { useWebSocketOrder } from "../../../../service/useWebSocketLocationOrder";
 import { useRouteData } from "../../../../service/useLocation";
 
 // Configuración de íconos
 const storeIcon = L.icon({
-    iconUrl: '/icon_maps/store.png',
+    iconUrl: `${PUBLIC_URL}icon_maps/store.png`,
     iconSize: [60, 60],
     iconAnchor: [15, 30],
     popupAnchor: [0, -300]
 });
 
 const destinationIcon = L.icon({
-    iconUrl: '/icon_maps/entrega.png',
+    iconUrl: `${PUBLIC_URL}/icon_maps/entrega.png`,
     iconSize: [50, 50],
     iconAnchor: [15, 30],
     popupAnchor: [0, -30]
 });
 
 const currentLocationIcon = L.icon({
-    iconUrl: '/icon_maps/conductor.png',
+    iconUrl: `${PUBLIC_URL}icon_maps/conductor.png`,
     iconSize: [60, 60],
     iconAnchor: [15, 30],
     popupAnchor: [0, -30]
