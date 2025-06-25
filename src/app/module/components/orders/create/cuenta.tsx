@@ -13,16 +13,17 @@ export const CuentaCreateOrder: React.FC<TypeCuenta> = ({ datosModal }) => {
   const { datosTable } = updateTable();
 
 
-
   // Dentro de tu componente
-  const subtotal = useMemo(() => {
-    return datosTable.reduce((accumulator: any, item: any) => {
+  let subtotal = useMemo(() => {
+    return datosTable?.reduce((accumulator: any, item: any) => {
       // Verificar que price y quantity sean números válidos
       const price = Number(item.price) || 0;
       const quantity = Number(item.quantity) || 1;
       return accumulator + (price * quantity);
     }, 0);
   }, [datosModal, datosTable])
+
+  if (subtotal == undefined) subtotal = 0
   const { watch, getValues } = useFormContext();
 
   const discount = useMemo(() => {

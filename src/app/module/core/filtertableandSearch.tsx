@@ -2,7 +2,6 @@ import { Selection, SortDescriptor } from "@nextui-org/react";
 import dayjs from "dayjs";
 import {
   useCallback,
-  useMemo,
   useState,
   useEffect,
   useContext,
@@ -16,32 +15,32 @@ interface TypeFilter {
 const UpdateTable = createContext<any>({
   page: 1,
   limit: 1,
-  setlimit:()=>{},
+  setlimit: () => { },
   filtertimeEnd: new Date(),
   filtertimeStart: new Date(),
   include: "all",
-  onSearchChange: () => {},
-  rowsPerPage:5,
-  onRowsPerPageChange: () => {},
-  onPreviousPage: () => {},
-  onNextPage: () => {},
+  onSearchChange: () => { },
+  rowsPerPage: 5,
+  onRowsPerPageChange: () => { },
+  onPreviousPage: () => { },
+  onNextPage: () => { },
   selectedKeys: new Set([]),
-  setSelectedKeys: () => {},
+  setSelectedKeys: () => { },
   filterValue: "",
   hasSearchFilter: true,
   filterTimeStart: dayjs(),
   filterTimeEnd: dayjs(),
   datosTable: [],
-  setdatosTable: () => {},
-  handleDatechangeEnd: () => {},
-  setPage: () => {},
-  handleDatechange: () => {},
+  setdatosTable: () => { },
+  handleDatechangeEnd: () => { },
+  setPage: () => { },
+  handleDatechange: () => { },
   sortDescriptor: {
     column: "age",
     direction: "ascending",
   },
-  setSortDescriptor: () => {},
-  clearDate: () => {},
+  setSortDescriptor: () => { },
+  clearDate: () => { },
 });
 
 export const FiltertableandSearch = ({ children }: TypeFilter) => {
@@ -72,7 +71,7 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
   }, []);
 
   // Memoiza la función para evitar recrearla
-  const stableSetdatosTable = useCallback((data:any) => {
+  const stableSetdatosTable = useCallback((data: any) => {
     setdatosTable(data);
   }, []);
 

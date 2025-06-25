@@ -4,11 +4,6 @@ import { useLocation } from "react-router-dom";
 import { useEjecut } from "../../../../hooks/useEjecut";
 import { ProductAll } from "../edit/product";
 import { Toolbar } from "../../../widgets/Toolbar";
-import { NotItems } from "../../../widgets/datosvacios/NotItems";
-import { FaShop, FaShopSlash } from "react-icons/fa6";
-import { ErrorsItems } from "../../../errors/errorsItems";
-import { Loading_items } from "../../../widgets/loading/loading_items";
-import { FcShop } from "react-icons/fc";
 
 export const DeliteSelectProducts = () => {
   const location = useLocation();

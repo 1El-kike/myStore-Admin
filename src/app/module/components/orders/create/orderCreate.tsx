@@ -21,6 +21,7 @@ import { Number_Input } from "../../../widgets/number_Input";
 import { MdDiscount } from "react-icons/md";
 import { CuentaCreateOrder } from "./cuenta";
 import { Input_Adress } from "../../../widgets/input_adress";
+import { Spinner } from "@nextui-org/react";
 
 // Define el tipo para los datos entrantes
 
@@ -122,11 +123,11 @@ export const OrderCreate = () => {
 
   useEffect(() => {
 
-    if (methods.formState.isSubmitSuccessful) {
+    if (methods?.formState?.isSubmitSuccessful) {
       setdatosModal([]);
       setdatosTable([]);
     }
-  }, [methods.formState.isSubmitSuccessful])
+  }, [methods?.formState?.isSubmitSuccessful])
 
 
 
@@ -184,7 +185,11 @@ export const OrderCreate = () => {
               </div>
               <div className="flex flex-col border border-gray-300 rounded-2xl shadow-slate-200 shadow-xl gap-6 my-5 pb-10 px-3 py-2">
                 <h1 className="text-2xl font-bold mt-5">Line items</h1>
-                <Table columns={columns} notItem={true} />
+                {datosTable == undefined ?
+                  <Spinner labelColor="danger" color="danger" label="Loading..." />
+                  :
+                  <Table columns={columns} notItem={true} />
+                }
                 <Modal_Component
                   component={<BodyModal setdatosModal={setdatosModal} datosModal={datosModal} />}
                   isAlert="yes"

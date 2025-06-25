@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { DataItem } from "../../orders/create/bodyModal";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { port, PUBLIC_URL } from "../../../../../config/env";
@@ -11,16 +10,16 @@ import { StarRating } from "../../../widgets/startRating";
 import { ErrorsItems } from "../../../errors/errorsItems";
 
 interface TypeProduct {
-  data:any;
-  link?:string;
-  Loading:boolean | undefined;
-  error:any;
-  text?:string;
-  icon?:any;
+  data: any;
+  link?: string;
+  Loading: boolean | undefined;
+  error: any;
+  text?: string;
+  icon?: any;
 }
 
-export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error,text,icon }) => {
-  
+export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error, text, icon }) => {
+
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -63,28 +62,28 @@ export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error,t
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-end">
-            <Autocomplete
-              className="max-w-xs"
-              variant="underlined"
-              aria-label="Buscar productos"
-              label="Seleccionar producto"
-              placeholder="Buscar producto..."
-              onInputChange={setSearchTerm}
-              onSelectionChange={(key: any) => handleSelectionChange(key)}
-              inputValue={searchTerm}
-            >
-              {autocompletItems.map((item: any) => (
-                <AutocompleteItem key={item.key} value={item.key}>
-                  {item.label}
-                </AutocompleteItem>
-              ))}
-            </Autocomplete>
-          </div>
+        <Autocomplete
+          className="max-w-xs"
+          variant="underlined"
+          aria-label="Buscar productos"
+          label="Seleccionar producto"
+          placeholder="Buscar producto..."
+          onInputChange={setSearchTerm}
+          onSelectionChange={(key: any) => handleSelectionChange(key)}
+          inputValue={searchTerm}
+        >
+          {autocompletItems.map((item: any) => (
+            <AutocompleteItem key={item.key} value={item.key}>
+              {item.label}
+            </AutocompleteItem>
+          ))}
+        </Autocomplete>
+      </div>
 
       {error ? (
-        <ErrorsItems/>
+        <ErrorsItems />
       ) : Loading ? (
-        <LoadingProduct/>
+        <LoadingProduct />
       ) : data.length == 0 ? (
         <NotItems
           link={`/products/add/`}
@@ -93,7 +92,7 @@ export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error,t
         />
       ) : (
         <>
-          
+
           {filteredItems?.map((item: any, index: number) => {
             const product = item.product || item;
             const status =
@@ -112,31 +111,31 @@ export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error,t
                   <div className="p-2 m-3 rounded-2xl relative flex flex-wrap gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">
 
                     <div className="flex flex-wrap items-start justify-between h-full w-full ">
-                    <div className="  md:w-[35%] xl:w-[20%] h-full">
-                    <img   
-                      src={
-                        port +
-                        (product.image ||
-                          `${PUBLIC_URL}placeholder-product.png`)
-                      }
-                      className="w-40  h-40 rounded-xl"
-                      alt={product.name}
-                    />
-                    </div>
-                    <div className="w-full h-full md:w-[50%]">
+                      <div className="  md:w-[35%] xl:w-[20%] h-full">
+                        <img
+                          src={
+                            port +
+                            (product.image ||
+                              `${PUBLIC_URL}placeholder-product.png`)
+                          }
+                          className="w-40  h-40 rounded-xl"
+                          alt={product.name}
+                        />
+                      </div>
+                      <div className="w-full h-full md:w-[50%]">
                         <h1 className="font-bold text-danger text-2xl">
                           {product.name}
                         </h1>
                         <p className="line-clamp-3 text-center  mt-2 px-4">
                           {product.description}
                         </p>
-                     </div>
-                     <div className="flex w-full lg:w-[30%]  md:min-w-[250px] items-start">
+                      </div>
+                      <div className="flex w-full lg:w-[30%]  md:min-w-[250px] items-start">
                         <div className=" flex flex-col gap-4 items-start p-2 h-full">
                           <h3 className="font-bold text-rose-900">
                             $ {product.price}.00
                           </h3>
-                          <StarRating rating={product.rating} size={23}/>
+                          <StarRating rating={product.rating} size={23} />
                           <p>
                             Categoría: {product.category} - {product.tipo}
                           </p>

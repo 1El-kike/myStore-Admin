@@ -15,6 +15,8 @@ import { useEjecut } from "../../../hooks/useEjecut";
 import { updateTable } from "../../core/filtertableandSearch";
 import { useNavigate } from "react-router-dom";
 import { ViewDetailOrder } from "./detailorders";
+import { NotItems } from "../../widgets/datosvacios/NotItems";
+import { FcPaid } from "react-icons/fc";
 
 interface TypeData {
   orders: any[];
@@ -129,7 +131,7 @@ export const OrderList = () => {
   };
 
   const functionactions = (data: any[]) => {
-    const newData = data.map((prev: any) => ({
+    const newData = data?.map((prev: any) => ({
       ...prev,
       actions: actions(prev),
     }));
@@ -198,28 +200,45 @@ export const OrderList = () => {
     },
   ];
 
+
+
   return (
     <>
       <PageTitleInit />
-      <div className=" w-[98%] md:w-[95%] filter contrast-150 m-1 md:m-5">
-        <TotalList
-          active={
-            data?.sumary.pending +
-            data?.sumary?.accepted +
-            data.sumary.delivering
-          }
-          complet={data?.sumary.delivered}
-          total={data?.sumary.all}
-          canceled={data?.sumary.cancelled}
-        />
-      </div>
-      <div className="m-1 md:m-5 bg-gradient-to-tr from-violet-200 to-rose-100 rounded-3xl ">
-        <TabsNext
-          onLinkChange={onLinkChange}
-          variant="underlined"
-          children={Datacomponent}
-        />
-      </div>
+      {
+        data?.countsByStatus?.AllCount == 0 ?
+          <div className="mt-10 lg:mx-10 mx-2">
+            <NotItems
+              link={`/orders/create/`}
+              Icon={FcPaid}
+              text={" There are not orders that show. before of continue you should add orders in you Count. In next link you would can create one"}
+            />
+          </div>
+          :
+          <>
+            <div className=" w-[98%] md:w-[95%] filter contrast-150 m-1 md:m-5">
+              <TotalList
+                active={
+                  data?.sumary.pending +
+                  data?.sumary?.accepted +
+                  data.sumary.delivering
+                }
+                complet={data?.sumary.delivered}
+                total={data?.sumary.all}
+                canceled={data?.sumary.cancelled}
+              />
+            </div>
+            <div className="m-1 md:m-5 bg-gradient-to-tr from-violet-200 to-rose-100 rounded-3xl ">
+              <TabsNext
+                onLinkChange={onLinkChange}
+                variant="underlined"
+                children={Datacomponent}
+              />
+            </div>
+
+          </>
+      }
+
     </>
   );
 };

@@ -16,7 +16,7 @@ const storeIcon = L.icon({
 });
 
 const destinationIcon = L.icon({
-    iconUrl: `${PUBLIC_URL}/icon_maps/entrega.png`,
+    iconUrl: `${PUBLIC_URL}icon_maps/entrega.png`,
     iconSize: [50, 50],
     iconAnchor: [15, 30],
     popupAnchor: [0, -30]
