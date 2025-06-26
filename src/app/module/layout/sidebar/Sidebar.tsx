@@ -9,12 +9,13 @@ import {
   HiTable,
   HiUser,
 } from "react-icons/hi";
-import {  MdSpaceDashboard } from "react-icons/md";
+import { MdSpaceDashboard } from "react-icons/md";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { CollapseSidebar } from "./collapseSidebar";
 import { FaJediOrder } from "react-icons/fa6";
 import { PUBLIC_URL } from "../../../../config/env";
+import { useAuth } from "../../auth/core/Auth";
 
 
 const custom = {
@@ -65,21 +66,25 @@ export const LayatSidebar = ({ setancho }: any) => {
     return null; // Oculta el sidebar en pantallas pequeñas
   }
 
-  
+  const { currentUser } = useAuth();
+  //validacion para saber que role tiene el usuario
+  function hasExactRole(roles: string[], target: string): boolean {
+    return roles.includes(target);
+  }
+  const admin = hasExactRole([currentUser?.role] as string[], "ADMIN");
+  const super_admin = hasExactRole([currentUser?.role] as string[], "SUPER_ADMIN");
 
   return (
     <div
-      className={` ${
-        collapsed ? " w-16 " : "w-64 t"
-      } duration-400 z-40 transition-all ease-in-out `}
+      className={` ${collapsed ? " w-16 " : "w-64 t"
+        } duration-400 z-40 transition-all ease-in-out `}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <Sidebar
         theme={custom}
-        className={`${
-          collapsed ? (hovered ? "w-64 " : "w-16 ") : "w-64 z-40"
-        } z-50 duration-400 transition-all ease-in-out fixed `}
+        className={`${collapsed ? (hovered ? "w-64 " : "w-16 ") : "w-64 z-40"
+          } z-50 duration-400 transition-all ease-in-out fixed `}
         aria-label="Sidebar with logo branding example "
       >
         <div className="relative">
@@ -97,7 +102,7 @@ export const LayatSidebar = ({ setancho }: any) => {
             onClick={toggleSidebar}
             className="absolute py-1 z-50 px-2 bg-slate-200 -right-7 top-0 rounded-md cursor-pointer"
           >
-           {""} <ArrowLeftIcon className={`${collapsed ? "rotate-180" : ""}`} />
+            {""} <ArrowLeftIcon className={`${collapsed ? "rotate-180" : ""}`} />
           </button>
         </div>
         <Sidebar.Items>
@@ -114,32 +119,32 @@ export const LayatSidebar = ({ setancho }: any) => {
               hovered={hovered}
               title="Products"
               collapseddata={[
-                {link:"products",name:"Shipping",id:8},
-                {link:"products/watch",name:"List Products",id:6},
-                {link:"products/add",name:"Create Product",id:7}
-                ]}
+                ...(admin ? [{ link: "products", name: "Product Management", id: 8 }] : []),
+                { link: "products/watch", name: "List Products", id: 6 },
+                { link: "products/add", name: "Shipping", id: 7 }
+              ]}
             />
             <CollapseSidebar
-            icon={FaStore}
+              icon={FaStore}
               collapsed={collapsed}
               hovered={hovered}
               title="Stores"
               collapseddata={[
-                {link:"stores",name:"Stores Management ",id:0},
-                {link:"stores/sales",name:"Stores Sales",id:1},
-                {link:"stores",name:"Inventory",id:2},
-                ]}
+                ...(super_admin ? [{ link: "stores", name: "Stores Management ", id: 0 }] : []),
+                { link: "stores/sales", name: "Stores Sales", id: 1 },
+                { link: "stores", name: "Inventory", id: 2 },
+              ]}
             />
-             <CollapseSidebar
-            icon={FaJediOrder}
+            <CollapseSidebar
+              icon={FaJediOrder}
               collapsed={collapsed}
               hovered={hovered}
               title="Orders"
               collapseddata={[
-                {link:"orders/list",name:"List Order",id:3},
-                {link:"orders/create",name:"Create Order",id:4},
-                {link:"orders",name:"Order Details",id:5},
-                ]}
+                { link: "orders/list", name: "List Order", id: 3 },
+                ...(admin ? [{ link: "orders/create", name: "Create Order", id: 4 }] : []),
+                { link: "orders", name: "Order Details", id: 5 },
+              ]}
             />
             <Sidebar.Item
               href="#"

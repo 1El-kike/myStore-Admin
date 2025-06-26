@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { useAuth } from "../module/auth/core/Auth";
 
 export type DashboardData = {
   totalSales: number;
@@ -22,11 +23,22 @@ export type DashboardData = {
 export const useWebSocket = (url: string, time: dayjs.Dayjs | null) => {
   const queryClient = useQueryClient();
 
+  const { currentUser, auth } = useAuth();
+
   useEffect(() => {
     const socket: Socket = io(url, {
       path: "/socket.io",
       withCredentials: true,
       transports: ["websocket"],
+      auth: {
+        token: auth?.api_token, // Asegúrate de enviar el token
+        user: {
+          // También envía los datos del usuario directamente
+          id: currentUser?.id,
+          role: currentUser?.role,
+          permissions: currentUser?.permission, // Permisos reales del usuario
+        },
+      },
     });
 
     // 1. Pedir datos iniciales al conectarse

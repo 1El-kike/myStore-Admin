@@ -6,6 +6,8 @@ import { OrderList } from '../../module/components/orders/orderList'
 import { OrderListEdit } from '../../module/components/orders/edit/orderListEdit'
 import { OrderCreate } from '../../module/components/orders/create/orderCreate'
 import { updateTable } from '../../module/core/filtertableandSearch'
+import { useAuth } from '../../module/auth/core/Auth'
+import { getRole } from '../../utils/getRoles'
 
 export const OrderPage = () => {
   const location = useLocation();
@@ -45,10 +47,42 @@ export const OrderPage = () => {
     },
   ]
 
+  const { currentUser } = useAuth();
+  const { admin, super_admin } = getRole(currentUser);
+
+  console.log(admin)
+
   return (
     <Routes>
+      {
+        admin ?
+          <>
+            <Route
+              path='create*'
+              element={
+                <>
+                  <PageTitle breadcrumbs={listOrder}>Create orders</PageTitle>
+                  <OrderCreate />
+                </>
+              }
+            />
+            <Route
+              path='list/edit/:id'
+              element={
+                <>
+                  <PageTitle breadcrumbs={listOrderEdit}>Edit</PageTitle>
+                  <OrderListEdit />
+                </>
+              }
+            />
+          </>
+          :
+          <>
+            <Route path='/*' element={<Navigate to="list" />} />
+          </>
+      }
       <Route
-        path='list/*'
+        path='list'
         element={
           <>
             <PageTitle breadcrumbs={listOrder}>Orders</PageTitle>
@@ -56,24 +90,7 @@ export const OrderPage = () => {
           </>
         }
       />
-      <Route
-        path='create/*'
-        element={
-          <>
-            <PageTitle breadcrumbs={listOrder}>Create orders</PageTitle>
-            <OrderCreate />
-          </>
-        }
-      />
-      <Route
-        path='list/edit/:id'
-        element={
-          <>
-            <PageTitle breadcrumbs={listOrderEdit}>Edit</PageTitle>
-            <OrderListEdit />
-          </>
-        }
-      />
+
       <Route index element={<Navigate to="list" />} />
     </Routes>
   )

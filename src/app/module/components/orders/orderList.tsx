@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { ViewDetailOrder } from "./detailorders";
 import { NotItems } from "../../widgets/datosvacios/NotItems";
 import { FcPaid } from "react-icons/fc";
+import { useAuth } from "../../auth/core/Auth";
+import { getRole } from "../../../utils/getRoles";
 
 interface TypeData {
   orders: any[];
@@ -110,24 +112,42 @@ export const OrderList = () => {
     ); // Mostrar un mensaje de carga mientras no haya data
   }
 
+  const { currentUser } = useAuth();
+
+  console.log(currentUser?.permission)
+
   const actions = (order: any) => {
     const editOrder = () => {
       navigate(`edit/${id}`);
     };
     const { id } = order;
 
-    return {
-      urledit: {
-        typeactions: "navigate",
-        element: "edit/" + id,
-      },
-      urldelite: "delite/",
-      urlview: /* () => ViewDetailOrder */ {
-        typeactions: "modal",
-        ...(order && { element: <ViewDetailOrder order={order} /> }),
-        title: order.order.productName,
-      },
-    };
+    let result = {}
+
+    if (currentUser?.permission.includes('READ_OWN')) {
+      result = {
+        urledit: {
+          typeactions: "navigate",
+          element: "edit/" + id,
+        },
+        ...(currentUser?.permission.includes('MANAGE_OWN') && { urldelite: "delite/" }),
+        urlview: {
+          typeactions: "modal",
+          ...(order && { element: <ViewDetailOrder order={order} /> }),
+          title: order.order.productName,
+        },
+      };
+    } else {
+      result = {
+        urlview: {
+          typeactions: "modal",
+          ...(order && { element: <ViewDetailOrder order={order} /> }),
+          title: order.order.productName,
+        },
+      }
+    }
+
+    return result
   };
 
   const functionactions = (data: any[]) => {
@@ -206,7 +226,7 @@ export const OrderList = () => {
     <>
       <PageTitleInit />
       {
-        data?.countsByStatus?.AllCount == 0 ?
+        data?.sumary?.all == 0 ?
           <div className="mt-10 lg:mx-10 mx-2">
             <NotItems
               link={`/orders/create/`}

@@ -8,6 +8,8 @@ import { Deletesuccess } from "../../module/widgets/deletesuccess";
 import { EditStore_template } from "../../module/components/stores/edit/editStore_template";
 import { PageLink, PageTitle } from "../../module/core/pageTitle";
 import { SelectStoreforDelite } from "../../module/components/stores/delete/selectStoreforDelite";
+import { useAuth } from "../../module/auth/core/Auth";
+import { getRole } from "../../utils/getRoles";
 
 export const StoresRouter = () => {
 
@@ -54,7 +56,7 @@ export const StoresRouter = () => {
       isActive: false,
     },
   ]
-  const deleteStore :Array<PageLink> = [
+  const deleteStore: Array<PageLink> = [
     {
       title: 'Beginning',
       path: '/stores/management',
@@ -74,7 +76,7 @@ export const StoresRouter = () => {
       isActive: false,
     },
   ]
-  const editStore :Array<PageLink> = [
+  const editStore: Array<PageLink> = [
     {
       title: 'Beginning',
       path: '/stores/management',
@@ -95,50 +97,64 @@ export const StoresRouter = () => {
     },
   ]
 
+  const { currentUser } = useAuth();
+  const { super_admin } = getRole(currentUser);
+
   return (
     <Routes>
-      <Route path="management" element={
-        <>
-         <PageTitle breadcrumbs={managament}>Store Management</PageTitle>
-        <Stores />
-        </>
-        } />
-      <Route path="add" element={
-        <>
-        <PageTitle breadcrumbs={selectStore}>Store Shop</PageTitle>
-        <AddStores_template />
-        </>
-        } />
-      <Route path="edit" element={
-        <>
-          <PageTitle breadcrumbs={selectStore}>Select Shop</PageTitle>
-        <SelectStoreforEdit />
-        </>
-        } />
+      {
+        super_admin ?
+          <>
+            <Route path="management" element={
+              <>
+                <PageTitle breadcrumbs={managament}>Store Management</PageTitle>
+                <Stores />
+              </>
+            } />
+            <Route path="add" element={
+              <>
+                <PageTitle breadcrumbs={selectStore}>Store Shop</PageTitle>
+                <AddStores_template />
+              </>
+
+            } />
+            <Route path="edit" element={
+              <>
+                <PageTitle breadcrumbs={selectStore}>Select Shop</PageTitle>
+                <SelectStoreforEdit />
+              </>
+            } />
+            <Route path="delite" element={
+              <>
+                <PageTitle breadcrumbs={selectStore}>Delete Shop</PageTitle>
+                <SelectStoreforDelite />
+              </>
+            } />
+            <Route path="delete/:id" element={
+              <>
+                <PageTitle breadcrumbs={deleteStore}>Shop Removed</PageTitle>
+                <Deletesuccess />
+              </>
+            } />
+            <Route path="edit/:id" element={
+              <>
+                <PageTitle breadcrumbs={editStore}>Edit Shop</PageTitle>
+                <EditStore_template />
+              </>
+            } />
+          </>
+          :
+          <Route path="/*" element={<Navigate to="watch" />} />
+      }
+
+
       <Route path="watch" element={
         <>
-        <PageTitle breadcrumbs={selectStore}>See Shop</PageTitle>
-        <WatchtoreforEdit />
+          <PageTitle breadcrumbs={selectStore}>See Shop</PageTitle>
+          <WatchtoreforEdit />
         </>
-        } />
-      <Route path="delite" element={
-        <>
-         <PageTitle breadcrumbs={selectStore}>Delete Shop</PageTitle>
-        <SelectStoreforDelite />
-        </>
-        } />
-      <Route path="delete/:id" element={
-        <>
-        <PageTitle breadcrumbs={deleteStore}>Shop Removed</PageTitle>
-        <Deletesuccess />
-        </>
-        } />
-      <Route path="edit/:id" element={
-        <>
-         <PageTitle breadcrumbs={editStore}>Edit Shop</PageTitle>
-        <EditStore_template />
-        </>
-        } />
+      } />
+
       <Route index element={<Navigate to="management" />} />
     </Routes>
   );

@@ -9,6 +9,7 @@ export interface UserModel {
   password: string;
   iphone: number;
   image: string;
-  Role: string;
+  role: string;
+  permission: string[];
   auth?: AuthModel;
 }

@@ -13,6 +13,8 @@ import { Delite } from "../../module/components/products/delited/delite";
 import { WatchProducts } from "../../module/components/products/watch/watchProducts";
 import { WatchSelectProducts } from "../../module/components/products/watch/watchSelectProducts";
 import { Watch } from "../../module/components/products/watch/watch";
+import { useAuth } from "../../module/auth/core/Auth";
+import { getRole } from "../../utils/getRoles";
 
 interface PageLink {
   title: string;
@@ -127,7 +129,7 @@ export const ProductsPage = () => {
     },
   ];
 
-  const watchProduct =  [
+  const watchProduct = [
     {
       title: "Beginning",
       path: "/products/management",
@@ -220,129 +222,141 @@ export const ProductsPage = () => {
     },
   ];
 
-  
+
+  const { currentUser } = useAuth();
+  const { admin, super_admin } = getRole(currentUser);
+
 
   return (
     <Routes>
       {/*###################  Ruta del campo mirar  #######################*/}
       <Route
-          path="watch"
-          element={
-            <>
-              <PageTitle breadcrumbs={watchProduct}>Watch Product</PageTitle>
-              <WatchProducts />
-            </>
-          }
-        />
-          <Route
-          path="watch/select"
-          element={
-            <>
-              <PageTitle breadcrumbs={watchSelectProduct}>Watch Product</PageTitle>
-              <WatchSelectProducts />
-            </>
-          }
-        />
-         <Route
-          path="watch/select/:idProduct"
-          element={
-            <>
-              <PageTitle breadcrumbs={watch}>Watch Product</PageTitle>
-              <Watch />
+        path="watch"
+        element={
+          <>
+            <PageTitle breadcrumbs={watchProduct}>Watch Product</PageTitle>
+            <WatchProducts />
+          </>
+        }
+      />
+      <Route
+        path="watch/select"
+        element={
+          <>
+            <PageTitle breadcrumbs={watchSelectProduct}>Watch Product</PageTitle>
+            <WatchSelectProducts />
+          </>
+        }
+      />
+      <Route
+        path="watch/select/:idProduct"
+        element={
+          <>
+            <PageTitle breadcrumbs={watch}>Watch Product</PageTitle>
+            <Watch />
 
-            </>
-          }
-        />
-        {/*############### Ruta de campo Delite ######################### */}
-       <Route
-          path="delite"
-          element={
-            <>
-              <PageTitle breadcrumbs={deleteProduct}>Delete Product</PageTitle>
-              <DelitedProducts />
-            </>
-          }
-        />
-         <Route
-          path="delite/select"
-          element={
-            <>
-              <PageTitle breadcrumbs={deleteSelectProduct}>Select Shop</PageTitle>
-              <DeliteSelectProducts />
-            </>
-          }
-        />
-          <Route
-          path="delite/select/:idProduct"
-          element={
-            <>
-              <PageTitle breadcrumbs={deleteSelectProduct}>Delete Product</PageTitle>
-              <Delite />
+          </>
+        }
+      />
 
-            </>
-          }
-        />
-      <Route
-        path="management"
-        element={
+      {
+        admin ?
           <>
-            <PageTitle breadcrumbs={managament}>Product Management</PageTitle>
-            <ProductMain />
+            {/*############### Ruta de campo Delite ######################### */}
+            <Route
+              path="delite"
+              element={
+                <>
+                  <PageTitle breadcrumbs={deleteProduct}>Delete Product</PageTitle>
+                  <DelitedProducts />
+                </>
+              }
+            />
+            <Route
+              path="delite/select"
+              element={
+                <>
+                  <PageTitle breadcrumbs={deleteSelectProduct}>Select Shop</PageTitle>
+                  <DeliteSelectProducts />
+                </>
+              }
+            />
+            <Route
+              path="delite/select/:idProduct"
+              element={
+                <>
+                  <PageTitle breadcrumbs={deleteSelectProduct}>Delete Product</PageTitle>
+                  <Delite />
+
+                </>
+              }
+            />
+            <Route
+              path="management"
+              element={
+                <>
+                  <PageTitle breadcrumbs={managament}>Product Management</PageTitle>
+                  <ProductMain />
+                </>
+              }
+            />
+            <Route
+              path="add"
+              element={
+                <>
+                  <PageTitle breadcrumbs={selectStoreAddProduct}>
+                    Select Shop
+                  </PageTitle>
+                  <SelectAddProducts />
+                </>
+              }
+            />
+            <Route
+              path="add/:idStore"
+              element={
+                <>
+                  <PageTitle breadcrumbs={addProduct}>Create Product</PageTitle>
+                  <AddProducts />
+                </>
+              }
+            />
+            <Route
+              path="select"
+              element={
+                <>
+                  <PageTitle breadcrumbs={selectStoreEditProduct}>
+                    Select Shop
+                  </PageTitle>
+                  <SelectEditProducts />
+                </>
+              }
+            />
+            <Route
+              path="select/edit"
+              element={
+                <>
+                  <PageTitle breadcrumbs={editProductofStore}>
+                    Select Product
+                  </PageTitle>
+                  <SelectStoreEditProduct />
+                </>
+              }
+            />
+
+            <Route
+              path="select/edit/:idProduct"
+              element={
+                <>
+                  <PageTitle breadcrumbs={editProduct}>Create Product</PageTitle>
+                  <EditProducts />
+                </>
+              }
+            />
           </>
-        }
-      />
-      <Route
-        path="add"
-        element={
-          <>
-            <PageTitle breadcrumbs={selectStoreAddProduct}>
-              Select Shop
-            </PageTitle>
-            <SelectAddProducts />
-          </>
-        }
-      />
-      <Route
-        path="add/:idStore"
-        element={
-          <>
-            <PageTitle breadcrumbs={addProduct}>Create Product</PageTitle>
-            <AddProducts />
-          </>
-        }
-      />
-      <Route
-        path="select"
-        element={
-          <>
-            <PageTitle breadcrumbs={selectStoreEditProduct}>
-              Select Shop
-            </PageTitle>
-            <SelectEditProducts />
-          </>
-        }
-      />
-      <Route
-        path="select/edit"
-        element={
-          <>
-            <PageTitle breadcrumbs={editProductofStore}>
-              Select Product
-            </PageTitle>
-            <SelectStoreEditProduct />
-          </>
-        }
-      />
-       
-      <Route
-        path="select/edit/:idProduct"
-        element={
-          <>
-            <PageTitle breadcrumbs={editProduct}>Create Product</PageTitle>
-            <EditProducts />
-          </>
-        }
-      />
+          :
+          <Route path="/*" element={<Navigate to="watch" />} />
+      }
+
 
       <Route index element={<Navigate to="management" />} />
     </Routes>
