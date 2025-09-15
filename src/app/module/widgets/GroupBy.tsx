@@ -61,6 +61,7 @@ export const Group: React.FC<TypeGroup> = ({
       ) : (
         <NotItems
           link="/stores/add"
+          role={['SUPER_ADMIN']}
           text="There are no stores to display, you must first add a new store. Follow the link beloe to get started"
           Icon={FcShop}
         />
@@ -120,6 +121,7 @@ export const List: React.FC<TypeGroup> = ({
         ) : (
           <NotItems
             link="/stores/add"
+            role={['SUPER_ADMIN']}
             text="There are no stores to display, you must first add a new store. Follow the link beloe to get started"
             Icon={FcShop}
           />
@@ -160,6 +162,7 @@ export const Table: React.FC<TypeGroup> = ({
       ) : (
         <NotItems
           link="/stores/add"
+          role={['SUPER_ADMIN']}
           text="There are no stores to display, you must first add a new store. Follow the link beloe to get started"
           Icon={FcShop}
         />

@@ -125,6 +125,7 @@ export const SelectStoreforDelite = () => {
               <NotItems
                 link="/stores/add"
                 Icon={FcHighPriority}
+                role={['SUPER_ADMIN']}
                 text="There are currently no stores to display, follow the link below to create a store"
               />
             )}

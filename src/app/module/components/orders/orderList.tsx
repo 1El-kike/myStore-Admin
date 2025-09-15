@@ -20,6 +20,7 @@ export const OrderList = () => {
           <div className="mt-10 lg:mx-10 mx-2">
             <NotItems
               link={`/orders/create/`}
+              role={["EMPLOYEE", "ADMIN"]}
               Icon={FcPaid}
               text={" There are not orders that show. before of continue you should add orders in you Count. In next link you would can create one"}
             />
