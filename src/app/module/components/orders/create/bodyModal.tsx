@@ -218,7 +218,7 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
   return (
     <>
       {newDataModal?.map((field: any, index: number) => (
-        <div key={field.id} className="flex justify-between items-center mb-4">
+        <div key={field.id + index} className="flex justify-between items-center mb-4">
           <Autocomplete
             className="max-w-xs"
             isInvalid={!!errors[index]} // <- Nueva prop
@@ -285,10 +285,11 @@ export const BodyModal: React.FC<TypeBodyModal> = ({
         )}
         <div className="flex justify-end w-full">
           <AvatarGroup isBordered>
-            {newDataModal.map((field: any) => (
+            {newDataModal.map((field: any, index: number) => (
               <>
                 {field.id != null && (
                   <Avatar
+                    key={field.id + index}
                     className="h-20 text-large w-20"
                     src={port + field.image}
                   />

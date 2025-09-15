@@ -25,14 +25,15 @@ import LoadingWatch from "../../../widgets/loading/loadingWatch";
 import { ErrorsItems } from "../../../errors/errorsItems";
 import { Reviews } from "../../../widgets/reviews/review";
 
-interface ReviewStats {
-  star: number;
-  count: number;
-  totalLikes: number;
-}
 
 export const Watch = () => {
   const { idProduct: id } = useParams();
+
+  const {
+    data: product,
+    errors,
+    isLoadingData,
+  } = useEjecut({ url: `allproducts/${id}` });
 
   const CarouselPersonalizado = ({ children }: any) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -69,7 +70,7 @@ export const Watch = () => {
 
     return (
       <div className="flex flex-col justify-center items-center ">
-        <div className="w-[80%] relative rounded-xl border h-[300px] lg:h-[500px] overflow-hidden">
+        <div className="w-[80%]  relative rounded-xl border overflow-hidden">
           <ButtonPrev />
           <ButtonNext />
           <div
@@ -81,7 +82,8 @@ export const Watch = () => {
                 <div className="w-auto  object-cover">
                   <Image
                     isBlurred
-                    className="aspect-square"
+                    width={'100%'}
+                    className=" aspect-square"
                     alt="Album Cover"
                     src={port + image?.url}
                   />
@@ -90,31 +92,31 @@ export const Watch = () => {
             ))}
           </div>
         </div>
-        <div className="w-[60%] pl-2  overflow-hidden">
+        <div className="w-[60%] pl-2 m-4 md:m-0  overflow-hidden">
           <div
-            className={`relative  mt-4  w-full  duration-250`}
+            className={`relative   mt-4  w-full  duration-250`}
             style={{ transform: `translateX(-${currentIndex * 10}%)` }}
           >
-            <div className="w-20 flex items-center my-2 gap-4 ">
+            <div className="max-w-10 max-h-10 md:max-w-20 md:max-h-20 aspect-[1/1] flex items-center my-2 gap-4 ">
               {children?.map((image: any, index: number) => (
                 <div
                   onClick={() => selectPicture(index)}
                   key={image?.id}
-                  className={`w-full flex-shrink-0 `}
+                  className={`w-full h-full flex-shrink-0 `}
                 >
-                  <div className={`w-full h-full rounded-2xl ${
-                      currentIndex == index
-                      ? " scale-105 border-2 border-red-500 duration-300 z-10"
-                      : "opacity-65 z-20"
+                  <div className={`w-full h-full rounded-2xl ${currentIndex == index
+                    ? " scale-105 border-2 border-red-500 duration-300 z-10"
+                    : "opacity-65 z-20"
                     } object-cover`}>
-                  <Image
-                    isBlurred
-                    
-                    width={"100%"}
-                    alt="Album Cover"
-                    src={port + image?.url}
+                    <Image
+                      isBlurred
+                      className=""
+                      width={"100%"}
+                      height={'100%'}
+                      alt="Album Cover"
+                      src={port + image?.url}
                     />
-                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -124,11 +126,7 @@ export const Watch = () => {
     );
   };
 
-  const {
-    data: product,
-    errors,
-    isLoadingData,
-  } = useEjecut({ url: `allproducts/${id}` });
+
 
   const image = [
     { id: 1, url: product?.image },

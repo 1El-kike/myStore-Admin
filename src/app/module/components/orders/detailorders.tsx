@@ -49,10 +49,10 @@ export const ViewDetailOrder = (order: any) => {
       // Mapea los productos desde los datos recibidos
       //const product = itemsProduct(order?.order?.order?.storeOrders?.items)
       const itemsProduct = order?.order?.order?.storeOrders?.items.flatMap((product: any) =>
-        product.map((item: any) => {
+        product.map((item: any, index: number) => {
           return ({
             product: (
-              <div key={item} className="flex justify-center gap-3 items-center">
+              <div key={item + 'index' + index} className="flex justify-center gap-3 items-center">
                 <img
                   className="w-10 h-10 rounded-xl"
                   src={`${port}${item?.imageProduct}`}
@@ -168,7 +168,7 @@ export const ViewDetailOrder = (order: any) => {
           {datos?.map((campo: any, index: number): any => {
             if (tipo === "customer") {
               return (
-                <React.Fragment key={index}>
+                <React.Fragment key={index + 'campo' + campo?.customer}>
                   <div
                     className={` w-full text-gray-400 font-semibold flex items-center px-4 h-20  ${index == datos.length - 1
                       ? ""
@@ -189,7 +189,7 @@ export const ViewDetailOrder = (order: any) => {
               );
             } else if (tipo === "product") {
               return (
-                <React.Fragment key={index}>
+                <React.Fragment key={index + 'campo' + campo?.product}>
                   <div
                     className={`col-span-2 w-full ${index === 0
                       ? "text-gray-400 font-semibold"

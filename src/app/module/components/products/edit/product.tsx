@@ -72,8 +72,8 @@ export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error, 
           onSelectionChange={(key: any) => handleSelectionChange(key)}
           inputValue={searchTerm}
         >
-          {autocompletItems.map((item: any) => (
-            <AutocompleteItem key={item.key} value={item.key}>
+          {autocompletItems.map((item: any, index: number) => (
+            <AutocompleteItem key={item.key + index} value={item.key}>
               {item.label}
             </AutocompleteItem>
           ))}
@@ -102,10 +102,8 @@ export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error, 
               : `${item?.product?.id}`; /*  product.id ? `${link}${product.id}` : "#"; */
 
             return (
-              <div className="w-full hover:scale-[1.02] transition-transform">
+              <div key={item?.id + index || item?.product?.id + index} className="w-full hover:scale-[1.02] transition-transform">
                 <Link
-                  // key={product.id}
-                  key={item?.id + index || item?.product?.id + index}
                   to={itemLink}
                 >
                   <div className="p-2 m-3 rounded-2xl relative flex flex-wrap gap-4 bg-gradient-to-tr from-violet-100 to-rose-100">

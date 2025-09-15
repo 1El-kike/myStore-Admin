@@ -200,8 +200,8 @@ export default function CustomizedSteppers({ activeStep }: any) {
                     <Stack sx={{ width: '100%' }} spacing={4}>
 
                         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                            {steps.map((label) => (
-                                <Step key={label}>
+                            {steps.map((label, index) => (
+                                <Step key={label + index}>
                                     <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
                                 </Step>
                             ))}
@@ -212,7 +212,7 @@ export default function CustomizedSteppers({ activeStep }: any) {
                     <Box sx={{ maxWidth: 400, marginLeft: 3 }}>
                         <Stepper activeStep={activeStep} orientation="vertical">
                             {steps2.map((step, index) => (
-                                <Step key={step.label}>
+                                <Step key={step.label + index}>
                                     <StepLabel
                                         optional={
                                             index === steps.length - 1 ? (

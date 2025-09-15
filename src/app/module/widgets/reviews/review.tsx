@@ -21,7 +21,7 @@ export const Reviews = ({ productId }: { productId: any }) => {
   const [valuetextReview, setvaluetextReview] = useState("");
   const { currentUser } = useAuth();
   const [errorReview, seterror] = useState("");
- // const [first, setfirst] = useState(false)
+  // const [first, setfirst] = useState(false)
 
   const {
     data: reviewData,
@@ -68,13 +68,13 @@ export const Reviews = ({ productId }: { productId: any }) => {
     try {
       // ...validaciones
       // ✅ Agrega await para esperar la creación
-      await axios.post(`${port}review/`, data); 
+      await axios.post(`${port}review/`, data);
       setRefreshFlag(prev => prev + 1);
       closeModal();
       seterror("");
       setvaluetextReview("");
       setSelectedStars(0);
-     // setfirst(true)
+      // setfirst(true)
     } catch (error) {
       seterror("Error creating review");
     }
@@ -111,15 +111,14 @@ export const Reviews = ({ productId }: { productId: any }) => {
         <LoadingReview />
       ) : (
         reviewData && (
-          <div>
-            <div className="flex  flex-col md:flex-row md:pl-3 scale-90 items-center">
+          <div className="">
+            <div className="flex w-full flex-col md:flex-row   items-center">
               <div className="grow  w-full md:basis-56 border-r">
                 {/* cantidad de rating verdadera */}
                 <div className="flex flex-col  items-center justify-center md:gap-3">
                   <p className=" md:text-xl font-bold">Average rating</p>
-                  <h1 className=" text-4xl md:text-7xl bg-gradient-to-tr from-slate-800 bg-clip-text text-transparent to-rose-900 font-extrabold">{`${
-                    Math.round(average * 10) / 10
-                  }/5`}</h1>
+                  <h1 className=" text-4xl md:text-7xl bg-gradient-to-tr from-slate-800 bg-clip-text text-transparent to-rose-900 font-extrabold">{`${Math.round(average * 10) / 10
+                    }/5`}</h1>
                   <StarRating rating={average} size={22} />
                   <p className="text-slate-400">{`( ${formatLikes(
                     totalReviews
@@ -143,11 +142,11 @@ export const Reviews = ({ productId }: { productId: any }) => {
                   isAlert="yes"
                   title={"Add Review"}
                   size="2xl"
-                  onClick={() => {}}
+                  onClick={() => { }}
                   onActionChange={(closeModal) => createReviews(closeModal)}
                   className=""
 
-                  //  onDiscardChange={onDiscardChange}
+                //  onDiscardChange={onDiscardChange}
                 >
                   <Button
                     startContent={<FaPencilAlt />}
@@ -162,11 +161,11 @@ export const Reviews = ({ productId }: { productId: any }) => {
               </div>
             </div>
             <div className="flex border-t-1 w-full">
-           
-                <CustomerReviews
-                  productId={productId}
-                  refreshFlag={refreshFlag}
-                />
+
+              <CustomerReviews
+                productId={productId}
+                refreshFlag={refreshFlag}
+              />
             </div>
           </div>
         )

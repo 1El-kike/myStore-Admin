@@ -39,7 +39,7 @@ export const SelectStoreforDelite = () => {
 
   useEffect(() => {
     if (actionState) {
-      DeliteFetch({ url: "stores/delete/", id: idStore });
+      DeliteFetch({ url: "stores/delete/", id: idStore, newredirect: `stores/delete/${idStore}` });
     }
   }, [actionState]);
 
@@ -85,7 +85,7 @@ export const SelectStoreforDelite = () => {
                 return (
                   <>
                     <Modal_Component
-                      key={data.id}
+                      key={data.id + index}
                       // background={{from:"violet-500",opacity:"70",to:"teal-500"}}
 
                       component={

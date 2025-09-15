@@ -25,7 +25,6 @@ import { Spinner } from "@nextui-org/react";
 
 // Define el tipo para los datos entrantes
 
-
 export const OrderCreate = () => {
   const methods = useForm(Form_orders);
   const { setdatosTable, datosTable } = updateTable();

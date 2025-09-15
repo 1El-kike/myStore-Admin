@@ -160,8 +160,8 @@ const OrderLifecycleController = memo(({ order, onStatusChange, children }: Orde
             <div className="flex items-center justify-between  mb-4">
                 <div>
                     <h3 className="text-lg font-semibold">Orden #{order?.id}</h3>
-                    {[...stores].map((store: any) =>
-                        <p className="text-sm text-gray-500">{store?.store.name}</p>
+                    {[...stores].map((store: any, index: number) =>
+                        <p key={store?.store.name + index} className="text-sm text-gray-500">{store?.store.name}</p>
                     )}
                 </div>
                 <Badge content={order?.storeOrders?.length} color="primary">
@@ -184,11 +184,11 @@ const OrderLifecycleController = memo(({ order, onStatusChange, children }: Orde
                 <div className="space-y-1">
                     <p className="text-sm font-medium">Products Name:</p>
                     <div className="flex flex-wrap gap-1">
-                        {order?.storeOrders.map((product) => {
+                        {order?.storeOrders.map((product, index: number) => {
                             return product?.items.map(
                                 element => {
                                     return (
-                                        <Chip key={element.productName} size="sm" variant="flat" color="default">
+                                        <Chip key={element.productName + index} size="sm" variant="flat" color="default">
                                             {element.productName}
                                         </Chip>
                                     )
@@ -206,9 +206,9 @@ const OrderLifecycleController = memo(({ order, onStatusChange, children }: Orde
                 {!children ? stores.size > 1 ? (
                     (currentStatusGlobal !== 'DELIVERED' && currentStatusGlobal !== 'CANCELLED') &&
                     <DropdownComponent>
-                        {storeOrders.map(store => (
+                        {storeOrders.map((store, index) => (
                             <DropdownItem
-                                key={store.id}
+                                key={store.id + index}
                                 color={buttonConfig[currentStatusGlobal].color as any}
                                 textValue={`Estado tienda ${store.id}`}
 

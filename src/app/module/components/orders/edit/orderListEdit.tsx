@@ -125,7 +125,7 @@ export const OrderListEdit = () => {
                           {/* Crear API aqui Lugar de recogida */}
                           {
                             [...adress]?.map((pickup: any, index: number) => (
-                              <div key={index}>
+                              <div key={index + pickup}>
                                 <p className='font-normal text-rose-700'>Address - {index + 1}</p>
                                 <p>{pickup}</p>
                               </div>

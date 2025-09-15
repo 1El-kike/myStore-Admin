@@ -2,21 +2,21 @@ import React, { useState } from 'react'
 import { FaDollarSign, FaEuroSign, FaLiraSign, FaWonSign, FaYenSign } from 'react-icons/fa';
 
 export interface TypeSelectMony {
-    elemen: any;
-    value: string;
-  }
+  elemen: any;
+  value: string;
+}
 
-  //funcion de select el tipo de moneda
+//funcion de select el tipo de moneda
 export const SelectMony: React.FC<{
   set: React.Dispatch<React.SetStateAction<number>>;
   indexPosition: number;
-  typemony:TypeSelectMony[];
+  typemony: TypeSelectMony[];
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = React.memo(({ set,typemony, indexPosition, setIsOpen }) => {
+}> = React.memo(({ set, typemony, indexPosition, setIsOpen }) => {
 
-      const radius = 50; // Radio del círculo
-     
-     
+  const radius = 50; // Radio del círculo
+
+
 
   const totalItems = typemony.length;
   const rotatetop = () => {
@@ -37,7 +37,7 @@ export const SelectMony: React.FC<{
 
           return (
             <div
-              key={item.value}
+              key={item.value + index}
               className="absolute bg-gray-200 rounded-md border border-gray-500 p-3"
               style={{
                 position: "absolute",

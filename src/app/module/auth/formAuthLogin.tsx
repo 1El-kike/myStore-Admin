@@ -15,7 +15,7 @@ export const FormAuthLogin: React.FC<FormAuths> = ({
   input_iphone,
   password_input,
 }) => {
-  const { error, isLoading, onSubmit, success } = useAuth({ methods: "login" });
+  const { error, isLoading, onSubmit, success } = useAuth();
   const {
     register,
     reset,
@@ -23,7 +23,7 @@ export const FormAuthLogin: React.FC<FormAuths> = ({
     handleSubmit,
   } = useForm();
 
-  
+
 
   return (
     <div className="w-full flex relative justify-end items-center h-full">
@@ -40,9 +40,8 @@ export const FormAuthLogin: React.FC<FormAuths> = ({
             {input_iphone}
           </label>
           <input
-            className={`appearance-none block w-full bg-gray-50 text-gray-700 border rounded-lg py-3  px-4 mb-8 leading-tight focus:outline-none focus:bg-white ${
-              errors[input_iphone] && "border-red-500"
-            }`}
+            className={`appearance-none block w-full bg-gray-50 text-gray-700 border rounded-lg py-3  px-4 mb-8 leading-tight focus:outline-none focus:bg-white ${errors[input_iphone] && "border-red-500"
+              }`}
             id={`grid-first-${input_iphone}`}
             type="text"
             {...register(input_iphone, {
@@ -70,9 +69,8 @@ export const FormAuthLogin: React.FC<FormAuths> = ({
               {password_input}
             </label>
             <input
-              className={`appearance-none block w-full bg-gray-50 text-gray-700 border rounded-lg py-3  px-4 mb-8 leading-tight focus:outline-none focus:bg-white ${
-                errors[password_input] && "border-red-500"
-              }`}
+              className={`appearance-none block w-full bg-gray-50 text-gray-700 border rounded-lg py-3  px-4 mb-8 leading-tight focus:outline-none focus:bg-white ${errors[password_input] && "border-red-500"
+                }`}
               id={`grid-${password_input}`}
               {...register(password_input, {
                 required: "This field is required",

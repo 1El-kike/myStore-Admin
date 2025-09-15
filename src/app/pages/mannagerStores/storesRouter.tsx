@@ -10,6 +10,7 @@ import { PageLink, PageTitle } from "../../module/core/pageTitle";
 import { SelectStoreforDelite } from "../../module/components/stores/delete/selectStoreforDelite";
 import { useAuth } from "../../module/auth/core/Auth";
 import { getRole } from "../../utils/getRoles";
+import { WatchStoreForSeeDetails } from "../../module/components/stores/watch/watchStoreForSeeDetails";
 
 export const StoresRouter = () => {
 
@@ -42,7 +43,7 @@ export const StoresRouter = () => {
       isActive: false,
     },
   ]
-  const selectStoreedit: Array<PageLink> = [
+  const selectStoreeSee: Array<PageLink> = [
     {
       title: 'Beginning',
       path: '/stores/management',
@@ -51,6 +52,12 @@ export const StoresRouter = () => {
     },
     {
       title: 'Select store',
+      path: '/stores/watch',
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: 'See store',
       path: '',
       isSeparator: true,
       isActive: false,
@@ -98,12 +105,24 @@ export const StoresRouter = () => {
   ]
 
   const { currentUser } = useAuth();
-  const { super_admin } = getRole(currentUser);
+  const { super_admin, admin } = getRole(currentUser);
 
   return (
     <Routes>
       {
-        super_admin ?
+        (super_admin || admin) &&
+        <>
+          <Route path="edit/:id" element={
+            <>
+              <PageTitle breadcrumbs={editStore}>Edit Shop</PageTitle>
+              <EditStore_template />
+            </>
+          } />
+
+        </>
+      }
+      {
+        (super_admin) ?
           <>
             <Route path="management" element={
               <>
@@ -154,6 +173,14 @@ export const StoresRouter = () => {
           <WatchtoreforEdit />
         </>
       } />
+
+      <Route path="watch/select/:idStore" element={
+        <>
+          <PageTitle breadcrumbs={selectStoreeSee}>Details Shop</PageTitle>
+          <WatchStoreForSeeDetails />
+        </>
+      }>
+      </Route>
 
       <Route index element={<Navigate to="management" />} />
     </Routes>

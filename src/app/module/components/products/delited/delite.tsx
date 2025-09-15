@@ -27,6 +27,7 @@ export const Delite = () => {
     DeliteFetch({
       url: "allProducts/OUTOFSTOCK/",
       id: Number(idProduct.idProduct),
+      newredirect: `/allProducts/OUTOFSTOCK/${Number(idProduct.idProduct)}`
     });
     navigate(-1);
   };
@@ -35,9 +36,11 @@ export const Delite = () => {
     DeliteFetch({
       url: "allProducts/delete/permanently/",
       id: Number(idProduct.idProduct),
+      newredirect: `allProducts/delete/permanently/${Number(idProduct.idProduct)}`
     });
     navigate(-1);
   };
+
   return (
     <div className="min-h-screen flex items-center  justify-center bg-background">
       <div
@@ -65,7 +68,7 @@ export const Delite = () => {
               onClick={handleShow}
               className="bg-gradient-to-tr from-rose-500 via-red-500 to-rose-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-gradient-to-tl hover:from-rose-500/80 hover:via-red-500/80 transition duration-200 hover:to-rose-600/80"
             >
-             Permanently Delete
+              Permanently Delete
             </button>
           </div>
 

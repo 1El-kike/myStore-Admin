@@ -50,12 +50,12 @@ export const OrderPage = () => {
   const { currentUser } = useAuth();
   const { admin, super_admin } = getRole(currentUser);
 
-  console.log(admin)
+
 
   return (
     <Routes>
       {
-        admin ?
+        (admin || super_admin) ?
           <>
             <Route
               path='create*'
@@ -78,7 +78,7 @@ export const OrderPage = () => {
           </>
           :
           <>
-            <Route path='/*' element={<Navigate to="list" />} />
+            <Route path='/*' element={<Navigate to="dashboard" />} />
           </>
       }
       <Route

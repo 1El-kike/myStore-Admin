@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { LayatSidebar } from "./sidebar/Sidebar";
-import {} from "react-responsive";
+import { } from "react-responsive";
 import { Navbars } from "./navbar/navbar";
 import { PageDataProvider } from "../core/pageTitle";
 import { FiltertableandSearch } from "../core/filtertableandSearch";
@@ -18,7 +18,7 @@ export const Layout = () => {
     <>
       <PageDataProvider>
         <FiltertableandSearch>
-          <div className="flex w-full overflow-x-clip h-full">
+          <div className="flex w-full font-sans overflow-x-clip h-full">
             {/* fondo de color calido */}
             <div
               className="fixed inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
@@ -30,7 +30,7 @@ export const Layout = () => {
             <div>
               <LayatSidebar setancho={setancho} />
             </div>
-            <div className="w-full">
+            <div className="w-full relative">
               <Navbars width={ancho} />
               <Outlet />
             </div>

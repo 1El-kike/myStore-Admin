@@ -16,6 +16,7 @@ import { CollapseSidebar } from "./collapseSidebar";
 import { FaJediOrder } from "react-icons/fa6";
 import { PUBLIC_URL } from "../../../../config/env";
 import { useAuth } from "../../auth/core/Auth";
+import { UserIcon } from "../../widgets/iconSVG";
 
 
 const custom = {
@@ -119,7 +120,7 @@ export const LayatSidebar = ({ setancho }: any) => {
               hovered={hovered}
               title="Products"
               collapseddata={[
-                ...(admin ? [{ link: "products", name: "Product Management", id: 8 }] : []),
+                ...((admin || super_admin) ? [{ link: "products", name: "Product Management", id: 8 }] : []),
                 { link: "products/watch", name: "List Products", id: 6 },
                 { link: "products/add", name: "Shipping", id: 7 }
               ]}
@@ -131,7 +132,7 @@ export const LayatSidebar = ({ setancho }: any) => {
               title="Stores"
               collapseddata={[
                 ...(super_admin ? [{ link: "stores", name: "Stores Management ", id: 0 }] : []),
-                { link: "stores/sales", name: "Stores Sales", id: 1 },
+                { link: "stores/watch", name: "Stores Sales", id: 1 },
                 { link: "stores", name: "Inventory", id: 2 },
               ]}
             />
@@ -143,21 +144,24 @@ export const LayatSidebar = ({ setancho }: any) => {
               collapseddata={[
                 { link: "orders/list", name: "List Order", id: 3 },
                 ...(admin ? [{ link: "orders/create", name: "Create Order", id: 4 }] : []),
-                { link: "orders", name: "Order Details", id: 5 },
+                { link: "orders/list", name: "Order Details", id: 5 },
               ]}
             />
-            <Sidebar.Item
-              href="#"
-              icon={HiInbox}
-              label={!collapsed ? "3" : hovered && "3"}
-            >
-              {!collapsed ? "Inbox" : hovered && "Inbox"}
-            </Sidebar.Item>
+            {super_admin && <Link to={"users"}>
+              <Sidebar.Item
+                icon={UserIcon}
+                href=""
+
+                label={!collapsed ? "3" : hovered && "3"}
+              >
+                {!collapsed ? "User management" : hovered && "User management"}
+              </Sidebar.Item>
+            </Link>}
             <Sidebar.Item href="#" icon={HiUser}>
-              {!collapsed ? "Users" : hovered && "Users"}
+              {!collapsed ? "Chat" : hovered && "Chat"}
             </Sidebar.Item>
             <Sidebar.Item href="#" icon={HiShoppingBag}>
-              {!collapsed ? "sssss" : hovered && "ssssssss"}
+              {!collapsed ? "Setting" : hovered && "Setting"}
             </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>

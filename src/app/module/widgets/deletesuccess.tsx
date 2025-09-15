@@ -15,7 +15,7 @@ export const Deletesuccess = () => {
 
   return (
     <>
-    <PageTitleInit/>
+      <PageTitleInit />
       <div className="relative bg-gradient-to-b from-rose-200 to-transparent">
         <h1 className="text-3xl p-10 text-rose-900 font-extrabold flex justify-center items-center  gap-3">
           {message} <FaCircleXmark size={28} />
@@ -26,7 +26,7 @@ export const Deletesuccess = () => {
             <div className="flex flex-wrap justify-around gap-10">
               {Object.keys(deliteData).map((key) =>
                 deliteData[key] == deliteData.rating ? (
-                  <span className="flex items-center">
+                  <span key={key} className="flex items-center">
                     {" "}
                     Rating: <StarRating
                       size={18}

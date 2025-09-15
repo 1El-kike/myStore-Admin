@@ -4,7 +4,7 @@ import { usePageData } from "../core/pageTitle";
 import { Link, useNavigate } from "react-router-dom";
 
 
-export const ShoppingCartIcon = (props:any) => {
+export const ShoppingCartIcon = (props: any) => {
 
 
   return (
@@ -38,13 +38,13 @@ export const ShoppingCartIcon = (props:any) => {
   );
 };
 
-export const Breadcrumb:FC<any> =({link})=> {
+export const Breadcrumb: FC<any> = ({ link }) => {
 
-  const {pageBreadcrumbs} = usePageData()
+  const { pageBreadcrumbs } = usePageData()
 
   const navigate = useNavigate()
 
-  const handleClick = (prop:string | number)=>{
+  const handleClick = (prop: string | number) => {
     if (prop == -1) {
       navigate(-1)
     }
@@ -65,7 +65,8 @@ export const Breadcrumb:FC<any> =({link})=> {
       <BreadcrumbItem href={link}>
         <ShoppingCartIcon />
       </BreadcrumbItem>
-      {pageBreadcrumbs?.map( breadcrum => { return <BreadcrumbItem onClick={()=> handleClick(breadcrum.path)} href={breadcrum.path}>{breadcrum.title}</BreadcrumbItem>
+      {pageBreadcrumbs?.map((breadcrum, index) => {
+        return <BreadcrumbItem key={breadcrum.title + index} onClick={() => handleClick(breadcrum.path)} href={breadcrum.path}>{breadcrum.title}</BreadcrumbItem>
       })}
     </Breadcrumbs>
   );

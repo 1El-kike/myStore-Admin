@@ -37,10 +37,10 @@ export const DetaillOrder = ({ datos, customer }: DetaillProps) => {
                     <div className='flex flex-col  w-full  flex-wrap  justify-start'>
                         <h1 className='flex ml-10 border-b-1 pb-4 text-lg font-semibold gap-3 items-center'>
                             <span><FaUser /></span>Products more Details</h1>
-                        {data?.flatMap((e: any) => e?.items.map((elem: any) => {
+                        {data?.flatMap((e: any) => e?.items.map((elem: any, index: number) => {
 
                             return (
-                                <div className='flex flex-col hover:scale-110 duration-400 hover:translate-x-6 lg:flex-row mt-5 justify-start items-start gap-5 md:ml-10'>
+                                <div key={elem.storeName + index} className='flex flex-col hover:scale-110 duration-400 hover:translate-x-6 lg:flex-row mt-5 justify-start items-start gap-5 md:ml-10'>
 
                                     <Image
                                         isBlurred
@@ -114,7 +114,7 @@ export const DetaillOrder = ({ datos, customer }: DetaillProps) => {
                             <Box sx={{ maxWidth: 400 }}>
                                 <Stepper activeStep={2} orientation="vertical">
                                     {steps.map((step, index) => (
-                                        <Step key={step?.label}>
+                                        <Step key={step?.label + index}>
                                             <StepLabel    >
                                                 {step?.label}
                                             </StepLabel>

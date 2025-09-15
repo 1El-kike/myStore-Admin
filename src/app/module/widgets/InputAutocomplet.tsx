@@ -26,7 +26,7 @@ export const InputAutocomplet: React.FC<TypeAutocomplete> = memo(({
   size,
   isClearable = true,
   startContent,
-   existingItems = [],
+  existingItems = [],
   currentIndex,
 }) => {
 
@@ -43,7 +43,7 @@ export const InputAutocomplet: React.FC<TypeAutocomplete> = memo(({
           const isDuplicate = existingItems.some(
             (item, index) => item.productId === value && index !== currentIndex
           );
-          
+
           return !isDuplicate || "Este producto ya está en la lista";
         }
       }}
@@ -67,27 +67,27 @@ export const InputAutocomplet: React.FC<TypeAutocomplete> = memo(({
 
         return (
           <Autocomplete
-          selectedKey={field.value}
-          onSelectionChange={handleSelection}
-          isInvalid={!!fieldState.error}
-          errorMessage={fieldState.error?.message}
-          isRequired
-          isClearable={isClearable}
-          className={className || "max-w-xs" }
-          variant={variant || "underlined"}
-          items={dataAutocomplet}
-          startContent={startContent ? startContent : undefined}
-          aria-label="search_customer"        
-          label={label}
-          size={size}
-          placeholder={placeholder}
-        >
-          {(item) => (
-            <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
-          )}
-        </Autocomplete>
-      )
-    }}
+            selectedKey={field.value}
+            onSelectionChange={handleSelection}
+            isInvalid={!!fieldState.error}
+            errorMessage={fieldState.error?.message}
+            isRequired
+            isClearable={isClearable}
+            className={className || "max-w-xs"}
+            variant={variant || "underlined"}
+            items={dataAutocomplet}
+            startContent={startContent ? startContent : undefined}
+            aria-label="search_customer"
+            label={label}
+            size={size}
+            placeholder={placeholder}
+          >
+            {(item) => (
+              <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>
+            )}
+          </Autocomplete>
+        )
+      }}
     ></Controller>
   );
 });

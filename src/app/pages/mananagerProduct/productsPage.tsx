@@ -260,7 +260,7 @@ export const ProductsPage = () => {
       />
 
       {
-        admin ?
+        (admin || super_admin) ?
           <>
             {/*############### Ruta de campo Delite ######################### */}
             <Route

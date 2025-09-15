@@ -9,10 +9,10 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   Online: "success",
   InStore: "danger",
   Mixto: "warning",
-  PENDING: "warning",
-  ACCEPTED: "success",
+  PENDING: "primary",
+  ACCEPTED: "secondary",
   DELIVERING: "warning",
-  DELIVERED: "warning",
+  DELIVERED: "success",
   CANCELLED: "danger",
 };
 
@@ -122,10 +122,10 @@ export const renderCell = (
       return (
         <div className="flex flex-col min-w-32">
           <p className="text-bold text-sm capitalize text-teal-400">
-            +1 {datos.phone}
+            {datos.phone}
           </p>
           <p className="text-bold text-sm capitalize text-default-400">
-            {datos.address}
+            {datos.address || datos.role}
           </p>
         </div>
       );

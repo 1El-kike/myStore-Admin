@@ -7,7 +7,7 @@ interface TypeSelling {
 
 export const Selling_Type: React.FC<TypeSelling> = ({ indexdefault }) => {
   const { watch, setValue, clearErrors, register, formState: { errors } } = useFormContext();
-  
+
   const options = [
     { label: "In-store selling only", value: "In-store" },
     { label: "Online selling only", value: "Online" },
@@ -34,7 +34,7 @@ export const Selling_Type: React.FC<TypeSelling> = ({ indexdefault }) => {
       <h1 className="text-2xl mt-5 font-bold">Selling Type</h1>
       <div className="shadow-xl relative shadow-slate-200 border pt-5 pl-11 my-5 px-3 py-6 flex flex-col gap-4 border-gray-300 rounded-2xl">
         {options.map((option, index) => (
-          <div key={option.value} className="flex items-center mb-4">
+          <div key={option.value + index} className="flex items-center mb-4">
             <input
               type="radio"
               id={`sellingType-${option.value}`}

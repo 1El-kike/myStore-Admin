@@ -37,15 +37,15 @@ export const CollapseSidebar: FC<Collapse> = memo(
             {Array.isArray(data) &&
               data?.map((collapse: Data, index: number) => {
                 return (
-                    <div  key={`${collapse.id}${index}`} >
-                      <Link to={collapse?.link}>
-                        <Sidebar.Item key={`${collapse.id}${index}`} href="#">
-                          {!collapsed
-                            ? collapse?.name
-                            : hovered && collapse?.name}
-                        </Sidebar.Item>
-                      </Link>
-                    </div>
+                  <div key={`${collapse.id}${index}collapse`} >
+                    <Link to={collapse?.link}>
+                      <Sidebar.Item key={`${collapse.id}${index}`} href="#">
+                        {!collapsed
+                          ? collapse?.name
+                          : hovered && collapse?.name}
+                      </Sidebar.Item>
+                    </Link>
+                  </div>
                 );
               })}
           </Sidebar.Collapse>

@@ -4,8 +4,6 @@ import { TollButtom } from "../components/products/tollBar";
 import { useEjecut } from "../../hooks/useEjecut";
 import { updateTable } from "../core/filtertableandSearch";
 import { ProductAll } from "../components/products/edit/product";
-import { NotItems } from "./datosvacios/NotItems";
-import { FaProductHunt } from "react-icons/fa";
 
 export const TabSelect = ({
   link,
@@ -94,7 +92,7 @@ export const TabSelect = ({
       isLoadingData={isLoadingData}
       errors={errors}
     />,
-    allData &&   <ProductAll data={DataProduct} link={linkallData} error={errorProduct} Loading={LoadingProduct} />
+    allData && <ProductAll data={DataProduct} link={linkallData} error={errorProduct} Loading={LoadingProduct} />
   ];
 
   return (

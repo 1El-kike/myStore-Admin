@@ -24,39 +24,39 @@ export const TabsNext: React.FC<TypeTabs> = ({ children, variant, onLinkChange =
         {children.map((item: Option, index: number) => {
 
           return (
-            <>
-              <Tab
-                key={index}
-                title={
-                  <>
-                    <div className="flex items-center  relative space-x-2"
-                    >
-                      {/* {item.icon} */}
-                      <span className="mr-2">{item.option}</span>
-                      {item.badge ? (
-                        <Badge
-                          className="flex m-auto"
-                          color={item.badge?.color}
-                          content={item.badge?.contex}
-                          variant="shadow"
-                          showOutline={false}
-                        >
-                          <span className="mb-4"></span>
-                        </Badge>
-                      ) : (
-                        item.icon
-                      )}
-                    </div>
-                  </>
-                }
-              >
-                <div className="px-4">
 
-                  {item.component}
-                </div>
-                <span className="inset-0 h-[1px] mt-[35px] -z-10 bg-slate-300 absolute bottom-0"></span>
-              </Tab>
-            </>
+            <Tab
+              key={index}
+              title={
+                <>
+                  <div className="flex items-center  relative space-x-2"
+                  >
+                    {/* {item.icon} */}
+                    <span className="mr-2">{item.option}</span>
+                    {item.badge ? (
+                      <Badge
+                        className="flex m-auto"
+                        color={item.badge?.color}
+                        content={item.badge?.contex}
+                        variant="shadow"
+                        showOutline={false}
+                      >
+                        <span className="mb-4"></span>
+                      </Badge>
+                    ) : (
+                      item.icon
+                    )}
+                  </div>
+                </>
+              }
+            >
+              <div className="px-4">
+
+                {item.component}
+              </div>
+              <span className="inset-0 h-[1px] mt-[35px] -z-10 bg-slate-300 absolute bottom-0"></span>
+            </Tab>
+
           );
         })}
       </Tabs>

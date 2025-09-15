@@ -23,6 +23,11 @@ export const PrivateRoutes = () => {
       default: module.OrderPage,
     }))
   );
+  const UserPage = lazy(() =>
+    import("../pages/users/userPage").then((module) => ({
+      default: module.UserPage,
+    }))
+  );
 
   const SuspensedView: FC<WithChildren> = ({ children }) => {
     return (
@@ -80,6 +85,14 @@ export const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <OrderPage />
+            </SuspensedView>
+          }
+        ></Route>
+        <Route
+          path="users/*"
+          element={
+            <SuspensedView>
+              <UserPage />
             </SuspensedView>
           }
         ></Route>

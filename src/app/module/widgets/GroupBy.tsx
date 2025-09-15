@@ -16,7 +16,7 @@ interface TypeGroup {
   columns?: TypeColumns[];
   isLoadingData?: any;
   errors?: any;
-  notItem?:any;
+  notItem?: any;
 }
 
 export const Group: React.FC<TypeGroup> = ({
@@ -34,11 +34,10 @@ export const Group: React.FC<TypeGroup> = ({
         data?.map((data: any, index: number) => {
           return (
             <>
-              <div className="w-[100%] md:w-[50%] lg:w-[32%]   mt-12 animate-appearance-in duration-1000 h-60 ">
+              <div key={data.id + index} className="w-[100%] md:w-[50%] lg:w-[32%]   mt-12 animate-appearance-in duration-1000 h-60 ">
                 <Type_product
                   link={link}
                   position="vertical"
-                  key={data.id}
                   idStore={data.id}
                   notID={notID}
                   scale="125"
@@ -66,7 +65,7 @@ export const Group: React.FC<TypeGroup> = ({
           Icon={FcShop}
         />
       )}
-      
+
     </div>
   );
 };
@@ -97,7 +96,6 @@ export const List: React.FC<TypeGroup> = ({
                 >
                   <Type_product
                     link={link}
-                    key={data.id}
                     notID={notID}
                     idStore={data.id}
                     scale="125"
@@ -152,20 +150,20 @@ export const Table: React.FC<TypeGroup> = ({
       {errors ? (
         <ErrorsItems />
       ) : isLoadingData ? (
-        <Loading_items typeLoad="Table"  />
-      ) : data && data?.length > 0  || notItem ? (
+        <Loading_items typeLoad="Table" />
+      ) : data && data?.length > 0 || notItem ? (
         <Tables
           isDetails={isDetails}
           columns={(columns && columns) || defaultcolumn}
           notId={notID}
         />
-      ) :(
+      ) : (
         <NotItems
           link="/stores/add"
           text="There are no stores to display, you must first add a new store. Follow the link beloe to get started"
           Icon={FcShop}
         />
-      ) }
+      )}
     </>
   );
 };

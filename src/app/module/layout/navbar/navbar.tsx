@@ -9,12 +9,10 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { FaMailBulk, FaSearch, FaSignInAlt, FaStore } from "react-icons/fa";
+import { FaSearch, FaStore } from "react-icons/fa";
 import {
-  MdAccountCircle,
   MdLogout,
   MdMore,
-  MdNotifications,
   MdNotificationsActive,
   MdOutlineAccountCircle,
   MdProductionQuantityLimits,
@@ -23,7 +21,7 @@ import {
 import { IconBase } from "react-icons";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
-import { FcCustomerSupport, FcSettings } from "react-icons/fc";
+import { FcCamcorder, FcCustomerSupport, FcSettings } from "react-icons/fc";
 import { useAuth } from "../../auth/core/Auth";
 
 const Search = styled("div")(({ theme }) => ({
@@ -70,11 +68,20 @@ export const Navbars = ({ width }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorSl, setAnchorSl] = useState<null | HTMLElement>(null);
   const [anchorUl, setAnchorUl] = useState<null | HTMLElement>(null);
+  const [anchorOl, setAnchorOl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
   const [whit, setwhit] = useState<boolean>(false);
 
   const { logout } = useAuth();
+
+  const { currentUser } = useAuth();
+  //validacion para saber que role tiene el usuario
+  function hasExactRole(roles: string[], target: string): boolean {
+    return roles.includes(target);
+  }
+  const admin = hasExactRole([currentUser?.role] as string[], "ADMIN");
+  const super_admin = hasExactRole([currentUser?.role] as string[], "SUPER_ADMIN");
 
   useEffect(() => {
     setwhit(width);
@@ -82,6 +89,7 @@ export const Navbars = ({ width }: any) => {
 
   const isMenuOpen = Boolean(anchorEl);
   const isStoreOpen = Boolean(anchorSl);
+  const isOrdersOpen = Boolean(anchorOl);
   const isUserOpen = Boolean(anchorUl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -91,6 +99,9 @@ export const Navbars = ({ width }: any) => {
 
   const handleStores = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorSl(event.currentTarget);
+  };
+  const handleOrders = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorOl(event.currentTarget);
   };
   const handleUser = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorUl(event.currentTarget);
@@ -102,6 +113,7 @@ export const Navbars = ({ width }: any) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     setAnchorSl(null);
+    setAnchorOl(null)
     setAnchorUl(null);
     handleMobileMenuClose();
   };
@@ -112,7 +124,8 @@ export const Navbars = ({ width }: any) => {
 
   const menuProducts = "primary-search-account-menu";
   const menuStores = "primary-search-account-store";
-  const menuUser = "primary-search-account-menu-mobile";
+  const menuUser = "primary-search-account-menu-user";
+  const menuOrder = "primary-search-account-menu-Order";
   const mobileMenuId = "primary-search-account-menu-mobile";
 
   const renderStores = (
@@ -131,11 +144,15 @@ export const Navbars = ({ width }: any) => {
       open={isStoreOpen}
       onClose={handleMenuClose}
     >
-      <Link to={"stores"}>
+      {super_admin && <Link to={"stores"}>
         <MenuItem onClick={handleMenuClose}>Stores Management</MenuItem>
+      </Link>}
+      <Link to={'stores/watch'}>
+        <MenuItem onClick={handleMenuClose}>Stores Sales</MenuItem>
       </Link>
-      <MenuItem onClick={handleMenuClose}>Stores Sales</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Inventory</MenuItem>
+      <Link to={'#'}>
+        <MenuItem onClick={handleMenuClose}>Inventory</MenuItem>
+      </Link>
     </Menu>
   );
   const renderProducts = (
@@ -154,10 +171,41 @@ export const Navbars = ({ width }: any) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Order List</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Shopping</MenuItem>
-      <Link to={"products"}>
-        <MenuItem onClick={handleMenuClose}>Create Product</MenuItem>
+      {(super_admin || admin) && <Link to={'products'}>
+        <MenuItem onClick={handleMenuClose}>Product Management</MenuItem>
+      </Link>}
+      <Link to={"products/watch"}>
+        <MenuItem onClick={handleMenuClose}>List Products</MenuItem>
+      </Link>
+      <Link to={'#'}>
+        <MenuItem onClick={handleMenuClose}>Shopping</MenuItem>
+      </Link>
+    </Menu>
+  );
+  const renderOrders = (
+    <Menu
+      anchorEl={anchorOl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuOrder}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isOrdersOpen}
+      onClose={handleMenuClose}
+    >
+      {super_admin && <Link to={"orders/list"}>
+        <MenuItem onClick={handleMenuClose}>List Order</MenuItem>
+      </Link>}
+      {(super_admin || admin) && <Link to={'orders/create'}>
+        <MenuItem onClick={handleMenuClose}>Create Order</MenuItem>
+      </Link>}
+      <Link to={'#'}>
+        <MenuItem onClick={handleMenuClose}>Order Details</MenuItem>
       </Link>
     </Menu>
   );
@@ -248,6 +296,18 @@ export const Navbars = ({ width }: any) => {
         </IconButton>
         <p>Stores</p>
       </MenuItem>
+      <MenuItem onClick={handleOrders}>
+        <IconButton
+          size="large"
+          aria-label="account of orders"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <FcCamcorder />
+        </IconButton>
+        <p>Orders</p>
+      </MenuItem>
       <MenuItem onClick={logout}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           {" "}
@@ -274,8 +334,8 @@ export const Navbars = ({ width }: any) => {
                 ? "100%"
                 : "96%"
               : isMobile
-              ? "100%"
-              : "84%",
+                ? "100%"
+                : "84%",
             zIndex: 40,
           }}
         >
@@ -353,6 +413,7 @@ export const Navbars = ({ width }: any) => {
         {renderMobileMenu}
         {renderStores}
         {renderProducts}
+        {renderOrders}
         {renderUser}
       </Box>
     </div>
