@@ -1,7 +1,7 @@
-import { Button, Input, ScrollShadow } from "@nextui-org/react";
+import { Button, cn, DropdownItem, DropdownSection, Input, ScrollShadow, Spinner } from "@nextui-org/react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { SearchIcon } from "../../../utils/icons";
-import { FaPlus } from "react-icons/fa";
+import { DeleteIcon, SearchIcon } from "../../../utils/icons";
+import { FaArrowRight, FaFilter, FaPlus } from "react-icons/fa";
 import { updateTable } from "../../core/filtertableandSearch";
 import { FiFilter } from "react-icons/fi";
 import { Modal_Component } from "../modal";
@@ -15,6 +15,10 @@ import {
 } from "react-hook-form";
 import { useAuth } from "../../auth/core/Auth";
 import StoreSelector from "../SelectStore";
+import { DeleteDocumentIcon, DropdownComponent } from "../Dropdown";
+import { useFilter } from "../../components/users/userCreate";
+import { iconClasses } from "@mui/material";
+import { FaCircleXmark } from "react-icons/fa6";
 
 interface topContent {
     datos: any;
@@ -40,6 +44,8 @@ const TopContentUser: React.FC<topContent> = ({
     const submitFormRef = useRef<() => void | null>();
     const pendingActionRef = useRef<(() => void) | null>(null);
     const [issuccess, setissuccess] = useState(false)
+    const { currentUser } = useAuth();
+
 
     useEffect(() => {
         if (issuccess) {
@@ -57,16 +63,35 @@ const TopContentUser: React.FC<topContent> = ({
         submitFormRef.current?.();
     };
 
+    const isRole: boolean = currentUser?.permission.includes('READ_ALL') ? true : false
+
+    const rolesOptions = isRole ? [
+        { id: 'SUPER_ADMIN', label: 'Acceso completo al sistema' },
+        { id: 'ADMIN', label: 'Administrador de tienda' },
+        { id: 'EMPLOYEE', label: 'Empleado de tienda' },
+    ] : [
+        { id: 'ADMIN', label: 'Administrador de tienda' },
+        { id: 'EMPLOYEE', label: 'Empleado de tienda' },
+    ];
+
+
     const CreateUserModal = () => {
         const [preview, setPreview] = useState<string | null>(null);
         const methods = useForm(Form_user);
-        const { currentUser } = useAuth();
         methods.setValue('role', currentUser?.role as string)
 
-        const { onSubmit, error, success: issuccess, isLoading } = useBack<FormData>({
+        const { onSubmit, error, success: issuccess, isLoading, result } = useBack<FormData>({
             url: `user/create`,
             reset: methods.reset,
         });
+
+
+        useEffect(() => {
+            if (result) {
+                window.location.reload()
+            }
+        }, [result])
+
 
         const { data, isLoadingData, errors: ErrorStore } = useEjecut({
             url: 'stores/',
@@ -104,11 +129,6 @@ const TopContentUser: React.FC<topContent> = ({
 
         const roleValue = methods.watch('roleName');
 
-        const rolesOptions = [
-            { id: 'SUPER_ADMIN', label: 'Acceso completo al sistema' },
-            { id: 'ADMIN', label: 'Administrador de tienda' },
-            { id: 'EMPLOYEE', label: 'Empleado de tienda' },
-        ];
 
         const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const files = e.target.files;
@@ -239,12 +259,17 @@ const TopContentUser: React.FC<topContent> = ({
                                 )}
                             </div>
                             {/* Campo seleccion de tienda */}
-                            <StoreSelector
-                                stores={stores}
-                                selectedStoreIds={selectedStoreIds}
-                                onStoresChange={setSelectedStoreIds}
-                                error={methods.formState.errors.storeId?.message as string}
-                            />
+                            {isLoadingData ?
+                                <Spinner labelColor="danger" color="danger" label="Loading..." />
+                                :
+                                <StoreSelector
+                                    stores={stores}
+                                    selectedStoreIds={selectedStoreIds}
+                                    onStoresChange={setSelectedStoreIds}
+                                    error={methods.formState.errors.storeId?.message || ErrorStore as string}
+                                />
+                            }
+
                             {/* Campo Roles (ahora selección única) */}
                             <div className="mb-6">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -297,6 +322,62 @@ const TopContentUser: React.FC<topContent> = ({
         );
     };
 
+    const { role: dataRole, setRole, store, setStore } = useFilter()
+
+    const FilterRole = () => {
+
+        const handleSizeChange = (event: any) => {
+            setRole(event.target.value);
+
+        };
+
+        return (
+            <>
+                {rolesOptions.map((role) => (
+                    <div key={role.id} className="flex items-center">
+                        <input
+                            id={`role-${role.id}`}
+                            type="radio"
+                            value={role.id}
+                            onChange={handleSizeChange}
+                            checked={dataRole === role.id}
+                            className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label
+                            htmlFor={`role-${role.id}`}
+                            className="ml-2 text-sm text-gray-700"
+                        >
+                            {role.label}
+                        </label>
+                    </div>
+                ))}
+            </>
+        )
+
+    }
+
+    const FilterStore = () => {
+        const [inputFilter, setInputFilter] = useState('')
+
+        const handlefilter = () => {
+            if (inputFilter) {
+                setStore(inputFilter)
+            }
+
+        }
+
+        return <div className="my-2 md:w-96 gap-3 md:gap-10 flex flex-col md:flex-row justify-between">
+            <input type='text' value={inputFilter} onChange={(e) => setInputFilter(e.target.value)} className="w-full" />
+            <Button
+                onPress={handlefilter}
+                color="danger"
+            >
+                Apli <FaFilter />
+            </Button>
+        </div>
+    }
+
+    // setStore(event.target.value)
     const Content = useMemo(() => {
         return (
             <div className="flex flex-col gap-2">
@@ -308,11 +389,59 @@ const TopContentUser: React.FC<topContent> = ({
                         placeholder="Search User"
                         startContent={<SearchIcon />}
                         value={filterValue}
-                        onClear={() => onClear()}
+                        //onClear={() => onClear()}
                         onValueChange={onSearchChange}
                     />
                     <div className="md:mx-4 mx-2 text-sm flex gap-2">
-                        <Button variant="ghost" size="md" className=" text-xs md:px-2  text-teal-700" endContent={<FiFilter />} color="default">FILTER</Button>
+                        <DropdownComponent
+                            variant="ghost"
+                            size="md"
+                            className=" text-xs md:px-2  text-teal-700"
+                            endContent={<FiFilter />} text={"FILTER"}>
+
+                            <DropdownSection hideSelectedIcon={true} showDivider title="Actions">
+                                <DropdownItem
+                                    key="role"
+                                    isReadOnly={true}
+                                    description="Filter for role"
+                                >
+                                    Find Role
+                                    <div className="my-2">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <FilterRole />
+                                        </div>
+
+                                    </div>
+                                </DropdownItem>
+                                <DropdownItem
+                                    key="store"
+                                    isReadOnly={true}
+                                    description="filter for store"
+                                    className=""
+                                >
+                                    Select Store
+                                    <FilterStore />
+                                </DropdownItem>
+
+                            </DropdownSection>
+                            <DropdownSection title="Danger zone">
+                                <DropdownItem
+                                    key="delete"
+                                    className="text-danger"
+                                    color="danger"
+                                    description="Permanently delete the file"
+                                    shortcut="⌘⇧D"
+                                    onPress={() => {
+                                        setRole('');
+                                        setStore('');
+                                    }}
+                                    startContent={<DeleteDocumentIcon className={cn(iconClasses, "text-danger")} />}
+                                >
+                                    Delete filter
+                                </DropdownItem>
+                            </DropdownSection>
+                        </DropdownComponent>
+
                         <Modal_Component
                             component={
                                 <CreateUserModal />
@@ -328,7 +457,38 @@ const TopContentUser: React.FC<topContent> = ({
                         </Modal_Component>
                     </div>
                 </div>
+                <div className="flex w-full mt-5 justify-start gap-3">
+                    {filterValue && <div className="flex justify-center animate-appearance-in border px-3 rounded-2xl  items-center">
+                        <p className="font-bold">User:</p>
+                        <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2" > {filterValue}
+                            <span onClick={onClear} className="cursor-pointer transition-all duration-300 hover:bg-rose-300 rounded-full p-1">
+                                <FaCircleXmark />
+                            </span>
+                        </p>
+                    </div>
+                    }
+                    {dataRole ? <div className="flex border animate-appearance-in px-3 rounded-2xl justify-center items-center">
 
+                        <p className="font-bold">Date: </p>
+                        <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2">
+                            test
+                            <span /* onClick={clearRole} */ className="cursor-pointer transition-all duration-300 hover:bg-rose-300 rounded-full p-1">
+                                <FaCircleXmark />
+                            </span>
+                        </p>{" "}
+                    </div> : <span></span>}
+
+
+                    {(dataRole || store || filterValue) ?
+                        <div onClick={() => {
+                            onClear();
+                            // clearDate();
+                        }} className="text-2xl animate-appearance-in flex justify-center items-center cursor-pointer p-2 hover:scale-110  ml-3 text-red-500">
+                            <DeleteIcon /> <span className="text-base font-bold ml-2">Clear</span>
+                        </div>
+                        : ''
+                    }
+                </div>
                 <div className="flex justify-between items-center">
                     <span className="text-default-400 text-small">
                         Total {datos.length} users
