@@ -89,7 +89,8 @@ export const ProductAll: React.FC<TypeProduct> = ({ data, link, Loading, error, 
           link={`/products/add/`}
           Icon={icon || FcPaid}
           role={['SUPER_ADMIN', 'ADMIN']}
-          text={text || " There are not products that show. before of continue you should add Store in you Count. In next link you would can create one"}
+          text={text || " There are not products that show. before of continue you should add Store in you Count."}
+          next="In next link you would can create one"
         />
       ) : (
         <>

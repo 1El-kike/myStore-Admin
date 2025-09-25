@@ -61,8 +61,6 @@ const useOrder = (idStore: TypeProp = { idStore: null }) => {
         setdatosTable,
     } = updateTable();
 
-    console.log(JSON.stringify(link, null, 2))
-
     const linkBackend = `orders/?include=${link}&page=${page}&pageSize=${rowsPerPage}&filtertimeStart=${filterTimeStart}&filtertimeEnd=${filterTimeEnd}&filtervalue=${filterValue}&idStore=${idStore.idStore}`
 
     const { data, isLoadingData, errors } = useEjecut({

@@ -36,8 +36,8 @@ const TopContentUser: React.FC<topContent> = ({
     const {
         onClear,
         onRowsPerPageChange,
-        onSearchChange,
-        filterValue,
+        onSearchChangeUser,
+        filterValueUser,
         hasSearchFilter,
     } = updateTable();
 
@@ -388,9 +388,9 @@ const TopContentUser: React.FC<topContent> = ({
                         color="default"
                         placeholder="Search User"
                         startContent={<SearchIcon />}
-                        value={filterValue}
+                        value={filterValueUser}
                         //onClear={() => onClear()}
-                        onValueChange={onSearchChange}
+                        onValueChange={onSearchChangeUser}
                     />
                     <div className="md:mx-4 mx-2 text-sm flex gap-2">
                         <DropdownComponent
@@ -458,9 +458,9 @@ const TopContentUser: React.FC<topContent> = ({
                     </div>
                 </div>
                 <div className="flex w-full mt-5 justify-start gap-3">
-                    {filterValue && <div className="flex justify-center animate-appearance-in border px-3 rounded-2xl  items-center">
+                    {filterValueUser && <div className="flex justify-center animate-appearance-in border px-3 rounded-2xl  items-center">
                         <p className="font-bold">User:</p>
-                        <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2" > {filterValue}
+                        <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2" > {filterValueUser}
                             <span onClick={onClear} className="cursor-pointer transition-all duration-300 hover:bg-rose-300 rounded-full p-1">
                                 <FaCircleXmark />
                             </span>
@@ -469,20 +469,32 @@ const TopContentUser: React.FC<topContent> = ({
                     }
                     {dataRole ? <div className="flex border animate-appearance-in px-3 rounded-2xl justify-center items-center">
 
-                        <p className="font-bold">Date: </p>
+                        <p className="font-bold">Role: </p>
                         <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2">
-                            test
-                            <span /* onClick={clearRole} */ className="cursor-pointer transition-all duration-300 hover:bg-rose-300 rounded-full p-1">
+                            {rolesOptions.find(e => e.id == dataRole)?.label}
+                            <span onClick={() => setRole('')} className="cursor-pointer transition-all duration-300 hover:bg-rose-300 rounded-full p-1">
+                                <FaCircleXmark />
+                            </span>
+                        </p>{" "}
+                    </div> : <span></span>}
+
+                    {store ? <div className="flex border animate-appearance-in px-3 rounded-2xl justify-center items-center">
+
+                        <p className="font-bold">Store: </p>
+                        <p className="bg-gradient-to-t flex gap-2 items-center from-slate-100 to-slate-200 rounded-2xl ml-2 py-1 px-2">
+                            {store}
+                            <span onClick={() => setStore('')} className="cursor-pointer transition-all duration-300 hover:bg-rose-300 rounded-full p-1">
                                 <FaCircleXmark />
                             </span>
                         </p>{" "}
                     </div> : <span></span>}
 
 
-                    {(dataRole || store || filterValue) ?
+                    {(dataRole || store || filterValueUser) ?
                         <div onClick={() => {
                             onClear();
-                            // clearDate();
+                            setRole('');
+                            setStore('');
                         }} className="text-2xl animate-appearance-in flex justify-center items-center cursor-pointer p-2 hover:scale-110  ml-3 text-red-500">
                             <DeleteIcon /> <span className="text-base font-bold ml-2">Clear</span>
                         </div>
@@ -508,8 +520,8 @@ const TopContentUser: React.FC<topContent> = ({
             </div>
         );
     }, [
-        filterValue,
-        onSearchChange,
+        filterValueUser,
+        onSearchChangeUser,
         onRowsPerPageChange,
         datos.length,
         hasSearchFilter,

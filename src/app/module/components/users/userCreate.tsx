@@ -4,35 +4,72 @@ import { FiFilter } from "react-icons/fi"
 import { MdAddBox } from "react-icons/md"
 import { TablesUser } from "../../widgets/table/tableuser"
 import { useEjecut } from "../../../hooks/useEjecut"
-import { useEffect } from "react"
+import { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from "react"
 import { updateTable } from "../../core/filtertableandSearch"
 
+interface TypeContext {
+    role: string;
+    setRole: (role: string) => void;
+    store: string;
+    setStore: (store: string) => void
+}
+
+const initFilterContext = {
+    role: '',
+    setRole: () => { },
+    store: '',
+    setStore: () => { }
+}
+
+export const ContextFilter = createContext<TypeContext>(initFilterContext);
+
+export const useFilter = () => {
+    return useContext(ContextFilter);
+};
+
+
+const FilterProvider: FC<PropsWithChildren> = ({ children }) => {
+    const [role, setRole] = useState('')
+    const [store, setStore] = useState('')
+
+    return (
+        <ContextFilter.Provider value={{ role, setRole, store, setStore }}>
+            {children}
+        </ContextFilter.Provider>
+    );
+};
 
 export const UserCreate = () => {
 
     const {
         setlimit,
-        filterValue,
+        filterValueUser,
         setdatosTable,
+        page,
+        rowsPerPage,
     } = updateTable();
 
-    const linkBackend = `user/?filtervalue=${filterValue}`
+
+    const { role, store } = useFilter()
+
+
+
+    // 1. Crear el contexto
+    const linkBackend = `user/?filterValueUser=${filterValueUser}&page=${page}&pageSize=${rowsPerPage}&role=${role}&store=${store}`
 
     const { data, isLoadingData, errors } = useEjecut({
         url: linkBackend,
     });
 
-
-
     useEffect(() => {
         if (data) {
-            setdatosTable(() => data);
-            if (data?.data?.totalPages) {
-                setlimit(data?.data?.totalPages);
+            setdatosTable(() => data.res);
+            if (data?.totalPages) {
+                setlimit(data?.totalPages);
             }
         }
         //return datosTable.unSudcribe()
-    }, [data, filterValue]);
+    }, [data, filterValueUser]);
 
     const columns = [
         { name: "NAME", uid: "name" },
@@ -54,13 +91,13 @@ export const UserCreate = () => {
             </div>
             <div className='flex w-full mt-7 px-1 md:px-7'>
                 <div className="w-full">
-                    <div className="flex justify-between">
+                    <FilterProvider>
+                        <TablesUser
+                            columns={columns}
+                            notId={false}
+                        />
+                    </FilterProvider>
 
-                    </div>
-                    <TablesUser
-                        columns={columns}
-                        notId={false}
-                    />
 
                 </div>
             </div>

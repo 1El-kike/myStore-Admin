@@ -17,6 +17,7 @@ import { FaJediOrder } from "react-icons/fa6";
 import { PUBLIC_URL } from "../../../../config/env";
 import { useAuth } from "../../auth/core/Auth";
 import { UserIcon } from "../../widgets/iconSVG";
+import { getRole } from "../../../utils/getRoles";
 
 
 const custom = {
@@ -68,12 +69,7 @@ export const LayatSidebar = ({ setancho }: any) => {
   }
 
   const { currentUser } = useAuth();
-  //validacion para saber que role tiene el usuario
-  function hasExactRole(roles: string[], target: string): boolean {
-    return roles.includes(target);
-  }
-  const admin = hasExactRole([currentUser?.role] as string[], "ADMIN");
-  const super_admin = hasExactRole([currentUser?.role] as string[], "SUPER_ADMIN");
+  const { admin, super_admin, employee } = getRole(currentUser);
 
   return (
     <div
@@ -143,11 +139,11 @@ export const LayatSidebar = ({ setancho }: any) => {
               title="Orders"
               collapseddata={[
                 { link: "orders/list", name: "List Order", id: 3 },
-                ...(admin ? [{ link: "orders/create", name: "Create Order", id: 4 }] : []),
+                ...((admin || employee) ? [{ link: "orders/create", name: "Create Order", id: 4 }] : []),
                 { link: "orders/list", name: "Order Details", id: 5 },
               ]}
             />
-            {super_admin && <Link to={"users"}>
+            {(super_admin || admin) && <Link to={"users"}>
               <Sidebar.Item
                 icon={UserIcon}
                 href=""

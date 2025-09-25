@@ -10,9 +10,11 @@ export const getRole = (currentUser: UserModel | undefined) => {
     [currentUser?.role] as string[],
     "SUPER_ADMIN"
   );
+  const employee = hasExactRole([currentUser?.role] as string[], "EMPLOYEE");
 
   return {
     admin,
     super_admin,
+    employee,
   };
 };

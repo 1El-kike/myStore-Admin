@@ -13,8 +13,8 @@ import { updateTable } from '../../core/filtertableandSearch';
     onNextPage: () => void; // Función para ir a la página siguiente
   } */
 
-const BottomContent:React.FC = () => {
- 
+const BottomContent: React.FC = () => {
+
 
   const {
     onNextPage,
@@ -24,11 +24,11 @@ const BottomContent:React.FC = () => {
     selectedKeys,
     setPage,
     datosTable
-  } =updateTable()
+  } = updateTable()
 
 
-    const content = useMemo(() => { 
-        
+  const content = useMemo(() => {
+
     return (
       <div className="py-2 px-2 flex justify-between items-center">
         <span className="w-[30%] text-small text-default-400">

@@ -64,7 +64,7 @@ export const TablesUser: FC<TableData> = ({ columns, notId }) => {
             selectedKeys={selectedKeys}
             onSelectionChange={setSelectedKeys}
             bottomContent={bottomContent}
-            selectionMode={"multiple"}
+            selectionMode={"single"}
             aria-label="Table with users"
         >
             <TableHeader className="" columns={columns}>

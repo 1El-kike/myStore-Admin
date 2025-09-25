@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Polyline } from "react-leaflet";
 import L, { LatLngBounds, LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { API_KEY_MAP, port, PUBLIC_URL } from "../../../../../config/env";
+import { API_KEY_MAP, port, PUBLIC_URL, ws } from "../../../../../config/env";
 import Route from "../../../widgets/routerPolyline";
 import { useWebSocketOrder } from "../../../../service/useWebSocketLocationOrder";
 import { useRouteData } from "../../../../service/useLocation";
@@ -50,7 +50,7 @@ const AutoFitBounds = ({ positions }: { positions: number[][] }) => {
 export const OrderTrackingMap = ({ storeOrderId }: { storeOrderId: string }) => {
     useWebSocketOrder(
         window.location.hostname === "localhost"
-            ? `ws://localhost:3450`
+            ? `${ws}`
             : `${port}`,
         storeOrderId
     );

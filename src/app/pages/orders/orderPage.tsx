@@ -48,14 +48,14 @@ export const OrderPage = () => {
   ]
 
   const { currentUser } = useAuth();
-  const { admin, super_admin } = getRole(currentUser);
+  const { admin, employee } = getRole(currentUser);
 
 
 
   return (
     <Routes>
       {
-        (admin || super_admin) ?
+        (admin || employee) ?
           <>
             <Route
               path='create*'

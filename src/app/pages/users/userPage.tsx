@@ -6,6 +6,7 @@ import { useAuth } from '../../module/auth/core/Auth'
 import { getRole } from '../../utils/getRoles'
 import { UserCreate } from '../../module/components/users/userCreate'
 import { UserDelete } from '../../module/components/users/userDelete'
+import { UserEdit } from '../../module/components/users/userEdit'
 
 export const UserPage = () => {
     const location = useLocation();
@@ -19,7 +20,7 @@ export const UserPage = () => {
     const listuser = [
         {
             title: "Beginning",
-            path: "",
+            path: "users/management",
             isSeparator: false,
             isActive: false,
         },
@@ -33,7 +34,7 @@ export const UserPage = () => {
     const listuserEdit = [
         {
             title: "Beginning",
-            path: "/users/list",
+            path: "/users/management",
             isSeparator: false,
             isActive: false,
         },
@@ -48,7 +49,7 @@ export const UserPage = () => {
     const listuserDelete = [
         {
             title: "Beginning",
-            path: "/users/list",
+            path: "/users/management",
             isSeparator: false,
             isActive: false,
         },
@@ -67,7 +68,7 @@ export const UserPage = () => {
     return (
         <Routes>
             {
-                super_admin
+                super_admin || admin
                     ?
                     <>
                         <Route
@@ -88,6 +89,16 @@ export const UserPage = () => {
                                 </>
                             }
                         />
+                        <Route
+                            path='management/edit/:idUser'
+                            element={
+                                <>
+                                    <PageTitle breadcrumbs={listuserEdit}>Users Edit</PageTitle>
+                                    <UserEdit />
+                                </>
+                            }
+                        />
+
 
                     </>
                     :

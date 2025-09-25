@@ -20,6 +20,7 @@ const UpdateTable = createContext<any>({
   filtertimeStart: new Date(),
   include: "all",
   onSearchChange: () => { },
+  onSearchChangeUser: () => { },
   rowsPerPage: 5,
   onRowsPerPageChange: () => { },
   onPreviousPage: () => { },
@@ -27,6 +28,7 @@ const UpdateTable = createContext<any>({
   selectedKeys: new Set([]),
   setSelectedKeys: () => { },
   filterValue: "",
+  filterValueUser: "",
   hasSearchFilter: true,
   filterTimeStart: dayjs(),
   filterTimeEnd: dayjs(),
@@ -45,6 +47,7 @@ const UpdateTable = createContext<any>({
 
 export const FiltertableandSearch = ({ children }: TypeFilter) => {
   const [filterValue, setFilterValue] = useState("");
+  const [filterValueUser, setFilterValueUser] = useState("");
   const [datosTable, setdatosTable] = useState([]);
   const [limit, setlimit] = useState(1)
   const [filterTimeStart, setfilterTimeStart] = useState<dayjs.Dayjs | null>(
@@ -120,8 +123,20 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
     }
   }, []);
 
+  const onSearchChangeUser = useCallback((value?: string) => {
+
+    if (value) {
+      setFilterValueUser(value);
+      setPage(1);
+    } else {
+      setFilterValueUser("");
+    }
+  }, []);
+
+
   const onClear = useCallback(() => {
     setFilterValue("");
+    setFilterValueUser("");
     setPage(1);
   }, []);
 
@@ -130,6 +145,7 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
       value={{
         onClear,
         onSearchChange,
+        onSearchChangeUser,
         rowsPerPage,
         onRowsPerPageChange,
         onPreviousPage,
@@ -137,6 +153,7 @@ export const FiltertableandSearch = ({ children }: TypeFilter) => {
         selectedKeys,
         setSelectedKeys,
         filterValue,
+        filterValueUser,
         hasSearchFilter,
         filterTimeStart,
         filterTimeEnd,

@@ -8,9 +8,10 @@ interface TypeNotItem {
   text: string;
   link: string;
   role: string[];
+  next: string;
 }
 
-export const NotItems: React.FC<TypeNotItem> = ({ Icon, text, link, role }) => {
+export const NotItems: React.FC<TypeNotItem> = ({ Icon, text, link, role, next }) => {
 
   const [effect, seteffect] = useState(false)
   const [effect_secound, seteffectSecound] = useState(false)
@@ -40,7 +41,7 @@ export const NotItems: React.FC<TypeNotItem> = ({ Icon, text, link, role }) => {
           <div className="relative clip-path  -z-10 aspect-[1155/478] -translate-x-12 rotate-[40deg] bg-gradient-to-tr from-[#ee48dd] opacity-10 to-[#e7087b]  sm:left-[calc(80%-40rem)] sm:w-[102.1875rem]"></div>
         </div>
         <p className="lg:text-2xl lg:w-1/2 text-center font-bold bg-gradient-to-tr from-slate-400 bg-clip-text text-transparent to-rose-200">
-          {text}</p>
+          {role?.includes(currentUser?.role as string) ? text + " " + next : text}</p>
 
         <div onMouseLeave={handleEffectHover} onMouseEnter={handleEffectHoverS}>
           {

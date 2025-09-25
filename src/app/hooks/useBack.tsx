@@ -84,9 +84,6 @@ const useBack = <T,>({ url, reset, method = "POST", initialData }: UseBackProps<
 
     try {
 
-      for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
       const response = await axios.request({
         method: method,
         url: base + url,

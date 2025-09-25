@@ -111,21 +111,29 @@ export const DeleteDocumentIcon = (props: any) => {
     );
 };
 
-export const DropdownComponent: React.FC<any> = ({ children }) => {
+export const DropdownComponent: React.FC<any> = ({ children, text = "Open menu", endContent, variant = "bordered", size, className = '', color, onClose }) => {
 
     return (
         <Dropdown
             showArrow
+            shouldBlockScroll={false}
             classNames={{
                 base: "before:bg-default-200", // change arrow background
                 content:
                     "py-1 px-1 border border-default-200 bg-gradient-to-br from-white to-default-200 dark:from-default-50 dark:to-black",
             }}
         >
-            <DropdownTrigger>
-                <Button variant="bordered">Open Menu</Button>
+            <DropdownTrigger
+                endContent={endContent ? endContent : undefined}
+
+            >
+                <Button className={className}
+                    color={color ? color : 'default'}
+                    variant={variant}
+                    size={size ? size : undefined}
+                >{text}</Button>
             </DropdownTrigger>
-            <DropdownMenu aria-label="Dropdown menu with description" variant="faded">
+            <DropdownMenu onClose={onClose ? onClose : undefined} aria-label="Dropdown menu with description" variant="faded">
                 {children}
             </DropdownMenu>
         </Dropdown>
