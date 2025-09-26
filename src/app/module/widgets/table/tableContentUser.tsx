@@ -16,9 +16,9 @@ import {
 import { useAuth } from "../../auth/core/Auth";
 import StoreSelector from "../SelectStore";
 import { DeleteDocumentIcon, DropdownComponent } from "../Dropdown";
-import { useFilter } from "../../components/users/userCreate";
 import { iconClasses } from "@mui/material";
 import { FaCircleXmark } from "react-icons/fa6";
+import { useFilter } from "../../../hooks/useFillterUser";
 
 interface topContent {
     datos: any;
@@ -30,6 +30,7 @@ interface Store {
 }
 
 
+
 const TopContentUser: React.FC<topContent> = ({
     datos
 }) => {
@@ -39,6 +40,7 @@ const TopContentUser: React.FC<topContent> = ({
         onSearchChangeUser,
         filterValueUser,
         hasSearchFilter,
+        setPage
     } = updateTable();
 
     const submitFormRef = useRef<() => void | null>();
@@ -324,11 +326,13 @@ const TopContentUser: React.FC<topContent> = ({
 
     const { role: dataRole, setRole, store, setStore } = useFilter()
 
+    console.log(dataRole)
+
     const FilterRole = () => {
 
         const handleSizeChange = (event: any) => {
             setRole(event.target.value);
-
+            setPage(1);
         };
 
         return (
@@ -356,13 +360,17 @@ const TopContentUser: React.FC<topContent> = ({
 
     }
 
+    const [input, setInput] = useState('');
+
     const FilterStore = () => {
-        const [inputFilter, setInputFilter] = useState('')
+        const [inputFilter, setInputFilter] = useState(input);
 
         const handlefilter = () => {
             if (inputFilter) {
-                setStore(inputFilter)
+                setStore(inputFilter);
+                setInput(inputFilter);
             }
+            setPage(1);
 
         }
 
@@ -521,6 +529,8 @@ const TopContentUser: React.FC<topContent> = ({
         );
     }, [
         filterValueUser,
+        store,
+        dataRole,
         onSearchChangeUser,
         onRowsPerPageChange,
         datos.length,

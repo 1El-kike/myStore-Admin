@@ -4,9 +4,9 @@ import { PageTitle } from '../../module/core/pageTitle'
 import { updateTable } from '../../module/core/filtertableandSearch'
 import { useAuth } from '../../module/auth/core/Auth'
 import { getRole } from '../../utils/getRoles'
-import { UserCreate } from '../../module/components/users/userCreate'
 import { UserDelete } from '../../module/components/users/userDelete'
 import { UserEdit } from '../../module/components/users/userEdit'
+import { User } from '../../module/components/users/user'
 
 export const UserPage = () => {
     const location = useLocation();
@@ -76,7 +76,7 @@ export const UserPage = () => {
                             element={
                                 <>
                                     <PageTitle breadcrumbs={listuser}>Users List</PageTitle>
-                                    <UserCreate />
+                                    <User />
                                 </>
                             }
                         />

@@ -1,43 +1,10 @@
-import { Button } from "@nextui-org/react"
-import { PageTitleInit } from "../../layout/tollbar/tiltleInit"
-import { FiFilter } from "react-icons/fi"
-import { MdAddBox } from "react-icons/md"
 import { TablesUser } from "../../widgets/table/tableuser"
 import { useEjecut } from "../../../hooks/useEjecut"
-import { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from "react"
+import { useEffect } from "react"
 import { updateTable } from "../../core/filtertableandSearch"
-
-interface TypeContext {
-    role: string;
-    setRole: (role: string) => void;
-    store: string;
-    setStore: (store: string) => void
-}
-
-const initFilterContext = {
-    role: '',
-    setRole: () => { },
-    store: '',
-    setStore: () => { }
-}
-
-export const ContextFilter = createContext<TypeContext>(initFilterContext);
-
-export const useFilter = () => {
-    return useContext(ContextFilter);
-};
+import { useFilter } from "../../../hooks/useFillterUser"
 
 
-const FilterProvider: FC<PropsWithChildren> = ({ children }) => {
-    const [role, setRole] = useState('')
-    const [store, setStore] = useState('')
-
-    return (
-        <ContextFilter.Provider value={{ role, setRole, store, setStore }}>
-            {children}
-        </ContextFilter.Provider>
-    );
-};
 
 export const UserCreate = () => {
 
@@ -51,7 +18,6 @@ export const UserCreate = () => {
 
 
     const { role, store } = useFilter()
-
 
 
     // 1. Crear el contexto
@@ -82,22 +48,13 @@ export const UserCreate = () => {
     return (
 
         <>
-            <div className="flex items-end w-full justify-between">
-                <PageTitleInit />
-                <div className="md:mx-4 mx-2 text-sm flex gap-2">
-                    <Button size="sm" variant="light" className=" p-0 m-0  text-xs md:px-2  text-teal-700" endContent={<FiFilter />} color="default">FILTER</Button>
-                    <Button size="sm" variant="shadow" className=" p-0 m-0  text-xs md:px-2" endContent={<MdAddBox />} color="danger">CREATE</Button>
-                </div>
-            </div>
             <div className='flex w-full mt-7 px-1 md:px-7'>
                 <div className="w-full">
-                    <FilterProvider>
-                        <TablesUser
-                            columns={columns}
-                            notId={false}
-                        />
-                    </FilterProvider>
 
+                    <TablesUser
+                        columns={columns}
+                        notId={false}
+                    />
 
                 </div>
             </div>
