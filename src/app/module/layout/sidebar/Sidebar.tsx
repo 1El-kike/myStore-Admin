@@ -1,23 +1,19 @@
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { Sidebar } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { FaStore } from "react-icons/fa";
+import { FaStore, FaTasks } from "react-icons/fa";
 import {
-  HiArrowSmRight,
-  HiInbox,
   HiShoppingBag,
-  HiTable,
-  HiUser,
 } from "react-icons/hi";
 import { MdSpaceDashboard } from "react-icons/md";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { CollapseSidebar } from "./collapseSidebar";
-import { FaJediOrder } from "react-icons/fa6";
 import { PUBLIC_URL } from "../../../../config/env";
 import { useAuth } from "../../auth/core/Auth";
 import { UserIcon } from "../../widgets/iconSVG";
 import { getRole } from "../../../utils/getRoles";
+import { FcSettings } from "react-icons/fc";
 
 
 const custom = {
@@ -27,22 +23,23 @@ const custom = {
       "bg-gradient-to-br py-5 px-2 h-screen from-slate-900 text-slate-800 to-rose-950 ",
   },
   item: {
-    base: "flex items-center ml-5 justify-center rounded-lg p-2 text-base font-normal text-slate-300 transition-all duration-400 delay-400",
+    base: "flex focus:bg-blue-500/10 [&>svg]:hover:text-red-500 hover:bg-rose-400/30  rounded-lg p-3 text-base font-normal text-slate-300 transition-all duration-400 delay-400",
   },
   itemGroup: {
-    base: "mt-4 space-y-2 border-t border-gray-200 pt-4 first:mt-0 first:border-t-0 first:pt-0 transition-all duration-400 delay-400",
+    base: "mt-4  space-y-2 border-t border-gray-200 pt-4 first:mt-0 first:border-t-0 first:pt-0 transition-all duration-400 delay-400",
   },
   logo: {
-    base: "mb-5 flex items-center m-auto",
+    base: "mb-5  flex items-center m-auto",
   },
   collapse: {
     button:
-      "icon-error flex w-full items-center rounded-lg p-2 text-base font-normal",
+      "icon-error hover:bg-rose-400/30 focus:bg-blue-500/10 flex w-full items-center rounded-lg mb-2  transition-all duration-400 delay-400 p-3 text-base font-normal",
+
     icon: {
-      base: "h-6 w-6 text-gray-500 transition duration-75",
+      base: "h-5  ml-1  w-6 text-gray-500 transition duration-75",
       open: {
         off: "",
-        on: "text-gray-900",
+        on: "",
       },
     },
   },
@@ -73,7 +70,7 @@ export const LayatSidebar = ({ setancho }: any) => {
 
   return (
     <div
-      className={` ${collapsed ? " w-16 " : "w-64 t"
+      className={` ${collapsed ? " w-16 " : "w-64 "
         } duration-400 z-40 transition-all ease-in-out `}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -133,7 +130,7 @@ export const LayatSidebar = ({ setancho }: any) => {
               ]}
             />
             <CollapseSidebar
-              icon={FaJediOrder}
+              icon={FaTasks}
               collapsed={collapsed}
               hovered={hovered}
               title="Orders"
@@ -153,10 +150,7 @@ export const LayatSidebar = ({ setancho }: any) => {
                 {!collapsed ? "User management" : hovered && "User management"}
               </Sidebar.Item>
             </Link>}
-            <Sidebar.Item href="#" icon={HiUser}>
-              {!collapsed ? "Chat" : hovered && "Chat"}
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiShoppingBag}>
+            <Sidebar.Item href="#" icon={FcSettings}>
               {!collapsed ? "Setting" : hovered && "Setting"}
             </Sidebar.Item>
           </Sidebar.ItemGroup>

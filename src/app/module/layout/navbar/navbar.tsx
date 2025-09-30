@@ -9,7 +9,7 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { FaSearch, FaStore } from "react-icons/fa";
+import { FaSearch, FaStore, FaTasks } from "react-icons/fa";
 import {
   MdLogout,
   MdMore,
@@ -21,8 +21,9 @@ import {
 import { IconBase } from "react-icons";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
-import { FcCamcorder, FcCustomerSupport, FcSettings } from "react-icons/fc";
+import { FcCustomerSupport, FcSettings } from "react-icons/fc";
 import { useAuth } from "../../auth/core/Auth";
+import { FaCircleUser } from "react-icons/fa6";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -304,10 +305,19 @@ export const Navbars = ({ width }: any) => {
           aria-haspopup="true"
           color="inherit"
         >
-          <FcCamcorder />
+          <FaTasks />
         </IconButton>
         <p>Orders</p>
       </MenuItem>
+      <Link to={"users"}>
+        <MenuItem >
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            {" "}
+            <FaCircleUser />
+          </IconButton>
+          <span className="w-48">User Manager</span>
+        </MenuItem>
+      </Link>
       <MenuItem onClick={logout}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           {" "}

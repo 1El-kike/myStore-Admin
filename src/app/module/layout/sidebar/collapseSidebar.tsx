@@ -32,7 +32,7 @@ export const CollapseSidebar: FC<Collapse> = memo(
           <Sidebar.Collapse
             icon={icon}
             label={!collapsed ? title : hovered ? title : ""}
-            className="hover:bg-transparent text-slate-300 [&>svg]:hover:text-red-500"
+            className=" text-slate-300 [&>svg]:hover:text-red-500"
           >
             {Array.isArray(data) &&
               data?.map((collapse: Data, index: number) => {
