@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { Sidebar } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { FaStore, FaTasks, FaWarehouse } from "react-icons/fa";
+import { FaStore, FaTasks } from "react-icons/fa";
 import {
   HiShoppingBag,
 } from "react-icons/hi";
@@ -48,16 +48,22 @@ const custom = {
 export const LayatSidebar = ({ setancho }: any) => {
   const [collapsed, setCollapsed] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const isMobile = useMediaQuery({ query: "(max-width: 758px)" });
 
   useEffect(() => {
     setancho(collapsed);
+    if (collapsed) setExpandedSection(null);
   }, [collapsed]);
 
   setancho(collapsed);
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
+  };
+
+  const handleCollapseToggle = (section: string) => {
+    setExpandedSection((prev) => (prev === section ? null : section));
   };
 
   // No renderizar el sidebar si es móvil
@@ -112,6 +118,8 @@ export const LayatSidebar = ({ setancho }: any) => {
               collapsed={collapsed}
               hovered={hovered}
               title="Products"
+              isOpen={expandedSection === "products"}
+              onToggle={() => handleCollapseToggle("products")}
               collapseddata={[
                 ...((admin || super_admin) ? [{ link: "products", name: "Product Management", id: 8 }] : []),
                 { link: "products/watch", name: "List Products", id: 6 },
@@ -123,6 +131,8 @@ export const LayatSidebar = ({ setancho }: any) => {
               collapsed={collapsed}
               hovered={hovered}
               title="Stores"
+              isOpen={expandedSection === "stores"}
+              onToggle={() => handleCollapseToggle("stores")}
               collapseddata={[
                 ...(super_admin ? [{ link: "stores", name: "Stores Management ", id: 0 }] : []),
                 { link: "stores/watch", name: "Stores Sales", id: 1 },
@@ -134,6 +144,8 @@ export const LayatSidebar = ({ setancho }: any) => {
               collapsed={collapsed}
               hovered={hovered}
               title="Orders"
+              isOpen={expandedSection === "orders"}
+              onToggle={() => handleCollapseToggle("orders")}
               collapseddata={[
                 { link: "orders/list", name: "List Order", id: 3 },
                 ...((admin || employee) ? [{ link: "orders/create", name: "Create Order", id: 4 }] : []),
