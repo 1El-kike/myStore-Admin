@@ -22,7 +22,7 @@ const useBack = <T,>({ url, reset, method = "POST", initialData }: UseBackProps<
   const base = port;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
+
     setIsLoading(true);
     setError(null);
     setSuccess(false);

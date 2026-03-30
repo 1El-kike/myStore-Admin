@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { Layout } from "../module/layout/layout";
 import { Dashboard } from "../pages/dashboard/dashboard";
 import { Progress } from "@nextui-org/react";
+import { InventoryPage } from "../pages/inventory/InventoryPage";
 interface WithChildren {
   children: React.ReactNode;
 }
@@ -96,6 +97,7 @@ export const PrivateRoutes = () => {
             </SuspensedView>
           }
         ></Route>
+        <Route path="inventory" element={<InventoryPage />}></Route>
         <Route path="*" element={<Navigate to="/error/404" />} />
       </Route>
     </Routes>

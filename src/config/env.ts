@@ -3,3 +3,7 @@ export const ws = import.meta.env.VITE_WS;
 export const node = import.meta.env.DEV;
 export const PUBLIC_URL = import.meta.env.VITE_BASE_URL;
 export const API_KEY_MAP = import.meta.env.VITE_STADIA_MAPS_API_KEY;
+export const GET_USER_BY_ACCESSTOKEN_URL = `${port}auth/verify_token`;
+export const LOGIN_URL = `${port}auth/login`;
+export const REQUEST_PASSWORD_URL = `${port}auth/forgot_password`;
+export const REFRESH_TOKEN = `${port}auth/refreshToken`;

@@ -1,13 +1,11 @@
 import axios from "axios";
-import { port } from "../../../../config/env";
+import {
+  GET_USER_BY_ACCESSTOKEN_URL,
+  LOGIN_URL,
+  REFRESH_TOKEN,
+  REQUEST_PASSWORD_URL,
+} from "../../../../config/env";
 import { AuthModel, UserModel } from "./_models";
-
-const API_URL = /* process.env.REACT_APP_API_URL */ port;
-
-export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}auth/verify_token`;
-export const LOGIN_URL = `${API_URL}auth/login`;
-export const REQUEST_PASSWORD_URL = `${API_URL}auth/forgot_password`;
-export const REFRESH_TOKEN = `${API_URL}auth/refreshToken`;
 
 // Server should return AuthModel
 export function login(user: any) {

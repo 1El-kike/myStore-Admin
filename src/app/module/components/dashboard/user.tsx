@@ -15,8 +15,6 @@ export const User: React.FC<TypeData> = ({ entityType }) => {
   const { currentUser } = useAuth();
   const { data: dashboardData, isLoading, isError } = useDashboardData(entityType);
 
-  console.log(port + currentUser?.image)
-
   const income = formatCount(dashboardData?.income)
   const expense = formatCount(dashboardData?.expense)
 

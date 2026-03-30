@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from "@mui/x-date-pickers";
 import { Sidebar } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { FaStore, FaTasks } from "react-icons/fa";
+import { FaStore, FaTasks, FaWarehouse } from "react-icons/fa";
 import {
   HiShoppingBag,
 } from "react-icons/hi";
@@ -126,7 +126,7 @@ export const LayatSidebar = ({ setancho }: any) => {
               collapseddata={[
                 ...(super_admin ? [{ link: "stores", name: "Stores Management ", id: 0 }] : []),
                 { link: "stores/watch", name: "Stores Sales", id: 1 },
-                { link: "stores", name: "Inventory", id: 2 },
+                { link: "inventory", name: "Inventory", id: 2 },
               ]}
             />
             <CollapseSidebar

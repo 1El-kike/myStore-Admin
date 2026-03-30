@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { LayatSidebar } from "./sidebar/Sidebar";
-import { } from "react-responsive";
 import { Navbars } from "./navbar/navbar";
 import { PageDataProvider } from "../core/pageTitle";
 import { FiltertableandSearch } from "../core/filtertableandSearch";
