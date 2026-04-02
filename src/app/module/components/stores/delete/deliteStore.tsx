@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PUBLIC_URL } from "../../../../../config/env";
 import { Image } from "@nextui-org/react";
 
-export const DeliteStores = () => {
+export const DeliteStores = React.memo(() => {
   const [isEnter, setisEnter] = useState(false);
 
   const redirect = useNavigate();
@@ -12,18 +12,18 @@ export const DeliteStores = () => {
     <div
       onMouseLeave={() => setisEnter(false)}
       onMouseEnter={() => setisEnter(true)}
-      className="w-full flex justify-center items-center h-full relative"
+      className="w-full flex justify-center items-center h-full relative group"
     >
       <div
-        className={`${
-          isEnter &&
+        className={`${isEnter &&
           "bg-blue-500 transition-all duration-300 scale-50 translate-x-16  translate-y-5"
-        } transition-all duration-300 absolute scale-150 aspect-video top-2  clip-deiteStore`}
+          } transition-all duration-300 absolute scale-150 aspect-video top-2  clip-deiteStore`}
       >
         <Image
           isBlurred
           alt="Album Cover"
           src={`${PUBLIC_URL}pngtree-stunning-3d-render-of-a-modern-supermarket-image_13561321.png`}
+
         />
       </div>
       <div className="z-20 text-white  w-full pl-5 h-full justify-center items-start flex flex-col ">
@@ -33,13 +33,12 @@ export const DeliteStores = () => {
         </p>
         <button
           onClick={() => redirect("/stores/delite")}
-          className={`${
-            isEnter && "animate-pulse"
-          } z-10 mt-4 hover:scale-95 text-white bg-gradient-to-br from-orange-400 to-rose-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2`}
+          className={`${isEnter && "animate-pulse"
+            } z-10 mt-4 hover:scale-95 text-white bg-gradient-to-br from-orange-400 to-rose-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2`}
         >
           Delite + Stores
         </button>
       </div>
     </div>
   );
-};
+});

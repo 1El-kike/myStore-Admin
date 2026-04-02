@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PUBLIC_URL } from "../../../../../config/env";
 import { Image } from "@nextui-org/react";
 
-export const InventoryStore = () => {
+export const InventoryStore = React.memo(() => {
     const [isEnter, setIsEnter] = useState(false);
     const redirect = useNavigate();
 
@@ -11,7 +11,7 @@ export const InventoryStore = () => {
         <div
             onMouseLeave={() => setIsEnter(false)}
             onMouseEnter={() => setIsEnter(true)}
-            className="w-full flex justify-center items-center h-full relative"
+            className="w-full flex justify-center items-center h-full relative group"
         >
             <div
                 className={`${isEnter &&
@@ -23,6 +23,7 @@ export const InventoryStore = () => {
                     src={`${PUBLIC_URL}photo-1552664730-d307ca884978.jpeg`}
                     className=" inset-0 w-full h-full object-cover"
                     alt="Inventory Preview"
+                    loading="lazy"
                 />
                 <div className=" inset-0 bg-gradient-to-br from-blue-900/40 to-transparent" />
             </div>
@@ -30,7 +31,7 @@ export const InventoryStore = () => {
             <div className="z-20 text-white w-full pl-5 h-full justify-center items-start flex flex-col">
                 <div className="flex items-center gap-2 mb-1">
                     <span className="text-2xl">📦</span>
-                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Inventario</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight uppercase">Inventario</h1>
                 </div>
                 <div className="w-8 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mb-3" />
                 <p className="text-white text-xs md:text-sm text-wrap md:w-[90%] leading-relaxed opacity-90">
@@ -48,4 +49,4 @@ export const InventoryStore = () => {
             </div>
         </div>
     );
-};
+});

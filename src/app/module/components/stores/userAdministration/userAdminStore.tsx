@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PUBLIC_URL } from "../../../../../config/env";
 import { Image } from "@nextui-org/react";
 
-export const UserAdminStore = () => {
+export const UserAdminStore = React.memo(() => {
     const [isEnter, setIsEnter] = useState(false);
     const redirect = useNavigate();
 
@@ -11,7 +11,7 @@ export const UserAdminStore = () => {
         <div
             onMouseLeave={() => setIsEnter(false)}
             onMouseEnter={() => setIsEnter(true)}
-            className="w-full flex justify-center items-center h-full relative"
+            className="w-full flex justify-center items-center h-full relative group"
         >
             <div
                 className={`${isEnter && "transition-all duration-300 scale-50 translate-x-12 translate-y-4"
@@ -21,6 +21,7 @@ export const UserAdminStore = () => {
                     src={`${PUBLIC_URL}usermanager.jpg`}
                     className=" inset-0 w-full h-full object-cover"
                     alt="User Administration"
+                    loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-900/35 to-transparent" />
             </div>
@@ -46,4 +47,4 @@ export const UserAdminStore = () => {
             </div>
         </div>
     );
-};
+});

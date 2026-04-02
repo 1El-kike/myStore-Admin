@@ -6,7 +6,7 @@ import { DeliteStores } from "./delete/deliteStore";
 import { InventoryStore } from "./inventory/inventoryStore";
 import { UserAdminStore } from "./userAdministration/userAdminStore";
 
-export const SettingStores = () => {
+export const SettingStores = React.memo(() => {
   return (
     <>
       <div className="mt-10 w-full relative flex flex-wrap h-screen flex-1">
@@ -14,30 +14,30 @@ export const SettingStores = () => {
           {/*   <img src="/home/home.jpg" className='clip-store fixed' alt="" /> */}
         </div>
         <div className="md:w-[60%] animate-opacityonly w-full flex gap-2 mr-10 flex-col md:mx-4 h-[79.2%]">
-          <div className="w-full bg-gradient-to-l from-violet-950 via-blue-800 to-blue-950  rounded-lg h-[30%] md:h-[64.9%] overflow-hidden">
+          <div className="w-full bg-gradient-to-l from-violet-950 via-blue-800 to-blue-950 rounded-lg h-[30%] md:h-[64.9%] overflow-hidden transition-transform duration-300 hover:scale-[1.02]">
             <AddStores />
           </div>
           <div className="flex-col flex md:flex-row gap-2 h-[66%] md:h-[31.3%]">
-            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-slate-500 overflow-hidden">
+            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-gradient-to-br from-cyan-600 via-blue-700 to-blue-800 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20">
               <InventoryStore />
             </div>
-            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-lime-500 overflow-hidden">
+            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-gradient-to-br from-indigo-600 via-purple-700 to-violet-800 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20">
               <UserAdminStore />
             </div>
           </div>
         </div>
         <div className="md:w-[30%] w-full animate-appearance-in flex flex-col mr-10 lg:mx-4 md:mx-0 gap-2 h-[100%]">
-          <div className="w-full h-[25%] bg-gradient-to-l from-teal-300 overflow-clip via-teal-500 to-teal-700  rounded-lg">
+          <div className="w-full h-[25%] bg-gradient-to-l from-teal-300 overflow-clip via-teal-500 to-teal-700 rounded-lg transition-transform duration-300 hover:scale-[1.02]">
             <EditStores />
           </div>
-          <div className="w-full h-[25%] bg-gradient-to-l rounded-lg from-rose-800 overflow-clip via-orange-500 to-orange-700">
+          <div className="w-full h-[25%] bg-gradient-to-l rounded-lg from-rose-800 overflow-clip via-orange-500 to-orange-700 transition-transform duration-300 hover:scale-[1.02]">
             <DeliteStores />
           </div>
-          <div className="w-full h-[25%] bg-gradient-to-tr hover:scale-105 hover:duration-500 from-purple-900 via-purple-700 to-purple-500 rounded-lg overflow-clip">
+          <div className="w-full h-[25%] bg-gradient-to-tr hover:scale-105 hover:duration-500 from-purple-900 via-purple-700 to-purple-500 rounded-lg overflow-clip transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20">
             <WatchStore />
           </div>
         </div>
       </div>
     </>
   );
-};
+});
