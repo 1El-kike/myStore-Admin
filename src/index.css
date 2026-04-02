@@ -88,6 +88,36 @@
   );
 }
 
+.clip-inventoryStore {
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+  mask-image: radial-gradient(
+    circle at 10% 50%,
+    rgb(240, 21, 21),
+    rgba(89, 171, 30, 0.8) 70%,
+    rgba(6, 12, 136, 0.389) 90%,
+    transparent 100%
+  );
+}
+
+.clip-userAdminStore {
+  clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.8) 65%,
+    rgba(0, 0, 0, 0.45) 85%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.8) 65%,
+    rgba(0, 0, 0, 0.45) 85%,
+    transparent 100%
+  );
+}
+
 .clip-dashbo {
   /*   clip-path: polygon(50% 0%, 100% 0, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);*/
   /*  clip-path: polygon(50% 0%, 100% 0, 100% 100%, 0 100%, 40% 59%, 12% 59%); */

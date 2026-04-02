@@ -3,6 +3,8 @@ import { AddStores } from "./add/addStores";
 import { EditStores } from "./edit/editStores";
 import { WatchStore } from "./watch/watchStore";
 import { DeliteStores } from "./delete/deliteStore";
+import { InventoryStore } from "./inventory/inventoryStore";
+import { UserAdminStore } from "./userAdministration/userAdminStore";
 
 export const SettingStores = () => {
   return (
@@ -16,8 +18,12 @@ export const SettingStores = () => {
             <AddStores />
           </div>
           <div className="flex-col flex md:flex-row gap-2 h-[66%] md:h-[31.3%]">
-            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-slate-500"></div>
-            <div className="w-full h-full  md:grow bg-lime-500">""</div>
+            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-slate-500 overflow-hidden">
+              <InventoryStore />
+            </div>
+            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-lime-500 overflow-hidden">
+              <UserAdminStore />
+            </div>
           </div>
         </div>
         <div className="md:w-[30%] w-full animate-appearance-in flex flex-col mr-10 lg:mx-4 md:mx-0 gap-2 h-[100%]">

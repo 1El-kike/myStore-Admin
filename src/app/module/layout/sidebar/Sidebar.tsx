@@ -45,6 +45,12 @@ const custom = {
   },
 };
 
+export const sidebarLabelClass = (expanded: boolean) =>
+  `inline-block overflow-hidden whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)] ${expanded ? "opacity-100 max-w-[200px] translate-x-0 delay-200" : "opacity-0 max-w-0 -translate-x-2"
+  }`;
+
+const sidebarRootClass = "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]";
+
 export const LayatSidebar = ({ setancho }: any) => {
   const [collapsed, setCollapsed] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -54,7 +60,7 @@ export const LayatSidebar = ({ setancho }: any) => {
   useEffect(() => {
     setancho(collapsed);
     if (collapsed) setExpandedSection(null);
-  }, [collapsed]);
+  }, []); collapsed
 
   setancho(collapsed);
 
@@ -71,20 +77,22 @@ export const LayatSidebar = ({ setancho }: any) => {
     return null; // Oculta el sidebar en pantallas pequeñas
   }
 
+  const ExpandedNull = () => {
+    setExpandedSection(null)
+  }
+
   const { currentUser } = useAuth();
   const { admin, super_admin, employee } = getRole(currentUser);
 
   return (
     <div
-      className={` ${collapsed ? " w-16 " : "w-64 "
-        } duration-400 z-40 transition-all ease-in-out `}
+      className={`${collapsed ? "w-16" : "w-64"} z-40 ${sidebarRootClass} overflow-hidden`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <Sidebar
         theme={custom}
-        className={`${collapsed ? (hovered ? "w-64 " : "w-16 ") : "w-64 z-40"
-          } z-50 duration-400 transition-all ease-in-out fixed `}
+        className={`${collapsed ? (hovered ? "w-64" : "w-16") : "w-64"} z-50 ${sidebarRootClass} fixed `}
         aria-label="Sidebar with logo branding example "
       >
         <div className="relative">
@@ -93,9 +101,10 @@ export const LayatSidebar = ({ setancho }: any) => {
               href=""
               img={`${PUBLIC_URL}description/image(2).png`}
               imgAlt="Flowbite logo"
-              className="text-white relative"
+              onClick={() => ExpandedNull()}
+              className={"text-white relative"}
             >
-              {!collapsed ? "Stores" : hovered && "Stores"}
+              <p className={sidebarLabelClass(!collapsed || hovered)}>{!collapsed ? "Stores" : hovered && "Stores"}</p>
             </Sidebar.Logo>
           </Link>
           <button
@@ -108,9 +117,11 @@ export const LayatSidebar = ({ setancho }: any) => {
         <Sidebar.Items>
           <Sidebar.ItemGroup />
           <Sidebar.ItemGroup>
-            <Link to={"dashboard"}>
+            <Link
+              onClick={() => ExpandedNull()}
+              to={"dashboard"}>
               <Sidebar.Item href="" icon={MdSpaceDashboard}>
-                {!collapsed ? "Dashboard" : hovered && "Dashboard"}
+                <span className={sidebarLabelClass(!collapsed || hovered)}>Dashboard</span>
               </Sidebar.Item>
             </Link>
             <CollapseSidebar
@@ -152,19 +163,24 @@ export const LayatSidebar = ({ setancho }: any) => {
                 { link: "orders/list", name: "Order Details", id: 5 },
               ]}
             />
-            {(super_admin || admin) && <Link to={"users"}>
+            {(super_admin || admin) && <Link
+              onClick={() => ExpandedNull()}
+              to={"users"}>
               <Sidebar.Item
                 icon={UserIcon}
                 href=""
-
                 label={!collapsed ? "3" : hovered && "3"}
               >
-                {!collapsed ? "User management" : hovered && "User management"}
+                <span className={sidebarLabelClass(!collapsed || hovered)}>User management</span>
               </Sidebar.Item>
             </Link>}
-            <Sidebar.Item href="#" icon={FcSettings}>
-              {!collapsed ? "Setting" : hovered && "Setting"}
-            </Sidebar.Item>
+            <Link
+              onClick={() => ExpandedNull()}
+              to={'#'}>
+              <Sidebar.Item href="#" icon={FcSettings}>
+                <span className={sidebarLabelClass(!collapsed || hovered)}>Setting</span>
+              </Sidebar.Item>
+            </Link>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>
