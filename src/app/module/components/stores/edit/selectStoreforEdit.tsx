@@ -8,7 +8,7 @@ export const SelectStoreforEdit = () => {
     <>
     <PageTitleInit/>
       <div className="w-full">
-        <div className="w-[85%]">
+        <div className="md:w-[85%]">
           <TabSelect link="/stores/edit/" />
         </div>
       </div>

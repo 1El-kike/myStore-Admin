@@ -52,11 +52,10 @@ export const Type_product = ({
           className={` w-full relative overflow-hidden  h-full shadow-2xl shadow-slate-500 text-slate-200 lg:flex p-5 rounded-3xl ${fondo}`}
         >
           <div
-            className={`rounded-2xl overflow-hidden flex  h-full ${
-              position == "vertical"
+            className={`rounded-2xl overflow-hidden flex  h-full ${position == "vertical"
                 ? ""
                 : " justify-center bg-gradient-to-tr from-rose-100 to-violet-100"
-            }`}
+              }`}
           >
             {position == "horisontal" ? (
               <Image
@@ -83,11 +82,10 @@ export const Type_product = ({
             )}
           </div>
           <div
-            className={`text-center m-auto justify-center  z-20 ${
-              position == "horisontal"
+            className={`text-center m-auto justify-center  z-20 ${position == "horisontal"
                 ? "text-slate-600"
                 : "text-slate-800 h-52"
-            } `}
+              } `}
           >
             <h4 className="line-clamp-1 text-center  text-slate-950 font-bold text-2xl mb-4">
               {title}

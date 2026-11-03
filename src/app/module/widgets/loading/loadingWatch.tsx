@@ -6,7 +6,7 @@ export default function LoadingWatch() {
   const CarouselLoad = () => {
     return (
       <div className="flex flex-col justify-center items-center ">
-        <div className="w-[80%] relative rounded-xl border  h-[300px] lg:h-[500px] overflow-hidden">
+        <div className="md:w-[80%] relative rounded-xl border  h-[300px] lg:h-[500px] overflow-hidden">
           <div className="h-full relative w-full flex ">
             <Skeleton className="rounded-md w-full h-[500px] mb-2 flex-shrink-0" />
             <Spinner

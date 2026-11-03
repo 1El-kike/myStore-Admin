@@ -13,6 +13,9 @@ interface StoreInventory {
   rating: number;
   totalProducts: number;
   totalQuantity: number;
+  inStockCount?: number;
+  lowStockCount?: number;
+  outOfStockCount?: number;
 }
 
 interface ProductInventory {
@@ -20,8 +23,10 @@ interface ProductInventory {
   name: string | null;
   image: string | null;
   price: number | null;
-  quantity_total: number | null;
-  quantity_user: number | null;
+  catalogQuantity: number | null;
+  quantity: number;
+  minStock: number | null;
+  maxStock: number | null;
   inventoryStatus: string | null;
   tipo: string | null;
   category: string | null;
@@ -32,16 +37,54 @@ interface StoreInventoryDetail extends StoreInventory {
   products: ProductInventory[];
 }
 
+export type StockOperation =
+  | "ADD"
+  | "REMOVE"
+  | "SET"
+  | "SALE"
+  | "PURCHASE"
+  | "TRANSFER";
+
 interface UseInventoryResult {
   stores: StoreInventory[];
   selectedInventory: StoreInventoryDetail | null;
   isLoading: boolean;
   isLoadingDetail: boolean;
   error: string | null;
+  mutationLoading: boolean;
+  mutationError: string | null;
   fetchStores: () => Promise<void>;
   fetchStoreInventory: (storeId: number) => Promise<void>;
   clearSelectedInventory: () => void;
+  clearMutationError: () => void;
+  adjustStock: (
+    storeId: number,
+    payload: {
+      productoId: number;
+      operation: StockOperation;
+      quantity: number;
+      reason?: string;
+    },
+  ) => Promise<boolean>;
+  setThreshold: (
+    storeId: number,
+    payload: { productoId: number; minStock: number; maxStock?: number | null },
+  ) => Promise<boolean>;
+  addProductToStore: (
+    storeId: number,
+    payload: { productoId: number; quantity: number; minStock?: number },
+  ) => Promise<boolean>;
+  removeProductFromStore: (storeId: number, productoId: number) => Promise<boolean>;
+  fetchMovements: (storeId: number, productoId?: number) => Promise<any[]>;
 }
+
+const authHeaders = () => {
+  const token = localStorage.getItem("token");
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+};
 
 export const useInventory = (): UseInventoryResult => {
   const [stores, setStores] = useState<StoreInventory[]>([]);
@@ -49,7 +92,9 @@ export const useInventory = (): UseInventoryResult => {
     useState<StoreInventoryDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
+  const [mutationLoading, setMutationLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mutationError, setMutationError] = useState<string | null>(null);
 
   const base = port;
 
@@ -57,11 +102,8 @@ export const useInventory = (): UseInventoryResult => {
     setIsLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(`${base}allProducts/inventory`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: authHeaders(),
       });
       setStores(response.data);
     } catch (err: any) {
@@ -77,14 +119,9 @@ export const useInventory = (): UseInventoryResult => {
       setIsLoadingDetail(true);
       setError(null);
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get(
           `${base}allProducts/inventory/${storeId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
+          { headers: authHeaders() },
         );
         setSelectedInventory(response.data);
       } catch (err: any) {
@@ -101,15 +138,132 @@ export const useInventory = (): UseInventoryResult => {
     setSelectedInventory(null);
   }, []);
 
+  const clearMutationError = useCallback(() => {
+    setMutationError(null);
+  }, []);
+
+  // Ejecuta una mutación y refresca el inventario seleccionado
+  const runMutation = useCallback(
+    async (
+      promiseFactory: (storeId: number) => Promise<any>,
+      storeId: number,
+      refresh = true,
+    ) => {
+      setMutationLoading(true);
+      setMutationError(null);
+      try {
+        await promiseFactory(storeId);
+        if (refresh && selectedInventory) {
+          await fetchStoreInventory(storeId);
+        }
+        return true;
+      } catch (err: any) {
+        setMutationError(
+          err?.response?.data?.message || "Error al realizar la operación",
+        );
+        return false;
+      } finally {
+        setMutationLoading(false);
+      }
+    },
+    [selectedInventory, fetchStoreInventory],
+  );
+
+  const adjustStock = useCallback<UseInventoryResult["adjustStock"]>(
+    (storeId, payload) =>
+      runMutation(
+        (id) =>
+          axios.put(
+            `${base}allProducts/inventory/${id}/stock`,
+            payload,
+            { headers: authHeaders() },
+          ),
+        storeId,
+      ),
+    [base, runMutation],
+  );
+
+  const setThreshold = useCallback<UseInventoryResult["setThreshold"]>(
+    (storeId, payload) =>
+      runMutation(
+        (id) =>
+          axios.put(
+            `${base}allProducts/inventory/${id}/threshold`,
+            payload,
+            { headers: authHeaders() },
+          ),
+        storeId,
+      ),
+    [base, runMutation],
+  );
+
+  const addProductToStore = useCallback<
+    UseInventoryResult["addProductToStore"]
+  >(
+    (storeId, payload) =>
+      runMutation(
+        (id) =>
+          axios.post(
+            `${base}allProducts/inventory/${id}/products`,
+            payload,
+            { headers: authHeaders() },
+          ),
+        storeId,
+      ),
+    [base, runMutation],
+  );
+
+  const removeProductFromStore = useCallback<
+    UseInventoryResult["removeProductFromStore"]
+  >(
+    (storeId, productoId) =>
+      runMutation(
+        (id) =>
+          axios.delete(
+            `${base}allProducts/inventory/${id}/products/${productoId}`,
+            { headers: authHeaders() },
+          ),
+        storeId,
+      ),
+    [base, runMutation],
+  );
+
+  const fetchMovements = useCallback(
+    async (storeId: number, productoId?: number) => {
+      setMutationError(null);
+      try {
+        const url = productoId
+          ? `${base}allProducts/inventory/${storeId}/movements/${productoId}`
+          : `${base}allProducts/inventory/${storeId}/movements`;
+        const response = await axios.get(url, { headers: authHeaders() });
+        return response.data;
+      } catch (err: any) {
+        setMutationError(
+          err?.response?.data?.message || "Error al obtener movimientos",
+        );
+        return [];
+      }
+    },
+    [base],
+  );
+
   return {
     stores,
     selectedInventory,
     isLoading,
     isLoadingDetail,
     error,
+    mutationLoading,
+    mutationError,
     fetchStores,
     fetchStoreInventory,
     clearSelectedInventory,
+    clearMutationError,
+    adjustStock,
+    setThreshold,
+    addProductToStore,
+    removeProductFromStore,
+    fetchMovements,
   };
 };
 

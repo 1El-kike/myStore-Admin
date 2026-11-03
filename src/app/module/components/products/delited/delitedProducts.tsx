@@ -8,7 +8,7 @@ export const DelitedProducts = () => {
     <>
       <PageTitleInit />
       <div className="w-full">
-                 <div className="w-[85%]">
+                 <div className="md:w-[85%]">
                    <TabSelect link="/products/delite/select" notId={true} linkallData="select/" allData="allProducts" />
                  </div>
                </div>

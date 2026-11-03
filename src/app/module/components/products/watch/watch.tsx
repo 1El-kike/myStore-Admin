@@ -70,7 +70,7 @@ export const Watch = () => {
 
     return (
       <div className="flex flex-col justify-center items-center ">
-        <div className="w-[80%]  relative rounded-xl border overflow-hidden">
+        <div className="md:w-[80%]  relative rounded-xl border overflow-hidden">
           <ButtonPrev />
           <ButtonNext />
           <div

@@ -32,7 +32,7 @@ export const TotalList: FC<TypeList> = ({
         {info.map((e: any) => (
           <div
             key={e[1]}
-            className="grow w-[200px] flex justify-center items-center"
+            className="grow flex-1 flex-wrap md:w-[200px] flex justify-center items-center"
           >
             <div className="flex-col md:flex-row flex flex-wrap gap-4 justify-center border-r-1 w-full border-gray-400 items-center">
               <div className="bg-gradient-to-bl from-slate-200 to-rose-300 border-1  rounded-full p-2">

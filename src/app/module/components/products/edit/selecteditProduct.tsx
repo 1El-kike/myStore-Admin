@@ -11,7 +11,7 @@ export const SelectEditProducts = () => {
     <>
     <PageTitleInit/>
     <div className="w-full">
-           <div className="w-[85%]">
+           <div className="md:w-[85%]">
              <TabSelect link="/products/select/edit/" notId={true} linkallData="edit/" allData="allProducts" />
            </div>
          </div>

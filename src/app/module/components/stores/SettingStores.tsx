@@ -4,7 +4,7 @@ import { EditStores } from "./edit/editStores";
 import { WatchStore } from "./watch/watchStore";
 import { DeliteStores } from "./delete/deliteStore";
 import { InventoryStore } from "./inventory/inventoryStore";
-import { UserAdminStore } from "./userAdministration/userAdminStore";
+import { BillingAdminStore } from "./billing/billingAdminStore";
 
 export const SettingStores = React.memo(() => {
   return (
@@ -18,11 +18,11 @@ export const SettingStores = React.memo(() => {
             <AddStores />
           </div>
           <div className="flex-col flex md:flex-row gap-2 h-[66%] md:h-[31.3%]">
-            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-gradient-to-br from-cyan-600 via-blue-700 to-blue-800 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20">
+            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-gradient-to-br from-cyan-900 via-blue-800 to-blue-900 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20">
               <InventoryStore />
             </div>
-            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-gradient-to-br from-indigo-600 via-purple-700 to-violet-800 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20">
-              <UserAdminStore />
+            <div className="w-full h-full md:grow rounded-lg hover:scale-105 hover:duration-500 bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-900 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20">
+              <BillingAdminStore />
             </div>
           </div>
         </div>

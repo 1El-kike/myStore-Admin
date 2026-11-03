@@ -60,7 +60,7 @@ export const TollButtom = ({ children }: any) => {
 
   return (
     <>
-      <div className="pl-10 pt-6">
+      <div className="md:pl-10 md:pt-6 pt-1 pl-1 ">
         <label className="w-24  font-bold">Group by</label>
         <div className="flex animate-appearance-in  w-full gap items-start justify-between">
           <TabsNext onLinkChange={onLinkChange} children={DataTabs} />

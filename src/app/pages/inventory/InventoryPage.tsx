@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useAuth } from "../../module/auth/core/Auth";
 import { getRole } from "../../utils/getRoles";
-import useInventory from "../../hooks/useInventory";
-import { port, PUBLIC_URL } from "../../../config/env";
+import useInventory, { StockOperation } from "../../hooks/useInventory";
+import axios from "axios";
+import { port } from "../../../config/env";
 import {
     FiPackage,
     FiShoppingBag,
@@ -14,10 +15,37 @@ import {
     FiCheckCircle,
     FiXCircle,
     FiSearch,
-    FiFilter
+    FiFilter,
+    FiPlus,
+    FiDownload,
+    FiRefreshCw,
+    FiClock,
+    FiTrash2,
+    FiSliders,
+    FiDollarSign,
+    FiLayers,
 } from "react-icons/fi";
 import { FaStore, FaWarehouse } from "react-icons/fa";
-import { Progress, Select, SelectItem, Input, Image } from "@nextui-org/react";
+import {
+    Progress,
+    Select,
+    SelectItem,
+    Input,
+    Image,
+    Button,
+    Tooltip,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Spinner,
+} from "@nextui-org/react";
+import { StockAdjustModal } from "../../module/components/inventory/StockAdjustModal";
+import { ThresholdModal } from "../../module/components/inventory/ThresholdModal";
+import { AddProductModal } from "../../module/components/inventory/AddProductModal";
+import { MovementsModal } from "../../module/components/inventory/MovementsModal";
+import { ProductInventoryRow } from "../../module/components/inventory/StockAdjustModal";
 
 export const InventoryPage: React.FC = () => {
     const { currentUser } = useAuth();
@@ -28,15 +56,30 @@ export const InventoryPage: React.FC = () => {
     const [filterStatus, setFilterStatus] = useState("all");
     const [filterCategory, setFilterCategory] = useState("all");
 
+    // Modales
+    const [stockProduct, setStockProduct] = useState<ProductInventoryRow | null>(null);
+    const [thresholdProduct, setThresholdProduct] = useState<ProductInventoryRow | null>(null);
+    const [movementsProduct, setMovementsProduct] = useState<ProductInventoryRow | null>(null);
+    const [addProductOpen, setAddProductOpen] = useState(false);
+    const [removeProduct, setRemoveProduct] = useState<ProductInventoryRow | null>(null);
+    const [removing, setRemoving] = useState(false);
+
     const {
         stores,
         selectedInventory,
         isLoading,
         isLoadingDetail,
         error,
+        mutationLoading,
+        mutationError,
         fetchStores,
         fetchStoreInventory,
-        clearSelectedInventory
+        clearSelectedInventory,
+        clearMutationError,
+        adjustStock,
+        setThreshold,
+        addProductToStore,
+        removeProductFromStore,
     } = useInventory();
 
     // Fetch stores on mount
@@ -65,10 +108,13 @@ export const InventoryPage: React.FC = () => {
         if (!selectedInventory?.products) return [];
 
         return selectedInventory.products.filter((product) => {
-            const matchesSearch = product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            const matchesSearch =
+                product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 product.sku?.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesStatus = filterStatus === "all" || product.inventoryStatus === filterStatus;
-            const matchesCategory = filterCategory === "all" || product.tipo === filterCategory;
+            const matchesStatus =
+                filterStatus === "all" || product.inventoryStatus === filterStatus;
+            const matchesCategory =
+                filterCategory === "all" || product.tipo === filterCategory;
 
             return matchesSearch && matchesStatus && matchesCategory;
         });
@@ -79,11 +125,32 @@ export const InventoryPage: React.FC = () => {
         if (!selectedInventory?.products) return [];
         const cats = new Set(
             selectedInventory.products
-                .map(p => p.tipo || "")
-                .filter((c) => c !== "")
+                .map((p) => p.tipo || "")
+                .filter((c) => c !== ""),
         );
         return Array.from(cats);
     }, [selectedInventory?.products]);
+
+    // Valor total del inventario
+    const totalValue = useMemo(() => {
+        if (!selectedInventory?.products) return 0;
+        return selectedInventory.products.reduce(
+            (acc, p) => acc + (p.quantity || 0) * (p.price || 0),
+            0,
+        );
+    }, [selectedInventory?.products]);
+
+    const toRow = (p: any): ProductInventoryRow => ({
+        id: p.id,
+        name: p.name,
+        image: p.image,
+        price: p.price,
+        quantity: p.quantity,
+        minStock: p.minStock,
+        maxStock: p.maxStock,
+        inventoryStatus: p.inventoryStatus,
+        sku: p.sku,
+    });
 
     const getStatusColor = (status: string | null) => {
         switch (status) {
@@ -111,6 +178,36 @@ export const InventoryPage: React.FC = () => {
         }
     };
 
+    const handleRemove = async () => {
+        if (!selectedStoreId || !removeProduct) return;
+        setRemoving(true);
+        const ok = await removeProductFromStore(selectedStoreId, removeProduct.id);
+        setRemoving(false);
+        if (ok) {
+            setRemoveProduct(null);
+            clearMutationError();
+        }
+    };
+
+    const handleExport = async () => {
+        if (!selectedStoreId) return;
+        try {
+            const res = await axios.get(
+                `${port}allProducts/inventory/${selectedStoreId}/export`,
+                { responseType: "blob" },
+            );
+            const blob = new Blob([res.data], { type: "text/csv;charset=utf-8" });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `inventario-${selectedInventory?.storeName || selectedStoreId}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
@@ -131,19 +228,21 @@ export const InventoryPage: React.FC = () => {
     const showStoreSelection = roles.super_admin || stores.length > 1;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4 sm:p-6">
             {/* Header */}
             <div className="mb-8 animate-fade-in">
-                <div className="flex items-center gap-3 mb-2">
-                    <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+                <div className="flex flex-wrap items-center gap-3 mb-2">
+                    <div className="p-3 bg-gradient-to-br from-rose-600 to-rose-700 rounded-xl shadow-lg">
                         <FaWarehouse className="text-2xl text-white" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-rose-600 to-purple-600 bg-clip-text text-transparent">
                             Inventario
                         </h1>
                         <p className="text-gray-500 text-sm">
-                            {roles.super_admin ? "Gestiona el inventario de todas las tiendas" : "Gestiona el inventario de tu tienda"}
+                            {roles.super_admin
+                                ? "Gestiona el inventario de todas las tiendas"
+                                : "Gestiona el inventario de tu tienda"}
                         </p>
                     </div>
                 </div>
@@ -165,34 +264,35 @@ export const InventoryPage: React.FC = () => {
                                 onClick={() => setSelectedStoreId(store.storeId)}
                                 style={{
                                     animationDelay: `${index * 100}ms`,
-                                    animation: `fade-in-up 0.5s ease forwards`
+                                    animation: `fade-in-up 0.5s ease forwards`,
                                 }}
                             >
-                                {/* Cover Image */}
                                 <div className="h-32 overflow-hidden">
                                     {store.storeCover ? (
                                         <Image
                                             src={`${port}${store.storeCover}`}
                                             alt={store.storeName}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                            isBlurred
                                         />
                                     ) : (
-                                        <div className="w-full h-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
+                                        <div className="w-full h-full bg-gradient-to-br from-indigo-400 to-rose-500 flex items-center justify-center">
                                             <FaStore className="text-5xl text-white/50" />
                                         </div>
                                     )}
                                 </div>
 
-                                {/* Store Info */}
                                 <div className="p-5">
                                     <div className="flex items-start justify-between mb-3">
                                         <h3 className="font-bold text-lg text-gray-800 group-hover:text-indigo-600 transition-colors">
                                             {store.storeName}
                                         </h3>
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${store.isOpen
-                                            ? "bg-green-100 text-green-700"
-                                            : "bg-red-100 text-red-700"
-                                            }`}>
+                                        <span
+                                            className={`px-2 py-1 rounded-full text-xs font-medium ${store.isOpen
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-red-100 text-red-700"
+                                                }`}
+                                        >
                                             {store.isOpen ? "Abierta" : "Cerrada"}
                                         </span>
                                     </div>
@@ -212,21 +312,29 @@ export const InventoryPage: React.FC = () => {
                                         )}
                                     </div>
 
-                                    {/* Stats */}
-                                    <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                                    <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-2 gap-2">
                                         <div className="flex items-center gap-1">
                                             <FiPackage className="text-purple-500" />
                                             <span className="font-semibold text-gray-700">{store.totalProducts}</span>
-                                            <span className="text-gray-400 text-sm">productos</span>
+                                            <span className="text-gray-400 text-sm">prod.</span>
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <FiShoppingBag className="text-indigo-500" />
                                             <span className="font-semibold text-gray-700">{store.totalQuantity}</span>
-                                            <span className="text-gray-400 text-sm">unidades</span>
+                                            <span className="text-gray-400 text-sm">unid.</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <FiAlertCircle className="text-yellow-500" />
+                                            <span className="font-semibold text-gray-700">{store.lowStockCount ?? 0}</span>
+                                            <span className="text-gray-400 text-sm">bajo</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <FiXCircle className="text-red-500" />
+                                            <span className="font-semibold text-gray-700">{store.outOfStockCount ?? 0}</span>
+                                            <span className="text-gray-400 text-sm">agot.</span>
                                         </div>
                                     </div>
 
-                                    {/* Hover Arrow */}
                                     <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
                                         <div className="bg-indigo-500 p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -238,23 +346,31 @@ export const InventoryPage: React.FC = () => {
                     </div>
 
                     {/* Summary Card */}
-                    <div className="mt-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 shadow-xl">
-                        <div className="flex items-center justify-between">
+                    <div className="mt-8 bg-gradient-to-r from-indigo-500 to-rose-600 rounded-2xl p-6 shadow-xl">
+                        <div className="flex flex-wrap items-center justify-between gap-4">
                             <div>
                                 <h3 className="text-white text-xl font-bold">Resumen General</h3>
                                 <p className="text-indigo-100">{stores.length} tiendas</p>
                             </div>
-                            <div className="text-right">
-                                <div className="text-3xl font-bold text-white">
-                                    {stores.reduce((acc, s) => acc + s.totalProducts, 0)}
+                            <div className="flex flex-wrap gap-8">
+                                <div className="text-right">
+                                    <div className="text-3xl font-bold text-white">
+                                        {stores.reduce((acc, s) => acc + s.totalProducts, 0)}
+                                    </div>
+                                    <p className="text-indigo-100">Total productos</p>
                                 </div>
-                                <p className="text-indigo-100">Total productos</p>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-3xl font-bold text-white">
-                                    {stores.reduce((acc, s) => acc + s.totalQuantity, 0).toLocaleString()}
+                                <div className="text-right">
+                                    <div className="text-3xl font-bold text-white">
+                                        {stores.reduce((acc, s) => acc + s.totalQuantity, 0).toLocaleString()}
+                                    </div>
+                                    <p className="text-indigo-100">Total unidades</p>
                                 </div>
-                                <p className="text-indigo-100">Total unidades</p>
+                                <div className="text-right">
+                                    <div className="text-3xl font-bold text-white">
+                                        {stores.reduce((acc, s) => acc + (s.outOfStockCount ?? 0), 0)}
+                                    </div>
+                                    <p className="text-indigo-100">Agotados</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -268,11 +384,11 @@ export const InventoryPage: React.FC = () => {
                         className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 cursor-pointer hover:shadow-xl transition-all duration-300"
                         onClick={() => setSelectedStoreId(stores[0].storeId)}
                     >
-                        <div className="flex items-center gap-6">
-                            <div className="w-24 h-24 rounded-xl overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
+                        <div className="flex flex-col sm:flex-row items-center gap-6">
+                            <div className="w-24 h-24 rounded-xl overflow-hidden bg-gradient-to-br from-rose-400 to-purple-500 flex items-center justify-center flex-shrink-0">
                                 {stores[0].storeImage ? (
                                     <Image
-                                        src={`${port}${stores[0].storeImage}` || '$#'}
+                                        src={`${port}${stores[0].storeImage}`}
                                         alt={stores[0].storeName}
                                         className="w-full h-full object-cover"
                                     />
@@ -280,10 +396,10 @@ export const InventoryPage: React.FC = () => {
                                     <FaStore className="text-4xl text-white" />
                                 )}
                             </div>
-                            <div className="flex-1">
+                            <div className="flex-1 text-center sm:text-left">
                                 <h2 className="text-2xl font-bold text-gray-800">{stores[0].storeName}</h2>
                                 <p className="text-gray-500">{stores[0].address}</p>
-                                <div className="flex items-center gap-4 mt-2">
+                                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-2">
                                     <span className="flex items-center gap-1 text-sm text-gray-500">
                                         <FiPackage className="text-purple-500" />
                                         {stores[0].totalProducts} productos
@@ -306,13 +422,13 @@ export const InventoryPage: React.FC = () => {
             {selectedStoreId && selectedInventory && (
                 <div className="animate-fade-in">
                     {/* Back Button & Store Header */}
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
                         <div
                             className="flex items-center gap-3 cursor-pointer hover:text-indigo-600 transition-colors"
                             onClick={() => setSelectedStoreId(null)}
                         >
                             <div className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center">
-                                <FiArrowRight className="rotate-180 text-indigo-600" />
+                                <FiArrowRight className="rotate-180 text-rose-600" />
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold text-gray-800">{selectedInventory.storeName}</h2>
@@ -320,68 +436,111 @@ export const InventoryPage: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex flex-wrap items-center gap-3">
+                            <Button
+                                size="sm"
+                                variant="flat"
+                                color="primary"
+                                startContent={<FiPlus />}
+                                onPress={() => setAddProductOpen(true)}
+                            >
+                                Añadir producto
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="flat"
+                                color="default"
+                                startContent={<FiDownload />}
+                                onPress={handleExport}
+                            >
+                                Exportar CSV
+                            </Button>
+                            <Button
+                                size="sm"
+                                isIconOnly
+                                variant="light"
+                                onPress={() => selectedStoreId && fetchStoreInventory(selectedStoreId)}
+                                aria-label="Actualizar inventario"
+                            >
+                                <FiRefreshCw className={isLoadingDetail ? "animate-spin" : ""} />
+                            </Button>
                             {roles.super_admin && stores.length > 1 && (
-                                <button
-                                    onClick={() => setSelectedStoreId(null)}
-                                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
+                                <Button
+                                    size="sm"
+                                    variant="light"
+                                    color="default"
+                                    startContent={<FaStore />}
+                                    onPress={() => setSelectedStoreId(null)}
                                 >
-                                    <FaStore />
                                     Cambiar tienda
-                                </button>
+                                </Button>
                             )}
                         </div>
                     </div>
 
                     {/* Stats Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                        <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
+                    <div className="grid grid-cols-2 xl:grid-cols-5 gap-3 sm:gap-4 mb-6">
+                        <div className="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-3 bg-blue-100 rounded-xl">
                                     <FiPackage className="text-xl text-blue-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Productos</p>
-                                    <p className="text-2xl font-bold text-gray-800">{selectedInventory.totalProducts}</p>
+                                    <p className="text-xs text-gray-500">Total Productos</p>
+                                    <p className="text-xl sm:text-2xl font-bold text-gray-800">{selectedInventory.totalProducts}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
+                        <div className="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-3 bg-green-100 rounded-xl">
                                     <FiShoppingBag className="text-xl text-green-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Unidades</p>
-                                    <p className="text-2xl font-bold text-gray-800">{selectedInventory.totalQuantity}</p>
+                                    <p className="text-xs text-gray-500">Total Unidades</p>
+                                    <p className="text-xl sm:text-2xl font-bold text-gray-800">{selectedInventory.totalQuantity}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
+                        <div className="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-3 bg-yellow-100 rounded-xl">
                                     <FiAlertCircle className="text-xl text-yellow-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Stock Bajo</p>
-                                    <p className="text-2xl font-bold text-gray-800">
-                                        {selectedInventory.products.filter(p => p.inventoryStatus === "LOWSTOCK").length}
+                                    <p className="text-xs text-gray-500">Stock Bajo</p>
+                                    <p className="text-xl sm:text-2xl font-bold text-gray-800">
+                                        {selectedInventory.lowStockCount ?? 0}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
+                        <div className="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-3 bg-red-100 rounded-xl">
                                     <FiXCircle className="text-xl text-red-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Agotados</p>
-                                    <p className="text-2xl font-bold text-gray-800">
-                                        {selectedInventory.products.filter(p => p.inventoryStatus === "OUTOFSTOCK").length}
+                                    <p className="text-xs text-gray-500">Agotados</p>
+                                    <p className="text-xl sm:text-2xl font-bold text-gray-800">
+                                        {selectedInventory.outOfStockCount ?? 0}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-gray-100 col-span-2 xl:col-span-1">
+                            <div className="flex items-center gap-3">
+                                <div className="p-3 bg-purple-100 rounded-xl">
+                                    <FiDollarSign className="text-xl text-purple-600" />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-gray-500">Valor de Inventario</p>
+                                    <p className="text-xl sm:text-2xl font-bold text-gray-800">
+                                        ${totalValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                                     </p>
                                 </div>
                             </div>
@@ -428,7 +587,8 @@ export const InventoryPage: React.FC = () => {
                                 )}
                             </Select>
 
-                            <div className="text-sm text-gray-500">
+                            <div className="text-sm text-gray-500 ml-auto flex items-center gap-2">
+                                <FiLayers className="text-gray-400" />
                                 {filteredProducts.length} productos
                             </div>
                         </div>
@@ -437,29 +597,40 @@ export const InventoryPage: React.FC = () => {
                     {/* Products Table */}
                     <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full">
+                            <table className="w-full min-w-[860px]">
                                 <thead className="bg-gradient-to-r from-indigo-50 to-purple-50">
                                     <tr>
                                         <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Producto</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">SKU</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Categoría</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Precio</th>
-                                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Cantidad</th>
+                                        <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Stock</th>
                                         <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Estado</th>
+                                        <th className="px-4 py-3 text-right text-sm font-semibold text-gray-600">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
                                     {isLoadingDetail ? (
                                         <tr>
-                                            <td colSpan={6} className="px-4 py-8 text-center">
+                                            <td colSpan={7} className="px-4 py-8 text-center">
                                                 <Progress isIndeterminate color="primary" className="max-w-md mx-auto" />
                                             </td>
                                         </tr>
                                     ) : filteredProducts.length === 0 ? (
                                         <tr>
-                                            <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                                            <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
                                                 <FiPackage className="text-4xl mx-auto mb-2 text-gray-300" />
                                                 <p>No se encontraron productos</p>
+                                                <Button
+                                                    size="sm"
+                                                    color="primary"
+                                                    variant="flat"
+                                                    className="mt-3"
+                                                    startContent={<FiPlus />}
+                                                    onPress={() => setAddProductOpen(true)}
+                                                >
+                                                    Añadir productos
+                                                </Button>
                                             </td>
                                         </tr>
                                     ) : (
@@ -469,7 +640,7 @@ export const InventoryPage: React.FC = () => {
                                                 className="hover:bg-gray-50 transition-colors"
                                                 style={{
                                                     animation: `fade-in-row 0.3s ease ${index * 50}ms forwards`,
-                                                    opacity: 0
+                                                    opacity: 0,
                                                 }}
                                             >
                                                 <td className="px-4 py-3">
@@ -508,25 +679,30 @@ export const InventoryPage: React.FC = () => {
                                                 </td>
                                                 <td className="px-4 py-3">
                                                     <div className="flex items-center gap-2">
-                                                        <span className={`font-bold ${product.quantity_total === 0 ? "text-red-500" :
-                                                            product.quantity_total && product.quantity_total < 10 ? "text-yellow-500" :
-                                                                "text-green-500"
-                                                            }`}>
-                                                            {product.quantity_total || 0}
+                                                        <span
+                                                            className={`font-bold ${product.quantity === 0
+                                                                ? "text-red-500"
+                                                                : product.quantity < (product.minStock || 0)
+                                                                    ? "text-yellow-500"
+                                                                    : "text-green-500"
+                                                                }`}
+                                                        >
+                                                            {product.quantity !== undefined ? product.quantity : 0}
                                                         </span>
                                                         <span className="text-xs text-gray-400">
-                                                            / {product.quantity_user || 0}
+                                                            / mín {product.minStock ?? 0}
                                                         </span>
                                                     </div>
-                                                    {/* Stock Bar */}
                                                     <div className="w-20 h-1 bg-gray-100 rounded-full mt-1 overflow-hidden">
                                                         <div
-                                                            className={`h-full rounded-full ${product.quantity_total === 0 ? "bg-red-500" :
-                                                                product.quantity_total && product.quantity_total < 10 ? "bg-yellow-500" :
-                                                                    "bg-green-500"
+                                                            className={`h-full rounded-full ${product.quantity === 0
+                                                                ? "bg-red-500"
+                                                                : product.quantity < (product.minStock || 0)
+                                                                    ? "bg-yellow-500"
+                                                                    : "bg-green-500"
                                                                 }`}
                                                             style={{
-                                                                width: `${Math.min(100, ((product.quantity_total || 0) / (product.quantity_user || 1)) * 100)}%`
+                                                                width: `${Math.min(100, product.maxStock ? (product.quantity / product.maxStock) * 100 : ((product.quantity || 0) / ((product.quantity || 0) + (product.minStock || 0))) * 100)}%`,
                                                             }}
                                                         />
                                                     </div>
@@ -542,6 +718,46 @@ export const InventoryPage: React.FC = () => {
                                                         </span>
                                                     </div>
                                                 </td>
+                                                <td className="px-4 py-3">
+                                                    <div className="flex items-center justify-end gap-1">
+                                                        <Tooltip content="Ajustar stock">
+                                                            <button
+                                                                className="cursor-pointer p-2 hover:bg-indigo-50 rounded-lg text-indigo-500 transition-colors duration-200"
+                                                                onClick={() => setStockProduct(toRow(product))}
+                                                                aria-label="Ajustar stock"
+                                                            >
+                                                                <FiPackage />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip content="Umbral de stock">
+                                                            <button
+                                                                className="cursor-pointer p-2 hover:bg-purple-50 rounded-lg text-purple-500 transition-colors duration-200"
+                                                                onClick={() => setThresholdProduct(toRow(product))}
+                                                                aria-label="Umbral de stock"
+                                                            >
+                                                                <FiSliders />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip content="Historial de movimientos">
+                                                            <button
+                                                                className="cursor-pointer p-2 hover:bg-sky-50 rounded-lg text-sky-500 transition-colors duration-200"
+                                                                onClick={() => setMovementsProduct(toRow(product))}
+                                                                aria-label="Historial"
+                                                            >
+                                                                <FiClock />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip content="Quitar del inventario">
+                                                            <button
+                                                                className="cursor-pointer p-2 hover:bg-rose-50 rounded-lg text-rose-500 transition-colors duration-200"
+                                                                onClick={() => setRemoveProduct(toRow(product))}
+                                                                aria-label="Quitar del inventario"
+                                                            >
+                                                                <FiTrash2 />
+                                                            </button>
+                                                        </Tooltip>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         ))
                                     )}
@@ -552,13 +768,114 @@ export const InventoryPage: React.FC = () => {
                 </div>
             )}
 
+            {/* Modals */}
+            <StockAdjustModal
+                isOpen={!!stockProduct}
+                onClose={() => {
+                    setStockProduct(null);
+                    clearMutationError();
+                }}
+                storeId={selectedStoreId || 0}
+                product={stockProduct}
+                loading={mutationLoading}
+                error={mutationError}
+                onConfirm={(p) =>
+                    adjustStock(selectedStoreId || 0, {
+                        productoId: p.productoId,
+                        operation: p.operation as StockOperation,
+                        quantity: p.quantity,
+                        reason: p.reason,
+                    })
+                }
+            />
+
+            <ThresholdModal
+                isOpen={!!thresholdProduct}
+                onClose={() => {
+                    setThresholdProduct(null);
+                    clearMutationError();
+                }}
+                product={thresholdProduct}
+                loading={mutationLoading}
+                error={mutationError}
+                onConfirm={(p) => setThreshold(selectedStoreId || 0, p)}
+            />
+
+            <AddProductModal
+                isOpen={addProductOpen}
+                onClose={() => {
+                    setAddProductOpen(false);
+                    clearMutationError();
+                }}
+                storeId={selectedStoreId || 0}
+                productsInStore={selectedInventory?.products || []}
+                loading={mutationLoading}
+                error={mutationError}
+                onConfirm={(p) => addProductToStore(selectedStoreId || 0, p)}
+            />
+
+            <MovementsModal
+                isOpen={!!movementsProduct}
+                onClose={() => setMovementsProduct(null)}
+                storeId={selectedStoreId || 0}
+                product={movementsProduct}
+                error={mutationError}
+            />
+
+            {/* Confirm remove from inventory */}
+            <Modal
+                isOpen={!!removeProduct}
+                onOpenChange={() => removeProduct && setRemoveProduct(null)}
+                size="sm"
+                backdrop="blur"
+            >
+                <ModalContent>
+                    <ModalHeader className="flex flex-col gap-1 border-b border-gray-100">
+                        <h2 className="text-lg font-bold text-gray-800">Quitar producto</h2>
+                    </ModalHeader>
+                    <ModalBody className="py-5">
+                        <p className="text-sm text-gray-600">
+                            ¿Seguro que quieres retirar{" "}
+                            <span className="font-semibold text-gray-800">{removeProduct?.name}</span>{" "}
+                            del inventario de{" "}
+                            <span className="font-semibold text-gray-800">{selectedInventory?.storeName}</span>?
+                            Esta acción elimina el producto de la tienda y su historial.
+                        </p>
+                        {mutationError && (
+                            <div className="rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm px-4 py-3">
+                                {mutationError}
+                            </div>
+                        )}
+                    </ModalBody>
+                    <ModalFooter className="border-t border-gray-100">
+                        <Button
+                            color="default"
+                            variant="light"
+                            onPress={() => {
+                                setRemoveProduct(null);
+                                clearMutationError();
+                            }}
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            color="danger"
+                            isDisabled={removing}
+                            onPress={handleRemove}
+                        >
+                            {removing ? <Spinner size="sm" color="white" /> : "Quitar"}
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
             {/* Error Message */}
             {error && (
-                <div className="fixed bottom-4 right-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 animate-bounce">
+                <div className="fixed bottom-4 right-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 animate-bounce z-50">
                     <FiAlertCircle className="text-xl" />
                     <span>{error}</span>
                     <button
-                        onClick={() => error}
+                        onClick={() => { }}
                         className="ml-2 hover:bg-red-100 p-1 rounded"
                     >
                         ×
